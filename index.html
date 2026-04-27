@@ -32,6 +32,8 @@
                 inset  1px  1px 0 #dfdfdf,
                 inset -2px -2px 0 #808080,
                 inset  2px  2px 0 #ffffff;
+      --cursor-default: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' shape-rendering='crispEdges'%3E%3Crect width='48' height='48' fill='none'/%3E%3Crect x='3' y='3' width='3' height='30' fill='%23000'/%3E%3Crect x='6' y='6' width='3' height='24' fill='%23000'/%3E%3Crect x='9' y='9' width='3' height='18' fill='%23000'/%3E%3Crect x='12' y='12' width='3' height='15' fill='%23000'/%3E%3Crect x='15' y='15' width='3' height='12' fill='%23000'/%3E%3Crect x='18' y='18' width='3' height='9' fill='%23000'/%3E%3Crect x='21' y='21' width='3' height='6' fill='%23000'/%3E%3Crect x='24' y='24' width='3' height='3' fill='%23000'/%3E%3Crect x='6' y='33' width='6' height='3' fill='%23000'/%3E%3Crect x='9' y='36' width='6' height='3' fill='%23000'/%3E%3Crect x='12' y='39' width='6' height='3' fill='%23000'/%3E%3Crect x='15' y='42' width='6' height='3' fill='%23000'/%3E%3Crect x='6' y='9' width='3' height='21' fill='%23fff'/%3E%3Crect x='9' y='12' width='3' height='15' fill='%23fff'/%3E%3Crect x='12' y='15' width='3' height='12' fill='%23fff'/%3E%3Crect x='15' y='18' width='3' height='9' fill='%23fff'/%3E%3Crect x='18' y='21' width='3' height='6' fill='%23fff'/%3E%3C/svg%3E");
+      --cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' shape-rendering='crispEdges'%3E%3Crect width='48' height='48' fill='none'/%3E%3Crect x='3' y='3' width='3' height='30' fill='%23000'/%3E%3Crect x='6' y='6' width='3' height='24' fill='%23000'/%3E%3Crect x='9' y='9' width='3' height='18' fill='%23000'/%3E%3Crect x='12' y='12' width='3' height='15' fill='%23000'/%3E%3Crect x='15' y='15' width='3' height='12' fill='%23000'/%3E%3Crect x='18' y='18' width='3' height='9' fill='%23000'/%3E%3Crect x='21' y='21' width='3' height='6' fill='%23000'/%3E%3Crect x='24' y='24' width='3' height='3' fill='%23000'/%3E%3Crect x='6' y='33' width='6' height='3' fill='%23000'/%3E%3Crect x='9' y='36' width='6' height='3' fill='%23000'/%3E%3Crect x='12' y='39' width='6' height='3' fill='%23000'/%3E%3Crect x='15' y='42' width='6' height='3' fill='%23000'/%3E%3Crect x='6' y='9' width='3' height='21' fill='%23fff'/%3E%3Crect x='9' y='12' width='3' height='15' fill='%23fff'/%3E%3Crect x='12' y='15' width='3' height='12' fill='%23fff'/%3E%3Crect x='15' y='18' width='3' height='9' fill='%23fff'/%3E%3Crect x='18' y='21' width='3' height='6' fill='%23fff'/%3E%3Crect x='27' y='21' width='12' height='3' fill='%23000'/%3E%3Crect x='27' y='24' width='3' height='9' fill='%23000'/%3E%3Crect x='30' y='27' width='9' height='3' fill='%23000'/%3E%3Crect x='33' y='30' width='6' height='3' fill='%23000'/%3E%3C/svg%3E");
     }
 
     body {
@@ -39,8 +41,11 @@
       background: var(--cream);
       overflow: hidden;
       height: 100vh; width: 100vw;
-      cursor: default;
+      cursor: var(--cursor-default) 3 3, default;
       user-select: none;
+    }
+    a, button, .desk-icon, .tb-btn, .start-btn, .theme-toggle, .bar-btn, .wc-btn, .sb-item, .ctx-i, .cal-day, .win-resize, #hue-slider {
+      cursor: var(--cursor-pointer) 3 3, pointer !important;
     }
 
     /* ── DESKTOP ── */
@@ -458,6 +463,21 @@
     /* ── DARK MODE ── */
     body.dark {
       color: #e5e7eb;
+      /* Warm dark UI bevel/shadow system */
+      --raised: inset -1px -1px 0 #0f0c0b,
+                inset  1px  1px 0 #4a3f3a,
+                inset -2px -2px 0 #181311,
+                inset  2px  2px 0 #6a5b54;
+      --sunken: inset -1px -1px 0 #6a5b54,
+                inset  1px  1px 0 #0f0c0b,
+                inset -2px -2px 0 #4a3f3a,
+                inset  2px  2px 0 #181311;
+      --inset:  inset 1px 1px 0 #181311,
+                inset -1px -1px 0 #4a3f3a;
+      --window: inset -1px -1px 0 #0f0c0b,
+                inset  1px  1px 0 #4a3f3a,
+                inset -2px -2px 0 #181311,
+                inset  2px  2px 0 #6a5b54;
     }
     body.dark #desktop {
       background-color: #171312;
@@ -484,12 +504,36 @@
       background: #26201e;
       color: #e5e7eb;
       border-color: #130f0e #3a312d #3a312d #130f0e;
+      box-shadow: var(--window);
     }
     body.dark .win-ct,
     body.dark .welcome-area,
     body.dark .cal-shell {
       background: #1c1715;
       color: #e5e7eb;
+    }
+    body.dark .tb-btn,
+    body.dark .start-btn,
+    body.dark .theme-toggle,
+    body.dark .bar-btn,
+    body.dark .wc-btn,
+    body.dark .cal-notebar button {
+      box-shadow: var(--raised);
+    }
+    body.dark .tb-btn:active,
+    body.dark .start-btn:active,
+    body.dark .theme-toggle:active,
+    body.dark .bar-btn:active,
+    body.dark .wc-btn:active,
+    body.dark .cal-notebar button:active,
+    body.dark .tb-btn.active {
+      box-shadow: var(--sunken);
+    }
+    body.dark .tb-clock {
+      box-shadow: inset -1px -1px 0 #4a3f3a, inset 1px 1px 0 #181311;
+    }
+    body.dark .tb-divider {
+      background: linear-gradient(90deg, #181311 50%, #4a3f3a 50%);
     }
     body.dark .entry-heading,
     body.dark .entry-body,
