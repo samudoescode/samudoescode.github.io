@@ -109,6 +109,15 @@
     .tb-btn:active  { box-shadow: var(--sunken); }
     .tb-btn .fi     { font-size: 16px; flex-shrink: 0; }
     .tb-divider { width: 3px; height: 44px; background: linear-gradient(90deg, #808080 50%, #dfdfdf 50%); flex-shrink: 0; }
+    .theme-toggle {
+      height: 44px; padding: 0 10px;
+      background: var(--g2); box-shadow: var(--raised);
+      border: none; cursor: pointer;
+      display: flex; align-items: center; gap: 5px;
+      font-size: 12px; font-weight: 700; color: #000;
+      flex-shrink: 0;
+    }
+    .theme-toggle:active { box-shadow: var(--sunken); }
     .tb-clock {
       height: 44px; padding: 0 12px;
       background: var(--g2);
@@ -332,6 +341,7 @@
     /* hue slider — rainbow track */
     #hue-slider {
       -webkit-appearance: none;
+      appearance: none;
       width: 100%; height: 14px;
       border: none; outline: none;
       box-shadow: var(--inset);
@@ -444,6 +454,74 @@
       padding: 10px 14px; font-size: 12px; color: #1a1a1a;
       margin-top: 16px; line-height: 1.6;
     }
+
+    /* ── DARK MODE ── */
+    body.dark {
+      color: #e5e7eb;
+    }
+    body.dark #desktop {
+      background-color: #0f172a;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+    }
+    body.dark .desk-icon span { color: #e5e7eb; text-shadow: 1px 1px 0 rgba(0,0,0,0.7); }
+    body.dark .os-window,
+    body.dark .win-tb,
+    body.dark .win-bar,
+    body.dark .win-sb,
+    body.dark .win-status,
+    body.dark .status-pane,
+    body.dark .tb-btn,
+    body.dark .start-btn,
+    body.dark .theme-toggle,
+    body.dark .tb-clock,
+    body.dark #colour-widget,
+    body.dark #ctx-menu,
+    body.dark .cal-notebar,
+    body.dark .cal-month-header,
+    body.dark .cal-dow-row {
+      background: #1f2937;
+      color: #e5e7eb;
+      border-color: #111827 #334155 #334155 #111827;
+    }
+    body.dark .win-ct,
+    body.dark .welcome-area,
+    body.dark .cal-shell {
+      background: #111827;
+      color: #e5e7eb;
+    }
+    body.dark .entry-heading,
+    body.dark .entry-body,
+    body.dark .welcome-area h2,
+    body.dark .welcome-area p,
+    body.dark .hint-box,
+    body.dark .sb-item,
+    body.dark .bar-btn,
+    body.dark .ctx-i,
+    body.dark #colour-widget label,
+    body.dark .cal-selected-info,
+    body.dark .cal-notebar label,
+    body.dark .cal-dow,
+    body.dark .cal-day {
+      color: #e5e7eb;
+    }
+    body.dark .hint-box,
+    body.dark .buddy-box {
+      background: #1f2937;
+      border-color: #334155;
+    }
+    body.dark .divider { background: #334155; }
+    body.dark .cal-notebar input {
+      background: #0f172a;
+      color: #e5e7eb;
+    }
+    body.dark .cal-day.empty { color: #64748b; }
+    body.dark .ctx-i:hover,
+    body.dark .sb-item:hover,
+    body.dark .sb-item.active {
+      color: #fff;
+    }
   </style>
 </head>
 <body>
@@ -485,6 +563,7 @@
   <div class="start-btn" onclick="openWin('about')">⊞ Start</div>
   <div class="taskbar-apps" id="tbApps"></div>
   <div class="tb-divider"></div>
+  <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle light/dark mode">🌙 Dark</button>
   <div class="tb-clock" id="clock">00:00</div>
 </div>
 
@@ -627,6 +706,7 @@ const SEC = {
 // ═══════════════════════════════════════════
 const wins = {};
 let zTop = 100;
+let isDarkMode = false;
 
 // ═══════════════════════════════════════════
 // CLOCK
@@ -637,6 +717,29 @@ function tick() {
     String(n.getHours()).padStart(2,'0') + ':' + String(n.getMinutes()).padStart(2,'0');
 }
 tick(); setInterval(tick, 10000);
+
+function setTheme(dark) {
+  isDarkMode = !!dark;
+  document.body.classList.toggle('dark', isDarkMode);
+  const btn = document.getElementById('themeToggle');
+  if (btn) btn.textContent = isDarkMode ? '☀️ Light' : '🌙 Dark';
+  try {
+    localStorage.setItem('journal-theme', isDarkMode ? 'dark' : 'light');
+  } catch (_) {}
+}
+
+function toggleTheme() {
+  setTheme(!isDarkMode);
+}
+
+function initTheme() {
+  let saved = null;
+  try {
+    saved = localStorage.getItem('journal-theme');
+  } catch (_) {}
+  setTheme(saved === 'dark');
+}
+initTheme();
 
 // ═══════════════════════════════════════════
 // OPEN WINDOW
@@ -963,9 +1066,17 @@ function hideCtx() { document.getElementById('ctx-menu').style.display = 'none';
 // COLOUR SLIDER
 // ═══════════════════════════════════════════
 function applyHue(h) {
-  const pink     = `hsl(${h}, 70%, 65%)`;
-  const pinkDark = `hsl(${h}, 60%, 50%)`;
-  const pinkInact= `hsl(${h}, 25%, 65%)`;
+  const hue = Number(h);
+  const accentSat = 70;
+  // Keep white UI text readable even on bright hues (yellow/cyan).
+  let accentLight = 65;
+  while (accentLight > 28 && contrastWhiteOnHsl(hue, accentSat, accentLight) < 4.5) {
+    accentLight -= 1;
+  }
+
+  const pink     = `hsl(${hue}, ${accentSat}%, ${accentLight}%)`;
+  const pinkDark = `hsl(${hue}, 62%, ${Math.max(24, accentLight - 15)}%)`;
+  const pinkInact= `hsl(${hue}, 25%, ${Math.min(70, accentLight + 6)}%)`;
   const root = document.documentElement.style;
   root.setProperty('--pink',         pink);
   root.setProperty('--pink-dark',    pinkDark);
@@ -978,6 +1089,44 @@ function applyHue(h) {
 
   // Swatch
   document.getElementById('cw-swatch').style.background = pink;
+}
+
+function contrastWhiteOnHsl(h, s, l) {
+  const [r, g, b] = hslToRgb(h, s, l);
+  const lum = relativeLuminance(r, g, b);
+  return 1.05 / (lum + 0.05); // white luminance is 1
+}
+
+function hslToRgb(h, s, l) {
+  const sat = s / 100;
+  const light = l / 100;
+  const c = (1 - Math.abs(2 * light - 1)) * sat;
+  const hp = ((h % 360) + 360) % 360 / 60;
+  const x = c * (1 - Math.abs((hp % 2) - 1));
+  let r1 = 0, g1 = 0, b1 = 0;
+
+  if (hp >= 0 && hp < 1) [r1, g1, b1] = [c, x, 0];
+  else if (hp < 2) [r1, g1, b1] = [x, c, 0];
+  else if (hp < 3) [r1, g1, b1] = [0, c, x];
+  else if (hp < 4) [r1, g1, b1] = [0, x, c];
+  else if (hp < 5) [r1, g1, b1] = [x, 0, c];
+  else [r1, g1, b1] = [c, 0, x];
+
+  const m = light - c / 2;
+  return [
+    Math.round((r1 + m) * 255),
+    Math.round((g1 + m) * 255),
+    Math.round((b1 + m) * 255),
+  ];
+}
+
+function relativeLuminance(r, g, b) {
+  const toLinear = (v) => {
+    const c = v / 255;
+    return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+  };
+  const [rl, gl, bl] = [toLinear(r), toLinear(g), toLinear(b)];
+  return 0.2126 * rl + 0.7152 * gl + 0.0722 * bl;
 }
 
 const hueSlider = document.getElementById('hue-slider');
