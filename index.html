@@ -170,13 +170,13 @@
       position: relative;
       z-index: 1;
       padding: 32px;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, 88px);
-      grid-auto-rows: 100px;
-      gap: 8px;
-      align-content: start;
+      width: 100%;
+      height: 100%;
     }
     .desk-icon {
+      position: absolute;
+      width: 88px;
+      min-height: 100px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -189,6 +189,11 @@
     .desk-icon:hover { background: rgba(255,255,255,0.06); }
     .desk-icon:active { background: rgba(255,255,255,0.1); transform: scale(0.97); }
     .desk-icon.selected { background: rgba(255,255,255,0.08); }
+    .desk-icon.dragging {
+      cursor: grabbing;
+      transform: none;
+      background: rgba(255,255,255,0.12);
+    }
     .folder-icon {
       width: 52px;
       height: 44px;
@@ -799,6 +804,7 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('boot-screen').classList.add('hidden');
   }, 2200);
   updateClock();
+  initDesktopIcons();
   setInterval(updateClock, 1000);
 });
 
@@ -820,6 +826,70 @@ document.getElementById('desktop').addEventListener('click', e => {
     document.querySelectorAll('.desk-icon').forEach(d => d.classList.remove('selected'));
   }
 });
+
+function initDesktopIcons() {
+  const iconContainer = document.querySelector('.desktop-icons');
+  if (!iconContainer) return;
+
+  const icons = Array.from(iconContainer.querySelectorAll('.desk-icon'));
+  const iconW = 88;
+  const iconH = 100;
+  const gap = 8;
+  const containerW = iconContainer.clientWidth;
+  const cols = Math.max(1, Math.floor((containerW - 64 + gap) / (iconW + gap)));
+
+  icons.forEach((icon, i) => {
+    const col = i % cols;
+    const row = Math.floor(i / cols);
+    icon.style.left = (col * (iconW + gap)) + 'px';
+    icon.style.top = (row * (iconH + gap)) + 'px';
+    makeIconDraggable(icon, iconContainer);
+  });
+}
+
+function makeIconDraggable(icon, container) {
+  let startX, startY, startLeft, startTop;
+  let moved = false;
+
+  icon.addEventListener('mousedown', e => {
+    if (e.button !== 0) return;
+
+    selectIcon(icon);
+    startX = e.clientX;
+    startY = e.clientY;
+    startLeft = parseInt(icon.style.left, 10) || 0;
+    startTop = parseInt(icon.style.top, 10) || 0;
+    moved = false;
+
+    document.addEventListener('mousemove', onDrag);
+    document.addEventListener('mouseup', stopDrag, { once: true });
+  });
+
+  function onDrag(e) {
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+
+    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
+      moved = true;
+      icon.classList.add('dragging');
+    }
+
+    if (!moved) return;
+
+    const maxLeft = Math.max(0, container.clientWidth - icon.offsetWidth);
+    const maxTop = Math.max(0, container.clientHeight - icon.offsetHeight);
+    const nextLeft = Math.max(0, Math.min(maxLeft, startLeft + dx));
+    const nextTop = Math.max(0, Math.min(maxTop, startTop + dy));
+
+    icon.style.left = nextLeft + 'px';
+    icon.style.top = nextTop + 'px';
+  }
+
+  function stopDrag() {
+    document.removeEventListener('mousemove', onDrag);
+    icon.classList.remove('dragging');
+  }
+}
 
 // ─────────────────────────────────────────
 // WINDOW MANAGEMENT
