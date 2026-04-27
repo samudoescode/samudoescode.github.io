@@ -175,9 +175,13 @@
       background: var(--g2); box-shadow: var(--raised);
       border: none; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      font-size: 13px; font-weight: 700; color: #000;
+      font-size: 14px; font-weight: 700; color: #000;
+      line-height: 1;
     }
     .wc-btn:active { box-shadow: var(--sunken); }
+    .wc-btn.wc-min { font-size: 15px; }
+    .wc-btn.wc-max { font-size: 16px; font-weight: 800; }
+    .wc-btn.wc-close { font-size: 15px; font-weight: 800; }
 
     /* Toolbar */
     .win-bar {
@@ -810,16 +814,14 @@ function openWin(id) {
       <div class="win-tb-inner" id="tb-inner-${id}">
         <span class="win-tb-title">${sec.icon} ${sec.label}</span>
         <div class="win-ctrls">
-          <button class="wc-btn" onclick="minWin('${id}')">─</button>
-          <button class="wc-btn" onclick="maxWin('${id}')">□</button>
-          <button class="wc-btn" onclick="closeWin('${id}')">✕</button>
+          <button class="wc-btn wc-min" onclick="minWin('${id}')">─</button>
+          <button class="wc-btn wc-max" onclick="maxWin('${id}')">▢</button>
+          <button class="wc-btn wc-close" onclick="closeWin('${id}')">✕</button>
         </div>
       </div>
     </div>
     <div class="win-bar">
       <button class="bar-btn" onclick="closeWin('${id}')">← Back</button>
-      <button class="bar-btn">File</button>
-      <button class="bar-btn">View</button>
     </div>
     <div class="win-body">
       <div class="win-sb" id="sb-${id}">
@@ -1226,9 +1228,9 @@ function openCalendar() {
       <div class="win-tb-inner" id="tb-inner-${id}">
         <span class="win-tb-title">📅 My Dates — Jan → Apr 2026</span>
         <div class="win-ctrls">
-          <button class="wc-btn" onclick="minWin('${id}')">─</button>
-          <button class="wc-btn" onclick="maxWin('${id}')">□</button>
-          <button class="wc-btn" onclick="closeWin('${id}')">✕</button>
+          <button class="wc-btn wc-min" onclick="minWin('${id}')">─</button>
+          <button class="wc-btn wc-max" onclick="maxWin('${id}')">▢</button>
+          <button class="wc-btn wc-close" onclick="closeWin('${id}')">✕</button>
         </div>
       </div>
     </div>
