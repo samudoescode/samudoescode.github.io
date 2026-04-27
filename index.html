@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -304,6 +304,8 @@
       box-shadow: var(--window);
       padding: 0;
       width: 220px;
+      min-width: 220px;
+      max-width: 220px;
       z-index: 50;
     }
     #colour-widget .cw-tb {
@@ -849,6 +851,14 @@ function makeDrag(win, handle) {
   let sx, sy, sl, st;
   handle.addEventListener('mousedown', e => {
     if (e.target.closest('.win-ctrls') || win.dataset.mx) return;
+    // Avoid left/right or top/bottom conflicts for absolutely-positioned widgets.
+    if (win.id === 'colour-widget') {
+      const r = win.getBoundingClientRect();
+      win.style.left = r.left + 'px';
+      win.style.top = r.top + 'px';
+      win.style.right = 'auto';
+      win.style.bottom = 'auto';
+    }
     sx = e.clientX; sy = e.clientY;
     sl = parseInt(win.style.left)||0; st = parseInt(win.style.top)||0;
     const mv = e2 => {
@@ -973,6 +983,16 @@ function applyHue(h) {
 const hueSlider = document.getElementById('hue-slider');
 applyHue(hueSlider.value); // init
 hueSlider.addEventListener('input', e => applyHue(e.target.value));
+
+// Normalize widget position once so dragging never stretches it.
+const colourWidget = document.getElementById('colour-widget');
+if (colourWidget) {
+  const r = colourWidget.getBoundingClientRect();
+  colourWidget.style.left = r.left + 'px';
+  colourWidget.style.top = r.top + 'px';
+  colourWidget.style.right = 'auto';
+  colourWidget.style.bottom = 'auto';
+}
 
 // Make colour widget draggable
 makeDrag(document.getElementById('colour-widget'), document.getElementById('cw-tb'));
