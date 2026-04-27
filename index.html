@@ -3,1135 +3,1171 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Journal OS — samudoescode</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
-
+  <title>Journal OS — Saumya</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --desktop-bg: #0f1923;
-      --desktop-grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-      --taskbar-bg: rgba(10, 16, 24, 0.92);
-      --menubar-bg: rgba(10, 16, 24, 0.88);
-      --win-border: rgba(255,255,255,0.08);
-      --accent-professional: #3b82f6;
-      --accent-physical: #22c55e;
-      --accent-social: #f59e0b;
-      --accent-emotional: #ec4899;
-      --accent-misc: #a855f7;
-    }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      font-family: 'Lora', serif;
-      background-color: var(--desktop-bg);
-      overflow: hidden;
-      height: 100vh;
-      width: 100vw;
-      user-select: none;
-      cursor: default;
+    :root {
+      --pink:        #dd6adf;
+      --pink-dark:   #b84fbf;
+      --pink-inactive: #b8a0ba;
+      --cream:       #fff9f0;
+      --g0:          #ffffff;
+      --g1:          #dfdfdf;
+      --g2:          #c0c0c0;
+      --g3:          #808080;
+      --g4:          #0a0a0a;
+      --raised: inset -1px -1px 0 #0a0a0a,
+                inset  1px  1px 0 #ffffff,
+                inset -2px -2px 0 #808080,
+                inset  2px  2px 0 #dfdfdf;
+      --sunken: inset -1px -1px 0 #ffffff,
+                inset  1px  1px 0 #0a0a0a,
+                inset -2px -2px 0 #dfdfdf,
+                inset  2px  2px 0 #808080;
+      --inset:  inset 1px 1px 0 #808080,
+                inset -1px -1px 0 #dfdfdf;
+      --window: inset -1px -1px 0 #0a0a0a,
+                inset  1px  1px 0 #dfdfdf,
+                inset -2px -2px 0 #808080,
+                inset  2px  2px 0 #ffffff;
     }
 
-    /* ── Desktop ── */
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      overflow: hidden;
+      height: 100vh; width: 100vw;
+      cursor: default;
+      user-select: none;
+    }
+
+    /* ── DESKTOP ── */
     #desktop {
       position: fixed;
-      inset: 28px 0 48px 0;
+      inset: 0 0 50px 0;
       overflow: hidden;
+      background-color: var(--cream);
+      background-image:
+        linear-gradient(rgba(0,0,0,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.07) 1px, transparent 1px);
+      background-size: 29px 29px;
     }
 
-    /* Background wallpaper with grain */
-    #desktop::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 80% 60% at 20% 80%, rgba(59,130,246,0.06) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 50% at 80% 20%, rgba(168,85,247,0.07) 0%, transparent 55%),
-        radial-gradient(ellipse 50% 40% at 50% 50%, rgba(236,72,153,0.04) 0%, transparent 60%);
-      pointer-events: none;
-      z-index: 0;
-    }
-    #desktop::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4t5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39ra2uRkZGZmZlpaWmXl5dvb29xcXGTk5NnZ2c4zIRNAAAAG3RSTlNAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEB6MFGrAAABIElEQVR42u3VyQ6CMABF4UUBEQXcl7n/fypFbBJqpZuHbDp3cJJvepveTilFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFkc0H1bwCYyLbHF4AAAAASUVORK5CYII=");
-      opacity: 0.025;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    /* ── Menu Bar (top) ── */
-    #menubar {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: 28px;
-      background: var(--menubar-bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--win-border);
-      display: flex;
-      align-items: center;
-      padding: 0 14px;
-      z-index: 9999;
-      gap: 22px;
-    }
-    #menubar .brand {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      font-weight: 500;
-      color: #e2e8f0;
-      letter-spacing: 0.05em;
-    }
-    #menubar .menu-items {
-      display: flex;
-      gap: 16px;
-    }
-    #menubar .menu-items span {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      color: rgba(226,232,240,0.55);
-      cursor: pointer;
-      transition: color 0.15s;
-    }
-    #menubar .menu-items span:hover { color: #e2e8f0; }
-    #menubar-right {
-      margin-left: auto;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-    #menubar-clock {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      color: rgba(226,232,240,0.7);
-    }
-
-    /* ── Taskbar (bottom) ── */
-    #taskbar {
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
-      height: 48px;
-      background: var(--taskbar-bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-top: 1px solid var(--win-border);
-      display: flex;
-      align-items: center;
-      padding: 0 16px;
-      z-index: 9999;
-      gap: 8px;
-    }
-    .taskbar-btn {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px;
-      color: rgba(226,232,240,0.6);
-      padding: 4px 10px;
-      border-radius: 4px;
-      border: 1px solid rgba(255,255,255,0.06);
-      background: rgba(255,255,255,0.04);
-      cursor: pointer;
-      transition: all 0.15s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      max-width: 160px;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
-    .taskbar-btn:hover {
-      background: rgba(255,255,255,0.08);
-      color: #e2e8f0;
-    }
-    .taskbar-btn.active {
-      border-color: rgba(255,255,255,0.14);
-      background: rgba(255,255,255,0.1);
-      color: #e2e8f0;
-    }
-    .taskbar-btn .dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-    #taskbar-right {
-      margin-left: auto;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px;
-      color: rgba(226,232,240,0.45);
-    }
-
-    /* ── Desktop Icons ── */
-    .desktop-icons {
-      position: relative;
-      z-index: 1;
-      padding: 32px;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, 88px);
-      grid-auto-rows: 100px;
-      gap: 8px;
-      align-content: start;
-    }
+    /* ── DESKTOP ICONS ── */
     .desk-icon {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 7px;
-      padding: 10px 6px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.15s;
-    }
-    .desk-icon:hover { background: rgba(255,255,255,0.06); }
-    .desk-icon:active { background: rgba(255,255,255,0.1); transform: scale(0.97); }
-    .desk-icon.selected { background: rgba(255,255,255,0.08); }
-    .folder-icon {
-      width: 52px;
-      height: 44px;
-      position: relative;
-      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
-    }
-    .folder-tab {
       position: absolute;
-      top: 0; left: 4px;
-      width: 22px; height: 9px;
-      border-radius: 4px 4px 0 0;
+      width: 80px;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 5px;
+      padding: 8px 4px; border-radius: 2px; cursor: pointer;
     }
-    .folder-body {
-      position: absolute;
-      bottom: 0; left: 0;
-      width: 52px; height: 36px;
-      border-radius: 3px 6px 5px 5px;
-    }
-    .folder-shine {
-      position: absolute;
-      top: 10px; left: 4px;
-      width: 44px; height: 12px;
-      border-radius: 2px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.18) 0%, transparent 100%);
+    .desk-icon:hover    { background: rgba(221,106,223,0.15); }
+    .desk-icon.selected { background: rgba(221,106,223,0.28); outline: 1px dotted #888; }
+    .desk-icon.dragging { opacity: 0.75; cursor: grabbing; z-index: 8000 !important; }
+    .desk-icon .fi {
+      width: 48px; height: 48px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 32px; pointer-events: none;
     }
     .desk-icon span {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px;
-      color: rgba(226,232,240,0.9);
-      text-align: center;
-      line-height: 1.3;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-      max-width: 80px;
-    }
-
-    /* ── Windows ── */
-    .os-window {
-      position: absolute;
-      background: #f8f7f4;
-      border-radius: 10px;
-      box-shadow:
-        0 0 0 1px rgba(0,0,0,0.18),
-        0 8px 40px rgba(0,0,0,0.5),
-        0 2px 8px rgba(0,0,0,0.3);
-      overflow: hidden;
-      min-width: 380px;
-      min-height: 260px;
-      display: flex;
-      flex-direction: column;
-      transition: box-shadow 0.15s;
-    }
-    .os-window.focused {
-      box-shadow:
-        0 0 0 1px rgba(0,0,0,0.22),
-        0 20px 60px rgba(0,0,0,0.65),
-        0 4px 16px rgba(0,0,0,0.35);
-    }
-    .os-window.minimized { display: none; }
-    .os-window.animating-in {
-      animation: windowOpen 0.22s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    }
-    @keyframes windowOpen {
-      from { opacity: 0; transform: scale(0.88); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    /* Title bar */
-    .win-titlebar {
-      height: 38px;
-      display: flex;
-      align-items: center;
-      padding: 0 12px;
-      gap: 8px;
-      cursor: grab;
-      flex-shrink: 0;
-      position: relative;
-    }
-    .win-titlebar:active { cursor: grabbing; }
-    .win-controls {
-      display: flex;
-      gap: 6px;
-      flex-shrink: 0;
-    }
-    .win-btn {
-      width: 13px;
-      height: 13px;
-      border-radius: 50%;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: filter 0.1s;
-      position: relative;
-    }
-    .win-btn:hover { filter: brightness(1.15); }
-    .win-btn-close { background: #ff5f57; }
-    .win-btn-min { background: #ffbd2e; }
-    .win-btn-max { background: #28c840; }
-    .win-btn svg { opacity: 0; transition: opacity 0.1s; width: 7px; height: 7px; }
-    .win-controls:hover .win-btn svg { opacity: 1; }
-    .win-title {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11.5px;
-      font-weight: 500;
-      color: rgba(15,25,35,0.75);
-      white-space: nowrap;
+      font-size: 11px; color: #1a1a1a;
+      text-align: center; line-height: 1.2;
+      text-shadow: 1px 1px 0 rgba(255,255,255,0.85);
       pointer-events: none;
     }
-    .win-icon-sm {
-      margin-left: auto;
-      width: 16px;
-      height: 16px;
-      border-radius: 3px;
-      flex-shrink: 0;
+
+    /* ── TASKBAR ── */
+    #taskbar {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      height: 50px;
+      background: var(--pink);
+      box-shadow: var(--window);
+      display: flex; align-items: center;
+      padding: 3px; gap: 3px; z-index: 9999;
     }
+    .start-btn {
+      height: 44px; padding: 0 14px;
+      background: var(--g2); box-shadow: var(--raised);
+      display: flex; align-items: center; gap: 6px;
+      cursor: pointer; flex-shrink: 0;
+      font-size: 15px; font-weight: 700; color: #000;
+    }
+    .start-btn:active { box-shadow: var(--sunken); }
+    .taskbar-apps { display: flex; gap: 3px; flex: 1; min-width: 0; }
+    .tb-btn {
+      height: 44px; padding: 0 10px;
+      background: var(--g2); box-shadow: var(--raised);
+      display: flex; align-items: center; gap: 5px;
+      cursor: pointer; font-size: 12px;
+      white-space: nowrap; overflow: hidden;
+      max-width: 180px; text-overflow: ellipsis;
+      color: #000;
+    }
+    .tb-btn.active  { box-shadow: var(--sunken); }
+    .tb-btn:active  { box-shadow: var(--sunken); }
+    .tb-btn .fi     { font-size: 16px; flex-shrink: 0; }
+    .tb-divider { width: 3px; height: 44px; background: linear-gradient(90deg, #808080 50%, #dfdfdf 50%); flex-shrink: 0; }
+    .tb-clock {
+      height: 44px; padding: 0 12px;
+      background: var(--g2);
+      box-shadow: inset -1px -1px 0 #dfdfdf, inset 1px 1px 0 #808080;
+      display: flex; align-items: center;
+      font-size: 14px; flex-shrink: 0;
+    }
+
+    /* ── WINDOW SHELL ── */
+    .os-window {
+      position: absolute;
+      min-width: 340px; min-height: 220px;
+      background: var(--g2);
+      box-shadow: var(--window);
+      display: flex; flex-direction: column;
+      transition: none;
+    }
+    .os-window.minimized { display: none !important; }
+    @keyframes winOpen {
+      from { opacity:0; transform:scale(0.88) translateY(8px); }
+      to   { opacity:1; transform:scale(1) translateY(0); }
+    }
+    .win-open-anim { animation: winOpen 0.14s cubic-bezier(.34,1.4,.64,1) forwards; }
+
+    /* Titlebar */
+    .win-tb {
+      height: 54px;
+      background: var(--g2);
+      box-shadow: var(--window);
+      display: flex; align-items: center;
+      padding: 3px; gap: 0;
+      flex-shrink: 0; cursor: grab; position: relative;
+    }
+    .win-tb:active { cursor: grabbing; }
+    .win-tb-inner {
+      flex: 1; height: 48px;
+      background: var(--pink);
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      transition: background 0.1s;
+    }
+    .win-tb-inner.inactive { background: var(--pink-inactive); }
+    .win-tb-title {
+      font-size: 22px; font-weight: 700; color: #fff;
+      pointer-events: none; white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    .win-ctrls { display: flex; gap: 1px; }
+    .wc-btn {
+      width: 29px; height: 26px;
+      background: var(--g2); box-shadow: var(--raised);
+      border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; color: #000;
+    }
+    .wc-btn:active { box-shadow: var(--sunken); }
+
+    /* Toolbar */
+    .win-bar {
+      height: 28px; background: var(--g2);
+      border-bottom: 1px solid var(--g3);
+      display: flex; align-items: center;
+      padding: 0 4px; gap: 2px; flex-shrink: 0;
+    }
+    .bar-btn {
+      height: 22px; padding: 0 8px; font-size: 12px;
+      background: var(--g2); box-shadow: var(--raised);
+      border: none; cursor: pointer; color: #000;
+    }
+    .bar-btn:active { box-shadow: var(--sunken); }
+
+    /* Body */
+    .win-body { display: flex; flex: 1; overflow: hidden; }
 
     /* Sidebar */
-    .win-body {
-      display: flex;
-      flex: 1;
-      overflow: hidden;
-      border-top: 1px solid rgba(0,0,0,0.08);
+    .win-sb {
+      width: 168px; background: var(--g2);
+      border-right: 2px solid;
+      border-color: #808080 #dfdfdf #dfdfdf #808080;
+      display: flex; flex-direction: column;
+      padding: 4px 0; flex-shrink: 0; overflow-y: auto;
     }
-    .win-sidebar {
-      width: 180px;
-      background: #eeece8;
-      border-right: 1px solid rgba(0,0,0,0.07);
-      padding: 12px 0;
-      flex-shrink: 0;
+    .sb-section {
+      font-size: 10px; font-weight: 700; color: var(--g3);
+      padding: 8px 10px 3px;
+      text-transform: uppercase; letter-spacing: 0.07em;
+    }
+    .sb-item {
+      display: flex; align-items: center; gap: 6px;
+      padding: 6px 10px; font-size: 12px; cursor: pointer;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      color: #000;
+    }
+    .sb-item .fi { font-size: 14px; flex-shrink: 0; }
+    .sb-item:hover  { background: var(--pink); color: #fff; }
+    .sb-item.active { background: var(--pink); color: #fff; }
+
+    /* Content */
+    .win-ct {
+      flex: 1; background: #f0f0f0;
+      box-shadow: var(--inset);
       overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
     }
-    .sidebar-section {
-      padding: 4px 12px;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 9px;
-      font-weight: 500;
-      color: rgba(15,25,35,0.35);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-top: 8px;
+    .win-ct::-webkit-scrollbar { width: 16px; }
+    .win-ct::-webkit-scrollbar-track { background: var(--g2); }
+    .win-ct::-webkit-scrollbar-thumb { background: var(--g2); box-shadow: var(--raised); }
+
+    /* Tabs */
+    .tabs-strip {
+      display: flex; gap: 2px;
+      padding: 6px 6px 0; background: var(--g2);
+      border-bottom: 2px solid var(--g3);
     }
-    .sidebar-item {
-      padding: 7px 14px;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      color: rgba(15,25,35,0.65);
-      cursor: pointer;
-      border-radius: 5px;
-      margin: 0 6px;
-      transition: all 0.1s;
-      display: flex;
-      align-items: center;
-      gap: 7px;
+    .tab-btn {
+      padding: 4px 14px; font-size: 12px; cursor: pointer;
+      background: var(--g2); box-shadow: var(--raised);
+      border: none; position: relative; bottom: -2px; color: #000;
     }
-    .sidebar-item:hover {
-      background: rgba(0,0,0,0.05);
-      color: rgba(15,25,35,0.85);
-    }
-    .sidebar-item.active {
-      color: rgba(15,25,35,0.9);
-    }
-    .sidebar-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      flex-shrink: 0;
+    .tab-btn.active {
+      background: #f0f0f0; font-weight: 700; z-index: 1;
+      box-shadow: inset -1px 0 0 #0a0a0a, inset 1px 0 0 #dfdfdf, inset 0 1px 0 #dfdfdf;
     }
 
-    /* Content area */
-    .win-content {
-      flex: 1;
-      overflow-y: auto;
-      padding: 24px 28px;
-      background: #f8f7f4;
-    }
-    .win-content::-webkit-scrollbar { width: 6px; }
-    .win-content::-webkit-scrollbar-track { background: transparent; }
-    .win-content::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12); border-radius: 3px; }
-
-    /* Entry card */
-    .entry-header {
-      display: flex;
-      align-items: baseline;
-      gap: 10px;
-      margin-bottom: 4px;
-    }
-    .entry-date {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px;
-      color: rgba(15,25,35,0.4);
-      flex-shrink: 0;
+    /* Entry layout */
+    .entry-area { padding: 20px 24px; }
+    .entry-date { font-size: 11px; color: var(--g3); margin-bottom: 3px; }
+    .entry-heading {
+      font-size: 20px; font-weight: 700; color: #1a1a1a;
+      line-height: 1.25; margin-bottom: 7px;
     }
     .entry-tag {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 9px;
-      padding: 2px 7px;
-      border-radius: 10px;
-      font-weight: 500;
-      letter-spacing: 0.05em;
+      display: inline-block; font-size: 10px; font-weight: 700;
+      padding: 2px 9px; background: var(--pink); color: #fff;
+      margin-bottom: 12px; letter-spacing: 0.04em;
     }
-    .entry-title {
-      font-family: 'DM Serif Display', serif;
-      font-size: 18px;
-      color: #0f1923;
-      line-height: 1.3;
-      margin-bottom: 8px;
-    }
+    .divider { height: 1px; background: #c8c8c8; margin: 12px 0 14px; }
     .entry-body {
-      font-family: 'Lora', serif;
-      font-size: 13.5px;
-      line-height: 1.75;
-      color: rgba(15,25,35,0.72);
+      font-size: 13px; line-height: 1.75; color: #2a2a2a;
     }
-    .entry-body em {
-      font-style: italic;
-      color: rgba(15,25,35,0.55);
-    }
-    .entry-divider {
-      height: 1px;
-      background: rgba(0,0,0,0.07);
-      margin: 22px 0;
-    }
-    .entry-card {
-      border-radius: 8px;
-      padding: 18px 20px;
-      margin-bottom: 16px;
-      background: rgba(0,0,0,0.02);
-      border: 1px solid rgba(0,0,0,0.05);
-    }
+    .entry-body em { font-style: italic; color: var(--pink-dark); }
+    .entry-body strong { font-weight: 700; }
 
-    /* Status bar */
-    .win-statusbar {
-      height: 24px;
-      background: #eeece8;
-      border-top: 1px solid rgba(0,0,0,0.07);
-      display: flex;
-      align-items: center;
-      padding: 0 14px;
-      gap: 16px;
+    /* Buddy box */
+    .buddy-box {
+      background: #fff4ff; border: 1px solid #e8b0ea;
+      box-shadow: var(--inset);
+      padding: 12px 14px; margin-top: 0;
+    }
+    .buddy-label {
+      font-size: 10px; font-weight: 700;
+      color: var(--pink-dark); text-transform: uppercase;
+      letter-spacing: 0.09em; margin-bottom: 7px;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .buddy-label::before {
+      content: ''; display: inline-block;
+      width: 8px; height: 8px; background: var(--pink);
+    }
+    .buddy-body { font-size: 13px; line-height: 1.7; color: #3a1a3a; }
+    .buddy-body em { font-style: italic; color: var(--pink-dark); }
+
+    /* Statusbar */
+    .win-status {
+      height: 26px; background: var(--g2);
+      border-top: 1px solid var(--g3);
+      display: flex; align-items: center;
       flex-shrink: 0;
     }
-    .status-item {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 9.5px;
-      color: rgba(15,25,35,0.4);
+    .status-pane {
+      padding: 0 10px; font-size: 11px; height: 100%;
+      display: flex; align-items: center;
+      border-right: 2px solid;
+      border-color: #808080 #dfdfdf #dfdfdf #808080;
     }
 
     /* Resize handle */
     .win-resize {
+      position: absolute; right: 0; bottom: 0;
+      width: 16px; height: 16px; cursor: se-resize;
+      background:
+        linear-gradient(135deg,
+          transparent 33%, #808080 33%, #808080 40%,
+          transparent 40%, transparent 60%,
+          #808080 60%, #808080 67%, transparent 67%);
+    }
+
+    /* ── COLOUR SLIDER WIDGET ── */
+    #colour-widget {
       position: absolute;
-      right: 0; bottom: 0;
-      width: 18px; height: 18px;
-      cursor: se-resize;
+      bottom: 16px; right: 16px;
+      background: var(--g2);
+      box-shadow: var(--window);
+      padding: 0;
+      width: 220px;
+      z-index: 50;
     }
-    .win-resize::after {
-      content: '';
-      position: absolute;
-      right: 4px; bottom: 4px;
-      width: 10px; height: 10px;
-      border-right: 2px solid rgba(0,0,0,0.2);
-      border-bottom: 2px solid rgba(0,0,0,0.2);
+    #colour-widget .cw-tb {
+      height: 28px;
+      background: var(--pink);
+      display: flex; align-items: center;
+      padding: 0 8px;
+      font-size: 12px; font-weight: 700; color: #fff;
+      cursor: grab; transition: background 0.2s;
     }
-
-    /* Empty state */
-    .empty-state {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      gap: 10px;
-      opacity: 0.4;
+    #colour-widget .cw-body {
+      padding: 10px 12px 12px;
+      display: flex; flex-direction: column; gap: 8px;
     }
-    .empty-state p {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      color: rgba(15,25,35,0.6);
+    #colour-widget label {
+      font-size: 11px; color: #1a1a1a;
+      display: flex; justify-content: space-between; align-items: center;
     }
-
-    /* Boot animation */
-    #boot-screen {
-      position: fixed;
-      inset: 0;
-      background: #0f1923;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 24px;
-      z-index: 99999;
-      transition: opacity 0.5s ease, visibility 0.5s;
+    #colour-widget .swatch {
+      width: 16px; height: 16px;
+      box-shadow: var(--inset);
+      display: inline-block; flex-shrink: 0;
     }
-    #boot-screen.hidden {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-    .boot-logo {
-      font-family: 'DM Serif Display', serif;
-      font-size: 42px;
-      color: #e2e8f0;
-      letter-spacing: -0.01em;
-    }
-    .boot-sub {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      color: rgba(226,232,240,0.4);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-    .boot-bar-wrap {
-      width: 160px;
-      height: 2px;
-      background: rgba(255,255,255,0.08);
-      border-radius: 1px;
-      overflow: hidden;
-      margin-top: 8px;
-    }
-    .boot-bar {
-      height: 100%;
-      background: rgba(226,232,240,0.4);
-      border-radius: 1px;
-      animation: bootLoad 1.8s ease forwards;
-    }
-    @keyframes bootLoad {
-      0% { width: 0; }
-      60% { width: 70%; }
-      100% { width: 100%; }
-    }
-
-    /* Right-click context menu */
-    #ctx-menu {
-      position: fixed;
-      background: rgba(20,28,38,0.95);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 8px;
-      padding: 6px;
-      z-index: 99998;
-      min-width: 170px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-      display: none;
-    }
-    .ctx-item {
-      padding: 7px 12px;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      color: rgba(226,232,240,0.75);
-      border-radius: 5px;
+    /* hue slider — rainbow track */
+    #hue-slider {
+      -webkit-appearance: none;
+      width: 100%; height: 14px;
+      border: none; outline: none;
+      box-shadow: var(--inset);
+      background: linear-gradient(to right,
+        hsl(0,80%,60%), hsl(30,80%,60%), hsl(60,80%,60%),
+        hsl(90,80%,60%), hsl(120,80%,60%), hsl(150,80%,60%),
+        hsl(180,80%,60%), hsl(210,80%,60%), hsl(240,80%,60%),
+        hsl(270,80%,60%), hsl(300,80%,60%), hsl(330,80%,60%), hsl(360,80%,60%));
       cursor: pointer;
-      transition: background 0.1s;
     }
-    .ctx-item:hover {
-      background: rgba(255,255,255,0.07);
-      color: #e2e8f0;
+    #hue-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px; height: 20px;
+      background: var(--g2);
+      box-shadow: var(--raised);
+      cursor: pointer;
     }
-    .ctx-divider {
-      height: 1px;
-      background: rgba(255,255,255,0.06);
-      margin: 4px 0;
+    #hue-slider::-moz-range-thumb {
+      width: 14px; height: 20px;
+      background: var(--g2);
+      box-shadow: var(--raised);
+      border: none; cursor: pointer;
+    }
+
+
+    /* ── CALENDAR WINDOW ── */
+    .cal-shell { background: #f0f0f0; flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    .cal-months { display: flex; gap: 0; flex: 1; overflow: hidden; }
+    .cal-month { flex: 1; border-right: 2px solid #c0c0c0; display: flex; flex-direction: column; min-width: 0; }
+    .cal-month:last-child { border-right: none; }
+    .cal-month-header {
+      padding: 6px 10px;
+      font-size: 12px; font-weight: 700;
+      background: var(--g2); box-shadow: var(--raised);
+      text-align: center; letter-spacing: 0.04em;
+      flex-shrink: 0;
+    }
+    .cal-dow-row {
+      display: grid; grid-template-columns: repeat(7, 1fr);
+      background: var(--g2); border-bottom: 1px solid #aaa;
+      flex-shrink: 0;
+    }
+    .cal-dow {
+      font-size: 9px; font-weight: 700; color: #555;
+      text-align: center; padding: 3px 0;
+    }
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); flex: 1; align-content: start; }
+    .cal-day {
+      aspect-ratio: 1;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; cursor: pointer; position: relative;
+      border: 1px solid transparent; margin: 1px;
+    }
+    .cal-day:hover { background: rgba(221,106,223,0.15); }
+    .cal-day.empty { pointer-events: none; }
+    .cal-day.marked {
+      background: var(--pink);
+      color: #fff; font-weight: 700;
+      border-radius: 2px;
+    }
+    .cal-day.marked:hover { background: var(--pink-dark); }
+    .cal-day.selected-day { outline: 2px solid #333; outline-offset: -2px; }
+    .cal-day.today { outline: 2px solid var(--pink-dark); outline-offset: -2px; font-weight:700; }
+    /* Tooltip */
+    .cal-day .cal-tip {
+      display: none; position: absolute; bottom: calc(100% + 4px); left: 50%;
+      transform: translateX(-50%);
+      background: #1a1a1a; color: #fff; font-size: 10px;
+      padding: 4px 8px; white-space: nowrap; z-index: 9999;
+      pointer-events: none; max-width: 180px; white-space: normal; text-align: center;
+    }
+    .cal-day:hover .cal-tip { display: block; }
+    /* Note input strip */
+    .cal-notebar {
+      height: 34px; background: var(--g2); border-top: 2px solid #808080;
+      display: flex; align-items: center; gap: 6px; padding: 0 10px;
+      flex-shrink: 0;
+    }
+    .cal-notebar label { font-size: 11px; color: #333; white-space: nowrap; }
+    .cal-notebar input {
+      flex: 1; height: 22px; font-size: 11px;
+      box-shadow: var(--sunken); border: none; background: #fff;
+      padding: 0 6px; outline: none; font-family: inherit;
+    }
+    .cal-notebar button {
+      height: 22px; padding: 0 10px; font-size: 11px;
+      background: var(--g2); box-shadow: var(--raised); border: none;
+      cursor: pointer; font-family: inherit;
+    }
+    .cal-notebar button:active { box-shadow: var(--sunken); }
+    .cal-selected-info { font-size: 11px; color: #555; white-space: nowrap; }
+
+    /* Context menu */
+    #ctx-menu {
+      position: fixed; background: var(--g2);
+      box-shadow: var(--window);
+      z-index: 99999; min-width: 160px;
+      display: none; padding: 2px;
+    }
+    .ctx-i { padding: 5px 18px; font-size: 13px; cursor: pointer; color: #000; }
+    .ctx-i:hover { background: var(--pink); color: #fff; }
+    .ctx-sep { height: 1px; background: var(--g3); margin: 3px 2px; }
+
+    /* Welcome screen */
+    .welcome-area { padding: 28px 30px; background: #f0f0f0; }
+    .welcome-area h2 { font-size: 22px; font-weight: 700; margin-bottom: 10px; }
+    .welcome-area p { font-size: 13px; line-height: 1.7; color: #2a2a2a; margin-bottom: 10px; }
+    .hint-box {
+      background: var(--g2); box-shadow: var(--inset);
+      padding: 10px 14px; font-size: 12px; color: #1a1a1a;
+      margin-top: 16px; line-height: 1.6;
     }
   </style>
 </head>
 <body>
 
-<!-- Boot Screen -->
-<div id="boot-screen">
-  <div class="boot-logo">Journal OS</div>
-  <div class="boot-sub">samudoescode · DTU IxD</div>
-  <div class="boot-bar-wrap"><div class="boot-bar"></div></div>
-</div>
-
-<!-- Menu Bar -->
-<div id="menubar">
-  <div class="brand">⬛ Journal OS</div>
-  <div class="menu-items">
-    <span onclick="openAllWindows()">File</span>
-    <span>Edit</span>
-    <span onclick="arrangeWindows()">View</span>
-    <span onclick="closeAllWindows()">Window</span>
-    <span>Help</span>
-  </div>
-  <div id="menubar-right">
-    <span id="menubar-clock" class="menubar-clock"></span>
-  </div>
-</div>
-
 <!-- Desktop -->
-<div id="desktop">
-  <div class="desktop-icons">
-    <div class="desk-icon" ondblclick="openWindow('professional')" onclick="selectIcon(this)">
-      <div class="folder-icon">
-        <div class="folder-tab" style="background:#2563eb;"></div>
-        <div class="folder-body" style="background:linear-gradient(160deg,#3b82f6,#2563eb);"></div>
-        <div class="folder-shine"></div>
-      </div>
-      <span>Professional</span>
-    </div>
-
-    <div class="desk-icon" ondblclick="openWindow('physical')" onclick="selectIcon(this)">
-      <div class="folder-icon">
-        <div class="folder-tab" style="background:#16a34a;"></div>
-        <div class="folder-body" style="background:linear-gradient(160deg,#22c55e,#16a34a);"></div>
-        <div class="folder-shine"></div>
-      </div>
-      <span>Physical</span>
-    </div>
-
-    <div class="desk-icon" ondblclick="openWindow('social')" onclick="selectIcon(this)">
-      <div class="folder-icon">
-        <div class="folder-tab" style="background:#d97706;"></div>
-        <div class="folder-body" style="background:linear-gradient(160deg,#f59e0b,#d97706);"></div>
-        <div class="folder-shine"></div>
-      </div>
-      <span>Social</span>
-    </div>
-
-    <div class="desk-icon" ondblclick="openWindow('emotional')" onclick="selectIcon(this)">
-      <div class="folder-icon">
-        <div class="folder-tab" style="background:#be185d;"></div>
-        <div class="folder-body" style="background:linear-gradient(160deg,#ec4899,#be185d);"></div>
-        <div class="folder-shine"></div>
-      </div>
-      <span>Emotional</span>
-    </div>
-
-    <div class="desk-icon" ondblclick="openWindow('misc')" onclick="selectIcon(this)">
-      <div class="folder-icon">
-        <div class="folder-tab" style="background:#7c3aed;"></div>
-        <div class="folder-body" style="background:linear-gradient(160deg,#a855f7,#7c3aed);"></div>
-        <div class="folder-shine"></div>
-      </div>
-      <span>Class Notes</span>
-    </div>
+<div id="desktop" oncontextmenu="showCtx(event)" onclick="clearSel(event)">
+  <div class="desk-icon" id="icon-professional" style="left:16px;top:16px"
+       ondblclick="openWin('professional')">
+    <div class="fi">💼</div><span>Professional</span>
+  </div>
+  <div class="desk-icon" id="icon-physical" style="left:16px;top:110px"
+       ondblclick="openWin('physical')">
+    <div class="fi">🏸</div><span>Physical</span>
+  </div>
+  <div class="desk-icon" id="icon-social" style="left:16px;top:204px"
+       ondblclick="openWin('social')">
+    <div class="fi">👥</div><span>Social</span>
+  </div>
+  <div class="desk-icon" id="icon-emotional" style="left:16px;top:298px"
+       ondblclick="openWin('emotional')">
+    <div class="fi">🧠</div><span>Emotional</span>
+  </div>
+  <div class="desk-icon" id="icon-misc" style="left:104px;top:16px"
+       ondblclick="openWin('misc')">
+    <div class="fi">📓</div><span>Class Notes</span>
+  </div>
+  <div class="desk-icon" id="icon-about" style="left:104px;top:110px"
+       ondblclick="openWin('about')">
+    <div class="fi">🖥️</div><span>About</span>
+  </div>
+  <div class="desk-icon" id="icon-calendar" style="left:104px;top:204px"
+       ondblclick="openCalendar()">
+    <div class="fi">📅</div><span>My Dates</span>
   </div>
 </div>
 
 <!-- Taskbar -->
 <div id="taskbar">
-  <div id="taskbar-apps" style="display:flex;gap:8px;align-items:center;"></div>
-  <div id="taskbar-right">DTU · IxD · 2025</div>
+  <div class="start-btn" onclick="openWin('about')">⊞ Start</div>
+  <div class="taskbar-apps" id="tbApps"></div>
+  <div class="tb-divider"></div>
+  <div class="tb-clock" id="clock">00:00</div>
 </div>
 
-<!-- Context Menu -->
+<!-- Colour Slider Widget -->
+<div id="colour-widget">
+  <div class="cw-tb" id="cw-tb">🎨 Accent Colour</div>
+  <div class="cw-body">
+    <label>
+      Hue
+      <span class="swatch" id="cw-swatch"></span>
+    </label>
+    <input type="range" id="hue-slider" min="0" max="360" value="295" />
+  </div>
+</div>
+
+<!-- Context menu -->
 <div id="ctx-menu">
-  <div class="ctx-item" onclick="openAllWindows();hideCtx()">Open All Folders</div>
-  <div class="ctx-item" onclick="arrangeWindows();hideCtx()">Arrange Windows</div>
-  <div class="ctx-divider"></div>
-  <div class="ctx-item" onclick="closeAllWindows();hideCtx()">Close All Windows</div>
+  <div class="ctx-i" onclick="openAllWins();hideCtx()">Open All Folders</div>
+  <div class="ctx-i" onclick="tileWins();hideCtx()">Tile Windows</div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-i" onclick="closeAllWins();hideCtx()">Close All</div>
 </div>
 
 <script>
-// ─────────────────────────────────────────
+// ═══════════════════════════════════════════
 // DATA
-// ─────────────────────────────────────────
-const sections = {
+// ═══════════════════════════════════════════
+const SEC = {
   professional: {
-    label: 'Professional',
-    icon: '💼',
-    color: '#3b82f6',
-    colorDark: '#2563eb',
+    label: 'Professional', icon: '💼',
     entries: [
       {
-        id: 'figma-basics',
-        date: 'Week 01 · Apr 2025',
-        tag: 'UI/UX',
-        title: 'Getting Comfortable with Figma',
-        body: `Started the semester with zero Figma knowledge beyond basic shapes. This week I completed the official Figma foundations course and rebuilt three screens from a mobile app I use daily — purely from observation. The process of <em>deconstructing</em> existing design taught me more about component thinking than any tutorial.`,
+        id: 'figma', tab: 'Figma & Claude Code',
+        date: 'Spring 2025', tag: 'UI/UX',
+        heading: 'Mastering Figma Auto-layout & Claude Code',
+        samu: `It started with frustration. Auto-layout broke every time I tried to build a responsive card — I kept manually tweaking pixel values like it was 2012. Then something clicked: <em>constraints are not restrictions, they are instructions.</em> Once I stopped fighting the system and started describing intent, the designs started building themselves.\n\nClaude Code arrived at the perfect moment. I could prototype in real code with natural language, watch it render, iterate. The gap between what I could imagine and what I could build collapsed from weeks to hours. This wasn't just skill acquisition — it was an identity shift.`,
+        khushi: `Khushi's parallel journey is fascinating — she moved from the Loon internship context into actively learning Framer. Where I found flow in code, she found it in no-code. Her rejection earlier in the semester, which could have been a setback, became what I'd call a <em>Risk Assessment Lesson</em> — a forced recalibration that sent her toward a tool that actually fits her creative voice better.`,
       },
       {
-        id: 'html-css',
-        date: 'Week 02 · Apr 2025',
-        tag: 'Frontend',
-        title: 'HTML & CSS: Beyond the Basics',
-        body: `Worked through CSS Grid and Flexbox layouts in depth. Built a responsive card layout from scratch without any framework. The breakthrough moment was understanding the difference between grid areas and named lines — suddenly complex layouts became intuitive.`,
-      },
-      {
-        id: 'js-dom',
-        date: 'Week 03 · Apr 2025',
-        tag: 'Frontend',
-        title: 'JavaScript DOM Manipulation',
-        body: `Built a small interactive prototype using vanilla JS — no libraries. Focused on event delegation, state management patterns, and the difference between imperative and declarative thinking. This is where code starts feeling like design.`,
+        id: 'anxiety', tab: 'Internship Anxiety → Building',
+        date: 'Spring 2025', tag: 'Mindset',
+        heading: 'From "Internship Anxiety" to "Independent Building"',
+        samu: `The anxiety was specific: what if I'm not hireable? What if everyone else already knows this and I'm behind? I was treating skill gaps like personal failures.\n\nThe reframe came slowly. <em>Anxiety about building → curiosity about building.</em> I stopped asking "am I good enough" and started asking "what can I make today." The shift isn't permanent — it requires maintenance. But I have the tools now to return to it.`,
+        khushi: `For Khushi, the Loon rejection functioned as a similar catalyst. The internship anxiety she experienced resolved not through avoidance but through redirection. Framer became her "independent building" — proof that she could create without institutional validation.`,
       },
     ],
   },
   physical: {
-    label: 'Physical',
-    icon: '🏃',
-    color: '#22c55e',
-    colorDark: '#16a34a',
+    label: 'Physical', icon: '🏸',
     entries: [
       {
-        id: 'running-start',
-        date: 'Week 01 · Apr 2025',
-        tag: 'Cardio',
-        title: 'Restarting a Running Habit',
-        body: `Set a goal: run 3x per week, minimum 3km each session. Week one was humbling — stopped at 2.1km on day one. But I noticed that the mental resistance before starting was harder than the run itself. <em>Habit stacking</em>: tied running shoes to leaving the house for any reason.`,
-      },
-      {
-        id: 'posture',
-        date: 'Week 02 · Apr 2025',
-        tag: 'Mobility',
-        title: 'Desk Posture & Shoulder Work',
-        body: `Hours at a screen were creating upper-back tension. Added 10 minutes of targeted shoulder and neck mobility work each morning. Noticed a direct correlation between physical state and cognitive performance — better mornings, sharper afternoons.`,
+        id: 'jump', tab: 'The 2/5 → 5/5 Jump',
+        date: 'Spring 2025', tag: 'Habits',
+        heading: 'From Intermittent Fasting to Badminton & Early Rising',
+        samu: `I rated my physical state a 2 out of 5 at the start of the semester. Intermittent fasting had become a control mechanism more than a health practice — rigid, joyless, and exhausting to maintain socially. I dropped it.\n\nBadminton was an accident. A classmate dragged me to a session. But the court has a quality screens don't — <em>immediate, embodied feedback.</em> You miss the shuttle, you know instantly, you adjust. I added early rising to stack the habit: 6:30am, no phone for the first 30 minutes. The 2/5 is now a 5/5.`,
+        khushi: `Khushi is the Buddy Inspiration here and I mean that genuinely. She went from baseline to <em>10/10 physical</em> — gymming every single day. That's not momentum, that's a lifestyle installation.\n\nWatching her consistency changed my relationship with excuses. If she can build that discipline while managing everything else in her life, the barriers I was citing were largely invented.`,
       },
     ],
   },
   social: {
-    label: 'Social',
-    icon: '👥',
-    color: '#f59e0b',
-    colorDark: '#d97706',
+    label: 'Social', icon: '👥',
     entries: [
       {
-        id: 'coffee-chat',
-        date: 'Week 01 · Apr 2025',
-        tag: 'Networking',
-        title: 'First Coffee Chat — IxD Alumni',
-        body: `Reached out cold on LinkedIn to a DTU IxD alumnus now working at a Copenhagen design studio. They agreed to a 30-minute call. Key insight: <em>portfolios are conversations, not showcases.</em> Every piece should provoke a question the interviewer wants to ask.`,
+        id: 'orbit', tab: 'Orbit of 3',
+        date: 'Spring 2025', tag: 'Philosophy',
+        heading: 'The "Orbit of 3" Philosophy',
+        samu: `I arrived at this through subtraction, not addition. I noticed my social energy was being spread across too many peripheral connections — people I'd meet, enjoy for an evening, then feel vaguely obligated to. The "Orbit of 3" isn't a rule, it's an observation: I function best with three close relationships that operate on genuine reciprocity.\n\nThe hard part was naming the dynamic honestly. <em>Some people orbit you when they need something and disappear when they don't.</em> Recognising this isn't cynicism — it's pattern recognition. The friendships that survived closer inspection are richer for it.`,
+        khushi: `Khushi's social sphere is genuinely complex right now — balancing Arushi, her wider friend group, and increasing family gathering obligations. The tension: between depth and duty. Each system pulls with a different gravity.\n\nWhat I want her to hear: <em>you are allowed to be selective, even with people you love.</em>`,
       },
       {
-        id: 'peer-help',
-        date: 'Week 02 · Apr 2025',
-        tag: 'Help Offered',
-        title: 'Helping a Classmate Debug Their Prototype',
-        body: `Spent two hours with Mia working through her Figma auto-layout issues. Teaching is the best form of learning — I found three gaps in my own knowledge explaining things I thought I understood. Offered to pair on prototyping sessions weekly.`,
+        id: 'trips', tab: 'People Who Use You',
+        date: 'Spring 2025', tag: 'Networking',
+        heading: 'Realising People Use You vs. Making New Friends on Trips',
+        samu: `There's a particular clarity that travel brings to social dynamics. Away from routine, the transactional relationships become obvious — they contribute nothing to shared experience, only extract.\n\nI made exactly two new friendships this semester that I'd call real. Both happened in unplanned moments, both grew without any agenda. The lesson: <em>stop trying to be likeable and start being present.</em> Likeable is a performance; present is magnetic.`,
+        khushi: null,
       },
     ],
   },
   emotional: {
-    label: 'Emotional',
-    icon: '🧠',
-    color: '#ec4899',
-    colorDark: '#be185d',
+    label: 'Emotional', icon: '🧠',
     entries: [
       {
-        id: 'imposter',
-        date: 'Week 01 · Apr 2025',
-        tag: 'Psychology',
-        title: 'Sitting With Imposter Syndrome',
-        body: `Noticed a recurring pattern: comparing my output to peers with more technical experience, concluding I'm behind, withdrawing from participation. Named the pattern. Wrote it down. Labeling an emotion is documented to reduce its intensity. <em>The comparison is the distortion, not the evidence.</em>`,
+        id: 'breakup', tab: 'The Breakup',
+        date: 'Spring 2025', tag: 'Processing',
+        heading: 'The Breakup & What Followed',
+        samu: `Writing this took time. The breakup arrived not as a single moment but as a slow accumulation of knowing-before-knowing. When it finally happened, the pain was real but not surprising — which was itself disorienting. <em>How do you grieve something you already knew was ending?</em>\n\nThe answer turned out to be: the same way you grieve anything. You let it arrive. You don't schedule it or perform it. You sit with what's actually there.`,
+        khushi: `April was hard for Khushi. Creative block and depression arrived together — which I think is not coincidental. For her, creativity and emotional state are deeply coupled. When one goes, the other follows.\n\n<em>The block is not a diagnosis, it's a season.</em> The work you did before April exists. The capability is not gone. Depression lies about permanence — that's its signature move. You are not behind. You are not broken. You are in a hard month, and hard months end.\n\nI see you. Keep going.`,
       },
       {
-        id: 'habits',
-        date: 'Week 02 · Apr 2025',
-        tag: 'Habit Formation',
-        title: 'The 2-Minute Rule in Practice',
-        body: `Applied the 2-minute rule (from Atomic Habits) to journaling: if it takes less than 2 minutes to write a note, do it immediately. Result: 14 more journal entries this week versus last. Quantity without pressure builds a foundation for quality later.`,
+        id: 'mind', tab: 'Mind Creates Emotions',
+        date: 'Spring 2025', tag: 'Insight',
+        heading: 'The "Mind Creates Emotions" Realisation',
+        samu: `I had been treating emotions as things that happened <em>to</em> me — external events producing internal states. The realisation was more uncomfortable: <strong>the mind constructs the emotion from raw data.</strong> Two people experience the same event; they feel differently because they're running different interpretive software.\n\nThis doesn't make feelings less real. It makes them more interesting. If construction is happening, I can study the architecture. I can notice the moment interpretation begins and introduce a pause. This is not suppression — it's the opposite.`,
+        khushi: null,
       },
       {
-        id: 'behavioral',
-        date: 'Week 03 · Apr 2025',
-        tag: 'Behavioral Change',
-        title: 'Tracking Energy, Not Time',
-        body: `Shifted my daily planning from time-blocked to energy-mapped. High cognitive work in the morning, administrative tasks in the afternoon, creative exploration in the evening. One week in, the shift has reduced decision fatigue noticeably.`,
+        id: 'waves', tab: 'Waves on the Shore',
+        date: 'Spring 2025', tag: 'Meditation',
+        heading: 'The "Waves on the Shore" Meditation',
+        samu: `The metaphor came during a particularly bad afternoon. Thoughts as waves — they come, they have force, they recede. You don't stop the ocean by standing in front of it. You find the shore and stay there.\n\nI'm not a meditator in any formal sense. But this image has been more useful than any technique: <em>you are the shore, not the wave.</em> The wave is always moving toward you and always moving past you. Your job is to stay where you are.`,
+        khushi: null,
       },
     ],
   },
   misc: {
-    label: 'Class Notes & Misc',
-    icon: '📝',
-    color: '#a855f7',
-    colorDark: '#7c3aed',
+    label: 'Class Notes & Misc', icon: '📓',
     entries: [
       {
-        id: 'ixd-lecture',
-        date: 'Week 01 · Apr 2025',
-        tag: 'Lecture',
-        title: 'IxD Lecture: Affordances & Signifiers',
-        body: `Don Norman's distinction between affordances (what an object can do) and signifiers (what communicates that ability) is cleaner than I remembered. Most design failures are signifier failures, not affordance failures. The door that pulls when it should push.`,
+        id: 'ixd', tab: 'IxD Lecture Notes',
+        date: 'Spring 2025', tag: 'Lecture',
+        heading: 'Interaction Design — Key Frameworks',
+        samu: `Norman's gulf of evaluation and gulf of execution keep appearing in unexpected places. Gulf of evaluation = can the user tell what happened? Gulf of execution = can the user figure out what to do? Most design failures are <em>signifier failures</em> — the affordance exists but nothing communicates it.\n\nMapped this to code: a function that does what you need but has an unintuitive API is a gulf-of-execution failure. The logic is sound; the interface is broken.`,
+        khushi: null,
       },
       {
-        id: 'reading',
-        date: 'Week 02 · Apr 2025',
-        tag: 'Reading',
-        title: 'Currently Reading: The Design of Everyday Things',
-        body: `Re-reading Norman as a designer rather than a student changes everything. The gulf of evaluation and gulf of execution map directly to debugging sessions — both in code and in human behavior. <em>Good design closes both gulfs simultaneously.</em>`,
+        id: 'reading', tab: 'Reading List',
+        date: 'Spring 2025', tag: 'Resources',
+        heading: 'Things Worth Returning To',
+        samu: `References earning their space: <strong>The Design of Everyday Things</strong> (re-reading as a designer, not a student — different book entirely), <strong>Atomic Habits</strong> (actually applied, not just annotated), Maggie Appleton's digital garden on mental models, Emil Kowalski's animations blog.\n\nRule I'm trying: <em>if you recommend it to someone else, you have to have actually used it.</em> No more collecting resources as an avoidance strategy.`,
+        khushi: null,
       },
+    ],
+  },
+  about: {
+    label: 'About Me', icon: '🖥️',
+    entries: [
       {
-        id: 'misc-links',
-        date: 'Week 03 · Apr 2025',
-        tag: 'Resources',
-        title: 'Links & References Worth Keeping',
-        body: `Collected this week: Refactoring UI (book), Emil Kowalski's animations blog, Maggie Appleton's digital garden on mental models, and the Nielsen Norman Group's heuristic evaluation checklist. Filed under "return to when stuck."`,
+        id: 'readme', tab: 'README',
+        date: 'Spring 2025', tag: 'Intro',
+        heading: 'Saumya — DTU Interaction Design',
+        samu: `Welcome to <strong>Journal OS</strong> — my personal experimentation log for the semester. This is a design artifact and a journal simultaneously.\n\nFive folders, each mapping to a dimension of the semester: Professional, Physical, Social, Emotional, and Class Notes. Each window holds my own entries (Saumya) and, where relevant, observations about my buddy <strong>Khushi</strong> — accessible via the tab toggle.\n\n<em>Double-click any folder to open it. Windows are draggable and resizable. Right-click the desktop for options.</em>\n\nBuilt with vanilla HTML/CSS/JS. Design reference from Figma. Hosted on GitHub Pages.`,
+        khushi: null,
       },
     ],
   },
 };
 
-// ─────────────────────────────────────────
+// ═══════════════════════════════════════════
 // STATE
-// ─────────────────────────────────────────
-const openWindows = {};
-let zCounter = 100;
+// ═══════════════════════════════════════════
+const wins = {};
+let zTop = 100;
 
-// ─────────────────────────────────────────
-// BOOT
-// ─────────────────────────────────────────
-window.addEventListener('DOMContentLoaded', () => {
-  setTimeout(() => {
-    document.getElementById('boot-screen').classList.add('hidden');
-  }, 2200);
-  updateClock();
-  setInterval(updateClock, 1000);
-});
-
-function updateClock() {
-  const now = new Date();
-  const opts = { weekday:'short', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit', hour12: false };
-  document.getElementById('menubar-clock').textContent = now.toLocaleString('en-GB', opts);
+// ═══════════════════════════════════════════
+// CLOCK
+// ═══════════════════════════════════════════
+function tick() {
+  const n = new Date();
+  document.getElementById('clock').textContent =
+    String(n.getHours()).padStart(2,'0') + ':' + String(n.getMinutes()).padStart(2,'0');
 }
+tick(); setInterval(tick, 10000);
 
-// ─────────────────────────────────────────
-// ICON SELECTION
-// ─────────────────────────────────────────
-function selectIcon(el) {
-  document.querySelectorAll('.desk-icon').forEach(d => d.classList.remove('selected'));
-  el.classList.add('selected');
-}
-document.getElementById('desktop').addEventListener('click', e => {
-  if (e.target === document.getElementById('desktop') || e.target.classList.contains('desktop-icons')) {
-    document.querySelectorAll('.desk-icon').forEach(d => d.classList.remove('selected'));
+// ═══════════════════════════════════════════
+// OPEN WINDOW
+// ═══════════════════════════════════════════
+function openWin(id) {
+  if (wins[id]) {
+    wins[id].el.classList.remove('minimized');
+    focusWin(id); return;
   }
-});
-
-// ─────────────────────────────────────────
-// WINDOW MANAGEMENT
-// ─────────────────────────────────────────
-function openWindow(sectionId) {
-  if (openWindows[sectionId]) {
-    const win = openWindows[sectionId].el;
-    if (win.classList.contains('minimized')) {
-      win.classList.remove('minimized');
-      updateTaskbar();
-    }
-    focusWindow(sectionId);
-    return;
-  }
-
-  const section = sections[sectionId];
-  const desktop = document.getElementById('desktop');
-  const rect = desktop.getBoundingClientRect();
-
+  const sec = SEC[id];
+  const off = Object.keys(wins).length;
   const win = document.createElement('div');
-  win.className = 'os-window focused animating-in';
-  win.style.width = '680px';
-  win.style.height = '480px';
-  win.style.left = (80 + Object.keys(openWindows).length * 28) + 'px';
-  win.style.top = (40 + Object.keys(openWindows).length * 24) + 'px';
-  win.style.zIndex = ++zCounter;
+  win.className = 'os-window win-open-anim';
+  win.style.cssText = `width:700px;height:520px;left:${55+off*28}px;top:${28+off*22}px;z-index:${++zTop}`;
 
-  // Sidebar items
-  const sidebarItems = section.entries.map((e, i) => `
-    <div class="sidebar-item ${i===0?'active':''}" onclick="showEntry('${sectionId}','${e.id}',this)" data-id="${e.id}">
-      <div class="sidebar-dot" style="background:${section.color};opacity:0.7;"></div>
-      ${e.title.length > 22 ? e.title.slice(0,22)+'…' : e.title}
-    </div>
-  `).join('');
+  const firstId = sec.entries[0].id;
+  const sidebarHTML = sec.entries.map(e => `
+    <div class="sb-item ${e.id===firstId?'active':''}"
+         data-entry="${e.id}"
+         onclick="loadEntry('${id}','${e.id}')">
+      <span class="fi">${sec.icon}</span>${e.tab}
+    </div>`).join('');
 
   win.innerHTML = `
-    <div class="win-titlebar" style="background:linear-gradient(135deg,${section.color}22,${section.colorDark}18);">
-      <div class="win-controls">
-        <button class="win-btn win-btn-close" onclick="closeWindow('${sectionId}')">
-          <svg viewBox="0 0 7 7" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L6 6M6 1L1 6" stroke="#7a1a0a" stroke-width="1.2" stroke-linecap="round"/></svg>
-        </button>
-        <button class="win-btn win-btn-min" onclick="minimizeWindow('${sectionId}')">
-          <svg viewBox="0 0 7 7" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="1" y1="3.5" x2="6" y2="3.5" stroke="#7a5f00" stroke-width="1.2" stroke-linecap="round"/></svg>
-        </button>
-        <button class="win-btn win-btn-max" onclick="maximizeWindow('${sectionId}')">
-          <svg viewBox="0 0 7 7" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="1" width="5" height="5" rx="0.8" stroke="#0a520a" stroke-width="1.1"/></svg>
-        </button>
+    <div class="win-tb">
+      <div class="win-tb-inner" id="tb-inner-${id}">
+        <span class="win-tb-title">${sec.icon} ${sec.label}</span>
+        <div class="win-ctrls">
+          <button class="wc-btn" onclick="minWin('${id}')">─</button>
+          <button class="wc-btn" onclick="maxWin('${id}')">□</button>
+          <button class="wc-btn" onclick="closeWin('${id}')">✕</button>
+        </div>
       </div>
-      <div class="win-title">${section.icon} ${section.label}</div>
+    </div>
+    <div class="win-bar">
+      <button class="bar-btn" onclick="closeWin('${id}')">← Back</button>
+      <button class="bar-btn">File</button>
+      <button class="bar-btn">View</button>
     </div>
     <div class="win-body">
-      <div class="win-sidebar">
-        <div class="sidebar-section">Entries</div>
-        ${sidebarItems}
-        <div class="sidebar-section" style="margin-top:auto;">Info</div>
-        <div class="sidebar-item" style="pointer-events:none;opacity:0.5;">${section.entries.length} entries</div>
+      <div class="win-sb" id="sb-${id}">
+        <div class="sb-section">Entries</div>
+        ${sidebarHTML}
       </div>
-      <div class="win-content" id="content-${sectionId}">
-        ${renderEntry(sectionId, section.entries[0].id)}
-      </div>
+      <div class="win-ct" id="ct-${id}"></div>
     </div>
-    <div class="win-statusbar">
-      <span class="status-item">${section.label}</span>
-      <span class="status-item">${section.entries.length} items</span>
-      <span class="status-item" style="margin-left:auto;">Journal OS v1.0</span>
+    <div class="win-status">
+      <div class="status-pane">${sec.entries.length} item${sec.entries.length>1?'s':''}</div>
+      <div class="status-pane">Journal OS</div>
     </div>
     <div class="win-resize"></div>
   `;
 
-  desktop.appendChild(win);
-  openWindows[sectionId] = { el: win, section };
+  document.getElementById('desktop').appendChild(win);
+  wins[id] = { el: win };
+  win.addEventListener('mousedown', () => focusWin(id));
+  makeDrag(win, win.querySelector('.win-tb'));
+  makeResize(win, win.querySelector('.win-resize'));
+  setTimeout(() => win.classList.remove('win-open-anim'), 200);
 
-  win.addEventListener('mousedown', () => focusWindow(sectionId));
-  makeDraggable(win, win.querySelector('.win-titlebar'));
-  makeResizable(win, win.querySelector('.win-resize'));
-
-  setTimeout(() => win.classList.remove('animating-in'), 300);
-  updateTaskbar();
-  defocusAll();
-  win.classList.add('focused');
+  loadEntry(id, firstId);
+  updateTB();
 }
 
-function renderEntry(sectionId, entryId) {
-  const section = sections[sectionId];
-  const entry = section.entries.find(e => e.id === entryId);
-  if (!entry) return '';
-  return `
-    <div style="margin-bottom:6px;">
-      <div class="entry-header">
-        <span class="entry-date">${entry.date}</span>
-        <span class="entry-tag" style="background:${section.color}20;color:${section.colorDark};">${entry.tag}</span>
-      </div>
-      <div class="entry-title">${entry.title}</div>
-      <div class="entry-body">${entry.body}</div>
-    </div>
-    <div class="entry-divider"></div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;">
-      ${section.entries.filter(e=>e.id!==entryId).map(e=>`
-        <div onclick="showEntryById('${sectionId}','${e.id}')" style="cursor:pointer;padding:8px 12px;background:rgba(0,0,0,0.03);border:1px solid rgba(0,0,0,0.06);border-radius:6px;flex:1;min-width:140px;">
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(15,25,35,0.38);margin-bottom:3px;">${e.date}</div>
-          <div style="font-family:'DM Serif Display',serif;font-size:13px;color:#0f1923;line-height:1.3;">${e.title}</div>
-        </div>
-      `).join('')}
-    </div>
-  `;
+// ═══════════════════════════════════════════
+// LOAD ENTRY INTO CONTENT PANE
+// ═══════════════════════════════════════════
+function loadEntry(secId, entryId) {
+  const sec = SEC[secId];
+  const e   = sec.entries.find(x => x.id === entryId);
+  if (!e) return;
+
+  // Update sidebar highlight
+  const sb = document.getElementById('sb-' + secId);
+  if (sb) sb.querySelectorAll('.sb-item').forEach(el =>
+    el.classList.toggle('active', el.dataset.entry === entryId));
+
+  const ct = document.getElementById('ct-' + secId);
+  if (!ct) return;
+
+  const hasBuddy = !!e.khushi;
+  const samuBody = fmt(e.samu || '');
+  const khushiBody = hasBuddy ? fmt(e.khushi) : '';
+
+  const tabs = hasBuddy ? `
+    <div class="tabs-strip">
+      <button class="tab-btn active" id="t-s-${secId}-${entryId}"
+        onclick="switchTab('${secId}','${entryId}','samu')">My Journal</button>
+      <button class="tab-btn" id="t-k-${secId}-${entryId}"
+        onclick="switchTab('${secId}','${entryId}','khushi')">💜 Khushi</button>
+    </div>` : '';
+
+  ct.innerHTML = `
+    ${tabs}
+    <div class="entry-area">
+      <div class="entry-date">${e.date}</div>
+      <div class="entry-heading">${e.heading}</div>
+      <span class="entry-tag">${e.tag}</span>
+      <div class="divider"></div>
+      <div id="pane-s-${secId}-${entryId}" class="entry-body">${samuBody}</div>
+      ${hasBuddy ? `
+        <div id="pane-k-${secId}-${entryId}" class="buddy-box" style="display:none;">
+          <div class="buddy-label">Khushi — Buddy Entry</div>
+          <div class="buddy-body">${khushiBody}</div>
+        </div>` : ''}
+    </div>`;
 }
 
-function showEntry(sectionId, entryId, el) {
-  document.querySelectorAll(`#win-${sectionId} .sidebar-item`).forEach(i=>i.classList.remove('active'));
-  if (el) {
-    el.classList.add('active');
-    // also update via container
-    el.closest('.win-body').querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active'));
-    el.classList.add('active');
-  }
-  const content = document.getElementById('content-' + sectionId);
-  if (content) {
-    content.style.opacity = '0';
-    setTimeout(() => {
-      content.innerHTML = renderEntry(sectionId, entryId);
-      content.style.opacity = '1';
-      content.style.transition = 'opacity 0.2s';
-    }, 80);
-  }
+function fmt(str) {
+  return (str || '').replace(/\n/g, '<br><br>');
 }
 
-function showEntryById(sectionId, entryId) {
-  const win = openWindows[sectionId]?.el;
-  if (!win) return;
-  win.querySelectorAll('.sidebar-item').forEach(i => {
-    i.classList.toggle('active', i.dataset.id === entryId);
-  });
-  const content = document.getElementById('content-' + sectionId);
-  if (content) {
-    content.style.opacity = '0';
-    setTimeout(() => {
-      content.innerHTML = renderEntry(sectionId, entryId);
-      content.style.transition = 'opacity 0.2s';
-      content.style.opacity = '1';
-    }, 80);
-  }
-}
-
-function closeWindow(sectionId) {
-  if (!openWindows[sectionId]) return;
-  const win = openWindows[sectionId].el;
-  win.style.transition = 'opacity 0.15s, transform 0.15s';
-  win.style.opacity = '0';
-  win.style.transform = 'scale(0.94)';
-  setTimeout(() => {
-    win.remove();
-    delete openWindows[sectionId];
-    updateTaskbar();
-  }, 150);
-}
-
-function minimizeWindow(sectionId) {
-  openWindows[sectionId].el.classList.toggle('minimized');
-  updateTaskbar();
-}
-
-function maximizeWindow(sectionId) {
-  const win = openWindows[sectionId].el;
-  if (win.dataset.maximized) {
-    win.style.left = win.dataset.ox;
-    win.style.top = win.dataset.oy;
-    win.style.width = win.dataset.ow;
-    win.style.height = win.dataset.oh;
-    delete win.dataset.maximized;
+function switchTab(secId, entryId, which) {
+  const ts = document.getElementById(`t-s-${secId}-${entryId}`);
+  const tk = document.getElementById(`t-k-${secId}-${entryId}`);
+  const ps = document.getElementById(`pane-s-${secId}-${entryId}`);
+  const pk = document.getElementById(`pane-k-${secId}-${entryId}`);
+  if (which === 'samu') {
+    ts && ts.classList.add('active');
+    tk && tk.classList.remove('active');
+    ps && (ps.style.display = '');
+    pk && (pk.style.display = 'none');
   } else {
-    win.dataset.ox = win.style.left;
-    win.dataset.oy = win.style.top;
-    win.dataset.ow = win.style.width;
-    win.dataset.oh = win.style.height;
-    win.style.left = '0';
-    win.style.top = '0';
-    win.style.width = '100%';
-    win.style.height = '100%';
-    win.dataset.maximized = '1';
+    tk && tk.classList.add('active');
+    ts && ts.classList.remove('active');
+    pk && (pk.style.display = '');
+    ps && (ps.style.display = 'none');
   }
 }
 
-function focusWindow(sectionId) {
-  defocusAll();
-  if (openWindows[sectionId]) {
-    openWindows[sectionId].el.classList.add('focused');
-    openWindows[sectionId].el.style.zIndex = ++zCounter;
+// ═══════════════════════════════════════════
+// WINDOW CONTROLS
+// ═══════════════════════════════════════════
+function closeWin(id) {
+  if (!wins[id]) return;
+  const el = wins[id].el;
+  el.style.transition = 'opacity .12s, transform .12s';
+  el.style.opacity = '0'; el.style.transform = 'scale(0.9)';
+  setTimeout(() => { el.remove(); delete wins[id]; updateTB(); }, 130);
+}
+function minWin(id) {
+  wins[id]?.el.classList.toggle('minimized');
+  updateTB();
+}
+function maxWin(id) {
+  const w = wins[id]?.el; if (!w) return;
+  if (w.dataset.mx) {
+    w.style.left = w.dataset.ox; w.style.top = w.dataset.oy;
+    w.style.width = w.dataset.ow; w.style.height = w.dataset.oh;
+    delete w.dataset.mx;
+  } else {
+    w.dataset.ox = w.style.left; w.dataset.oy = w.style.top;
+    w.dataset.ow = w.style.width; w.dataset.oh = w.style.height;
+    w.style.left='0'; w.style.top='0'; w.style.width='100%'; w.style.height='100%';
+    w.dataset.mx = '1';
   }
-  updateTaskbar();
 }
-
-function defocusAll() {
-  Object.values(openWindows).forEach(w => w.el.classList.remove('focused'));
-}
-
-function openAllWindows() {
-  Object.keys(sections).forEach((k, i) => setTimeout(() => openWindow(k), i * 100));
-}
-
-function closeAllWindows() {
-  Object.keys(openWindows).forEach(k => closeWindow(k));
-}
-
-function arrangeWindows() {
-  const keys = Object.keys(openWindows);
-  const cols = Math.ceil(Math.sqrt(keys.length));
-  const desktop = document.getElementById('desktop');
-  const W = desktop.clientWidth;
-  const H = desktop.clientHeight;
-  const ww = Math.floor(W / cols) - 16;
-  const wh = Math.floor(H / Math.ceil(keys.length / cols)) - 16;
-  keys.forEach((k, i) => {
-    const win = openWindows[k].el;
-    win.classList.remove('minimized');
-    const col = i % cols;
-    const row = Math.floor(i / cols);
-    win.style.left = (col * (ww + 16) + 8) + 'px';
-    win.style.top = (row * (wh + 16) + 8) + 'px';
-    win.style.width = ww + 'px';
-    win.style.height = wh + 'px';
+function focusWin(id) {
+  Object.entries(wins).forEach(([k, v]) => {
+    const inner = v.el.querySelector('.win-tb-inner');
+    if (inner) inner.style.background = k === id ? '#dd6adf' : '#b8a0ba';
   });
-  updateTaskbar();
+  if (wins[id]) wins[id].el.style.zIndex = ++zTop;
+  updateTB();
+}
+function openAllWins()  { Object.keys(SEC).forEach((k,i) => setTimeout(() => openWin(k), i*80)); }
+function closeAllWins() { Object.keys(wins).forEach(closeWin); }
+function tileWins() {
+  const ks = Object.keys(wins); if (!ks.length) return;
+  const cols = Math.ceil(Math.sqrt(ks.length));
+  const rows = Math.ceil(ks.length / cols);
+  const dw = document.getElementById('desktop').clientWidth;
+  const dh = document.getElementById('desktop').clientHeight;
+  ks.forEach((k,i) => {
+    const w = wins[k].el;
+    w.classList.remove('minimized');
+    w.style.left   = ((i%cols) * Math.floor(dw/cols)) + 'px';
+    w.style.top    = (Math.floor(i/cols) * Math.floor(dh/rows)) + 'px';
+    w.style.width  = Math.floor(dw/cols) + 'px';
+    w.style.height = Math.floor(dh/rows) + 'px';
+    delete w.dataset.mx;
+  });
 }
 
-// ─────────────────────────────────────────
+// ═══════════════════════════════════════════
 // TASKBAR
-// ─────────────────────────────────────────
-function updateTaskbar() {
-  const bar = document.getElementById('taskbar-apps');
+// ═══════════════════════════════════════════
+function updateTB() {
+  const bar = document.getElementById('tbApps');
   bar.innerHTML = '';
-  Object.entries(openWindows).forEach(([id, data]) => {
-    const sec = sections[id];
+  Object.entries(wins).forEach(([id, rec]) => {
+    const sec = SEC[id];
+    const icon = sec ? sec.icon : '📅';
+    const label = sec ? sec.label : 'My Dates';
+    const focused = +rec.el.style.zIndex === zTop;
     const btn = document.createElement('div');
-    btn.className = 'taskbar-btn' + (data.el.classList.contains('focused') ? ' active' : '');
-    btn.innerHTML = `<div class="dot" style="background:${sec.color};"></div>${sec.icon} ${sec.label}`;
+    btn.className = 'tb-btn' + (focused ? ' active' : '');
+    btn.innerHTML = `<span class="fi">${icon}</span>${label}`;
     btn.onclick = () => {
-      if (data.el.classList.contains('minimized')) {
-        data.el.classList.remove('minimized');
-        focusWindow(id);
-      } else if (data.el.classList.contains('focused')) {
-        minimizeWindow(id);
-      } else {
-        focusWindow(id);
-      }
+      if (rec.el.classList.contains('minimized')) { rec.el.classList.remove('minimized'); focusWin(id); }
+      else if (focused) minWin(id);
+      else focusWin(id);
     };
     bar.appendChild(btn);
   });
 }
 
-// ─────────────────────────────────────────
-// DRAGGING
-// ─────────────────────────────────────────
-function makeDraggable(win, handle) {
-  let startX, startY, startLeft, startTop;
+// ═══════════════════════════════════════════
+// DRAG
+// ═══════════════════════════════════════════
+function makeDrag(win, handle) {
+  let sx, sy, sl, st;
   handle.addEventListener('mousedown', e => {
-    if (e.target.classList.contains('win-btn')) return;
-    startX = e.clientX;
-    startY = e.clientY;
-    startLeft = parseInt(win.style.left) || 0;
-    startTop = parseInt(win.style.top) || 0;
-    document.addEventListener('mousemove', onDrag);
-    document.addEventListener('mouseup', stopDrag, {once:true});
+    if (e.target.closest('.win-ctrls') || win.dataset.mx) return;
+    sx = e.clientX; sy = e.clientY;
+    sl = parseInt(win.style.left)||0; st = parseInt(win.style.top)||0;
+    const mv = e2 => {
+      win.style.left = Math.max(0, sl + e2.clientX - sx) + 'px';
+      win.style.top  = Math.max(0, st + e2.clientY - sy) + 'px';
+    };
+    document.addEventListener('mousemove', mv);
+    document.addEventListener('mouseup', () => document.removeEventListener('mousemove', mv), {once:true});
   });
-  function onDrag(e) {
-    if (win.dataset.maximized) return;
-    win.style.left = Math.max(0, startLeft + e.clientX - startX) + 'px';
-    win.style.top = Math.max(0, startTop + e.clientY - startY) + 'px';
-  }
-  function stopDrag() {
-    document.removeEventListener('mousemove', onDrag);
-  }
 }
 
-// ─────────────────────────────────────────
-// RESIZING
-// ─────────────────────────────────────────
-function makeResizable(win, handle) {
+// ═══════════════════════════════════════════
+// RESIZE
+// ═══════════════════════════════════════════
+function makeResize(win, handle) {
   handle.addEventListener('mousedown', e => {
     e.stopPropagation();
-    const startX = e.clientX, startY = e.clientY;
-    const startW = win.offsetWidth, startH = win.offsetHeight;
-    function onResize(e) {
-      win.style.width = Math.max(380, startW + e.clientX - startX) + 'px';
-      win.style.height = Math.max(260, startH + e.clientY - startY) + 'px';
-    }
-    document.addEventListener('mousemove', onResize);
-    document.addEventListener('mouseup', () => document.removeEventListener('mousemove', onResize), {once:true});
+    const sx = e.clientX, sy = e.clientY;
+    const sw = win.offsetWidth, sh = win.offsetHeight;
+    const mv = e2 => {
+      win.style.width  = Math.max(340, sw + e2.clientX - sx) + 'px';
+      win.style.height = Math.max(220, sh + e2.clientY - sy) + 'px';
+    };
+    document.addEventListener('mousemove', mv);
+    document.addEventListener('mouseup', () => document.removeEventListener('mousemove', mv), {once:true});
   });
 }
 
-// ─────────────────────────────────────────
-// CONTEXT MENU
-// ─────────────────────────────────────────
-document.getElementById('desktop').addEventListener('contextmenu', e => {
-  e.preventDefault();
-  const menu = document.getElementById('ctx-menu');
-  menu.style.display = 'block';
-  menu.style.left = e.clientX + 'px';
-  menu.style.top = e.clientY + 'px';
-});
-document.addEventListener('click', hideCtx);
-function hideCtx() {
-  document.getElementById('ctx-menu').style.display = 'none';
+// ═══════════════════════════════════════════
+// DRAGGABLE DESKTOP ICONS
+// ═══════════════════════════════════════════
+function selIcon(el) {
+  document.querySelectorAll('.desk-icon').forEach(d => d.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function clearSel(e) {
+  if (!e.target.closest('.desk-icon'))
+    document.querySelectorAll('.desk-icon').forEach(d => d.classList.remove('selected'));
 }
 
-// Keyboard shortcut: Escape to deselect
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    document.querySelectorAll('.desk-icon').forEach(d => d.classList.remove('selected'));
-    hideCtx();
+function makeIconDraggable(icon) {
+  let dragging = false;
+  let moved = false;
+  let sx, sy, sl, st;
+
+  icon.addEventListener('mousedown', e => {
+    if (e.button !== 0) return;
+    moved = false; dragging = false;
+    sx = e.clientX; sy = e.clientY;
+    sl = parseInt(icon.style.left) || 0;
+    st = parseInt(icon.style.top)  || 0;
+    selIcon(icon);
+
+    const onMove = e2 => {
+      const dx = e2.clientX - sx;
+      const dy = e2.clientY - sy;
+      if (Math.hypot(dx, dy) < 6) return; // threshold before drag starts
+      if (!dragging) {
+        dragging = true;
+        moved = true;
+        icon.classList.add('dragging');
+        icon.style.zIndex = 8000;
+      }
+      const desk = document.getElementById('desktop');
+      icon.style.left = Math.max(0, Math.min(desk.clientWidth  - icon.offsetWidth,  sl + dx)) + 'px';
+      icon.style.top  = Math.max(0, Math.min(desk.clientHeight - icon.offsetHeight, st + dy)) + 'px';
+    };
+
+    const onUp = () => {
+      if (dragging) {
+        icon.classList.remove('dragging');
+        icon.style.zIndex = '';
+        dragging = false;
+      }
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+    };
+
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  });
+
+  // Block dblclick ONLY when a real drag happened
+  icon.addEventListener('dblclick', e => {
+    if (moved) { moved = false; e.stopPropagation(); e.preventDefault(); }
+  });
+}
+
+document.querySelectorAll('.desk-icon').forEach(makeIconDraggable);
+
+// ═══════════════════════════════════════════
+// CONTEXT MENU
+// ═══════════════════════════════════════════
+function showCtx(e) {
+  e.preventDefault();
+  const m = document.getElementById('ctx-menu');
+  m.style.display = 'block';
+  m.style.left = e.clientX + 'px'; m.style.top = e.clientY + 'px';
+}
+function hideCtx() { document.getElementById('ctx-menu').style.display = 'none'; }
+// ═══════════════════════════════════════════
+// COLOUR SLIDER
+// ═══════════════════════════════════════════
+function applyHue(h) {
+  const pink     = `hsl(${h}, 70%, 65%)`;
+  const pinkDark = `hsl(${h}, 60%, 50%)`;
+  const pinkInact= `hsl(${h}, 25%, 65%)`;
+  const root = document.documentElement.style;
+  root.setProperty('--pink',         pink);
+  root.setProperty('--pink-dark',    pinkDark);
+  root.setProperty('--pink-inactive',pinkInact);
+
+  // Update all live titlebar backgrounds
+  document.querySelectorAll('.win-tb-inner:not(.inactive)').forEach(el => el.style.background = pink);
+  document.querySelectorAll('.cw-tb').forEach(el => el.style.background = pink);
+  document.getElementById('taskbar').style.background = pink;
+
+  // Swatch
+  document.getElementById('cw-swatch').style.background = pink;
+}
+
+const hueSlider = document.getElementById('hue-slider');
+applyHue(hueSlider.value); // init
+hueSlider.addEventListener('input', e => applyHue(e.target.value));
+
+// Make colour widget draggable
+makeDrag(document.getElementById('colour-widget'), document.getElementById('cw-tb'));
+
+// ═══════════════════════════════════════════
+// CALENDAR
+// ═══════════════════════════════════════════
+// Marked dates: key = "YYYY-MM-DD", value = note string
+const markedDates = {};
+
+// Preset important dates
+const PRESET = {
+  '2026-01-05': 'Assignment begins',
+  '2026-01-12': 'First journal entry',
+  '2026-01-20': 'Figma auto-layout breakthrough',
+  '2026-02-03': 'Badminton habit started',
+  '2026-02-14': 'Orbit of 3 realisation',
+  '2026-02-28': 'Waves on the Shore meditation',
+  '2026-03-10': 'Physical rating hits 5/5',
+  '2026-03-22': 'Social: new friends on trip',
+  '2026-04-01': 'Khushi difficult month begins',
+  '2026-04-15': 'Mind Creates Emotions insight',
+  '2026-04-25': 'Assignment wraps up!',
+};
+Object.assign(markedDates, PRESET);
+
+let calSelectedKey = null;  // currently clicked day key
+
+function openCalendar() {
+  const id = '__calendar__';
+  if (wins[id]) { wins[id].el.classList.remove('minimized'); focusWin(id); return; }
+
+  const off = Object.keys(wins).length;
+  const win = document.createElement('div');
+  win.className = 'os-window win-open-anim';
+  win.style.cssText = `width:900px;height:480px;left:${80+off*28}px;top:${40+off*22}px;z-index:${++zTop}`;
+
+  win.innerHTML = `
+    <div class="win-tb">
+      <div class="win-tb-inner" id="tb-inner-${id}">
+        <span class="win-tb-title">📅 My Dates — Jan → Apr 2026</span>
+        <div class="win-ctrls">
+          <button class="wc-btn" onclick="minWin('${id}')">─</button>
+          <button class="wc-btn" onclick="maxWin('${id}')">□</button>
+          <button class="wc-btn" onclick="closeWin('${id}')">✕</button>
+        </div>
+      </div>
+    </div>
+    <div class="cal-shell">
+      <div class="cal-months" id="cal-months"></div>
+      <div class="cal-notebar">
+        <span class="cal-selected-info" id="cal-sel-info">Click a date to select it</span>
+        <input type="text" id="cal-note-input" placeholder="Add a note…" disabled />
+        <button onclick="saveCalNote('${id}')">Mark</button>
+        <button onclick="clearCalNote('${id}')">Clear</button>
+      </div>
+    </div>
+    <div class="win-status">
+      <div class="status-pane">${Object.keys(markedDates).length} marked dates</div>
+      <div class="status-pane">Jan – Apr 2026</div>
+    </div>
+    <div class="win-resize"></div>
+  `;
+
+  document.getElementById('desktop').appendChild(win);
+  wins[id] = { el: win };
+  win.addEventListener('mousedown', () => focusWin(id));
+  makeDrag(win, win.querySelector('.win-tb'));
+  makeResize(win, win.querySelector('.win-resize'));
+  setTimeout(() => win.classList.remove('win-open-anim'), 200);
+
+  renderCalendar(id);
+  updateTB();
+}
+
+function renderCalendar(id) {
+  const container = document.getElementById('cal-months');
+  if (!container) return;
+  container.innerHTML = '';
+
+  const months = [
+    { year: 2026, month: 0, label: 'January 2026' },
+    { year: 2026, month: 1, label: 'February 2026' },
+    { year: 2026, month: 2, label: 'March 2026' },
+    { year: 2026, month: 3, label: 'April 2026' },
+  ];
+  const today = new Date();
+  const DOW = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+
+  months.forEach(({ year, month, label }) => {
+    const col = document.createElement('div');
+    col.className = 'cal-month';
+
+    const header = document.createElement('div');
+    header.className = 'cal-month-header';
+    header.textContent = label;
+
+    const dowRow = document.createElement('div');
+    dowRow.className = 'cal-dow-row';
+    DOW.forEach(d => {
+      const cell = document.createElement('div');
+      cell.className = 'cal-dow';
+      cell.textContent = d;
+      dowRow.appendChild(cell);
+    });
+
+    const grid = document.createElement('div');
+    grid.className = 'cal-grid';
+
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    // Empty cells before day 1
+    for (let i = 0; i < firstDay; i++) {
+      const e = document.createElement('div');
+      e.className = 'cal-day empty';
+      grid.appendChild(e);
+    }
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const key = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const cell = document.createElement('div');
+      cell.className = 'cal-day';
+      cell.textContent = d;
+      cell.dataset.key = key;
+
+      // Today highlight
+      if (today.getFullYear()===year && today.getMonth()===month && today.getDate()===d)
+        cell.classList.add('today');
+
+      // Marked
+      if (markedDates[key]) {
+        cell.classList.add('marked');
+        const tip = document.createElement('div');
+        tip.className = 'cal-tip';
+        tip.textContent = markedDates[key];
+        cell.appendChild(tip);
+      }
+
+      cell.addEventListener('click', () => selectCalDay(id, key, cell));
+      grid.appendChild(cell);
+    }
+
+    col.appendChild(header);
+    col.appendChild(dowRow);
+    col.appendChild(grid);
+    container.appendChild(col);
+  });
+}
+
+function selectCalDay(id, key, cell) {
+  // Deselect previous
+  document.querySelectorAll('.cal-day.selected-day').forEach(el => el.classList.remove('selected-day'));
+  calSelectedKey = key;
+  cell.classList.add('selected-day');
+
+  const info = document.getElementById('cal-sel-info');
+  const input = document.getElementById('cal-note-input');
+  if (info) info.textContent = key;
+  if (input) {
+    input.disabled = false;
+    input.value = markedDates[key] || '';
+    input.focus();
   }
-});
+}
+
+function saveCalNote(id) {
+  if (!calSelectedKey) return;
+  const input = document.getElementById('cal-note-input');
+  const note = input ? input.value.trim() : '';
+  if (note) {
+    markedDates[calSelectedKey] = note;
+  } else {
+    delete markedDates[calSelectedKey];
+  }
+  renderCalendar(id);
+  updateCalStatus(id);
+}
+
+function clearCalNote(id) {
+  if (!calSelectedKey) return;
+  delete markedDates[calSelectedKey];
+  const input = document.getElementById('cal-note-input');
+  if (input) input.value = '';
+  renderCalendar(id);
+  updateCalStatus(id);
+}
+
+function updateCalStatus(id) {
+  const bar = wins[id]?.el?.querySelector('.win-status .status-pane');
+  if (bar) bar.textContent = Object.keys(markedDates).length + ' marked dates';
+}
+
+// Calendar icon drag handled by makeIconDraggable above
+
 </script>
 </body>
 </html>
