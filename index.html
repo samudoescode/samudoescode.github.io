@@ -12,7 +12,7 @@
       --bg:     #c7cc8d;   /* surface: warm olive (reference)     */
       --accent: #7b004f;   /* accent: deep magenta (reference)    */
       --cream:  #eceecf;   /* desktop grid background             */
-      --cursor-custom: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 32 32' shape-rendering='crispEdges'%3E%3Cpath d='M2 1 L2 23 L8 17 L13 30 L17 28 L12 16 L21 16 Z' fill='%23ffffff' stroke='%23000000' stroke-width='2' stroke-linejoin='miter'/%3E%3C/svg%3E") 6 4;
+      --cursor-custom: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 24 24' shape-rendering='crispEdges'%3E%3Cpath d='M1 1H3V13H5V11H7V9H9V11H11V13H13V15H11V17H13V19H11V21H13V23H15V21H17V19H15V17H17V15H15V13H13V11H11V9H9V7H7V5H5V3H3V1Z' fill='%23ffffff'/%3E%3Cpath d='M1 0H4V2H6V4H8V6H10V8H12V10H14V12H16V14H14V16H16V18H14V20H16V22H14V24H11V22H9V20H11V18H9V16H11V14H9V12H7V10H5V12H3V14H0V0H1ZM2 2V12H3V10H7V12H9V14H11V16H9V18H11V20H9V22H11V23H13V22H15V21H14V20H13V18H14V16H13V14H14V12H12V10H10V8H8V6H6V4H4V2H2Z' fill='%23000000'/%3E%3C/svg%3E") 2 2;
       --g0:     #ffffff;
       --g1:     #dfdfdf;
       --g2:     #c7d8c6;   /* keep --g2 alias for legacy refs     */
@@ -36,7 +36,7 @@
       cursor: var(--cursor-custom), default;
       user-select: none;
     }
-    a, button, .desk-icon, .tb-btn, .start-btn, .bar-btn, .wc-btn, .sb-item, .ctx-i, .cal-day, .win-resize, #hue-slider {
+    a, button, .desk-icon, .tb-btn, .start-btn, .bar-btn, .wc-btn, .sb-item, .ctx-i, .cal-day, .win-resize {
       cursor: var(--cursor-custom), pointer !important;
     }
 
@@ -602,12 +602,8 @@
   <div class="tb-divider"></div>
   <div class="palette-strip">
     <span class="pal-label">Theme</span>
-    <div class="pal-swatch active" data-bg="#c7cc8d" data-accent="#7b004f" title="Olive Magenta" style="background:#c7cc8d;"></div>
-    <div class="pal-swatch"        data-bg="#c8cc78" data-accent="#5a6818" title="Olive"  style="background:#c8cc78;"></div>
-    <div class="pal-swatch"        data-bg="#5c1030" data-accent="#e890b0" title="Wine"   style="background:#5c1030;"></div>
-    <div class="pal-swatch"        data-bg="#f2c3b9" data-accent="#1e207a" title="Blush"  style="background:#f2c3b9;"></div>
-    <div class="pal-swatch"        data-bg="#d4b0c0" data-accent="#2a2870" title="Mauve"  style="background:#d4b0c0;"></div>
-    <input type="range" id="hue-slider" min="0" max="360" value="321" style="width:80px;" />
+    <div class="pal-swatch active" data-bg="#c7cc8d" data-accent="#7b004f" title="Paired (Olive + Magenta)" style="background:#c7cc8d;"></div>
+    <div class="pal-swatch" data-bg="#7b004f" data-accent="#c7cc8d" title="Paired Inverted (Magenta + Olive)" style="background:#7b004f;"></div>
   </div>
   <div class="tb-clock" id="clock">00:00</div>
 </div>
@@ -1108,18 +1104,7 @@ function applyPalette(bgHex, accentHex) {
     .cal-nav-btn       {background:${bgHex}!important;color:${accentHex}!important}
   `;
 
-  // Sync slider to accent hue
-  const[h]=hexToHsl(accentHex);
-  hueSlider.value=Math.round(h);
 }
-
-const hueSlider = document.getElementById('hue-slider');
-
-hueSlider.addEventListener('input', e=>{
-  const[,s,l]=hexToHsl(currentAccent);
-  applyPalette(currentBg, hslToHex(Number(e.target.value), Math.max(50,s), Math.max(28,Math.min(62,l))));
-  document.querySelectorAll('.pal-swatch').forEach(s=>s.classList.remove('active'));
-});
 
 document.querySelectorAll('.pal-swatch').forEach(sw=>{
   sw.addEventListener('click',()=>{
