@@ -9,9 +9,9 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:     #c7cc8d;   /* surface: taskbar, windows, titlebar */
-      --accent: #7b004f;   /* accent:  text, button bg, icons     */
-      --cream:  #eceecf;   /* desktop grid background             */
+      --bg:     #b8d2ea;   /* surface: taskbar, windows, titlebar */
+      --accent: #f27a1a;   /* accent:  text, button bg, icons     */
+      --cream:  #eef4dc;   /* desktop grid background             */
       --cursor-custom: url("file:///C:/Users/LENOVO/.cursor/projects/c-Users-LENOVO-Desktop-samudoescode-github-io/assets/c__Users_LENOVO_AppData_Roaming_Cursor_User_workspaceStorage_15ea55404aa38275418093e8b5fd0673_images_Cursors-f456efbd-5a63-4bb6-b65e-ad0abdabb49b.png") 2 2;
       --g0:     #ffffff;
       --g1:     #dfdfdf;
@@ -602,12 +602,13 @@
   <div class="tb-divider"></div>
   <div class="palette-strip">
     <span class="pal-label">Theme</span>
-    <div class="pal-swatch active" data-bg="#c7cc8d" data-accent="#7b004f" title="Olive + Magenta" style="background:#c7cc8d;"></div>
+    <div class="pal-swatch active" data-bg="#b8d2ea" data-accent="#f27a1a" title="Blue + Orange" style="background:#b8d2ea;"></div>
+    <div class="pal-swatch"        data-bg="#c7cc8d" data-accent="#7b004f" title="Olive + Magenta" style="background:#c7cc8d;"></div>
     <div class="pal-swatch"        data-bg="#7b004f" data-accent="#c7cc8d" title="Magenta + Olive (Inverted)" style="background:#7b004f;"></div>
     <div class="pal-swatch"        data-bg="#5c1030" data-accent="#e890b0" title="Wine"   style="background:#5c1030;"></div>
     <div class="pal-swatch"        data-bg="#f2c3b9" data-accent="#1e207a" title="Blush"  style="background:#f2c3b9;"></div>
     <div class="pal-swatch"        data-bg="#d4b0c0" data-accent="#2a2870" title="Mauve"  style="background:#d4b0c0;"></div>
-    <input type="range" id="hue-slider" min="0" max="360" value="321" style="width:80px;" />
+    <input type="range" id="hue-slider" min="0" max="360" value="27" style="width:80px;" />
   </div>
   <div class="tb-clock" id="clock">00:00</div>
 </div>
@@ -1036,8 +1037,8 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape') hideCtx(); });
 // ACCENT → all text, button backgrounds, icons
 // ═══════════════════════════════════════════
 
-let currentBg = '#c7cc8d';
-let currentAccent = '#7b004f';
+let currentBg = '#b8d2ea';
+let currentAccent = '#f27a1a';
 
 function hexToHsl(hex) {
   let r=parseInt(hex.slice(1,3),16)/255,g=parseInt(hex.slice(3,5),16)/255,b=parseInt(hex.slice(5,7),16)/255;
