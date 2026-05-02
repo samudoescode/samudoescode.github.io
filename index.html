@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -9,23 +9,21 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:     #c7d8c6;   /* surface: taskbar, windows, titlebar */
-      --accent: #f34e3c;   /* accent:  text, button bg, icons     */
-      --cream:  #f5f5db;   /* desktop grid background             */
-      --cursor-custom: url("file:///C:/Users/LENOVO/.cursor/projects/c-Users-LENOVO-Desktop-samudoescode-github-io/assets/c__Users_LENOVO_AppData_Roaming_Cursor_User_workspaceStorage_15ea55404aa38275418093e8b5fd0673_images_Cursors-f456efbd-5a63-4bb6-b65e-ad0abdabb49b.png") 2 2;
+      --bg:     #c7d8c6;
+      --accent: #f34e3c;
+      --cream:  #f5f5db;
+      --cursor-custom: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAQAAAAAYLlVAAAApUlEQVR4nO3TQQ6EIBBE0Y/h/lfuWchoxoiZxNDVi/pLNJF+IASBsE358XMDQoUaAkHIFGoIgE6hjgBoFGoJQL5CPQHIVagpAHkKdQUgR6G2AKxXkAv02YN2XYi7xffVEmjwe9gLJr4mF2j7JR/DDoI4HrJcQS7QIWfSWXKBdvt/J94DuUBXnf03ucB8/qR7IBfwBp5PNv5661VyAeecc84555xzH2YAMDCBc1xgAAAAAElFTkSuQmCC") 4 4;
       --g0:     #ffffff;
       --g1:     #dfdfdf;
-      --g2:     #c7d8c6;   /* keep --g2 alias for legacy refs     */
+      --g2:     #c7d8c6;
       --g3:     #808080;
       --g4:     #0a0a0a;
 
-      /* ── Shadow tokens ── */
       --shadow-window-outer: 4px 4px 0 rgba(0,0,0,0.4);
       --shadow-window-inner: inset -4px -4px 0 rgba(0,0,0,0.4);
       --shadow-raised: inset -2px -2px 0 rgba(0,0,0,0.4), inset 2px 2px 0 rgba(255,255,255,0.6);
       --shadow-sunken: inset -2px -2px 0 rgba(255,255,255,0.5), inset 2px 2px 0 rgba(0,0,0,0.35);
       --shadow-clock:  inset 2px 2px 0 rgba(0,0,0,0.25), inset -2px -2px 0 rgba(255,255,255,0.6);
-      /* Control buttons (–□✕) outer drop + inner */
     }
 
     body {
@@ -66,7 +64,14 @@
     .desk-icon .fi {
       width: 48px; height: 48px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 32px; pointer-events: none;
+      pointer-events: none;
+      image-rendering: pixelated;
+    }
+    .desk-icon .fi img {
+      width: 48px; height: 48px;
+      pointer-events: none;
+      image-rendering: pixelated;
+      display: block;
     }
     .desk-icon span {
       font-size: 11px; color: #1a1a1a;
@@ -76,7 +81,7 @@
     }
 
     /* ══════════════════════════════════════
-       TASKBAR  — Figma node 29-3635
+       TASKBAR
     ══════════════════════════════════════ */
     #taskbar {
       position: fixed;
@@ -89,8 +94,6 @@
       padding: 3px; gap: 3px; z-index: 9999;
     }
 
-    /* Start button — Figma node 29-3637
-       shadow: inset -2px -2px 0 rgba(0,0,0,0.4), inset 2px 2px 0 white */
     .start-btn {
       height: 44px; padding: 0 14px;
       background: var(--bg);
@@ -101,14 +104,10 @@
       font-size: 15px; font-weight: 700;
       color: var(--accent);
     }
-    .start-btn:active {
-      box-shadow: var(--shadow-sunken);
-    }
+    .start-btn:active { box-shadow: var(--shadow-sunken); }
 
     .taskbar-apps { display: flex; gap: 3px; flex: 1; min-width: 0; }
 
-    /* Taskbar app buttons — Figma node 29-3642 (sunken/open state)
-       shadow: inset -2px -2px 0 rgba(255,255,255,0.7), inset 2px 2px 0 rgba(0,0,0,0.4) */
     .tb-btn {
       height: 44px; padding: 0 10px;
       background: var(--bg);
@@ -120,21 +119,18 @@
       max-width: 180px; text-overflow: ellipsis;
       color: var(--accent);
     }
-    /* Focused / raised state — flip to raised */
     .tb-btn.active {
       box-shadow: var(--shadow-raised);
       background: var(--bg);
     }
     .tb-btn .fi { font-size: 16px; flex-shrink: 0; }
 
-    /* Thin divider between taskbar sections */
     .tb-divider {
       width: 1px; height: 32px;
       background: rgba(0,0,0,0.2);
       flex-shrink: 0; margin: 0 2px;
     }
 
-    /* Accent slider strip */
     .taskbar-accent {
       height: 44px;
       display: flex; align-items: center; gap: 8px;
@@ -149,9 +145,6 @@
       color: var(--accent); white-space: nowrap;
     }
 
-    /* Clock — Figma node 29-3652
-       rounded: tl 8 tr 8 bl 8 br 12
-       shadow:  inset 2px 2px 0 rgba(0,0,0,0.25), inset -2px -2px 0 rgba(255,255,255,0.7) */
     .tb-clock {
       height: 44px; padding: 0 16px;
       background: var(--bg);
@@ -163,9 +156,7 @@
     }
 
     /* ══════════════════════════════════════
-       WINDOW SHELL — Figma node 29-3615
-       outer: 4px 4px 0 rgba(0,0,0,0.4)
-       inner overlay: inset -4px -4px 0 rgba(0,0,0,0.4)
+       WINDOW SHELL
     ══════════════════════════════════════ */
     .os-window {
       position: absolute;
@@ -183,7 +174,7 @@
     }
     .win-open-anim { animation: winOpen 0.14s cubic-bezier(.34,1.4,.64,1) forwards; }
 
-    /* ── TITLEBAR — Figma node 29-3617 ── */
+    /* ── TITLEBAR ── */
     .win-tb {
       height: 48px;
       background: var(--bg);
@@ -194,7 +185,6 @@
     }
     .win-tb:active { cursor: grabbing; }
 
-    /* Title text — Figma: text-[#f34e3c] i.e. accent color */
     .win-tb-inner {
       flex: 1; height: 48px;
       display: flex; align-items: center;
@@ -210,11 +200,6 @@
     }
     .win-tb-inner.inactive .win-tb-title { opacity: 0.35; }
 
-    /* Control buttons — Figma nodes 29-3622/3625/3628
-       bg: accent color  |  rounded: 3px
-       shadow: 2px 2px 0 rgba(0,0,0,0.4)          ← outer drop
-               inset -2px -2px 0 rgba(0,0,0,0.4)  ← inner bottom-right
-               inset 1px 1px 0 white               ← inner top-left highlight */
     .win-ctrls { display: flex; gap: 3px; }
     .wc-btn {
       width: 29px; height: 26px;
@@ -224,7 +209,7 @@
       border-radius: 3px;
       display: flex; align-items: center; justify-content: center;
       font-size: 13px; font-weight: 800;
-      color: var(--bg);  /* bg-on-accent always readable */
+      color: var(--bg);
       line-height: 1; flex-shrink: 0;
     }
     .wc-btn:active {
@@ -272,7 +257,6 @@
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
       color: #000; border-radius: 4px; margin: 0 4px;
     }
-    .sb-item .fi { font-size: 14px; flex-shrink: 0; }
     .sb-item:hover  { background: var(--accent); color: var(--bg); }
     .sb-item.active { background: var(--accent); color: var(--bg); }
 
@@ -360,32 +344,26 @@
       border-right: 1px solid rgba(0,0,0,0.1);
     }
 
-    /* Resize handle */
+    /* Resize handle — invisible but functional */
     .win-resize {
       position: absolute; right: 0; bottom: 0;
       width: 18px; height: 18px; cursor: se-resize;
-      background: linear-gradient(135deg,
-        transparent 33%, rgba(0,0,0,0.25) 33%, rgba(0,0,0,0.25) 40%,
-        transparent 40%, transparent 60%,
-        rgba(0,0,0,0.25) 60%, rgba(0,0,0,0.25) 67%, transparent 67%);
+      background: transparent;
     }
 
-    /* ── HUE SLIDER — Figma Win98 style ── */
-    /* Wrapper needed so we can layer the track + rainbow independently */
+    /* ── HUE SLIDER ── */
     .slider-wrap {
       position: relative;
       width: 130px; height: 21px;
       display: flex; align-items: center;
       flex-shrink: 0;
     }
-    /* Rainbow gradient track sits as a pseudo layer */
     .slider-wrap::before {
       content: '';
       position: absolute;
       left: 0; right: 0;
       top: 50%; transform: translateY(-50%);
       height: 3px;
-      /* Figma track: black bg, inset highlight shadows, white drop below */
       background: #000;
       box-shadow:
         inset 1px 1px 0 #b8b8b8,
@@ -395,11 +373,10 @@
       pointer-events: none;
       z-index: 0;
     }
-    /* Rainbow overlay on the track */
     .slider-wrap::after {
       content: '';
       position: absolute;
-      left: 6px; right: 6px;   /* inset by half-thumb-width so colour stays inside */
+      left: 6px; right: 6px;
       top: 50%; transform: translateY(-50%);
       height: 3px;
       background: linear-gradient(to right,
@@ -420,12 +397,10 @@
       cursor: pointer;
       margin: 0;
     }
-    /* Win98 thumb: 11px wide × 21px tall, raised grey rectangle */
     #hue-slider::-webkit-slider-thumb {
       -webkit-appearance: none;
       width: 11px; height: 21px;
       background: var(--bg);
-      /* Figma thumb shadows: classic raised bevels */
       box-shadow:
         inset -1px -1px 0 #0a0a0a,
         inset  1px  1px 0 #ffffff,
@@ -462,7 +437,6 @@
       font-size: 11px; font-weight: 700;
       color: var(--accent); white-space: nowrap;
     }
-    /* Two-tone swatch: left=bg, right=accent */
     .pal-swatch {
       width: 28px; height: 20px;
       border-radius: 4px;
@@ -554,7 +528,43 @@
     }
     .cal-notebar button:active { box-shadow: var(--shadow-sunken); }
 
-    /* ── CONTEXT MENU ── */
+    /* ── DARK MODE overrides ── */
+    body.dark #desktop {
+      background-color: #111111;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    }
+    body.dark .desk-icon span {
+      color: #d8d8d8;
+      text-shadow: 1px 1px 0 rgba(0,0,0,0.8);
+    }
+    body.dark .entry-heading { color: #e4e4e4; }
+    body.dark .entry-body    { color: #c0c0c0; }
+    body.dark .entry-body em { opacity: 0.9; }
+    body.dark .entry-date    { color: #888; }
+    body.dark .buddy-body    { color: #c4aac4; }
+    body.dark .buddy-box     { background: rgba(255,255,255,0.04); border-color: rgba(200,100,200,0.2); }
+    body.dark .cal-selected-info { color: #999; }
+    body.dark .cal-notebar input { background: #1a1a1a; color: #ccc; }
+    body.dark .cal-dow { color: #777; }
+    body.dark .status-pane { color: rgba(255,255,255,0.4); }
+    body.dark .sb-section  { color: rgba(255,255,255,0.3); }
+
+    /* Dark mode toggle button */
+    .dm-btn {
+      height: 44px; padding: 0 12px;
+      background: var(--bg);
+      box-shadow: var(--shadow-raised);
+      border-radius: 8px;
+      display: flex; align-items: center; gap: 5px;
+      cursor: pointer; flex-shrink: 0;
+      font-size: 13px; font-weight: 700;
+      color: var(--accent);
+      border: none; font-family: inherit;
+      white-space: nowrap;
+    }
+    .dm-btn:active { box-shadow: var(--shadow-sunken); }
     #ctx-menu {
       position: fixed; background: var(--g2);
       box-shadow: 4px 4px 0 rgba(0,0,0,0.4), inset -1px -1px 0 rgba(0,0,0,0.15);
@@ -573,32 +583,34 @@
 <!-- Desktop -->
 <div id="desktop" oncontextmenu="showCtx(event)" onclick="clearSel(event)">
   <div class="desk-icon" id="icon-professional" style="left:16px;top:16px" ondblclick="openWin('professional')">
-    <div class="fi">💼</div><span>Professional</span>
+    <div class="fi"><img src="https://www.figma.com/api/mcp/asset/fa739cd7-7451-41d6-8dd3-20a9175594e5" alt="Professional" /></div><span>Professional</span>
   </div>
   <div class="desk-icon" id="icon-physical" style="left:16px;top:110px" ondblclick="openWin('physical')">
-    <div class="fi">🏸</div><span>Physical</span>
+    <div class="fi"><img src="https://www.figma.com/api/mcp/asset/82c951c6-aacd-4bf6-a7b7-3da0001574b4" alt="Physical" /></div><span>Physical</span>
   </div>
   <div class="desk-icon" id="icon-social" style="left:16px;top:204px" ondblclick="openWin('social')">
-    <div class="fi">👥</div><span>Social</span>
+    <div class="fi"><img src="https://www.figma.com/api/mcp/asset/1e92f6b6-2196-4e2d-b0eb-ac7098103b44" alt="Social" /></div><span>Social</span>
   </div>
   <div class="desk-icon" id="icon-emotional" style="left:16px;top:298px" ondblclick="openWin('emotional')">
-    <div class="fi">🧠</div><span>Emotional</span>
+    <div class="fi"><img src="https://www.figma.com/api/mcp/asset/0b08e40d-fc55-482f-8ac8-1cbb113c3eef" alt="Emotional" /></div><span>Emotional</span>
   </div>
   <div class="desk-icon" id="icon-misc" style="left:104px;top:16px" ondblclick="openWin('misc')">
-    <div class="fi">📓</div><span>Class Notes</span>
+    <div class="fi"><img src="https://www.figma.com/api/mcp/asset/913c55dd-4abd-468a-95d4-ac86b96ed643" alt="Class Notes" /></div><span>Class Notes</span>
   </div>
   <div class="desk-icon" id="icon-about" style="left:104px;top:110px" ondblclick="openWin('about')">
-    <div class="fi">🖥️</div><span>About</span>
+    <div class="fi"><img src="https://www.figma.com/api/mcp/asset/2cddc17d-40d8-4b84-bf9a-995b67f715c0" alt="About" /></div><span>About</span>
   </div>
   <div class="desk-icon" id="icon-calendar" style="left:104px;top:204px" ondblclick="openCalendar()">
-    <div class="fi">📅</div><span>My Dates</span>
+    <div class="fi"><img src="https://www.figma.com/api/mcp/asset/f767f959-8179-47e7-b06f-5db8236208ec" alt="My Dates" /></div><span>My Dates</span>
   </div>
 </div>
 
 <!-- Taskbar -->
 <div id="taskbar">
-  <div class="start-btn" id="start-btn" onclick="openWin('about')">⊞ Start</div>
+  <div class="start-btn" id="start-btn" onclick="openWin('about')">Start</div>
   <div class="taskbar-apps" id="tbApps"></div>
+  <div class="tb-divider"></div>
+  <button class="dm-btn" id="dark-mode-btn" onclick="toggleDarkMode()">☾ Dark</button>
   <div class="tb-divider"></div>
   <div class="palette-strip">
     <span class="pal-label">Theme</span>
@@ -627,7 +639,7 @@
 // ═══════════════════════════════════════════
 const SEC = {
   professional: {
-    label: 'Professional', icon: '💼',
+    label: 'Professional', icon: '',
     entries: [
       {
         id: 'figma', tab: 'Figma & Claude Code',
@@ -646,7 +658,7 @@ const SEC = {
     ],
   },
   physical: {
-    label: 'Physical', icon: '🏸',
+    label: 'Physical', icon: '',
     entries: [
       {
         id: 'jump', tab: 'The 2/5 → 5/5 Jump',
@@ -658,7 +670,7 @@ const SEC = {
     ],
   },
   social: {
-    label: 'Social', icon: '👥',
+    label: 'Social', icon: '',
     entries: [
       {
         id: 'orbit', tab: 'Orbit of 3',
@@ -677,7 +689,7 @@ const SEC = {
     ],
   },
   emotional: {
-    label: 'Emotional', icon: '🧠',
+    label: 'Emotional', icon: '',
     entries: [
       {
         id: 'breakup', tab: 'The Breakup',
@@ -703,7 +715,7 @@ const SEC = {
     ],
   },
   misc: {
-    label: 'Class Notes & Misc', icon: '📓',
+    label: 'Class Notes & Misc', icon: '',
     entries: [
       {
         id: 'ixd', tab: 'IxD Lecture Notes',
@@ -722,7 +734,7 @@ const SEC = {
     ],
   },
   about: {
-    label: 'About Me', icon: '🖥️',
+    label: 'About Me', icon: '',
     entries: [
       {
         id: 'readme', tab: 'README',
@@ -770,13 +782,13 @@ function openWin(id) {
     <div class="sb-item ${e.id===firstId?'active':''}"
          data-entry="${e.id}"
          onclick="loadEntry('${id}','${e.id}')">
-      <span class="fi">${sec.icon}</span>${e.tab}
+      ${e.tab}
     </div>`).join('');
 
   win.innerHTML = `
     <div class="win-tb">
       <div class="win-tb-inner" id="tb-inner-${id}">
-        <span class="win-tb-title">${sec.icon} ${sec.label}</span>
+        <span class="win-tb-title">${sec.label}</span>
         <div class="win-ctrls">
           <button class="wc-btn" onclick="minWin('${id}')">─</button>
           <button class="wc-btn" onclick="maxWin('${id}')">▢</button>
@@ -810,11 +822,15 @@ function openWin(id) {
 
   loadEntry(id, firstId);
 
-  // Apply current palette colours to the new window's elements
-  win.querySelectorAll('.win-tb,.win-tb-inner,.win-sb,.win-bar,.win-status,.status-pane,.bar-btn').forEach(el=>el.style.background=currentBg);
-  win.querySelectorAll('.win-ct').forEach(el=>el.style.background=shiftL(currentBg,6));
+  // Use the same surface/content colours applyPalette uses (dark-mode aware)
+  const [_h, _s] = hexToHsl(currentBg);
+  const surfaceBg = isDarkMode ? hslToHex(_h, Math.min(_s*0.6,20), 14) : currentBg;
+  const contentBg = isDarkMode ? hslToHex(_h, Math.min(_s*0.3,10),  8) : shiftL(currentBg, 6);
+
+  win.querySelectorAll('.win-tb,.win-tb-inner,.win-sb,.win-bar,.win-status,.status-pane,.bar-btn').forEach(el=>el.style.background=surfaceBg);
+  win.querySelectorAll('.win-ct').forEach(el=>el.style.background=contentBg);
   win.querySelectorAll('.win-tb-title').forEach(el=>el.style.color=currentAccent);
-  win.querySelectorAll('.wc-btn').forEach(el=>el.style.background=currentAccent);
+  win.querySelectorAll('.wc-btn').forEach(el=>{ el.style.background=currentAccent; el.style.color=surfaceBg; });
 
   updateTB();
 }
@@ -841,7 +857,7 @@ function loadEntry(secId, entryId) {
       <button class="tab-btn active" id="t-s-${secId}-${entryId}"
         onclick="switchTab('${secId}','${entryId}','samu')">My Journal</button>
       <button class="tab-btn" id="t-k-${secId}-${entryId}"
-        onclick="switchTab('${secId}','${entryId}','khushi')">💜 Khushi</button>
+        onclick="switchTab('${secId}','${entryId}','khushi')">Khushi</button>
     </div>` : '';
 
   ct.innerHTML = `
@@ -934,12 +950,11 @@ function updateTB() {
   bar.innerHTML = '';
   Object.entries(wins).forEach(([id,rec]) => {
     const sec = SEC[id];
-    const icon  = sec ? sec.icon  : '📅';
     const label = sec ? sec.label : 'My Dates';
     const focused = +rec.el.style.zIndex === zTop;
     const btn = document.createElement('div');
     btn.className = 'tb-btn' + (focused ? ' active' : '');
-    btn.innerHTML = `<span class="fi">${icon}</span>${label}`;
+    btn.innerHTML = label;
     btn.onclick = () => {
       if (rec.el.classList.contains('minimized')) { rec.el.classList.remove('minimized'); focusWin(id); }
       else if (focused) minWin(id);
@@ -1031,14 +1046,28 @@ document.addEventListener('click', hideCtx);
 document.addEventListener('keydown', e=>{ if(e.key==='Escape') hideCtx(); });
 
 // ═══════════════════════════════════════════
-// ═══════════════════════════════════════════
 // COLOUR / PALETTE SYSTEM
-// BG     → all surfaces (taskbar, windows, sidebars)
-// ACCENT → all text, button backgrounds, icons
 // ═══════════════════════════════════════════
-
 let currentBg = '#c7d8c6';
 let currentAccent = '#f34e3c';
+let isDarkMode = false;
+
+// ═══════════════════════════════════════════
+// DARK MODE
+// ═══════════════════════════════════════════
+function toggleDarkMode() {
+  isDarkMode = !isDarkMode;
+  document.body.classList.toggle('dark', isDarkMode);
+  document.body.style.background = isDarkMode ? '#111111' : 'var(--cream)';
+  const btn = document.getElementById('dark-mode-btn');
+  if (btn) {
+    btn.textContent = isDarkMode ? '☀ Light' : '☾ Dark';
+    btn.style.boxShadow = isDarkMode
+      ? 'inset -2px -2px 0 rgba(255,255,255,0.5), inset 2px 2px 0 rgba(0,0,0,0.35)'  // sunken = active
+      : 'inset -2px -2px 0 rgba(0,0,0,0.4), inset 2px 2px 0 rgba(255,255,255,0.6)';  // raised = off
+  }
+  applyPalette(currentBg, currentAccent);
+}
 
 function hexToHsl(hex) {
   let r=parseInt(hex.slice(1,3),16)/255,g=parseInt(hex.slice(3,5),16)/255,b=parseInt(hex.slice(5,7),16)/255;
@@ -1054,62 +1083,97 @@ function hslToHex(h,s,l){
   return`#${h2(r)}${h2(g)}${h2(b)}`;
 }
 function hexAlpha(hex,a){return`rgba(${parseInt(hex.slice(1,3),16)},${parseInt(hex.slice(3,5),16)},${parseInt(hex.slice(5,7),16)},${a})`;}
-function lightenBg(bg){const[h,s,l]=hexToHsl(bg);return hslToHex(h,Math.max(0,s-5),Math.min(96,l+8));}
+
+// For dark backgrounds: create a very light, barely-tinted content pane
+// For light backgrounds: subtle lightening as before
+function lightenBg(bg){
+  const[h,s,l]=hexToHsl(bg);
+  if(l < 45){
+    // Dark theme — content pane becomes a very light, low-saturation tint
+    return hslToHex(h, Math.min(s*0.14, 12), 92);
+  }
+  return hslToHex(h, Math.max(0,s-8), Math.min(95,l+10));
+}
+
+// shiftL used inline in openWin for content bg
+function shiftL(hex, amt){
+  const[h,s,l]=hexToHsl(hex);
+  if(l < 45) return hslToHex(h, Math.min(s*0.14, 12), 92);
+  return hslToHex(h, Math.max(0,s-8), Math.min(95,l+amt));
+}
 
 function applyPalette(bgHex, accentHex) {
   currentBg = bgHex;
   currentAccent = accentHex;
-  const cBg = lightenBg(bgHex);
 
-  // 1. CSS variables for future elements
+  // In dark mode: derive a very dark tinted surface from the palette hue
+  let surfaceBg = bgHex;
+  let cBg;
+  if (isDarkMode) {
+    const [h, s] = hexToHsl(bgHex);
+    surfaceBg = hslToHex(h, Math.min(s * 0.6, 20), 14);   // dark surface
+    cBg       = hslToHex(h, Math.min(s * 0.3, 10),  8);   // even darker content pane
+  } else {
+    cBg = lightenBg(bgHex);
+  }
+
   const R = document.documentElement.style;
-  R.setProperty('--bg',         bgHex);
-  R.setProperty('--g2',         bgHex);
+  R.setProperty('--bg',         surfaceBg);
+  R.setProperty('--g2',         surfaceBg);
   R.setProperty('--accent',     accentHex);
   R.setProperty('--pink',       accentHex);
   R.setProperty('--content-bg', cBg);
 
-  // 2. BG surfaces — set directly so inline styles are correct
+  // Also update the cream desktop colour
+  document.getElementById('desktop').style.backgroundColor = isDarkMode ? '#111111' : '#f5f5db';
+
   ['#taskbar','.os-window','.win-tb','.win-tb-inner','.win-sb','.win-bar',
    '.win-status','.status-pane','.start-btn','.tb-btn','.tb-clock',
    '.palette-strip','.bar-btn','.cal-nav','.cal-nav-btn','.cal-dow-row',
    '.cal-notebar','.cal-notebar button','.tabs-strip','.tab-btn','.sb-section',
-  ].forEach(sel=>document.querySelectorAll(sel).forEach(el=>el.style.background=bgHex));
+   '.dm-btn',
+  ].forEach(sel=>document.querySelectorAll(sel).forEach(el=>el.style.background=surfaceBg));
 
-  // Content pane: lighter
   document.querySelectorAll('.win-ct').forEach(el=>el.style.background=cBg);
+  document.querySelectorAll('.cal-shell').forEach(el=>el.style.background=cBg);
 
-  // 3. ACCENT text
-  ['.win-tb-title','.start-btn','.tb-btn','.tb-clock','.pal-label','.cal-month-title','.bar-btn']
+  ['.win-tb-title','.start-btn','.tb-btn','.tb-clock','.pal-label','.cal-month-title','.bar-btn','.dm-btn']
     .forEach(sel=>document.querySelectorAll(sel).forEach(el=>el.style.color=accentHex));
 
-  // 4. ACCENT bg, BG text (always readable regardless of combo)
   ['.wc-btn','.entry-tag','.sb-item.active','.cal-day.marked','.cal-notebar button']
     .forEach(sel=>document.querySelectorAll(sel).forEach(el=>{
-      el.style.background=accentHex; el.style.color=bgHex;
+      el.style.background=accentHex; el.style.color=surfaceBg;
     }));
 
-  // Active tab
   document.querySelectorAll('.tab-btn.active').forEach(el=>{
     el.style.background=cBg; el.style.color=accentHex;
   });
 
-  // 5. Dynamic :hover rules (pseudo-classes can't be set inline)
+  // Keep dark-mode-btn shadow state correct
+  const dmBtn = document.getElementById('dark-mode-btn');
+  if (dmBtn) {
+    dmBtn.style.boxShadow = isDarkMode
+      ? 'inset -2px -2px 0 rgba(255,255,255,0.5), inset 2px 2px 0 rgba(0,0,0,0.35)'
+      : 'inset -2px -2px 0 rgba(0,0,0,0.4), inset 2px 2px 0 rgba(255,255,255,0.6)';
+  }
+
   document.getElementById('dynamic-theme').textContent=`
     .desk-icon:hover   {background:${hexAlpha(accentHex,.15)}!important}
     .desk-icon.selected{background:${hexAlpha(accentHex,.28)}!important}
-    .sb-item:hover     {background:${accentHex}!important;color:${bgHex}!important}
-    .sb-item.active    {background:${accentHex}!important;color:${bgHex}!important}
-    .ctx-i:hover       {background:${accentHex}!important;color:${bgHex}!important}
+    .sb-item:hover     {background:${accentHex}!important;color:${surfaceBg}!important}
+    .sb-item.active    {background:${accentHex}!important;color:${surfaceBg}!important}
+    .ctx-i:hover       {background:${accentHex}!important;color:${surfaceBg}!important}
     .cal-day:hover     {background:${hexAlpha(accentHex,.18)}!important}
-    .cal-day.marked    {background:${accentHex}!important;color:${bgHex}!important}
+    .cal-day.marked    {background:${accentHex}!important;color:${surfaceBg}!important}
     .tab-btn.active    {background:${cBg}!important;color:${accentHex}!important}
-    .wc-btn            {background:${accentHex}!important;color:${bgHex}!important}
-    .entry-tag         {background:${accentHex}!important;color:${bgHex}!important}
-    .cal-nav-btn       {background:${bgHex}!important;color:${accentHex}!important}
+    .wc-btn            {background:${accentHex}!important;color:${surfaceBg}!important}
+    .entry-tag         {background:${accentHex}!important;color:${surfaceBg}!important}
+    .cal-nav-btn       {background:${surfaceBg}!important;color:${accentHex}!important}
+    body:not(.dark) .entry-heading {color:#1a1a1a}
+    body:not(.dark) .entry-body    {color:#2a2a2a}
+    body:not(.dark) .desk-icon span{color:#1a1a1a}
   `;
 
-  // Sync slider to accent hue
   const[h]=hexToHsl(accentHex);
   hueSlider.value=Math.round(h);
 }
@@ -1129,7 +1193,6 @@ document.querySelectorAll('.pal-swatch').forEach(sw=>{
     sw.classList.add('active');
   });
 });
-
 
 // ═══════════════════════════════════════════
 // CALENDAR
@@ -1151,7 +1214,7 @@ const PRESET = {
 Object.assign(markedDates, PRESET);
 
 let calSelectedKey = null;
-let calCurrentMonth = 0; // 0=Jan, 1=Feb, 2=Mar, 3=Apr (2026)
+let calCurrentMonth = 0;
 const CAL_MONTHS = [
   { year:2026, month:0, label:'January 2026' },
   { year:2026, month:1, label:'February 2026' },
@@ -1170,7 +1233,7 @@ function openCalendar() {
   win.innerHTML=`
     <div class="win-tb">
       <div class="win-tb-inner" id="tb-inner-${id}">
-        <span class="win-tb-title">📅 My Dates</span>
+        <span class="win-tb-title">My Dates</span>
         <div class="win-ctrls">
           <button class="wc-btn" onclick="minWin('${id}')">─</button>
           <button class="wc-btn" onclick="maxWin('${id}')">▢</button>
@@ -1209,6 +1272,16 @@ function openCalendar() {
   makeResize(win, win.querySelector('.win-resize'));
   setTimeout(()=>win.classList.remove('win-open-anim'),200);
 
+  // Apply current palette to calendar window (dark-mode aware)
+  const [_ch, _cs] = hexToHsl(currentBg);
+  const calSurfaceBg = isDarkMode ? hslToHex(_ch, Math.min(_cs*0.6,20), 14) : currentBg;
+  const calContentBg = isDarkMode ? hslToHex(_ch, Math.min(_cs*0.3,10),  8) : lightenBg(currentBg);
+
+  win.querySelectorAll('.win-tb,.win-tb-inner,.cal-nav,.cal-dow-row,.cal-notebar,.win-status,.status-pane').forEach(el=>el.style.background=calSurfaceBg);
+  win.querySelectorAll('.win-tb-title,.cal-month-title').forEach(el=>el.style.color=currentAccent);
+  win.querySelectorAll('.wc-btn').forEach(el=>{el.style.background=currentAccent;el.style.color=calSurfaceBg;});
+  win.querySelectorAll('.cal-shell').forEach(el=>el.style.background=calContentBg);
+
   renderCalGrid();
   updateTB();
 }
@@ -1221,7 +1294,7 @@ function calNav(dir) {
 function renderCalGrid() {
   const { year, month, label } = CAL_MONTHS[calCurrentMonth];
   const titleEl = document.getElementById('cal-month-title');
-  if (titleEl) { titleEl.textContent = label; titleEl.style.color = getComputedStyle(document.documentElement).getPropertyValue('--pink').trim(); }
+  if (titleEl) { titleEl.textContent = label; titleEl.style.color = currentAccent; }
 
   const grid = document.getElementById('cal-grid');
   if (!grid) return;
