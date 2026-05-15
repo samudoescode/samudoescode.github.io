@@ -9,12 +9,13 @@
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     :root{
       --bg:#f9f6f0;--text:#1a1a18;--green:#5a7a52;--amber:#c8913a;--sage:#eef2ec;
-      --serif:'NotoSerifLao',Georgia,serif;--sans:'NeueHaasDisplay',Helvetica,sans-serif;
+      --heading-font:'NotoSerifLao',Georgia,serif;--body-font:'NeueHaasDisplay',Helvetica,Arial,sans-serif;
+      --serif:var(--heading-font);--sans:var(--body-font);
       --mw:680px;--vpad:clamp(72px,11vw,130px);
     }
     html{scroll-behavior:smooth}
-    body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:0.95rem;line-height:1.78;-webkit-font-smoothing:antialiased; overflow-x: hidden;}
-    h1,h2,h3,h4,h5,h6{font-family:var(--serif)}
+    body{background:var(--bg);color:var(--text);font-family:var(--body-font);font-size:0.95rem;line-height:1.78;-webkit-font-smoothing:antialiased; overflow-x: hidden;}
+    h1,h2,h3,h4,h5,h6,.hero-title,.beat,.intro-em{font-family:var(--heading-font)}
 
     /* Background Animation Canvas */
     #bg-canvas {
