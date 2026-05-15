@@ -183,8 +183,8 @@
     .geo-cards-track, .tl-cards-track {
       display: flex;
       overflow-x: hidden;
-      gap: 0;
-      padding: 32px clamp(28px,5vw,56px);
+      gap: max(0px, calc((65vw - 360px) / 2));
+      padding: 32px max(20px, calc((65vw - 360px) / 2));
       height: 100%;
       align-items: center;
       scrollbar-width: none;
@@ -193,8 +193,8 @@
     .geo-cards-track::-webkit-scrollbar,
     .tl-cards-track::-webkit-scrollbar { display: none; }
     .geo-card, .tl-card {
-      min-width: 100%;
-      max-width: 100%;
+      min-width: 360px;
+      max-width: 360px;
       box-sizing: border-box;
       scroll-snap-align: start;
       flex-shrink: 0;
@@ -599,8 +599,8 @@
       </svg>
     </figure>
   <div style="max-width:500px; text-align:center;">
-    <p class="intro-em" style="margin:0 0 14px 0;">While attempting to sustain emotional presence toward three potted plants, I observed that a far more complex version of the same experiment was already running.</p>
-    <p class="intro-em" style="color:var(--green); margin:0;">On the self. Unconsciously. Continuously. Without controlled conditions.</p>
+    <p class="intro-em" style="margin:0 0 14px 0;">Trying to sustain emotional presence toward three potted plants, I found the same experiment already running on the self</p>
+    <p class="intro-em" style="color:var(--green); margin:0;">continuously, unconsciously, without controlled conditions..</p>
   </div>
   </div>
   <div class="scroll-text">
@@ -826,8 +826,8 @@
     </div>
   </div>
   <div class="scr">
-    <div style="padding:24px 0;width:100%;max-width:460px;">
-      <p style="font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:18px;">Intensity before / after recognition (1–10)</p><svg viewBox="0 0 290 608" width="100%">
+    <div style="padding:24px 0;width:100%;max-width:460px;height:100%;display:flex;flex-direction:column;justify-content:center;">
+      <p style="font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:12px;flex-shrink:0;">Intensity before / after recognition (1–10)</p><svg viewBox="0 0 290 608" style="width:auto;height:calc(100vh - 100px);max-width:100%;display:block;">
 
 <!-- ── SPATIAL & AUDITORY ── -->
 <text class="clbl" x="0" y="13" fill="#c8913a">Banana Fish OST  ♪</text>
