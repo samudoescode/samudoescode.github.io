@@ -89,9 +89,9 @@
 
     /* Split Grid Pattern (Frames 4, 5, 6) */
     .sf{display:grid;grid-template-columns:1fr 1fr;align-items:start;position:relative;z-index:10;}
-    .scl{padding:var(--vpad) clamp(20px,4vw,44px); padding-top: 50vh; padding-bottom: 40vh;}
+    .scl{padding:var(--vpad) clamp(12px,1.5vw,22px) var(--vpad) clamp(48px,5.5vw,80px); padding-top: 50vh; padding-bottom: 40vh;}
     .scl .step-card { width: 100%; margin-bottom: 60vh; }
-    .scr{position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center; border-left:1px solid rgba(90,122,82,.14);}
+    .scr{position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center; border-left:1px solid rgba(90,122,82,.14); padding-right:clamp(40px,5vw,72px); padding-left:clamp(8px,1.5vw,20px);}
 
     /* Transform split grids into overlapping cards on mobile */
     @media(max-width:760px){
@@ -183,8 +183,8 @@
     .geo-cards-track, .tl-cards-track {
       display: flex;
       overflow-x: hidden;
-      gap: 18px;
-      padding: 32px 24px;
+      gap: 0;
+      padding: 32px clamp(28px,5vw,56px);
       height: 100%;
       align-items: center;
       scrollbar-width: none;
@@ -193,8 +193,9 @@
     .geo-cards-track::-webkit-scrollbar,
     .tl-cards-track::-webkit-scrollbar { display: none; }
     .geo-card, .tl-card {
-      min-width: 360px;
-      max-width: 360px;
+      min-width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
       scroll-snap-align: start;
       flex-shrink: 0;
       margin: 0;
@@ -806,6 +807,18 @@
         <p><em>Teahouse</em> is a completed intentional conditioning case: 8/10 reliable calm, built through deliberate association with states of ease. This is the direct descendant of the original plant experiment's logic — structured emotional intention, applied consistently, directed inward.</p>
       </div>
     </div>
+    <div class="step-card ss" data-ch="3">
+      <div class="ll" style="font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:12px;">The relational data</div>
+      <div class="bt" style="font-size:clamp(.9rem,1.5vw,1.05rem);">
+        <p>Three people, anonymised. Relational triggers operate differently from spatial or auditory ones — they are carried by memory of a person rather than a place, and cannot be managed through avoidance the way a window or a road can. The body responds to recall, to proximity, sometimes to the thought alone.</p>
+        <p>Person A represents the highest accumulation of shared emotional memory in the dataset. Consistent with the project's central finding — depth of history determines resistance to revision — the layered associations here make this the most resistant relational pattern. Anger and irritation arriving before conscious evaluation, shaping posture and attention before deliberate thought could intervene.</p>
+        <p>The intervention point was not before the response. It was in the moment immediately after it arrived. The response was noticed, named, and watched rather than inhabited. The body's record of this relationship is still present. What changed was the relationship to that record.</p>
+      </div>
+    </div>
+    <div class="step-card ss bt" data-ch="4">
+      <p><strong>Person B</strong> carries grief and withdrawal — a longer history of loss rather than conflict. The autopilot at 8/10 is less disruptive in presentation but more entrenched in origin. Recovery has been partial: after recognition the response reduces to 5/10, but does not resolve. This is consistent with the grief data elsewhere — somatic memory of loss tends to integrate rather than revise.</p>
+      <p style="margin:0;"><strong>Person C</strong> is the clearest case of anticipatory anxiety in the relational set. A relatively recent association. The body produces anxiety on the approach to interaction, not during it — the trigger is the anticipation. Because the origin is recent and specific, revision has been more effective: 6/10 to 3/10 across the documented instances.</p>
+    </div>
     <div class="step-card ss pn" data-ch="-1">
       <div class="eye">Process Note — Limitations of this data</div>
       <p>All data is self-reported by one person. There is no external validation, no control group, and no way to verify whether the reported changes in response intensity reflect genuine physiological change or shifts in conscious framing. The 1–10 scale measures perceived intensity, not physiological response.</p>
@@ -813,8 +826,10 @@
     </div>
   </div>
   <div class="scr">
-    <div style="padding:24px 20px;width:100%;max-width:380px;">
-      <p style="font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:18px;">Intensity before / after recognition (1–10)</p><svg viewBox="0 0 290 431" width="100%">
+    <div style="padding:24px 0;width:100%;max-width:460px;">
+      <p style="font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:18px;">Intensity before / after recognition (1–10)</p><svg viewBox="0 0 290 608" width="100%">
+
+<!-- ── SPATIAL & AUDITORY ── -->
 <text class="clbl" x="0" y="13" fill="#c8913a">Banana Fish OST  ♪</text>
 <rect class="bara" x="0" y="18" width="252" height="11" rx="2"/>
 <rect class="barw" x="0" y="31" width="224" height="11" rx="2"/>
@@ -869,11 +884,42 @@
 <line class="bconn" x1="84" y1="375" x2="140" y2="375"/>
 <text class="cval" x="144" y="379" fill="#c8913a">5</text>
 <text class="cval" x="88" y="392" fill="#5a7a52">3</text>
-<rect x="0" y="414" width="10" height="9" rx="2" fill="#c8913a" opacity=".82"/>
-<text class="clbl" x="14" y="423">Autopilot response</text>
-<rect x="145" y="414" width="10" height="9" rx="2" fill="#5a7a52" opacity=".82"/>
-<text class="clbl" x="159" y="423">After recognition</text>
-<text class="clbl" x="0" y="436" style="font-size:9px;fill:#c8913a;letter-spacing:.04em;">♪ Auditory trigger</text>
+
+<!-- ── LEGEND ── -->
+<rect x="0" y="412" width="10" height="9" rx="2" fill="#c8913a" opacity=".82"/>
+<text class="clbl" x="14" y="421">Autopilot response</text>
+<rect x="145" y="412" width="10" height="9" rx="2" fill="#5a7a52" opacity=".82"/>
+<text class="clbl" x="159" y="421">After recognition</text>
+<text class="clbl" x="0" y="432" style="font-size:9px;fill:#c8913a;letter-spacing:.04em;">♪ Auditory trigger</text>
+
+<!-- ── SECTION DIVIDER: RELATIONAL ── -->
+<line x1="0" y1="446" x2="290" y2="446" stroke="rgba(90,122,82,.14)" stroke-width="0.8"/>
+<text x="0" y="460" font-family="NeueHaasDisplay,Helvetica,sans-serif" font-size="9" font-weight="700" letter-spacing="0.12em" fill="rgba(90,122,82,.7)" text-transform="uppercase">RELATIONAL</text>
+
+<!-- ── PERSON A — 10 → 3 ── -->
+<text class="clbl" x="0" y="477" fill="#c8913a">Person A — anger, irritation</text>
+<rect class="bara" x="0" y="482" width="280" height="11" rx="2"/>
+<rect class="barw" x="0" y="495" width="84"  height="11" rx="2"/>
+<line class="bconn" x1="84" y1="487" x2="280" y2="487"/>
+<text class="cval" x="284" y="491" fill="#c8913a">10</text>
+<text class="cval" x="88"  y="504" fill="#5a7a52">3</text>
+
+<!-- ── PERSON B — 8 → 5 ── -->
+<text class="clbl" x="0" y="521" fill="rgba(26,26,24,.55)">Person B — grief, withdrawal</text>
+<rect class="bara" x="0" y="526" width="224" height="11" rx="2"/>
+<rect class="barw" x="0" y="539" width="140" height="11" rx="2"/>
+<line class="bconn" x1="140" y1="531" x2="224" y2="531"/>
+<text class="cval" x="228" y="535" fill="#c8913a">8</text>
+<text class="cval" x="144" y="548" fill="#5a7a52">5</text>
+
+<!-- ── PERSON C — 6 → 3 ── -->
+<text class="clbl" x="0" y="565" fill="rgba(26,26,24,.55)">Person C — anticipatory anxiety</text>
+<rect class="bara" x="0" y="570" width="168" height="11" rx="2"/>
+<rect class="barw" x="0" y="583" width="84"  height="11" rx="2"/>
+<line class="bconn" x1="84" y1="575" x2="168" y2="575"/>
+<text class="cval" x="172" y="579" fill="#c8913a">6</text>
+<text class="cval" x="88"  y="592" fill="#5a7a52">3</text>
+
 </svg>
     </div>
   </div>
