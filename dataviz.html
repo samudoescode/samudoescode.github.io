@@ -131,7 +131,7 @@
     .mdot.on{fill:var(--green);stroke:var(--green);r:9}
     .mlbl{font-family:var(--sans);font-size:10px;fill:rgba(26,26,24,.42);transition:fill .35s}
     .mlbl.on{fill:var(--text);font-weight:700}
-    .mcall{opacity:0;transition:opacity .35s;pointer-events:none}
+    .mcall{opacity:0;transition:opacity .35s,transform .35s;pointer-events:none}
     .mcall.on{opacity:1}
 
     .tdot{fill:rgba(90,122,82,.15);stroke:rgba(90,122,82,.4);stroke-width:1.5;transition:fill .35s}
@@ -620,7 +620,7 @@
 <section id="f4" class="geo-section">
   <!-- ── LEFT: big sticky map ───────────────────────────── -->
   <div class="geo-map-col">
-    <svg id="map-svg" viewBox="0 0 330 310" style="overflow:visible;max-height:480px;">
+    <svg id="map-svg" viewBox="0 0 330 390" style="overflow:visible;max-height:560px;">
   <line class="map-line" x1="85" y1="75" x2="245" y2="65"/>
   <line class="map-line" x1="85" y1="75" x2="55" y2="185"/>
   <line class="map-line" x1="245" y1="65" x2="270" y2="170"/>
@@ -637,11 +637,11 @@
   <g id="mn4"><circle class="mdot" id="md4" cx="160" cy="260" r="7"/><text class="mlbl" id="ml4" x="105" y="278">Campus roads at night</text></g>
   <g id="mn5"><circle class="mdot" id="md5" cx="55" cy="185" r="7"/><text class="mlbl" id="ml5" x="66" y="200">Sister's house</text></g>
   <g id="mn6"><circle class="mdot" id="md6" cx="165" cy="150" r="9" stroke-width="2"/><text class="mlbl" id="ml6" x="110" y="140">Parents' house</text></g>
-  <g class="mcall" id="mcall">
-    <rect x="5" y="5" width="225" height="70" rx="4" fill="rgba(255,255,255,0.92)" stroke="rgba(90,122,82,.26)" stroke-width="1"/>
-    <text id="mc-lbl" x="15" y="24" style="font-family:'NeueHaasDisplay',sans-serif;font-size:9px;font-weight:700;fill:#1a1a18;text-transform:uppercase;letter-spacing:.1em;"></text>
-    <text id="mc-auto" x="15" y="42" style="font-family:'NeueHaasDisplay',sans-serif;font-size:11px;fill:#c8913a;font-weight:500;"></text>
-    <text id="mc-aware" x="15" y="60" style="font-family:'NeueHaasDisplay',sans-serif;font-size:11px;fill:#5a7a52;font-weight:400;"></text>
+  <g class="mcall" id="mcall" transform="translate(0 0)">
+    <rect x="0" y="0" width="188" height="64" rx="4" fill="rgba(255,255,255,0.92)" stroke="rgba(90,122,82,.26)" stroke-width="1"/>
+    <text id="mc-lbl" x="10" y="18" style="font-family:'NeueHaasDisplay',sans-serif;font-size:7.8px;font-weight:700;fill:#1a1a18;text-transform:uppercase;letter-spacing:.1em;"></text>
+    <text id="mc-auto" x="10" y="37" style="font-family:'NeueHaasDisplay',sans-serif;font-size:10px;fill:#c8913a;font-weight:500;"></text>
+    <text id="mc-aware" x="10" y="54" style="font-family:'NeueHaasDisplay',sans-serif;font-size:10px;fill:#5a7a52;font-weight:400;"></text>
   </g>
 </svg>
     <p style="font-family:var(--sans);font-size:10px;color:rgba(26,26,24,.4);text-align:center;margin-top:20px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;">Emotional geography &middot; 6 locations</p>
@@ -669,43 +669,43 @@
       <div class="step-card geo-card" data-map="1">
         <div class="ll">Hostel room — lights after midnight</div>
         <div class="lr"><span class="ra">Autopilot 7/10 — anxiety</span><span>&rarr;</span><span class="rw">After recognition 4/10</span></div>
-        <p class="ln">Lights left on past midnight produce a reliable response: low dread, a feeling of being trapped in wakefulness. Originated with a previous roommate who never turned off lights — months of disrupted sleep. The current conditions are different. The body does not know that.</p>
+        <p class="ln">Lights left on past midnight trigger low-level dread and a sense of being trapped in wakefulness. This response comes from past sleep disruption caused by a previous roommate. Although the situation has changed, the body continues to react as if it has not.</p>
       </div>
 
       <div class="step-card geo-card" data-map="2">
         <div class="ll">Staircase window</div>
         <div class="lr"><span class="ra">Autopilot 6/10 — dread</span><span>&rarr;</span><span class="rw">After recognition 3/10</span></div>
-        <p class="ln">A palimpsest memory: two distinct emotional associations occupying the same spatial coordinates. A job interview overlaid anticipatory dread onto a previously positive association. Recognising the two layers as separate made the original calm available again.</p>
+        <p class="ln">This space holds layered associations. It was once linked to calm, but a later interview introduced anticipatory dread. Recognizing these as separate layers made it possible to access the earlier sense of calm again.</p>
       </div>
 
       <div class="step-card geo-card" data-map="3">
         <div class="ll">Lift area window</div>
         <div class="lr"><span class="ra">Autopilot 7/10 — trapped/bored</span><span>&rarr;</span><span class="rw">After recognition 2/10</span></div>
-        <p class="ln">Felt, with startling intensity, trapped — bored in a way that felt almost existential. The response arrived before conscious processing. Rewrote the memory in real time: chose to look at the view as something available rather than evidence of confinement. The fastest and most complete shift in the study.</p>
+        <p class="ln">A strong feeling of confinement and boredom appeared immediately, before conscious thought. Through real-time reframing, the space shifted from restrictive to open. This was the fastest and most complete emotional reset observed.</p>
       </div>
 
       <div class="step-card geo-card" data-map="4">
         <div class="ll">Campus roads at night</div>
         <div class="lr"><span class="ra">Autopilot 6/10 — alertness</span><span>&rarr;</span><span class="rw">After recognition 5/10</span></div>
-        <p class="ln">Repeated monkey encounters have extended the threat response beyond actual sightings: anyone carrying food outdoors now produces a spike of alertness. Textbook conditioned fear generalisation. Harder to revise because the original association was grounded in real repeated experience.</p>
+        <p class="ln">Repeated monkey encounters have generalized a threat response. Even seeing someone carry food now triggers alertness. Because this is based on real repeated experience, it is more resistant to change.</p>
       </div>
 
       <div class="step-card geo-card" data-map="5">
         <div class="ll">Sister's house</div>
         <div class="lr"><span class="ra">Autopilot 6/10 — survival-anxiety</span><span>&rarr;</span><span class="rw">After recognition 4/10</span></div>
-        <p class="ln">During a period when she was still learning independent living, her home was associated with scarcity: missed meals, minimal supplies. She is now a capable and generous host. The house is different. The background anxiety that precedes arrival has not fully updated.</p>
+        <p class="ln">This location was associated with scarcity due to past conditions of limited food and resources. Although things have improved, anticipatory anxiety still appears, showing that the body has not fully updated.</p>
       </div>
 
       <div class="step-card geo-card" data-map="6">
         <div class="ll">Parents' house and home state</div>
         <div class="lr"><span class="ra">Autopilot 8/10 — old feelings</span><span>&rarr;</span><span class="rw">After recognition 6/10</span></div>
-        <p class="ln">The highest density and longest history of any location in the study. Familiar surroundings through the bus window and the old feelings begin returning — before arriving, before speaking to anyone. A seventeen-year-old's feelings, running in a twenty-two-year-old body. The most resistant location.</p>
+        <p class="ln">This location carries the densest emotional history. Familiar surroundings trigger past feelings before arrival. These responses are automatic and remain the most difficult to recondition.</p>
       </div>
 
       <div class="step-card geo-card pn" data-map="-1">
         <div class="eye">Process Note — Data collection method</div>
-        <p>Triggers were recorded as encountered, not sought out. Each entry captured: the trigger, the quality and intensity of the automatic response (1–10), the probable historical origin, and a second rating taken after conscious recognition was applied.</p>
-        <p>The supporting practices — meditation, mindfulness, deliberate stillness — were not data collection instruments. They were the conditions that made noticing possible.</p>
+        <p>Triggers were recorded as they occurred rather than being intentionally sought. Each entry included the trigger, the intensity of the initial response on a scale of 1–10, its likely origin, and a second rating after conscious awareness was applied.</p>
+        <p>Supporting practices such as meditation and mindfulness were not used to generate data, but to enable the level of awareness required to observe these responses.</p>
       </div>
 
     </div>
@@ -743,43 +743,42 @@
 
       <div class="step-card tl-card" data-tl="0">
         <div class="eb">The Timeline</div>
-        <p class="intro-em" style="margin:0;font-style:normal;">The data I actually collected this semester wasn't biological. It was temporal. A record of the experiment as it actually happened — and as it pivoted.</p>
+        <p class="intro-em" style="margin:0;font-style:normal;">The data collected over the semester became less biological and more temporal, documenting how the experiment shifted over time rather than how the plants grew.</p>
       </div>
 
       <div class="step-card tl-card" data-tl="1">
-        <div class="tp">Early semester</div>
-        <p class="ln" style="margin:0;">Plant experiment begins. Three Dianthus purchased. Week one proceeds as designed — sitting with the affirmation plant, avoiding the neutral one, finding there isn't enough negative emotion on demand for the discharge condition.</p>
+        <div class="tp">Early Semester</div>
+        <p class="ln" style="margin:0;">The project began with three Dianthus plants under different emotional conditions. The first week followed the intended structure, though it quickly became clear that negative emotional engagement could not be generated on command.</p>
       </div>
 
       <div class="step-card tl-card" data-tl="2">
         <div class="tp">Weeks 2–3</div>
-        <p class="ln" style="margin:0;">Structure collapses under academic deadlines and semester fog. Watering becomes sporadic. Logging ceases. The designed experiment fails quietly — and measures something unintended in doing so.</p>
+        <p class="ln" style="margin:0;">Academic pressure and inconsistent routine disrupted the process. Watering became irregular, logging stopped, and the structure of the original experiment gradually collapsed.</p>
       </div>
 
       <div class="step-card tl-card" data-tl="3">
         <div class="tp">Week 7</div>
-        <p class="ln" style="margin:0;">Plants die. Leaves curling, beyond recovery. The formal biological experiment cannot be recovered. Recognition arrives: "The experiment was measuring me before it ever measured the plants."</p>
+        <p class="ln" style="margin:0;">The plants died. By this point, it was already apparent that the project had shifted focus. The most important observation was not the plants' response, but my inability to sustain intentional emotional presence consistently.</p>
       </div>
 
       <div class="step-card tl-card" data-tl="4">
-        <div class="tp">Mid semester</div>
-        <p class="ln" style="margin:0;">Methodological pivot. The subject becomes the self. Daily meditation and mindfulness established. Social media and passive scrolling discontinued. Data collection begins — spontaneous, encounter-triggered, honest.</p>
+        <div class="tp">Mid Semester</div>
+        <p class="ln" style="margin:0;">The methodology pivoted inward. Meditation, mindfulness, and deliberate self-observation became part of the process. Data collection continued through spontaneous emotional triggers tied to places, sounds, and situations.</p>
       </div>
 
       <div class="step-card tl-card" data-tl="5">
-        <div class="tp">Late semester</div>
-        <p class="ln" style="margin:0;">Intentional auditory conditioning underway. Teahouse becomes a completed conditioning case — 8/10 reliable calm. Hymn for the Scarecrow approximately 60% established. The original experiment's logic, directed inward.</p>
+        <div class="tp">Late Semester</div>
+        <p class="ln" style="margin:0;">Intentional auditory conditioning began. Certain songs became associated with calm and emotional regulation through repeated conscious reinforcement. The original logic of the plant experiment was now being applied internally.</p>
       </div>
 
       <div class="step-card tl-card" data-tl="6">
-        <div class="tp">End of semester</div>
-        <p class="ln" style="margin:0;">Six spatial locations and five songs documented. Central finding: conscious recognition reliably reduces intensity but rarely eliminates it. Depth of conditioning determines resistance to revision. The experiment is still running.</p>
+        <div class="tp">End of Semester</div>
+        <p class="ln" style="margin:0;">Six locations and multiple songs were documented. A consistent pattern emerged: conscious recognition reduced the intensity of conditioned responses, but rarely removed them entirely. The deeper the conditioning, the more resistant it was to change.</p>
       </div>
 
       <div class="step-card tl-card pn" data-tl="-1">
-        <div class="eye">Process Note — How I reconstructed this</div>
-        <p>This timeline is reconstructed, not recorded in real time. The exact dates are approximate; the sequence is what I'm confident about. I worked backwards from what I know clearly — the week the plants died, the midterm submission date, the period when the practices became consistent.</p>
-        <p>The lesson — that methodology requires consistent documentation to produce reliable temporal data — is one I understand now in my body, not just as a principle.</p>
+        <div class="eye">Process Note — Reconstruction</div>
+        <p>This timeline was reconstructed retrospectively rather than documented in exact real time. The sequence is reliable even if specific dates are approximate. Rebuilding it afterwards revealed another important limitation: meaningful temporal analysis depends on consistent documentation.</p>
       </div>
 
     </div>
@@ -795,34 +794,34 @@
     <div class="step-card ss" data-ch="1">
       <div class="ll" style="font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:12px;">How the scale works</div>
       <div class="bt" style="font-size:clamp(.9rem,1.5vw,1.05rem);">
-        <p>A 10 means the response shapes behaviour — I avoid the place, or enter it carrying the charge. A 1 means there is barely anything there, or what is there is so integrated it no longer interrupts.</p>
-        <p>The second number is never zero. Recognition does not erase the response. It creates space around it. That space is what changes the experience of being in the place.</p>
+        <p>A 10 means the response still shapes behaviour, while a 1 means the emotional charge is minimal or no longer disruptive.</p>
+        <p>The second rating is never zero. Awareness does not erase the response, but it creates distance from it.</p>
       </div>
     </div>
     <div class="step-card ss" data-ch="2">
-      <div class="ll" style="font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:12px;">♪ The auditory data</div>
+      <div class="ll" style="font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:12px;">♪ The Auditory Data</div>
       <div class="bt" style="font-size:clamp(.9rem,1.5vw,1.05rem);">
-        <p>Sound proved the most efficient trigger. The body's response to specific songs was faster and more total than any spatial trigger — possibly because music bypasses some of the cognitive processing that spatial navigation involves, arriving directly at the emotional and physiological systems.</p>
-        <p><em>Banana Fish OST</em> produced 9/10 grief regardless of current emotional state — a somatic memory operating entirely independently of present mood. <em>The Adults Are Talking</em> by The Strokes, once associated with significant lostness, has naturally remapped to 2/10 as life circumstances changed. Evidence that somatic associations are not permanent.</p>
-        <p><em>Teahouse</em> is a completed intentional conditioning case: 8/10 reliable calm, built through deliberate association with states of ease. This is the direct descendant of the original plant experiment's logic — structured emotional intention, applied consistently, directed inward.</p>
+        <p>Sound proved to be the strongest trigger in the study. Emotional responses to music appeared faster and more intense than responses tied to physical spaces.</p>
+        <p>Tracks from <em>Banana Fish Original Soundtrack</em> consistently triggered grief regardless of current mood, while <em>The Adults Are Talking</em> gradually lost its earlier emotional weight over time. This suggested that emotional associations can weaken or remap through changing circumstances.</p>
+        <p><em>Teahouse</em> became an intentional conditioning case, repeatedly associated with calm until it began producing a reliable emotional response on its own.</p>
       </div>
     </div>
     <div class="step-card ss" data-ch="3">
-      <div class="ll" style="font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:12px;">The relational data</div>
+      <div class="ll" style="font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:12px;">The People Data</div>
       <div class="bt" style="font-size:clamp(.9rem,1.5vw,1.05rem);">
-        <p>Three people, anonymised. Relational triggers operate differently from spatial or auditory ones — they are carried by memory of a person rather than a place, and cannot be managed through avoidance the way a window or a road can. The body responds to recall, to proximity, sometimes to the thought alone.</p>
-        <p>Person A represents the highest accumulation of shared emotional memory in the dataset. Consistent with the project's central finding — depth of history determines resistance to revision — the layered associations here make this the most resistant relational pattern. Anger and irritation arriving before conscious evaluation, shaping posture and attention before deliberate thought could intervene.</p>
-        <p>The intervention point was not before the response. It was in the moment immediately after it arrived. The response was noticed, named, and watched rather than inhabited. The body's record of this relationship is still present. What changed was the relationship to that record.</p>
+        <p>Relation/Bond triggers worked differently from spatial or auditory ones. They were activated through proximity, recall, or anticipation.</p>
+        <p>One relationship in particular contained the highest density of emotional history. Anger and irritation arrived before conscious evaluation, shaping reactions automatically. The deeper and longer the shared history, the more resistant the pattern became to change.</p>
+        <p>The intervention does not happen before the response, but immediately after it appears. The (my) response is observed rather than fully identified with. The emotional record remained, but the relationship and my reaction to it began to change.</p>
       </div>
     </div>
     <div class="step-card ss bt" data-ch="4">
-      <p><strong>Person B</strong> carries fewer accumulated layers than Person A — a shallower archive, and therefore more revisable. The charge here was not chronic but event-specific: a single occurrence that overlaid anxiety and imbalance onto an association that had previously been neutral. Autopilot at 7/10 — off-balance, anxious, stressed. Revision here required more than noticing; it required resolving the originating event. After that: 2/10. One of the cleaner revisions in the relational data.</p>
-      <p style="margin:0;"><strong>Person C</strong> is structurally unlike any other entry. The baseline carried no prior conditioning — the starting state was clarity. The disruption was not chronic but acute: a sudden conflict that exceeded the capacity for real-time processing. The emotional response was not a stored pattern misapplied to the present. It was the present. The standard recognition practice could not fully apply. Baseline 0/10. Peak at disruption: 10/10. After extended time: 5/10. Still being processed.</p>
+      <p><strong>Person B</strong><br>This relationship had fewer accumulated emotional layers, making it easier to revise, but it was also formed in adulthood so there was more attachment. The response was tied to an event and not long-term conditioning, creating temporary anxiety and imbalance. Once I addressed the underlying issue, the emotional intensity reduced, making this one of the clearest revisions in the dataset.</p>
+      <p style="margin:0;"><strong>Person C</strong><br>This case differed from the others because there was no prior conditioning involved. The disruption came from a sudden conflict that was too immediate to process in real time. Unlike earlier entries, the emotional response reflected the present moment rather than stored memory. Over time the intensity reduced, but the experience was still actively being processed.</p>
     </div>
     <div class="step-card ss pn" data-ch="-1">
-      <div class="eye">Process Note — Limitations of this data</div>
-      <p>All data is self-reported by one person. There is no external validation, no control group, and no way to verify whether the reported changes in response intensity reflect genuine physiological change or shifts in conscious framing. The 1–10 scale measures perceived intensity, not physiological response.</p>
-      <p>What this method provides is phenomenological data — what it was like from inside. That is a legitimate but different category of evidence. These limitations do not invalidate the findings. They define their scope.</p>
+      <div class="eye">Process Note — Limitations of the Data</div>
+      <p>This dataset is entirely self-reported and based on subjective experience. There is no external validation or control group, and the intensity scale reflects perceived emotional response rather than measurable physiological change.</p>
+      <p>What the project offers is an account of what these experiences felt like from within. The limitations do not invalidate the findings, but define the scope within which they can be understood.</p>
     </div>
   </div>
   <div class="scr">
@@ -1065,9 +1064,9 @@
 
 <section id="f6c" style="padding:clamp(60px,8vh,100px) clamp(24px,6vw,80px);background:var(--bg);position:relative;z-index:10;">
   <div style="max-width:900px;margin:0 auto;">
-    <p style="font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--amber);margin-bottom:10px;">The Relational Geography</p>
-    <p style="font-family:var(--serif);font-size:clamp(1.1rem,2vw,1.4rem);font-style:italic;color:var(--text);max-width:560px;line-height:1.6;margin-bottom:40px;opacity:.82;">Three people. Mapped by density, origin, and the direction of revision.</p>
-    <svg viewBox="0 0 580 278" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:580px;display:block;margin:0 auto;">
+    <p style="font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--amber);margin-bottom:10px;text-align:center;">The Relational Geography</p>
+    <p style="font-family:var(--serif);font-size:clamp(1.1rem,2vw,1.4rem);font-style:italic;color:var(--text);max-width:560px;line-height:1.6;margin:0 auto 40px;opacity:.82;text-align:center;">Three people. Mapped by density, origin, and the direction of revision.</p>
+    <svg viewBox="0 0 580 306" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:580px;display:block;margin:0 auto;">
       <!-- Grid verticals — chart area x=220..560, 34px per unit -->
       <line x1="220" y1="24" x2="220" y2="268" stroke="rgba(26,26,24,.09)" stroke-width=".5"/>
       <line x1="254" y1="24" x2="254" y2="268" stroke="rgba(26,26,24,.035)" stroke-width=".5"/>
@@ -1084,6 +1083,8 @@
       <text x="220" y="19" text-anchor="middle" font-family="NeueHaasDisplay,Helvetica,sans-serif" font-size="8" fill="rgba(26,26,24,.28)">0</text>
       <text x="390" y="19" text-anchor="middle" font-family="NeueHaasDisplay,Helvetica,sans-serif" font-size="8" fill="rgba(26,26,24,.28)">5</text>
       <text x="560" y="19" text-anchor="middle" font-family="NeueHaasDisplay,Helvetica,sans-serif" font-size="8" fill="rgba(26,26,24,.28)">10</text>
+      <text x="0" y="37" font-family="NeueHaasDisplay,Helvetica,sans-serif" font-size="8" font-weight="700" letter-spacing=".08em" text-transform="uppercase" fill="rgba(90,122,82,.62)">Y-axis: relationship / bond trigger</text>
+      <text x="390" y="298" text-anchor="middle" font-family="NeueHaasDisplay,Helvetica,sans-serif" font-size="8" font-weight="700" letter-spacing=".08em" text-transform="uppercase" fill="rgba(90,122,82,.62)">X-axis: emotional intensity before / after recognition (0–10)</text>
       <!-- ── Person A — 10 → 3 ── -->
       <text x="0" y="72" font-family="NeueHaasDisplay,Helvetica,sans-serif" font-size="11" font-weight="700" fill="#1a1a18">Person A</text>
       <text x="0" y="85" font-family="NeueHaasDisplay,Helvetica,sans-serif" font-size="9" fill="rgba(26,26,24,.45)">anger, irritation · high density</text>
@@ -1124,17 +1125,13 @@
   </div>
   <div class="scroll-text">
     <div class="step-card ss bt">
-      <p>The book's most extensively discussed case is Cleve Backster, who connected a galvanic skin response monitor to a plant in 1966 and observed that the plant registered a response at the moment he formed the intention to harm it — before any physical action was taken. The response preceded the event. Backster termed this "primary perception": living systems respond to intention rather than to physical stimulus alone.</p>
-      <p>The broader methodological finding — one that undermined the book's scientific credibility while proving philosophically generative for this project — was that experimental results could not be reliably separated from the emotional state of the researcher. Calm and genuinely curious experimenters produced consistent plant responses; anxious or performatively sceptical researchers produced noise. <em>The observer could not be controlled for.</em></p>
-    </div>
-    <div class="step-card ss bt">
-      <p>I went into my experiment wanting to study plants. I was the thing that couldn't be controlled for. My inconsistency, my forgetting, my inability to sustain presence — that was the variable that wrecked the original design and revealed the more interesting question.</p>
-      <p style="margin:0;">Running responses to stimuli I hadn't consciously registered. Needing someone to ask: what are you actually reacting to here?</p>
+      <p>I began the experiment intending to study plants, but the uncontrolled variable was myself. My inconsistency, forgetfulness, and inability to sustain emotional presence disrupted the original design and revealed a more interesting question instead.</p>
+      <p style="margin:0;">I realized I was constantly reacting to stimuli I had not consciously registered. The experiment became less about external systems and more about learning to ask: what am I actually responding to here?</p>
     </div>
     <div class="step-card ss pn">
-      <div class="eye">Process Note — The experimenter problem</div>
-      <p>There is no clean separation between the observer and the observed. The experiment is always, partially, about the experimenter. In this project, that problem is not a methodological flaw to be managed. It is the design. I am the researcher and the subject and the instrument simultaneously.</p>
-      <p>The places and relationships carrying the most complex emotional memory are, with few exceptions, those with the longest and deepest shared history. Familiarity accumulates emotional data — not always coherent. The same place may be associated with joy and grief and guilt and warmth, stored in overlapping layers. Awareness-based work here is slower and more effortful because there is more data to examine, more competing patterns to distinguish, and more history in which the present moment might become confused with the past.</p>
+      <div class="eye">Process Note — The experimental problem</div>
+      <p>There is no clear separation between the observer and the observed in this project. I was simultaneously the researcher, the subject, and the instrument through which the data was collected. Rather than treating this as a flaw, the experiment was built around it.</p>
+      <p>The places and relationships carrying the strongest emotional responses were usually those with the longest shared history. Over time, familiarity accumulates layered and often conflicting emotional associations. Because of this density, awareness-based revision becomes slower and more difficult, requiring the separation of present experience from stored memory.</p>
     </div>
   </div>
 </section>
@@ -1145,19 +1142,18 @@
   </div>
   <div class="scroll-text">
     <div class="step-card ss bt">
-      <p><strong>Recognition reduces. It does not erase.</strong> In every case, awareness produced a measurable reduction in the intensity of a conditioned response. In no case did it eliminate the response entirely. What changes is not the pattern but the relationship to it.</p>
-      <p><strong>Depth of history determines resistance to revision.</strong> The oldest associations — the parental home, years of accumulated grief in a song — were the most resistant. The shallowest and most recently formed shifted most readily. Difficulty of revision is proportional to duration and intensity of the original experience.</p>
-      <p style="margin:0;"><strong>The body responds before the mind catches up.</strong> In every documented case, the somatic response arrived before the researcher had consciously evaluated the current situation. The intervention point is not before the response. It is in the moment immediately after it arrives.</p>
-    </div>
-    <div class="step-card ss bt">
-      <p><strong>Intentional conditioning works in both directions.</strong> Existing associations can be partially revised. New positive associations can be deliberately built. Teahouse is a completed case. Hymn for the Scarecrow is one in progress. The nervous system can be worked with, not only observed.</p>
-      <p><strong>Removing distraction mattered as much as adding practice.</strong> Quitting social media and passive scrolling created the internal quiet necessary for subtler responses to become visible. The signal was always there. The noise had been too loud to hear.</p>
-      <p style="margin:0;"><strong>The experiment changed the experimenter.</strong> Running this study altered the researcher's relationship to their own automatic responses in ways that extend well beyond the documented data points. The map, once drawn, changes how you move through the territory.</p>
+      <p>Awareness reduced emotional intensity, but never erased it completely.</p>
+      <p>Older and deeper memories proved harder to recondition than newer ones.</p>
+      <p>The body consistently reacted before conscious thought.</p>
+      <p>Positive emotional associations could be intentionally built over time.</p>
+      <p>Reducing distraction made subtle emotional patterns easier to observe.</p>
+      <p style="margin:0;">The experiment ultimately changed the researcher as much as the research itself.</p>
     </div>
     <div class="step-card ss pn">
-      <div class="eye">Process Note — What the practice actually looked like</div>
-      <p>What I was actually doing, week by week, was a practice of interruption. Not meditation exactly, though that was part of it. More like: catching myself in the middle of an automatic response and asking one question. <em>Is this happening now, or is this a stored response to something that already happened?</em></p>
-      <p>Most of the time, the answer was the second thing. The work of undoing conditioning isn't about stopping the response — it arrives faster than thought. The work is in what you do in the moment after. That gap — recognition — is the practice. Over time, the gap gets bigger. The plants didn't survive my inconsistency. This practice did, because it required no water, no schedule, no external conditions — just whatever was happening in front of me.</p>
+      <div class="eye">Process Note — The Practice</div>
+      <p>The practice was less about meditation and more about interruption and focus. Whenever an automatic emotional response appeared, the question became: is this coming from the present moment, or from stored memory?</p>
+      <p>Most often, it was the latter. The goal was not to stop the response, but to recognize it after it appeared. Over time, that moment of recognition became easier and more immediate.</p>
+      <p>Unlike the original plant experiment, this practice did not depend on consistency of routine or external conditions. It only required attention to whatever was happening in the moment.</p>
     </div>
   </div>
 </section>
@@ -1207,24 +1203,22 @@
   <div class="scroll-text" style="padding-bottom:5vh;">
     <div class="step-card ss pn">
       <div class="eye">Process Note — Why the question stays open</div>
-      <p>The plants died because I could not sustain the presence required by the experiment. Understanding why I could not sustain that presence became the experiment. And in following that question into rooms, staircases, windows, night roads, songs, old houses, and long histories, I found that the nervous system is an extraordinarily diligent record-keeper — and that it does not distinguish between records that are still relevant and records that have simply never been reviewed.</p>
-      <p>The work of this semester was reviewing them. Not erasing them. But bringing them into the light, naming their origin, and creating enough space between stimulus and response to make a different choice. That gap is where the actual experiment lives.</p>
       <p>The original question remains open: does structured emotional intention, directed consistently toward a living system, produce measurable biological difference? I believe it does. I believe it because I have been running that experiment on myself, and the preliminary results are promising. The experiment is still running.</p>
     </div>
   </div>
 </section>
 
-<div class="credits">Somatic Memory &amp; Emotional Geography &nbsp;&middot;&nbsp; Human&ndash;Nature Connection &nbsp;&middot;&nbsp; Interaction Design, DTU &nbsp;&middot;&nbsp; 2025</div>
+<div class="credits">Somatic Memory &amp; Emotional Geography &nbsp;&middot;&nbsp; Human&ndash;Nature Connection &nbsp;&middot;&nbsp; Data Visualization &nbsp;&middot;&nbsp; 2026</div>
 <script src="https://unpkg.com/scrollama@3.2.0/build/scrollama.min.js"></script>
 <script>
 const MAP_DATA = [
   null,
-  {node:'md1',lbl:'ml1',label:'Hostel room — lights after midnight', auto:'Autopilot: 7/10 anxiety',         aware:'After recognition: 4/10'},
-  {node:'md2',lbl:'ml2',label:'Staircase window',                    auto:'Autopilot: 6/10 dread',           aware:'After recognition: 3/10'},
-  {node:'md3',lbl:'ml3',label:'Lift area window',                    auto:'Autopilot: 7/10 trapped/bored',   aware:'After recognition: 2/10'},
-  {node:'md4',lbl:'ml4',label:'Campus roads at night',               auto:'Autopilot: 6/10 alertness',       aware:'After recognition: 5/10'},
-  {node:'md5',lbl:'ml5',label:"Sister's house",                      auto:'Autopilot: 6/10 survival-anxiety',aware:'After recognition: 4/10'},
-  {node:'md6',lbl:'ml6',label:"Parents' house",                      auto:'Autopilot: 8/10 old feelings',    aware:'After recognition: 6/10'},
+  {node:'md1',lbl:'ml1',label:'Hostel room — lights after midnight', auto:'Autopilot: 7/10 anxiety',         aware:'After recognition: 4/10', x:18,  y:312},
+  {node:'md2',lbl:'ml2',label:'Staircase window',                    auto:'Autopilot: 6/10 dread',           aware:'After recognition: 3/10', x:138, y:312},
+  {node:'md3',lbl:'ml3',label:'Lift area window',                    auto:'Autopilot: 7/10 trapped/bored',   aware:'After recognition: 2/10', x:138, y:312},
+  {node:'md4',lbl:'ml4',label:'Campus roads at night',               auto:'Autopilot: 6/10 alertness',       aware:'After recognition: 5/10', x:72,  y:312},
+  {node:'md5',lbl:'ml5',label:"Sister's house",                      auto:'Autopilot: 6/10 survival-anxiety',aware:'After recognition: 4/10', x:0,   y:312},
+  {node:'md6',lbl:'ml6',label:"Parents' house",                      auto:'Autopilot: 8/10 old feelings',    aware:'After recognition: 6/10', x:72,  y:312},
 ];
 
 function setMap(step) {
@@ -1239,6 +1233,7 @@ function setMap(step) {
   document.getElementById('mc-lbl').textContent   = d.label.toUpperCase();
   document.getElementById('mc-auto').textContent  = d.auto;
   document.getElementById('mc-aware').textContent = d.aware;
+  call.setAttribute('transform', `translate(${d.x} ${d.y})`);
   call.classList.add('on');
 }
 
