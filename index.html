@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Journal OS — Saumya</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -24,15 +23,20 @@
       --shadow-raised: inset -2px -2px 0 rgba(0,0,0,0.4), inset 2px 2px 0 rgba(255,255,255,0.6);
       --shadow-sunken: inset -2px -2px 0 rgba(255,255,255,0.5), inset 2px 2px 0 rgba(0,0,0,0.35);
       --shadow-clock:  inset 2px 2px 0 rgba(0,0,0,0.25), inset -2px -2px 0 rgba(255,255,255,0.6);
+      --font-heading: 'NotoSerifLao', Georgia, serif;
+      --font-body: 'NeueHaasDisplay', Helvetica, Arial, sans-serif;
     }
 
     body {
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-body);
       background: var(--cream);
       overflow: hidden;
       height: 100vh; width: 100vw;
       cursor: var(--cursor-custom), default;
       user-select: none;
+    }
+    h1, h2, h3, h4, h5, h6, .entry-title, .buddy-title, .cal-month-title {
+      font-family: var(--font-heading);
     }
     a, button, .desk-icon, .tb-btn, .start-btn, .bar-btn, .wc-btn, .sb-item, .ctx-i, .cal-day, .win-resize, #hue-slider {
       cursor: var(--cursor-custom), pointer !important;
