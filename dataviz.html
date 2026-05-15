@@ -35,7 +35,7 @@
       height: 100vh;
       z-index: -1; 
       pointer-events: none;
-      opacity: 0.8; 
+      opacity: 0.92; 
     }
 
     /* scroll step animations */
@@ -600,7 +600,6 @@
     </figure>
   <div style="max-width:500px; text-align:center;">
     <p class="intro-em" style="margin:0 0 14px 0;">Trying to sustain emotional presence toward three potted plants, I found the same experiment already running on the self</p>
-    <p class="intro-em" style="color:var(--green); margin:0;">continuously, unconsciously, without controlled conditions..</p>
   </div>
   </div>
   <div class="scroll-text">
@@ -1309,15 +1308,59 @@ const particles = Array.from({ length: 250 }, () => ({
   size: Math.random() * 1.5 + 0.5,
   baseSpeedY: -(Math.random() * 0.3 + 0.1), 
   baseSpeedX: (Math.random() - 0.5) * 0.4,  
-  opacity: Math.random() * 0.4 + 0.1
+  opacity: Math.random() * 0.5 + 0.18
 }));
+
+const POLLEN_COLORS = {
+  f1:  '#5a7a52',
+  f2:  '#6f8a64',
+  f3:  '#c8913a',
+  f4:  '#7a8f70',
+  f5:  '#b8956a',
+  f6:  '#6c8a60',
+  f6b: '#9a8d65',
+  f6c: '#c08a43',
+  f7:  '#8d7355',
+  f8:  '#5f8060',
+  f9:  '#b56340'
+};
+
+function hexToRgb(hex) {
+  const n = parseInt(hex.slice(1), 16);
+  return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
+}
+
+function mixChannel(current, target) {
+  return current + (target - current) * 0.035;
+}
+
+let pollenColor = hexToRgb(POLLEN_COLORS.f1);
+let targetPollenColor = { ...pollenColor };
+
+function updatePollenColorTarget() {
+  const centerY = window.innerHeight * 0.5;
+  const sections = document.querySelectorAll('section[id]');
+  let activeId = 'f1';
+  sections.forEach(section => {
+    const rect = section.getBoundingClientRect();
+    if (rect.top <= centerY && rect.bottom >= centerY) activeId = section.id;
+  });
+  targetPollenColor = hexToRgb(POLLEN_COLORS[activeId] || POLLEN_COLORS.f1);
+}
+
+window.addEventListener('scroll', updatePollenColorTarget, { passive: true });
+window.addEventListener('resize', updatePollenColorTarget);
+updatePollenColorTarget();
 
 function animate() {
   scrollVelocity += (targetVelocity - scrollVelocity) * 0.1;
   targetVelocity *= 0.85; 
 
   ctx.clearRect(0, 0, width, height);
-  ctx.fillStyle = '#5a7a52'; 
+  pollenColor.r = mixChannel(pollenColor.r, targetPollenColor.r);
+  pollenColor.g = mixChannel(pollenColor.g, targetPollenColor.g);
+  pollenColor.b = mixChannel(pollenColor.b, targetPollenColor.b);
+  ctx.fillStyle = `rgb(${Math.round(pollenColor.r)}, ${Math.round(pollenColor.g)}, ${Math.round(pollenColor.b)})`; 
 
   particles.forEach(p => {
     p.y += p.baseSpeedY * (1 + scrollVelocity * 0.08);
