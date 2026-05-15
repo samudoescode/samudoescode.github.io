@@ -140,27 +140,31 @@
 
 
     /* ── Horizontal-swipe Geography & Timeline sections ─────────── */
-    .geo-section, .tl-section {
+    .scroll-hijack-wrapper {
       position: relative;
+    }
+    .geo-section, .tl-section {
+      position: sticky;
+      top: 0;
       height: 100vh;
       display: flex;
       overflow: hidden;
       z-index: 10;
     }
     .geo-map-col {
-      width: 58%;
+      width: 35%;
       height: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: clamp(24px,4vw,56px);
+      padding: clamp(24px,3vw,40px);
       border-right: 1px solid rgba(90,122,82,.14);
       flex-shrink: 0;
     }
     .geo-map-col svg { width: 100%; height: auto; }
     .geo-cards-col, .tl-cards-col {
-      width: 42%;
+      width: 65%;
       height: 100%;
       display: flex;
       align-items: center;
@@ -169,10 +173,7 @@
     }
     .geo-cards-track, .tl-cards-track {
       display: flex;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch;
+      overflow-x: hidden;
       gap: 18px;
       padding: 32px 24px;
       height: 100%;
@@ -183,8 +184,8 @@
     .geo-cards-track::-webkit-scrollbar,
     .tl-cards-track::-webkit-scrollbar { display: none; }
     .geo-card, .tl-card {
-      min-width: 300px;
-      max-width: 300px;
+      min-width: 360px;
+      max-width: 360px;
       scroll-snap-align: start;
       flex-shrink: 0;
       margin: 0;
@@ -201,10 +202,12 @@
     /* SVG text italic → normal */
     .ttxt { font-style: normal !important; }
     @media(max-width:760px){
-      .geo-section, .tl-section { flex-direction: column; height: auto; }
+      .scroll-hijack-wrapper { height: auto !important; }
+      .geo-section, .tl-section { position: relative; flex-direction: column; height: auto; }
       .geo-map-col { width: 100%; height: 50vh; border-right: none; border-bottom: 1px solid rgba(90,122,82,.14); }
       .geo-cards-col, .tl-cards-col { width: 100%; height: 56vw; }
-      .geo-card, .tl-card { min-width: 78vw; max-width: 78vw; }
+      .geo-cards-track, .tl-cards-track { overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
+      .geo-card, .tl-card { min-width: 78vw; max-width: 78vw; scroll-snap-align: start; }
     }
 
     /* F1 ground ↔ pot transition */
@@ -525,6 +528,7 @@
     </div>
   </div>
 </section>
+<div class="scroll-hijack-wrapper" id="geo-wrapper">
 <section id="f4" class="geo-section">
   <!-- ── LEFT: big sticky map ───────────────────────────── -->
   <div class="geo-map-col">
@@ -619,6 +623,8 @@
     </div>
   </div>
 </section>
+</div>
+<div class="scroll-hijack-wrapper" id="tl-wrapper">
 <section id="f5" class="tl-section">
   <!-- ── LEFT: big timeline graphic ────────────────────── -->
   <div class="geo-map-col">
@@ -691,6 +697,7 @@
     </div>
   </div>
 </section>
+</div>
 <section id="f6" class="sf">
   <div class="scl">
     <div class="step-card ss" data-ch="0">
@@ -994,58 +1001,72 @@ function animate() {
 animate();
 animate();
 
-// ── HORIZONTAL SWIPE: Emotional Geography (f4) ─────────────────
+// ── SCROLL-HIJACK: vertical scroll → horizontal card scroll ─────
 (function() {
-  const track = document.getElementById('geo-track');
-  const dots  = document.querySelectorAll('#geo-dots .swipe-dot');
-  if (!track) return;
+  function initHijack(cfg) {
+    const wrapper = document.getElementById(cfg.wrapperId);
+    const track   = document.getElementById(cfg.trackId);
+    const dots    = document.querySelectorAll(cfg.dotsSelector);
+    if (!wrapper || !track) return;
 
-  function getActiveIdx() {
-    const cards = track.querySelectorAll('.geo-card');
-    const center = track.scrollLeft + track.clientWidth / 2;
-    let best = 0, bestDist = Infinity;
-    cards.forEach((c, i) => {
-      const d = Math.abs((c.offsetLeft + c.offsetWidth / 2) - center);
-      if (d < bestDist) { bestDist = d; best = i; }
-    });
-    return best;
+    const cardSel = cfg.cardSelector;
+    const dataAttr = cfg.dataAttr;
+    const updater  = cfg.updater;
+
+    function setWrapperHeight() {
+      const scrollW = track.scrollWidth - track.clientWidth;
+      wrapper.style.height = (window.innerHeight + scrollW) + 'px';
+    }
+    setWrapperHeight();
+    window.addEventListener('resize', setWrapperHeight);
+
+    function getActiveIdx() {
+      const cards = track.querySelectorAll(cardSel);
+      const center = track.scrollLeft + track.clientWidth / 2;
+      let best = 0, bestDist = Infinity;
+      cards.forEach((c, i) => {
+        const d = Math.abs((c.offsetLeft + c.offsetWidth / 2) - center);
+        if (d < bestDist) { bestDist = d; best = i; }
+      });
+      return best;
+    }
+
+    function onScroll() {
+      const rect = wrapper.getBoundingClientRect();
+      const scrollW = track.scrollWidth - track.clientWidth;
+      if (scrollW <= 0) return;
+      const progress = Math.max(0, Math.min(1, -rect.top / scrollW));
+      track.scrollLeft = progress * scrollW;
+
+      const idx = getActiveIdx();
+      const cards = track.querySelectorAll(cardSel);
+      const val = parseInt(cards[idx]?.dataset?.[dataAttr] ?? '0');
+      dots.forEach((d, i) => d.classList.toggle('on', i === idx));
+      if (!isNaN(val) && val >= 0) updater(val);
+      else updater(0);
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
   }
 
-  track.addEventListener('scroll', () => {
-    const idx = getActiveIdx();
-    const cards = track.querySelectorAll('.geo-card');
-    const mapVal = parseInt(cards[idx]?.dataset?.map ?? '0');
-    dots.forEach((d, i) => d.classList.toggle('on', i === idx));
-    if (!isNaN(mapVal) && mapVal >= 0) setMap(mapVal);
-    else setMap(0);
-  }, { passive: true });
-})();
+  initHijack({
+    wrapperId: 'geo-wrapper',
+    trackId: 'geo-track',
+    dotsSelector: '#geo-dots .swipe-dot',
+    cardSelector: '.geo-card',
+    dataAttr: 'map',
+    updater: setMap
+  });
 
-// ── HORIZONTAL SWIPE: Timeline (f5) ───────────────────────────
-(function() {
-  const track = document.getElementById('tl-track');
-  const dots  = document.querySelectorAll('#tl-dots .swipe-dot');
-  if (!track) return;
-
-  function getActiveIdx() {
-    const cards = track.querySelectorAll('.tl-card');
-    const center = track.scrollLeft + track.clientWidth / 2;
-    let best = 0, bestDist = Infinity;
-    cards.forEach((c, i) => {
-      const d = Math.abs((c.offsetLeft + c.offsetWidth / 2) - center);
-      if (d < bestDist) { bestDist = d; best = i; }
-    });
-    return best;
-  }
-
-  track.addEventListener('scroll', () => {
-    const idx = getActiveIdx();
-    const cards = track.querySelectorAll('.tl-card');
-    const tlVal = parseInt(cards[idx]?.dataset?.tl ?? '0');
-    dots.forEach((d, i) => d.classList.toggle('on', i === idx));
-    if (!isNaN(tlVal) && tlVal >= 0) setTimeline(tlVal);
-    else setTimeline(0);
-  }, { passive: true });
+  initHijack({
+    wrapperId: 'tl-wrapper',
+    trackId: 'tl-track',
+    dotsSelector: '#tl-dots .swipe-dot',
+    cardSelector: '.tl-card',
+    dataAttr: 'tl',
+    updater: setTimeline
+  });
 })();
 
 </script>
