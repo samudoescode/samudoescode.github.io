@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Journal OS — Saumya</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -23,20 +24,15 @@
       --shadow-raised: inset -2px -2px 0 rgba(0,0,0,0.4), inset 2px 2px 0 rgba(255,255,255,0.6);
       --shadow-sunken: inset -2px -2px 0 rgba(255,255,255,0.5), inset 2px 2px 0 rgba(0,0,0,0.35);
       --shadow-clock:  inset 2px 2px 0 rgba(0,0,0,0.25), inset -2px -2px 0 rgba(255,255,255,0.6);
-      --font-heading: 'NotoSerifLao', Georgia, serif;
-      --font-body: 'NeueHaasDisplay', Helvetica, Arial, sans-serif;
     }
 
     body {
-      font-family: var(--font-body);
+      font-family: 'DM Sans', sans-serif;
       background: var(--cream);
       overflow: hidden;
       height: 100vh; width: 100vw;
       cursor: var(--cursor-custom), default;
       user-select: none;
-    }
-    h1, h2, h3, h4, h5, h6, .entry-title, .buddy-title, .cal-month-title {
-      font-family: var(--font-heading);
     }
     a, button, .desk-icon, .tb-btn, .start-btn, .bar-btn, .wc-btn, .sb-item, .ctx-i, .cal-day, .win-resize, #hue-slider {
       cursor: var(--cursor-custom), pointer !important;
@@ -543,17 +539,32 @@
       color: #d8d8d8;
       text-shadow: 1px 1px 0 rgba(0,0,0,0.8);
     }
-    body.dark .entry-heading { color: #e4e4e4; }
-    body.dark .entry-body    { color: #c0c0c0; }
-    body.dark .entry-body em { opacity: 0.9; }
-    body.dark .entry-date    { color: #888; }
-    body.dark .buddy-body    { color: #c4aac4; }
-    body.dark .buddy-box     { background: rgba(255,255,255,0.04); border-color: rgba(200,100,200,0.2); }
-    body.dark .cal-selected-info { color: #999; }
-    body.dark .cal-notebar input { background: #1a1a1a; color: #ccc; }
-    body.dark .cal-dow { color: #777; }
-    body.dark .status-pane { color: rgba(255,255,255,0.4); }
-    body.dark .sb-section  { color: rgba(255,255,255,0.3); }
+    /* Entry content */
+    body.dark .entry-heading { color: #ececec !important; }
+    body.dark .entry-body    { color: #c8c8c8 !important; }
+    body.dark .entry-body em { color: inherit; opacity: 0.85; }
+    body.dark .entry-date    { color: #888 !important; }
+    body.dark .divider       { background: rgba(255,255,255,0.08); }
+    /* Buddy box */
+    body.dark .buddy-body    { color: #ccaacc !important; }
+    body.dark .buddy-box     { background: rgba(255,255,255,0.05); border-color: rgba(200,100,200,0.2); }
+    body.dark .buddy-label   { opacity: 1; }
+    /* Calendar grid numbers */
+    body.dark .cal-day          { color: #d0d0d0; }
+    body.dark .cal-day.empty    { color: transparent; }
+    body.dark .cal-selected-info { color: #b0b0b0; }
+    body.dark .cal-notebar input { background: rgba(255,255,255,0.07); color: #d0d0d0; border: 1px solid rgba(255,255,255,0.1); }
+    body.dark .cal-dow          { color: #999 !important; }
+    /* Status & sidebar */
+    body.dark .status-pane  { color: rgba(255,255,255,0.5) !important; }
+    body.dark .sb-section   { color: rgba(255,255,255,0.4) !important; }
+    /* Context menu in dark */
+    body.dark #ctx-menu     { background: #1e1e1e; }
+    body.dark .ctx-i        { color: #d0d0d0; }
+    body.dark .ctx-sep      { background: rgba(255,255,255,0.1); }
+    /* Sidebar item text in dark mode */
+    body.dark .sb-item        { color: #c8c8c8 !important; }
+    body.dark .win-bar .bar-btn { color: inherit; }
 
     /* Dark mode toggle button */
     .dm-btn {
@@ -587,25 +598,28 @@
 <!-- Desktop -->
 <div id="desktop" oncontextmenu="showCtx(event)" onclick="clearSel(event)">
   <div class="desk-icon" id="icon-professional" style="left:16px;top:16px" ondblclick="openWin('professional')">
-    <div class="fi"><img src="https://www.figma.com/api/mcp/asset/fa739cd7-7451-41d6-8dd3-20a9175594e5" alt="Professional" /></div><span>Professional</span>
+    <div class="fi"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%20shape-rendering%3D%22crispEdges%22%3E%0A%20%20%3C%21--%20back%20of%20open%20folder%20--%3E%0A%20%20%3Crect%20x%3D%221%22%20y%3D%229%22%20width%3D%2219%22%20height%3D%223%22%20fill%3D%22%23c8962e%22/%3E%0A%20%20%3Crect%20x%3D%221%22%20y%3D%2212%22%20width%3D%2230%22%20height%3D%2216%22%20fill%3D%22%23c8962e%22/%3E%0A%20%20%3C%21--%20papers%20sticking%20up%20--%3E%0A%20%20%3Crect%20x%3D%2210%22%20y%3D%225%22%20width%3D%227%22%20height%3D%2211%22%20fill%3D%22%23fffef0%22%20stroke%3D%22%23888%22%20stroke-width%3D%220.5%22/%3E%0A%20%20%3Cline%20x1%3D%2212%22%20y1%3D%228%22%20x2%3D%2215%22%20y2%3D%228%22%20stroke%3D%22%23aaa%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%3Cline%20x1%3D%2212%22%20y1%3D%2210%22%20x2%3D%2215%22%20y2%3D%2210%22%20stroke%3D%22%23aaa%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%3Cline%20x1%3D%2212%22%20y1%3D%2212%22%20x2%3D%2215%22%20y2%3D%2212%22%20stroke%3D%22%23aaa%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%3Crect%20x%3D%2217%22%20y%3D%227%22%20width%3D%226%22%20height%3D%229%22%20fill%3D%22%23fffef0%22%20stroke%3D%22%23888%22%20stroke-width%3D%220.5%22/%3E%0A%20%20%3C%21--%20open%20folder%20front%20--%3E%0A%20%20%3Cpath%20d%3D%22M0%2013%20L5%2022%20L31%2022%20L31%2013%20Z%22%20fill%3D%22%23ffd34f%22/%3E%0A%20%20%3Cpath%20d%3D%22M0%2013%20L5%2022%20L31%2022%20L31%2013%20Z%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%3C%21--%20folder%20tab%20--%3E%0A%20%20%3Crect%20x%3D%221%22%20y%3D%229%22%20width%3D%2210%22%20height%3D%224%22%20fill%3D%22%23ffd34f%22%20stroke%3D%22%23000%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%3C%21--%20folder%20body%20outline%20--%3E%0A%20%20%3Crect%20x%3D%221%22%20y%3D%2212%22%20width%3D%2230%22%20height%3D%2211%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%220.8%22/%3E%0A%3C/svg%3E" alt="Professional" /></div><span>Professional</span>
   </div>
   <div class="desk-icon" id="icon-physical" style="left:16px;top:110px" ondblclick="openWin('physical')">
-    <div class="fi"><img src="https://www.figma.com/api/mcp/asset/82c951c6-aacd-4bf6-a7b7-3da0001574b4" alt="Physical" /></div><span>Physical</span>
+    <div class="fi"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%20shape-rendering%3D%22crispEdges%22%3E%0A%20%20%3C%21--%20phone%20body%20--%3E%0A%20%20%3Crect%20x%3D%228%22%20y%3D%224%22%20width%3D%2216%22%20height%3D%2224%22%20rx%3D%222%22%20fill%3D%22%23c0c0c0%22%20stroke%3D%22%23000%22%20stroke-width%3D%221%22/%3E%0A%20%20%3Crect%20x%3D%229%22%20y%3D%225%22%20width%3D%2214%22%20height%3D%2222%22%20rx%3D%221%22%20fill%3D%22%23dfdfdf%22/%3E%0A%20%20%3C%21--%20keypad%20dots%20--%3E%0A%20%20%3Crect%20x%3D%2211%22%20y%3D%2213%22%20width%3D%223%22%20height%3D%222%22%20fill%3D%22%23808080%22/%3E%0A%20%20%3Crect%20x%3D%2215%22%20y%3D%2213%22%20width%3D%223%22%20height%3D%222%22%20fill%3D%22%23808080%22/%3E%0A%20%20%3Crect%20x%3D%2219%22%20y%3D%2213%22%20width%3D%223%22%20height%3D%222%22%20fill%3D%22%23808080%22/%3E%0A%20%20%3Crect%20x%3D%2211%22%20y%3D%2217%22%20width%3D%223%22%20height%3D%222%22%20fill%3D%22%23808080%22/%3E%0A%20%20%3Crect%20x%3D%2215%22%20y%3D%2217%22%20width%3D%223%22%20height%3D%222%22%20fill%3D%22%23808080%22/%3E%0A%20%20%3Crect%20x%3D%2219%22%20y%3D%2217%22%20width%3D%223%22%20height%3D%222%22%20fill%3D%22%23808080%22/%3E%0A%20%20%3C%21--%20screen%20--%3E%0A%20%20%3Crect%20x%3D%2210%22%20y%3D%226%22%20width%3D%2212%22%20height%3D%226%22%20fill%3D%22%23000080%22/%3E%0A%20%20%3Crect%20x%3D%2211%22%20y%3D%227%22%20width%3D%224%22%20height%3D%221%22%20fill%3D%22%2300cc00%22/%3E%0A%20%20%3C%21--%20call%20button%20--%3E%0A%20%20%3Crect%20x%3D%2213%22%20y%3D%2222%22%20width%3D%226%22%20height%3D%223%22%20rx%3D%221%22%20fill%3D%22%23008000%22/%3E%0A%3C/svg%3E" alt="Physical" /></div><span>Physical</span>
   </div>
   <div class="desk-icon" id="icon-social" style="left:16px;top:204px" ondblclick="openWin('social')">
-    <div class="fi"><img src="https://www.figma.com/api/mcp/asset/1e92f6b6-2196-4e2d-b0eb-ac7098103b44" alt="Social" /></div><span>Social</span>
+    <div class="fi"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%20shape-rendering%3D%22crispEdges%22%3E%0A%20%20%3C%21--%20person%201%20%28left%2C%20green%29%20--%3E%0A%20%20%3Ccircle%20cx%3D%2210%22%20cy%3D%228%22%20r%3D%224%22%20fill%3D%22%2300aa00%22%20stroke%3D%22%23000%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%3Crect%20x%3D%224%22%20y%3D%2214%22%20width%3D%2212%22%20height%3D%2211%22%20rx%3D%222%22%20fill%3D%22%2300aa00%22%20stroke%3D%22%23000%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%3Crect%20x%3D%226%22%20y%3D%2212%22%20width%3D%228%22%20height%3D%224%22%20fill%3D%22%2300aa00%22/%3E%0A%20%20%3C%21--%20person%202%20%28right%2C%20darker%29%20--%3E%0A%20%20%3Ccircle%20cx%3D%2222%22%20cy%3D%229%22%20r%3D%224%22%20fill%3D%22%23007700%22%20stroke%3D%22%23000%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%3Crect%20x%3D%2216%22%20y%3D%2215%22%20width%3D%2212%22%20height%3D%2210%22%20rx%3D%222%22%20fill%3D%22%23007700%22%20stroke%3D%22%23000%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%3Crect%20x%3D%2218%22%20y%3D%2213%22%20width%3D%228%22%20height%3D%224%22%20fill%3D%22%23007700%22/%3E%0A%20%20%3C%21--%20highlight%20dots%20%28eyes%29%20--%3E%0A%20%20%3Crect%20x%3D%228%22%20y%3D%227%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22/%3E%0A%20%20%3Crect%20x%3D%2211%22%20y%3D%227%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22/%3E%0A%20%20%3Crect%20x%3D%2220%22%20y%3D%228%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22/%3E%0A%20%20%3Crect%20x%3D%2223%22%20y%3D%228%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22/%3E%0A%3C/svg%3E" alt="Social" /></div><span>Social</span>
   </div>
   <div class="desk-icon" id="icon-emotional" style="left:16px;top:298px" ondblclick="openWin('emotional')">
-    <div class="fi"><img src="https://www.figma.com/api/mcp/asset/0b08e40d-fc55-482f-8ac8-1cbb113c3eef" alt="Emotional" /></div><span>Emotional</span>
+    <div class="fi"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%20shape-rendering%3D%22crispEdges%22%3E%0A%20%20%3C%21--%20bin%20body%20--%3E%0A%20%20%3Crect%20x%3D%226%22%20y%3D%2210%22%20width%3D%2220%22%20height%3D%2218%22%20rx%3D%221%22%20fill%3D%22%23c0c0c0%22%20stroke%3D%22%23000%22%20stroke-width%3D%221%22/%3E%0A%20%20%3Crect%20x%3D%227%22%20y%3D%2211%22%20width%3D%2218%22%20height%3D%2216%22%20fill%3D%22%23dfdfdf%22/%3E%0A%20%20%3C%21--%20lid%20--%3E%0A%20%20%3Crect%20x%3D%224%22%20y%3D%227%22%20width%3D%2224%22%20height%3D%224%22%20rx%3D%221%22%20fill%3D%22%23c0c0c0%22%20stroke%3D%22%23000%22%20stroke-width%3D%221%22/%3E%0A%20%20%3Crect%20x%3D%2211%22%20y%3D%224%22%20width%3D%2210%22%20height%3D%224%22%20rx%3D%221%22%20fill%3D%22%23c0c0c0%22%20stroke%3D%22%23000%22%20stroke-width%3D%221%22/%3E%0A%20%20%3C%21--%20recycle%20arrows%20on%20bin%20--%3E%0A%20%20%3Cpath%20d%3D%22M12%2016%20L16%2013%20L20%2016%20L18%2016%20Q17%2020%2016%2021%20Q15%2020%2014%2016%20Z%22%20fill%3D%22%23008000%22/%3E%0A%20%20%3Cpath%20d%3D%22M10%2022%20L13%2019%20L13%2024%20Z%22%20fill%3D%22%23008000%22/%3E%0A%20%20%3Cpath%20d%3D%22M22%2022%20L19%2019%20L19%2024%20Z%22%20fill%3D%22%23008000%22/%3E%0A%20%20%3C%21--%20lines%20on%20bin%20--%3E%0A%20%20%3Cline%20x1%3D%2211%22%20y1%3D%2214%22%20x2%3D%2211%22%20y2%3D%2226%22%20stroke%3D%22%23aaa%22%20stroke-width%3D%221%22/%3E%0A%20%20%3Cline%20x1%3D%2216%22%20y1%3D%2214%22%20x2%3D%2216%22%20y2%3D%2226%22%20stroke%3D%22%23aaa%22%20stroke-width%3D%221%22/%3E%0A%20%20%3Cline%20x1%3D%2221%22%20y1%3D%2214%22%20x2%3D%2221%22%20y2%3D%2226%22%20stroke%3D%22%23aaa%22%20stroke-width%3D%221%22/%3E%0A%3C/svg%3E" alt="Emotional" /></div><span>Emotional</span>
   </div>
   <div class="desk-icon" id="icon-misc" style="left:104px;top:16px" ondblclick="openWin('misc')">
-    <div class="fi"><img src="https://www.figma.com/api/mcp/asset/913c55dd-4abd-468a-95d4-ac86b96ed643" alt="Class Notes" /></div><span>Class Notes</span>
+    <div class="fi"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%20shape-rendering%3D%22crispEdges%22%3E%0A%20%20%3C%21--%20notepad%20body%20--%3E%0A%20%20%3Crect%20x%3D%225%22%20y%3D%224%22%20width%3D%2222%22%20height%3D%2226%22%20rx%3D%221%22%20fill%3D%22%23fffef0%22%20stroke%3D%22%23000%22%20stroke-width%3D%221%22/%3E%0A%20%20%3C%21--%20spiral%20rings%20--%3E%0A%20%20%3Crect%20x%3D%223%22%20y%3D%226%22%20width%3D%224%22%20height%3D%223%22%20rx%3D%221%22%20fill%3D%22%23c0c0c0%22%20stroke%3D%22%23000%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%3Crect%20x%3D%223%22%20y%3D%2212%22%20width%3D%224%22%20height%3D%223%22%20rx%3D%221%22%20fill%3D%22%23c0c0c0%22%20stroke%3D%22%23000%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%3Crect%20x%3D%223%22%20y%3D%2218%22%20width%3D%224%22%20height%3D%223%22%20rx%3D%221%22%20fill%3D%22%23c0c0c0%22%20stroke%3D%22%23000%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%3Crect%20x%3D%223%22%20y%3D%2224%22%20width%3D%224%22%20height%3D%223%22%20rx%3D%221%22%20fill%3D%22%23c0c0c0%22%20stroke%3D%22%23000%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%3C%21--%20red%20margin%20line%20--%3E%0A%20%20%3Cline%20x1%3D%2211%22%20y1%3D%224%22%20x2%3D%2211%22%20y2%3D%2230%22%20stroke%3D%22%23ff6666%22%20stroke-width%3D%221%22/%3E%0A%20%20%3C%21--%20text%20lines%20--%3E%0A%20%20%3Cline%20x1%3D%2213%22%20y1%3D%229%22%20x2%3D%2224%22%20y2%3D%229%22%20stroke%3D%22%23aaaaff%22%20stroke-width%3D%221%22/%3E%0A%20%20%3Cline%20x1%3D%2213%22%20y1%3D%2213%22%20x2%3D%2224%22%20y2%3D%2213%22%20stroke%3D%22%23aaaaff%22%20stroke-width%3D%221%22/%3E%0A%20%20%3Cline%20x1%3D%2213%22%20y1%3D%2217%22%20x2%3D%2224%22%20y2%3D%2217%22%20stroke%3D%22%23aaaaff%22%20stroke-width%3D%221%22/%3E%0A%20%20%3Cline%20x1%3D%2213%22%20y1%3D%2221%22%20x2%3D%2224%22%20y2%3D%2221%22%20stroke%3D%22%23aaaaff%22%20stroke-width%3D%221%22/%3E%0A%20%20%3Cline%20x1%3D%2213%22%20y1%3D%2225%22%20x2%3D%2224%22%20y2%3D%2225%22%20stroke%3D%22%23aaaaff%22%20stroke-width%3D%221%22/%3E%0A%3C/svg%3E" alt="Class Notes" /></div><span>Class Notes</span>
   </div>
   <div class="desk-icon" id="icon-about" style="left:104px;top:110px" ondblclick="openWin('about')">
-    <div class="fi"><img src="https://www.figma.com/api/mcp/asset/2cddc17d-40d8-4b84-bf9a-995b67f715c0" alt="About" /></div><span>About</span>
+    <div class="fi"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%20shape-rendering%3D%22crispEdges%22%3E%0A%20%20%3C%21--%20monitor%20body%20--%3E%0A%20%20%3Crect%20x%3D%222%22%20y%3D%223%22%20width%3D%2228%22%20height%3D%2220%22%20rx%3D%222%22%20fill%3D%22%23c0c0c0%22%20stroke%3D%22%23000%22%20stroke-width%3D%221%22/%3E%0A%20%20%3Crect%20x%3D%223%22%20y%3D%224%22%20width%3D%2226%22%20height%3D%2218%22%20fill%3D%22%23dfdfdf%22/%3E%0A%20%20%3C%21--%20screen%20--%3E%0A%20%20%3Crect%20x%3D%224%22%20y%3D%225%22%20width%3D%2224%22%20height%3D%2216%22%20fill%3D%22%23000080%22/%3E%0A%20%20%3C%21--%20screen%20content%20--%3E%0A%20%20%3Crect%20x%3D%226%22%20y%3D%228%22%20width%3D%228%22%20height%3D%221%22%20fill%3D%22%2300ff00%22/%3E%0A%20%20%3Crect%20x%3D%226%22%20y%3D%2211%22%20width%3D%2212%22%20height%3D%221%22%20fill%3D%22%2300ff00%22/%3E%0A%20%20%3Crect%20x%3D%226%22%20y%3D%2214%22%20width%3D%2210%22%20height%3D%221%22%20fill%3D%22%2300ff00%22/%3E%0A%20%20%3Crect%20x%3D%226%22%20y%3D%2217%22%20width%3D%226%22%20height%3D%221%22%20fill%3D%22%23aaaaaa%22/%3E%0A%20%20%3C%21--%20cursor%20blink%20--%3E%0A%20%20%3Crect%20x%3D%2215%22%20y%3D%2217%22%20width%3D%222%22%20height%3D%221%22%20fill%3D%22%23ffffff%22/%3E%0A%20%20%3C%21--%20stand%20neck%20--%3E%0A%20%20%3Crect%20x%3D%2213%22%20y%3D%2223%22%20width%3D%226%22%20height%3D%223%22%20fill%3D%22%23c0c0c0%22%20stroke%3D%22%23000%22%20stroke-width%3D%220.5%22/%3E%0A%20%20%3C%21--%20stand%20base%20--%3E%0A%20%20%3Crect%20x%3D%228%22%20y%3D%2226%22%20width%3D%2216%22%20height%3D%223%22%20rx%3D%221%22%20fill%3D%22%23c0c0c0%22%20stroke%3D%22%23000%22%20stroke-width%3D%221%22/%3E%0A%20%20%3C%21--%20monitor%20bevel%20highlights%20--%3E%0A%20%20%3Cline%20x1%3D%222%22%20y1%3D%223%22%20x2%3D%2230%22%20y2%3D%223%22%20stroke%3D%22%23fff%22%20stroke-width%3D%220.5%22/%3E%0A%20%20%3Cline%20x1%3D%222%22%20y1%3D%223%22%20x2%3D%222%22%20y2%3D%2223%22%20stroke%3D%22%23fff%22%20stroke-width%3D%220.5%22/%3E%0A%3C/svg%3E" alt="About" /></div><span>About</span>
   </div>
   <div class="desk-icon" id="icon-calendar" style="left:104px;top:204px" ondblclick="openCalendar()">
-    <div class="fi"><img src="https://www.figma.com/api/mcp/asset/f767f959-8179-47e7-b06f-5db8236208ec" alt="My Dates" /></div><span>My Dates</span>
+    <div class="fi"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%20shape-rendering%3D%22crispEdges%22%3E%0A%20%20%3C%21--%20calendar%20body%20--%3E%0A%20%20%3Crect%20x%3D%222%22%20y%3D%225%22%20width%3D%2228%22%20height%3D%2224%22%20rx%3D%221%22%20fill%3D%22%23fff%22%20stroke%3D%22%23000%22%20stroke-width%3D%221%22/%3E%0A%20%20%3C%21--%20header%20bar%20red%20--%3E%0A%20%20%3Crect%20x%3D%222%22%20y%3D%225%22%20width%3D%2228%22%20height%3D%227%22%20fill%3D%22%23cc0000%22/%3E%0A%20%20%3Crect%20x%3D%223%22%20y%3D%226%22%20width%3D%2226%22%20height%3D%225%22%20fill%3D%22%23dd1111%22/%3E%0A%20%20%3C%21--%20ring%20holes%20--%3E%0A%20%20%3Crect%20x%3D%228%22%20y%3D%223%22%20width%3D%223%22%20height%3D%225%22%20rx%3D%221%22%20fill%3D%22%23555%22%20stroke%3D%22%23000%22%20stroke-width%3D%220.5%22/%3E%0A%20%20%3Crect%20x%3D%2221%22%20y%3D%223%22%20width%3D%223%22%20height%3D%225%22%20rx%3D%221%22%20fill%3D%22%23555%22%20stroke%3D%22%23000%22%20stroke-width%3D%220.5%22/%3E%0A%20%20%3C%21--%20day-of-week%20row%20--%3E%0A%20%20%3Crect%20x%3D%223%22%20y%3D%2212%22%20width%3D%2226%22%20height%3D%224%22%20fill%3D%22%23ddddff%22/%3E%0A%20%20%3C%21--%20day%20cells%20--%3E%0A%20%20%3Crect%20x%3D%223%22%20y%3D%2217%22%20width%3D%223%22%20height%3D%223%22%20fill%3D%22%23eef%22/%3E%0A%20%20%3Crect%20x%3D%227%22%20y%3D%2217%22%20width%3D%223%22%20height%3D%223%22%20fill%3D%22%23eef%22/%3E%0A%20%20%3Crect%20x%3D%2211%22%20y%3D%2217%22%20width%3D%223%22%20height%3D%223%22%20fill%3D%22%23eef%22/%3E%0A%20%20%3Crect%20x%3D%2215%22%20y%3D%2217%22%20width%3D%223%22%20height%3D%223%22%20fill%3D%22%23eef%22/%3E%0A%20%20%3Crect%20x%3D%2219%22%20y%3D%2217%22%20width%3D%223%22%20height%3D%223%22%20fill%3D%22%23eef%22/%3E%0A%20%20%3Crect%20x%3D%2223%22%20y%3D%2217%22%20width%3D%223%22%20height%3D%223%22%20fill%3D%22%23eef%22/%3E%0A%20%20%3C%21--%20highlighted%20date%20--%3E%0A%20%20%3Crect%20x%3D%2211%22%20y%3D%2222%22%20width%3D%225%22%20height%3D%225%22%20fill%3D%22%23cc0000%22/%3E%0A%20%20%3Crect%20x%3D%223%22%20y%3D%2222%22%20width%3D%223%22%20height%3D%223%22%20fill%3D%22%23eef%22/%3E%0A%20%20%3Crect%20x%3D%227%22%20y%3D%2222%22%20width%3D%223%22%20height%3D%223%22%20fill%3D%22%23eef%22/%3E%0A%20%20%3Crect%20x%3D%2219%22%20y%3D%2222%22%20width%3D%223%22%20height%3D%223%22%20fill%3D%22%23eef%22/%3E%0A%20%20%3Crect%20x%3D%2223%22%20y%3D%2222%22%20width%3D%223%22%20height%3D%223%22%20fill%3D%22%23eef%22/%3E%0A%3C/svg%3E" alt="My Dates" /></div><span>My Dates</span>
+  </div>
+  <div class="desk-icon" id="icon-dataviz" style="left:104px;top:298px" ondblclick="openDataViz()">
+    <div class="fi"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%20shape-rendering%3D%22crispEdges%22%3E%0A%20%20%3C%21--%20chart%20background%20--%3E%0A%20%20%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2228%22%20height%3D%2228%22%20rx%3D%221%22%20fill%3D%22%23fffef0%22%20stroke%3D%22%23000%22%20stroke-width%3D%221%22/%3E%0A%20%20%3C%21--%20axes%20--%3E%0A%20%20%3Cline%20x1%3D%226%22%20y1%3D%224%22%20x2%3D%226%22%20y2%3D%2225%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.5%22/%3E%0A%20%20%3Cline%20x1%3D%226%22%20y1%3D%2225%22%20x2%3D%2229%22%20y2%3D%2225%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.5%22/%3E%0A%20%20%3C%21--%20bar%201%20%28tall%2C%20blue%29%20--%3E%0A%20%20%3Crect%20x%3D%228%22%20y%3D%2210%22%20width%3D%225%22%20height%3D%2215%22%20fill%3D%22%23000080%22/%3E%0A%20%20%3Crect%20x%3D%228%22%20y%3D%2210%22%20width%3D%225%22%20height%3D%221%22%20fill%3D%22%234444cc%22/%3E%0A%20%20%3Crect%20x%3D%228%22%20y%3D%2210%22%20width%3D%221%22%20height%3D%2215%22%20fill%3D%22%234444cc%22/%3E%0A%20%20%3C%21--%20bar%202%20%28medium%2C%20red%29%20--%3E%0A%20%20%3Crect%20x%3D%2215%22%20y%3D%2215%22%20width%3D%225%22%20height%3D%2210%22%20fill%3D%22%23cc0000%22/%3E%0A%20%20%3Crect%20x%3D%2215%22%20y%3D%2215%22%20width%3D%225%22%20height%3D%221%22%20fill%3D%22%23ff4444%22/%3E%0A%20%20%3Crect%20x%3D%2215%22%20y%3D%2215%22%20width%3D%221%22%20height%3D%2210%22%20fill%3D%22%23ff4444%22/%3E%0A%20%20%3C%21--%20bar%203%20%28short%2C%20green%29%20--%3E%0A%20%20%3Crect%20x%3D%2222%22%20y%3D%2218%22%20width%3D%225%22%20height%3D%227%22%20fill%3D%22%23007700%22/%3E%0A%20%20%3Crect%20x%3D%2222%22%20y%3D%2218%22%20width%3D%225%22%20height%3D%221%22%20fill%3D%22%2300aa00%22/%3E%0A%20%20%3Crect%20x%3D%2222%22%20y%3D%2218%22%20width%3D%221%22%20height%3D%227%22%20fill%3D%22%2300aa00%22/%3E%0A%20%20%3C%21--%20tick%20marks%20--%3E%0A%20%20%3Cline%20x1%3D%225%22%20y1%3D%2210%22%20x2%3D%227%22%20y2%3D%2210%22%20stroke%3D%22%23000%22%20stroke-width%3D%221%22/%3E%0A%20%20%3Cline%20x1%3D%225%22%20y1%3D%2218%22%20x2%3D%227%22%20y2%3D%2218%22%20stroke%3D%22%23000%22%20stroke-width%3D%221%22/%3E%0A%3C/svg%3E" alt="Data Viz" /></div><span>Data Visualization</span>
   </div>
 </div>
 
@@ -646,18 +660,32 @@ const SEC = {
     label: 'Professional', icon: '',
     entries: [
       {
-        id: 'figma', tab: 'Figma & Claude Code',
-        date: 'Spring 2025', tag: 'UI/UX',
-        heading: 'Mastering Figma Auto-layout & Claude Code',
-        samu: `It started with frustration. Auto-layout broke every time I tried to build a responsive card — I kept manually tweaking pixel values like it was 2012. Then something clicked: <em>constraints are not restrictions, they are instructions.</em> Once I stopped fighting the system and started describing intent, the designs started building themselves.\n\nClaude Code arrived at the perfect moment. I could prototype in real code with natural language, watch it render, iterate. The gap between what I could imagine and what I could build collapsed from weeks to hours. This wasn't just skill acquisition — it was an identity shift.`,
-        khushi: `Khushi's parallel journey is fascinating — she moved from the Loon internship context into actively learning Framer. Where I found flow in code, she found it in no-code. Her rejection earlier in the semester, which could have been a setback, became what I'd call a <em>Risk Assessment Lesson</em> — a forced recalibration that sent her toward a tool that actually fits her creative voice better.`,
+        id: 'jan', tab: 'January',
+        date: 'January 2025', tag: '4/5',
+        heading: 'First internship. Exciting and terrifying.',
+        samu: `First UX internship. Super excited about the work — my superior was genuinely nice — but I was constantly anxious. The late-night check-ins didn't help my mental state at all.\n\nWorked on a website and learned Figma Auto Layout. Got small moments of confidence from that. But the overall vibe was scary and unfamiliar and I kept questioning myself even when things were objectively fine.\n\n4/5 because I showed up and kept learning even while anxious. That counts for something.`,
+        khushi: `Khushi was managing her internship and the start of semester 5 simultaneously — work, college and social plans all overlapping without much breathing room. She made solid progress on the internship itself and started experimenting with motion design tools through small side projects. Summer internship applications began early.\n\nThe uncertainty arrived quickly though. She felt confused about what came next and started rushing applications — a lot of effort that didn't really go anywhere useful.`,
       },
       {
-        id: 'anxiety', tab: 'Internship Anxiety → Building',
-        date: 'Spring 2025', tag: 'Mindset',
-        heading: 'From "Internship Anxiety" to "Independent Building"',
-        samu: `The anxiety was specific: what if I'm not hireable? What if everyone else already knows this and I'm behind? I was treating skill gaps like personal failures.\n\nThe reframe came slowly. <em>Anxiety about building → curiosity about building.</em> I stopped asking "am I good enough" and started asking "what can I make today." The shift isn't permanent — it requires maintenance. But I have the tools now to return to it.`,
-        khushi: `For Khushi, the Loon rejection functioned as a similar catalyst. The internship anxiety she experienced resolved not through avoidance but through redirection. Framer became her "independent building" — proof that she could create without institutional validation.`,
+        id: 'feb', tab: 'February',
+        date: 'February 2025', tag: '5/5',
+        heading: 'Finally settled in.',
+        samu: `Finally felt used to it. Working at a good pace, not anxious anymore — just doing the work. Finalising the website and fixing bugs. 5/5.\n\nIt's interesting how much of January's anxiety was just unfamiliarity. Once that wore off, the same environment felt completely different. The late-night check-ins stopped feeling like a threat and just became a part of the rhythm.`,
+        khushi: `With her internship over, Khushi found herself with more time but significantly less direction. She shifted back to college projects and tried to rebuild that routine. Applications continued but nothing substantial came through despite consistent effort.\n\nProfessionally it felt like being in motion without actually going anywhere.`,
+      },
+      {
+        id: 'march', tab: 'March',
+        date: 'March 2025', tag: '3/5',
+        heading: 'Ready for it to end.',
+        samu: `Ready for the internship to end — it started conflicting with what I actually wanted to be doing. My heart wasn't really in it anymore.\n\nBut I did get into some genuinely interesting things on the side: dashboard design, new tools, version control. That was fun in a way the main work wasn't. So not a total loss. 3/5 because the motivation was gone but the learning continued.`,
+        khushi: `A rejection from an opportunity she had genuinely wanted hit Khushi hard and knocked out most of her drive to keep applying. She slowed down professionally even as other areas of life were improving — the contrast was frustrating and difficult to ignore.\n\nShe had planned to start building her portfolio with a new design tool but didn't follow through. Other areas improving made it easier to keep postponing this.`,
+      },
+      {
+        id: 'april', tab: 'April',
+        date: 'April 2025', tag: '→ free',
+        heading: 'Over. Building on my own terms now.',
+        samu: `Internship ended on the first of the month. Felt good but also carried a slight sense of — did I miss out on exploring it more deeply? Maybe.\n\nStarted building my own Figma designs from scratch with the help of AI tools. That was genuinely enjoyable in a way the structured internship work wasn't — no brief, no feedback loop, just making things. Started applying to new places as well. Got scammed by one company :(\n\nBuilding independently hit differently. I think I found what actually works for me.`,
+        khushi: `Khushi shifted her focus toward finishing college submissions, which gave her a sense of control she'd been missing for a while. Toward the end of the month she finally began learning the design tool she'd been putting off — a step toward the portfolio work that had been stalled since early in the semester.`,
       },
     ],
   },
@@ -665,11 +693,32 @@ const SEC = {
     label: 'Physical', icon: '',
     entries: [
       {
-        id: 'jump', tab: 'The 2/5 → 5/5 Jump',
-        date: 'Spring 2025', tag: 'Habits',
-        heading: 'From Intermittent Fasting to Badminton & Early Rising',
-        samu: `I rated my physical state a 2 out of 5 at the start of the semester. Intermittent fasting had become a control mechanism more than a health practice — rigid, joyless, and exhausting to maintain socially. I dropped it.\n\nBadminton was an accident. A classmate dragged me to a session. But the court has a quality screens don't — <em>immediate, embodied feedback.</em> You miss the shuttle, you know instantly, you adjust. I added early rising to stack the habit: 6:30am, no phone for the first 30 minutes. The 2/5 is now a 5/5.`,
-        khushi: `Khushi is the Buddy Inspiration here and I mean that genuinely. She went from baseline to <em>10/10 physical</em> — gymming every single day. That's not momentum, that's a lifestyle installation.\n\nWatching her consistency changed my relationship with excuses. If she can build that discipline while managing everything else in her life, the barriers I was citing were largely invented.`,
+        id: 'jan', tab: 'January',
+        date: 'January 2025', tag: '2/5',
+        heading: 'Aware of it. Not doing much about it.',
+        samu: `2/5. Noticed I'd gained weight over the previous few months and genuinely wanted to do something about it. But the internship gave me enough to justify inaction — too busy, will start later.\n\nOnly thing I actually did was intermittent fasting. Not much, but it was the beginning of paying attention to my body rather than ignoring it entirely.`,
+        khushi: `Khushi rated herself a 2 this month. The lifestyle — late nights, no real structure — left her physically drained throughout. No consistent movement happened and she wasn't doing anything to change that.`,
+      },
+      {
+        id: 'feb', tab: 'February',
+        date: 'February 2025', tag: '2/5',
+        heading: 'No exercise. But something shifted with food.',
+        samu: `Still 2/5 on exercise. Didn't move my body much at all. But something real shifted with my relationship to food this month.\n\nStopped binge eating. Realised the issue wasn't appetite — my body never actually wanted that much food. I just wasn't listening to it. Once I understood that, it got easier on its own. Not a physical breakthrough, but a foundational one.`,
+        khushi: `A 4 this month for Khushi — a small step up but still not consistent with any form of exercise. Not much had changed here compared to January.`,
+      },
+      {
+        id: 'march', tab: 'March',
+        date: 'March 2025', tag: '4/5',
+        heading: 'Movement is back. Forgot how good it feels.',
+        samu: `Started going on walks at night — just to get a little active, nothing intense. By the end of the month, picked up badminton as well.\n\nPhysical movement feels genuinely good and I had forgotten that. Once you start again, something wakes back up. Never got back to running but badminton felt like enough for now.`,
+        khushi: `Khushi hit 10 this month. Gym became a daily habit alongside reading and sketching coming back into her routine. The shift in physical activity made a visible difference in how she felt day to day — everything else felt a bit more manageable because of it.`,
+      },
+      {
+        id: 'april', tab: 'April',
+        date: 'April 2025', tag: '5/5',
+        heading: 'Everyday badminton. Actually waking up early.',
+        samu: `5/5. Still playing badminton every single day. Adjusted when I eat, started waking up early and actually having breakfast. Days genuinely feel longer and better when sleep and waking hours are on track — that's not productivity advice, it's just true.\n\nEventually stopped intermittent fasting entirely to see how my body responded without it. Had suspected it was affecting my skin. Turned out probably not. Either way, still going well.`,
+        khushi: `Another 10 for Khushi. Gym stayed consistent even as other parts of the month felt heavy. Cooking at home came back too, alongside lighter reading. These habits became stabilisers when the emotional weight increased.`,
       },
     ],
   },
@@ -677,18 +726,32 @@ const SEC = {
     label: 'Social', icon: '',
     entries: [
       {
-        id: 'orbit', tab: 'Orbit of 3',
-        date: 'Spring 2025', tag: 'Philosophy',
-        heading: 'The "Orbit of 3" Philosophy',
-        samu: `I arrived at this through subtraction, not addition. I noticed my social energy was being spread across too many peripheral connections — people I'd meet, enjoy for an evening, then feel vaguely obligated to. The "Orbit of 3" isn't a rule, it's an observation: I function best with three close relationships that operate on genuine reciprocity.\n\nThe hard part was naming the dynamic honestly. <em>Some people orbit you when they need something and disappear when they don't.</em> Recognising this isn't cynicism — it's pattern recognition. The friendships that survived closer inspection are richer for it.`,
-        khushi: `Khushi's social sphere is genuinely complex right now — balancing Arushi, her wider friend group, and increasing family gathering obligations. The tension: between depth and duty. Each system pulls with a different gravity.\n\nWhat I want her to hear: <em>you are allowed to be selective, even with people you love.</em>`,
+        id: 'jan', tab: 'January',
+        date: 'January 2025', tag: '1/5 (chosen)',
+        heading: 'Three people. That\'s the orbit.',
+        samu: `1/5 but completely by choice. My social circle is three people deep — that's just how I function. I wouldn't want more and couldn't handle more anyway. So is it really 1/5 or closer to 5/5 on my own terms? I chose this and it was working.\n\nWent inward this month. Processed a lot. Social energy went toward the internship and that was plenty.`,
+        khushi: `Khushi had a mixed month socially — 5/10. Outings happened, events were attended, and there were genuinely enjoyable moments. But a quiet disconnect with her closest friend ran through the whole thing and made everything feel slightly less present than it looked from the outside.`,
       },
       {
-        id: 'trips', tab: 'People Who Use You',
-        date: 'Spring 2025', tag: 'Networking',
-        heading: 'Realising People Use You vs. Making New Friends on Trips',
-        samu: `There's a particular clarity that travel brings to social dynamics. Away from routine, the transactional relationships become obvious — they contribute nothing to shared experience, only extract.\n\nI made exactly two new friendships this semester that I'd call real. Both happened in unplanned moments, both grew without any agenda. The lesson: <em>stop trying to be likeable and start being present.</em> Likeable is a performance; present is magnetic.`,
-        khushi: null,
+        id: 'feb', tab: 'February',
+        date: 'February 2025', tag: '1/5 (still chosen)',
+        heading: 'Same orbit. Added a fortnightly call.',
+        samu: `Still 1/5, still by choice. Same three people, no desire to expand.\n\nOne addition that became a proper routine: fortnightly calls with my long-distance best friend. Small thing. Made a real difference. Consistency in connection matters more than volume.`,
+        khushi: `February was one of Khushi's better social months — 8/10. She reconciled with a close friend, properly caught up with people she'd been distant from, and attended family events. More present and more connected than January, which she had been needing.`,
+      },
+      {
+        id: 'march', tab: 'March',
+        date: 'March 2025', tag: '4/5',
+        heading: 'More interaction. More noticing.',
+        samu: `4/5. Interacted with more people than expected this month — partly because I was spending so much time focused inward, which made external patterns more visible when they did appear.\n\nRealised that more people operate transactionally than I tend to notice. Not a dramatic revelation, just a pattern that became clear once I was paying attention.`,
+        khushi: `A 7 for Khushi socially. She attended meaningful events and reconnected with long-distance friends. Things were falling back into place without being forced — a quieter, more organic kind of social fulfilment.`,
+      },
+      {
+        id: 'april', tab: 'April',
+        date: 'April 2025', tag: '5/5',
+        heading: 'The trip. Real connections.',
+        samu: `5/5. A trip led to meeting a lot of new people. Real friendships formed — not surface-level ones. The connections grew without any particular agenda behind them.\n\nSocial energy flowed naturally this month in a way that felt entirely different from January's intentional withdrawal. Both were right for when they happened.`,
+        khushi: `Khushi rated this a 5 socially. A family trip kept her occupied but drained her more than it replenished. She was around people throughout but not particularly connected to any of them — busy in a way that doesn't fill you up.`,
       },
     ],
   },
@@ -696,25 +759,32 @@ const SEC = {
     label: 'Emotional', icon: '',
     entries: [
       {
-        id: 'breakup', tab: 'The Breakup',
-        date: 'Spring 2025', tag: 'Processing',
-        heading: 'The Breakup & What Followed',
-        samu: `Writing this took time. The breakup arrived not as a single moment but as a slow accumulation of knowing-before-knowing. When it finally happened, the pain was real but not surprising — which was itself disorienting. <em>How do you grieve something you already knew was ending?</em>\n\nThe answer turned out to be: the same way you grieve anything. You let it arrive. You don't schedule it or perform it. You sit with what's actually there.`,
-        khushi: `April was hard for Khushi. Creative block and depression arrived together — which I think is not coincidental. For her, creativity and emotional state are deeply coupled. When one goes, the other follows.\n\n<em>The block is not a diagnosis, it's a season.</em> The work you did before April exists. The capability is not gone. Depression lies about permanence — that's its signature move. You are not behind. You are not broken. You are in a hard month, and hard months end.\n\nI see you. Keep going.`,
+        id: 'jan', tab: 'January',
+        date: 'January 2025', tag: '1/5',
+        heading: 'Scattered. Honest. Breakup.',
+        samu: `1/5 — a lot of internal scatter and confusion. A significant mindset shift at the start of the month made me want to invest more seriously in myself and return to a spiritual practice I'd let go of.\n\nThat clarity also made something undeniable: I'd been postponing ending a relationship that had quietly stopped working. We'd become distant. I didn't enjoy the time together anymore. The decision had been waiting. Once I was honest about it, the breakup happened — and I handled it with more composure than I'd expected.`,
+        khushi: `Khushi rated January a 6 emotionally — manageable but somewhat overwhelming. She was carrying a lot at once: a demanding schedule, shifting relationships, and the pressure of figuring out what came next. Nothing catastrophic but very little space to breathe.`,
       },
       {
-        id: 'mind', tab: 'Mind Creates Emotions',
-        date: 'Spring 2025', tag: 'Insight',
-        heading: 'The "Mind Creates Emotions" Realisation',
-        samu: `I had been treating emotions as things that happened <em>to</em> me — external events producing internal states. The realisation was more uncomfortable: <strong>the mind constructs the emotion from raw data.</strong> Two people experience the same event; they feel differently because they're running different interpretive software.\n\nThis doesn't make feelings less real. It makes them more interesting. If construction is happening, I can study the architecture. I can notice the moment interpretation begins and introduce a pause. This is not suppression — it's the opposite.`,
-        khushi: null,
+        id: 'feb', tab: 'February',
+        date: 'February 2025', tag: '3.7/5',
+        heading: 'Thrown off balance. Chose peace anyway.',
+        samu: `3.7/5. Doing much better than January overall. But a close friend's unexpected confession surfaced a lot of unresolved feelings and threw me off balance. Became a bit bitter about things that had been sitting unaddressed for a long time.\n\nInstead of reacting I chose to seek peace internally. Went home, which actually worked better than it usually does.\n\nThis was also a period of using plant-based substances intentionally as a way to access deeper meditative states — the headspace it created was genuinely useful for introspection. It helped surface a lot of things about myself I hadn't looked at directly. Though it also had some unexpected ripple effects.\n\nMade a playlist that captured where my head was emotionally — a way of processing lingering feelings about a past relationship. Working on yourself tends to bring suppressed things to the surface. That's just what was happening.`,
+        khushi: `A 4 for Khushi emotionally. She felt lost and restless for most of the month. The lack of a clear professional direction coloured everything else and left her feeling unsettled in a way that was hard to name.`,
       },
       {
-        id: 'waves', tab: 'Waves on the Shore',
-        date: 'Spring 2025', tag: 'Meditation',
-        heading: 'The "Waves on the Shore" Meditation',
-        samu: `The metaphor came during a particularly bad afternoon. Thoughts as waves — they come, they have force, they recede. You don't stop the ocean by standing in front of it. You find the shore and stay there.\n\nI'm not a meditator in any formal sense. But this image has been more useful than any technique: <em>you are the shore, not the wave.</em> The wave is always moving toward you and always moving past you. Your job is to stay where you are.`,
-        khushi: null,
+        id: 'march', tab: 'March',
+        date: 'March 2025', tag: '5/5',
+        heading: 'The book on the bus. The awareness that actually happened.',
+        samu: `5/5. The strongest emotional month by a significant margin.\n\nThe news from February had thrown me enough that I went home — which doesn't usually end well, but this time it did. Calmer with my parents than usual. Did some genuinely good meditations.\n\nFound a book about the destructiveness of overthinking at the bus station on the way back. Picked it up on impulse. Felt like the right moment. Started replacing passive habits with reading and actual presence.\n\nOne night, using plant-based substances in the way I had been exploring, something unusual happened — the heightened awareness didn't fade. It carried into the next morning. For a stretch of time I was fully observing my own thoughts without being absorbed into them. Like watching waves from the shore rather than being in the water — present without being pulled. No anxiety, no worry. Just existing in the moment.\n\nI haven't been able to return to that exact state since. But knowing it's reachable changes the relationship with everything.`,
+        khushi: `A 6 emotionally for Khushi. More fulfilled than previous months — good habits were back, connections felt meaningful again. But the internship rejection left a residue of confusion about direction that ran underneath everything else. Two things existing at the same time.`,
+      },
+      {
+        id: 'april', tab: 'April',
+        date: 'April 2025', tag: '5/5',
+        heading: 'Stable. Actually stable.',
+        samu: `5/5. The most settled I'd felt in months — maybe longer.\n\nThoughts about reaching out to a different ex surfaced. But instead of acting on impulse, I sat with it. Realised the contact would happen eventually and it didn't need to be rushed or emotionally loaded. Just calm, when the time felt right. That kind of clarity about something that would have destabilised me in January felt significant.\n\nAlso returned to smoking after months without it. No guilt attached, no compulsive need to repeat it or obsessively avoid it again. It was just an action with no particular weight. That kind of neutrality toward something that used to carry a lot — that felt like something worth noting.\n\nNot the anxious, second-guessing version of myself anymore. That shift is real.`,
+        khushi: `Khushi rated April a 7 emotionally. The month felt heavy and slow in ways that were difficult to push through — a creative block, low periods, being mentally stretched across too many things at once. But she kept moving. Gym stayed consistent. Lighter reading helped. Progress came eventually, just slowly.`,
       },
     ],
   },
@@ -722,17 +792,31 @@ const SEC = {
     label: 'Class Notes & Misc', icon: '',
     entries: [
       {
-        id: 'ixd', tab: 'IxD Lecture Notes',
-        date: 'Spring 2025', tag: 'Lecture',
-        heading: 'Interaction Design — Key Frameworks',
-        samu: `Norman's gulf of evaluation and gulf of execution keep appearing in unexpected places. Gulf of evaluation = can the user tell what happened? Gulf of execution = can the user figure out what to do? Most design failures are <em>signifier failures</em> — the affordance exists but nothing communicates it.\n\nMapped this to code: a function that does what you need but has an unintuitive API is a gulf-of-execution failure. The logic is sound; the interface is broken.`,
+        id: 'insights', tab: 'Things That Stuck',
+        date: 'Jan – Apr 2025', tag: 'Insights',
+        heading: 'What actually stayed with me',
+        samu: `<strong>Figma Auto Layout</strong> — constraints are instructions, not restrictions. Once I stopped fighting the system and started describing intent, things built themselves.\n\n<strong>AI-assisted design tools</strong> — the gap between what I can imagine and what I can actually build collapsed. That's not a tool update, it's an identity shift.\n\n<strong>The mind constructs emotions</strong> from raw experience, and those emotions feed more thought, which feeds more emotion. Knowing the loop exists makes it possible to step outside it.\n\n<strong>Observing thoughts versus being them</strong> — easy in theory, genuinely difficult in practice. But achievable. I know because it happened once.\n\n<strong>Physical movement is irreplaceable.</strong> I forgot. I remembered. Don't forget again.\n\n<strong>On food:</strong> the body rarely wants as much as gets given to it. The trick is actually listening.`,
         khushi: null,
       },
       {
-        id: 'reading', tab: 'Reading List',
-        date: 'Spring 2025', tag: 'Resources',
-        heading: 'Things Worth Returning To',
-        samu: `References earning their space: <strong>The Design of Everyday Things</strong> (re-reading as a designer, not a student — different book entirely), <strong>Atomic Habits</strong> (actually applied, not just annotated), Maggie Appleton's digital garden on mental models, Emil Kowalski's animations blog.\n\nRule I'm trying: <em>if you recommend it to someone else, you have to have actually used it.</em> No more collecting resources as an avoidance strategy.`,
+        id: 'ratings', tab: 'Monthly Ratings',
+        date: 'Jan – Apr 2025', tag: 'Review',
+        heading: 'How the months rated out',
+        samu: `<strong>Saumya — rated out of 5</strong>\n\nJanuary · Professional 4 · Social 1 · Emotional 1 · Physical 2\nFebruary · Professional 5 · Social 1 · Emotional 3.7 · Physical 2\nMarch · Professional 3 · Social 4 · Emotional 5 · Physical 4\nApril · Professional — · Social 5 · Emotional 5 · Physical 5\n\nThe trajectory is clear in hindsight. January was rough across the board. By April almost everything had quietly become good. The professional rating for April is harder to place because the internship ending and building independently don't sit on the same scale — so leaving it unscored feels more honest.`,
+        khushi: `<strong>Khushi — rated out of 10</strong>\n\nJanuary · Professional 8 · Social 5 · Emotional 6 · Physical 2\nFebruary · Professional 7 · Social 8 · Emotional 4 · Physical 4\nMarch · Professional 4 · Social 7 · Emotional 6 · Physical 10\nApril · Professional 6 · Social 5 · Emotional 7 · Physical 10\n\nKhushi's biggest shift was physical — 2 to 10 by March and holding steady through April. Professional moved in the opposite direction after the rejection and never fully recovered that semester. Social peaked in February. Emotional dipped in February when direction felt most unclear and gradually recovered after that.`,
+      },
+    ],
+  },
+  dataviz: {
+    label: 'Data Visualization', icon: '',
+    entries: [
+      {
+        id: 'placeholder', tab: 'Coming Soon',
+        date: '2025', tag: 'Data',
+        heading: 'Data Visualization',
+        samu: `Content coming soon. This space will hold data visualizations and charts built from the journal data.
+
+<em>Check back once the contents are ready.</em>`,
         khushi: null,
       },
     ],
@@ -744,7 +828,7 @@ const SEC = {
         id: 'readme', tab: 'README',
         date: 'Spring 2025', tag: 'Intro',
         heading: 'Saumya — DTU Interaction Design',
-        samu: `Welcome to <strong>Journal OS</strong> — my personal experimentation log for the semester. This is a design artifact and a journal simultaneously.\n\nFive folders, each mapping to a dimension of the semester: Professional, Physical, Social, Emotional, and Class Notes. Each window holds my own entries (Saumya) and, where relevant, observations about my buddy <strong>Khushi</strong> — accessible via the tab toggle.\n\n<em>Double-click any folder to open it. Windows are draggable and resizable. Right-click the desktop for options.</em>\n\nBuilt with vanilla HTML/CSS/JS. Design reference from Figma. Hosted on GitHub Pages.`,
+        samu: `Welcome to <strong>Journal OS</strong> — a semester log built to look like a desktop operating system because that felt more honest than a regular document.\n\nFive folders: Professional, Physical, Social, Emotional, and Class Notes. Each contains four months — January through April. My entries are in the main view. My buddy <strong>Khushi's</strong> perspective on the same period is in the tab next to it, written from the outside looking in.\n\nThis isn't a highlight reel. It's what actually happened.\n\n<em>Double-click any folder to open it. Windows are draggable and resizable. Right-click the desktop for options. Dark mode is in the taskbar.</em>\n\nBuilt with vanilla HTML/CSS/JS. Designed in Figma.`,
         khushi: null,
       },
     ],
@@ -833,7 +917,10 @@ function openWin(id) {
 
   win.querySelectorAll('.win-tb,.win-tb-inner,.win-sb,.win-bar,.win-status,.status-pane,.bar-btn').forEach(el=>el.style.background=surfaceBg);
   win.querySelectorAll('.win-ct').forEach(el=>el.style.background=contentBg);
-  win.querySelectorAll('.win-tb-title').forEach(el=>el.style.color=currentAccent);
+  // Use displayAccent for text if in dark mode with a dark accent
+  const [_da_h, _da_s, _da_l] = hexToHsl(currentAccent);
+  const _displayAccent = (isDarkMode && _da_l < 55) ? hslToHex(_da_h, Math.min(_da_s, 72), 68) : currentAccent;
+  win.querySelectorAll('.win-tb-title').forEach(el=>el.style.color=_displayAccent);
   win.querySelectorAll('.wc-btn').forEach(el=>{ el.style.background=currentAccent; el.style.color=surfaceBg; });
 
   updateTB();
@@ -1121,6 +1208,17 @@ function applyPalette(bgHex, accentHex) {
     cBg = lightenBg(bgHex);
   }
 
+  // In dark mode, if accent is too dark to read on dark surfaces, auto-lighten it for text/icons
+  // (e.g. navy blue #1e207a or #2a2870 on a near-black surface)
+  let displayAccent = accentHex;
+  if (isDarkMode) {
+    const [ah, as_, al] = hexToHsl(accentHex);
+    if (al < 55) {
+      // Lighten to ~68% L, keep hue and moderate saturation
+      displayAccent = hslToHex(ah, Math.min(as_, 72), 68);
+    }
+  }
+
   const R = document.documentElement.style;
   R.setProperty('--bg',         surfaceBg);
   R.setProperty('--g2',         surfaceBg);
@@ -1142,7 +1240,7 @@ function applyPalette(bgHex, accentHex) {
   document.querySelectorAll('.cal-shell').forEach(el=>el.style.background=cBg);
 
   ['.win-tb-title','.start-btn','.tb-btn','.tb-clock','.pal-label','.cal-month-title','.bar-btn','.dm-btn']
-    .forEach(sel=>document.querySelectorAll(sel).forEach(el=>el.style.color=accentHex));
+    .forEach(sel=>document.querySelectorAll(sel).forEach(el=>el.style.color=displayAccent));
 
   ['.wc-btn','.entry-tag','.sb-item.active','.cal-day.marked','.cal-notebar button']
     .forEach(sel=>document.querySelectorAll(sel).forEach(el=>{
@@ -1150,7 +1248,7 @@ function applyPalette(bgHex, accentHex) {
     }));
 
   document.querySelectorAll('.tab-btn.active').forEach(el=>{
-    el.style.background=cBg; el.style.color=accentHex;
+    el.style.background=cBg; el.style.color=displayAccent;
   });
 
   // Keep dark-mode-btn shadow state correct
@@ -1162,20 +1260,23 @@ function applyPalette(bgHex, accentHex) {
   }
 
   document.getElementById('dynamic-theme').textContent=`
-    .desk-icon:hover   {background:${hexAlpha(accentHex,.15)}!important}
-    .desk-icon.selected{background:${hexAlpha(accentHex,.28)}!important}
-    .sb-item:hover     {background:${accentHex}!important;color:${surfaceBg}!important}
-    .sb-item.active    {background:${accentHex}!important;color:${surfaceBg}!important}
-    .ctx-i:hover       {background:${accentHex}!important;color:${surfaceBg}!important}
-    .cal-day:hover     {background:${hexAlpha(accentHex,.18)}!important}
-    .cal-day.marked    {background:${accentHex}!important;color:${surfaceBg}!important}
-    .tab-btn.active    {background:${cBg}!important;color:${accentHex}!important}
-    .wc-btn            {background:${accentHex}!important;color:${surfaceBg}!important}
-    .entry-tag         {background:${accentHex}!important;color:${surfaceBg}!important}
-    .cal-nav-btn       {background:${surfaceBg}!important;color:${accentHex}!important}
-    body:not(.dark) .entry-heading {color:#1a1a1a}
-    body:not(.dark) .entry-body    {color:#2a2a2a}
-    body:not(.dark) .desk-icon span{color:#1a1a1a}
+    .desk-icon:hover   {background:${hexAlpha(displayAccent,.15)}!important}
+    .desk-icon.selected{background:${hexAlpha(displayAccent,.28)}!important}
+    .sb-item:hover     {background:${displayAccent}!important;color:${isDarkMode?'#111':surfaceBg}!important}
+    .sb-item.active    {background:${displayAccent}!important;color:${isDarkMode?'#111':surfaceBg}!important}
+    .ctx-i:hover       {background:${displayAccent}!important;color:${isDarkMode?'#111':surfaceBg}!important}
+    .cal-day:hover     {background:${hexAlpha(displayAccent,.18)}!important}
+    .cal-day.marked    {background:${displayAccent}!important;color:${isDarkMode?'#111':surfaceBg}!important}
+    .tab-btn.active    {background:${cBg}!important;color:${displayAccent}!important}
+    .wc-btn            {background:${displayAccent}!important;color:${isDarkMode?'#111':surfaceBg}!important}
+    .entry-tag         {background:${displayAccent}!important;color:${isDarkMode?'#111':surfaceBg}!important}
+    .cal-nav-btn       {background:${surfaceBg}!important;color:${displayAccent}!important}
+    body:not(.dark) .entry-heading {color:#1a1a1a!important}
+    body:not(.dark) .entry-body    {color:#2a2a2a!important}
+    body:not(.dark) .desk-icon span{color:#1a1a1a!important}
+    body:not(.dark) .cal-day       {color:#111!important}
+    body:not(.dark) .status-pane   {color:rgba(0,0,0,0.55)!important}
+    body:not(.dark) .ctx-i         {color:#000!important}
   `;
 
   const[h]=hexToHsl(accentHex);
@@ -1197,6 +1298,13 @@ document.querySelectorAll('.pal-swatch').forEach(sw=>{
     sw.classList.add('active');
   });
 });
+
+// ═══════════════════════════════════════════
+// DATA VIZ
+// ═══════════════════════════════════════════
+function openDataViz() {
+  window.open('dataviz.html', '_blank');
+}
 
 // ═══════════════════════════════════════════
 // CALENDAR
@@ -1282,7 +1390,9 @@ function openCalendar() {
   const calContentBg = isDarkMode ? hslToHex(_ch, Math.min(_cs*0.3,10),  8) : lightenBg(currentBg);
 
   win.querySelectorAll('.win-tb,.win-tb-inner,.cal-nav,.cal-dow-row,.cal-notebar,.win-status,.status-pane').forEach(el=>el.style.background=calSurfaceBg);
-  win.querySelectorAll('.win-tb-title,.cal-month-title').forEach(el=>el.style.color=currentAccent);
+  const [_ca_h, _ca_s, _ca_l] = hexToHsl(currentAccent);
+  const _calDisplayAccent = (isDarkMode && _ca_l < 55) ? hslToHex(_ca_h, Math.min(_ca_s, 72), 68) : currentAccent;
+  win.querySelectorAll('.win-tb-title,.cal-month-title').forEach(el=>el.style.color=_calDisplayAccent);
   win.querySelectorAll('.wc-btn').forEach(el=>{el.style.background=currentAccent;el.style.color=calSurfaceBg;});
   win.querySelectorAll('.cal-shell').forEach(el=>el.style.background=calContentBg);
 
@@ -1298,7 +1408,9 @@ function calNav(dir) {
 function renderCalGrid() {
   const { year, month, label } = CAL_MONTHS[calCurrentMonth];
   const titleEl = document.getElementById('cal-month-title');
-  if (titleEl) { titleEl.textContent = label; titleEl.style.color = currentAccent; }
+  const [_rg_h, _rg_s, _rg_l] = hexToHsl(currentAccent);
+  const _rgDisplayAccent = (isDarkMode && _rg_l < 55) ? hslToHex(_rg_h, Math.min(_rg_s, 72), 68) : currentAccent;
+  if (titleEl) { titleEl.textContent = label; titleEl.style.color = _rgDisplayAccent; }
 
   const grid = document.getElementById('cal-grid');
   if (!grid) return;
