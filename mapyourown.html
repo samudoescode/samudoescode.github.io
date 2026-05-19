@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emotional Geography</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Lao:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'NeueHaasDisplay';
+      src: local('Neue Haas Grotesk Display'), local('NeueHaasDisplay'),
+           local('Neue Haas Grotesk'), local('HelveticaNeue'), local('Helvetica Neue');
+      font-weight: 400 700;
+      font-display: swap;
+    }
+
+    :root {
+      --bg:      #141210;
+      --bg2:     #1c1916;
+      --bg3:     #23201c;
+      --text:    #e4ddd0;
+      --green:   #7a9e70;
+      --amber:   #c8913a;
+      --sage:    #1e2419;
+      --border:  rgba(90, 122, 52, 0.15);
+      --muted:   rgba(228, 221, 208, 0.42);
+      --serif:   'Noto Serif Lao', Georgia, serif;
+      --sans:    'NeueHaasDisplay', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 0.92rem;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* HEADER */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding: 1.5rem 2.4rem 1.1rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(20, 28, 16, 0.92);
+      backdrop-filter: blur(8px);
+      position: relative;
+      z-index: 10;
+    }
+    header h1 {
+      font-family: var(--serif);
+      font-size: 1.75rem;
+      font-weight: 400;
+      line-height: 1.1;
+    }
+    header .sub {
+      font-size: 0.6rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    header p {
+      font-size: 0.7rem;
+      color: var(--muted);
+      max-width: 260px;
+      text-align: right;
+      line-height: 1.7;
+    }
+    .back-link {
+      display: inline-block;
+      font-size: 0.58rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      margin-top: 0.35rem;
+      transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--green); }
+
+    /* STATS */
+    .stats-bar {
+      display: flex;
+      gap: 2.5rem;
+      padding: 0.85rem 2.4rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--sage);
+    }
+    .stat-val {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-weight: 400;
+      line-height: 1;
+      color: var(--green);
+    }
+    .stat-lbl {
+      font-size: 0.58rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 0.15rem;
+    }
+
+    /* LAYOUT */
+    .main {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      height: calc(100vh - 126px);
+    }
+
+    /* MAP */
+    #map-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-right: 1px solid var(--border);
+    }
+    #map { flex: 1; }
+    #map.adding { cursor: crosshair; }
+
+    .map-hint {
+      display: none;
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(20, 28, 16, 0.95);
+      border: 1px solid var(--green);
+      color: var(--green);
+      font-size: 0.62rem;
+      padding: 0.45rem 1rem;
+      z-index: 999;
+      pointer-events: none;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    }
+    #map.adding .map-hint { display: block; }
+
+    /* SEARCH */
+    .search-wrap {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      z-index: 999;
+      display: flex;
+      width: 264px;
+    }
+    .search-wrap input {
+      flex: 1;
+      background: rgba(20, 28, 16, 0.95);
+      border: 1px solid var(--border);
+      border-right: none;
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 0.65rem;
+      padding: 0.5rem 0.75rem;
+      outline: none;
+      transition: border-color 0.15s;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    .search-wrap input::placeholder { color: var(--muted); }
+    .search-wrap input:focus { border-color: var(--green); }
+    .search-wrap button {
+      background: rgba(20, 28, 16, 0.95);
+      border: 1px solid var(--border);
+      border-left: none;
+      color: var(--muted);
+      font-size: 0.75rem;
+      padding: 0.5rem 0.7rem;
+      cursor: pointer;
+      transition: color 0.15s;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    .search-wrap button:hover { color: var(--green); }
+
+    .search-results {
+      position: absolute;
+      top: calc(100% + 3px);
+      left: 0; right: 0;
+      background: rgba(20, 28, 16, 0.98);
+      border: 1px solid var(--border);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+      display: none;
+    }
+    .search-results.open { display: block; }
+    .sr-item {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.62rem;
+      color: var(--text);
+      cursor: pointer;
+      border-bottom: 1px solid var(--border);
+      line-height: 1.4;
+      transition: background 0.1s, color 0.1s;
+    }
+    .sr-item:last-child { border-bottom: none; }
+    .sr-item:hover { background: var(--sage); color: var(--green); }
+    .sr-none { padding: 0.5rem 0.75rem; font-size: 0.62rem; color: var(--muted); }
+
+    /* Leaflet popup overrides */
+    .leaflet-popup-content-wrapper {
+      background: rgba(20, 28, 16, 0.97) !important;
+      border: 1px solid var(--border) !important;
+      border-radius: 4px !important;
+      color: var(--text) !important;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.35) !important;
+      font-family: var(--sans) !important;
+    }
+    .leaflet-popup-tip { background: rgba(20, 28, 16, 0.97) !important; }
+    .leaflet-popup-content { margin: 12px 14px !important; font-size: 12px; }
+    .pop-name { font-family: var(--serif); font-size: 1rem; margin-bottom: 3px; }
+    .pop-feel { color: var(--muted); font-size: 0.62rem; margin-bottom: 7px; line-height: 1.5; }
+    .pop-nums { display: flex; gap: 12px; font-size: 0.62rem; }
+    .pop-b { color: var(--amber); font-weight: 600; }
+    .pop-a { color: var(--green); font-weight: 600; }
+
+    /* INSIGHTS */
+    #insights {
+      border-top: 1px solid var(--border);
+      padding: 0.85rem 1.4rem;
+      background: var(--sage);
+      display: none;
+      flex-shrink: 0;
+    }
+    .ins-row { display: flex; gap: 2.5rem; }
+    .ins-lbl { font-size: 0.58rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.2rem; }
+    .ins-name { font-family: var(--serif); font-size: 0.95rem; }
+    .ins-nums { font-size: 0.62rem; margin-top: 0.1rem; }
+
+    /* SIDEBAR */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: var(--bg);
+    }
+    .s-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .s-tab {
+      flex: 1;
+      padding: 0.7rem 0.4rem;
+      font-family: var(--sans);
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .s-tab.on { color: var(--green); border-bottom-color: var(--green); }
+
+    .s-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+    }
+    .s-body::-webkit-scrollbar { width: 3px; }
+    .s-body::-webkit-scrollbar-thumb { background: var(--border); }
+
+    .empty {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      color: var(--muted);
+      font-size: 0.68rem;
+      line-height: 2;
+      font-style: italic;
+    }
+
+    /* Card — matches step-card from dataviz */
+    .card {
+      background: rgba(30, 42, 24, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.85rem;
+      margin-bottom: 0.6rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .card:hover {
+      border-color: rgba(120,160,90,0.4);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.28);
+    }
+    .card-name { font-family: var(--serif); font-size: 0.95rem; margin-bottom: 0.2rem; }
+    .card-feel { font-size: 0.62rem; color: var(--muted); margin-bottom: 0.5rem; line-height: 1.5; }
+    .ibar { height: 2px; background: rgba(90,122,82,0.12); border-radius: 1px; overflow: hidden; margin-bottom: 0.3rem; }
+    .ifill { height: 100%; border-radius: 1px; }
+    .ilabels { display: flex; justify-content: space-between; font-size: 0.58rem; color: var(--muted); }
+    .tag {
+      display: inline-block;
+      font-size: 0.55rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.15rem 0.45rem;
+      margin-top: 0.45rem;
+      border-radius: 2px;
+    }
+
+    /* ADD BAR */
+    .add-bar {
+      display: flex;
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .add-btn {
+      flex: 1;
+      padding: 0.72rem 0.4rem;
+      font-family: var(--sans);
+      font-size: 0.58rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--bg);
+      border: none;
+      border-right: 1px solid var(--border);
+      color: var(--muted);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .add-btn:last-child { border-right: none; }
+    .add-btn:hover { background: var(--bg3); color: var(--green); }
+
+    /* MODAL */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(14, 20, 10, 0.75);
+      z-index: 3000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+      backdrop-filter: blur(12px);
+    }
+    .overlay.open { opacity: 1; pointer-events: all; }
+
+    .modal {
+      background: rgba(24, 34, 18, 0.97);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: 0 16px 50px rgba(0,0,0,0.4);
+      width: 460px;
+      max-width: 94vw;
+      max-height: 88vh;
+      overflow-y: auto;
+      padding: 1.8rem 2rem;
+      transform: translateY(10px);
+      transition: transform 0.2s;
+    }
+    .overlay.open .modal { transform: translateY(0); }
+    .modal::-webkit-scrollbar { width: 3px; }
+    .modal::-webkit-scrollbar-thumb { background: var(--border); }
+
+    .modal h2 { font-family: var(--serif); font-size: 1.45rem; font-weight: 400; margin-bottom: 0.2rem; }
+    .modal .msub { font-size: 0.65rem; color: var(--muted); margin-bottom: 1.4rem; line-height: 1.7; }
+
+    .fg { margin-bottom: 1.1rem; }
+    .fg label {
+      display: block;
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.35rem;
+    }
+    .fg input, .fg textarea {
+      width: 100%;
+      background: rgba(14, 20, 10, 0.6);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 0.8rem;
+      padding: 0.55rem 0.7rem;
+      outline: none;
+      border-radius: 4px;
+      transition: border-color 0.15s;
+    }
+    .fg input:focus, .fg textarea:focus { border-color: var(--green); }
+    .fg textarea { resize: vertical; min-height: 56px; }
+
+    .srow { display: flex; align-items: center; gap: 0.9rem; }
+    .srow input[type=range] {
+      flex: 1;
+      -webkit-appearance: none;
+      height: 2px;
+      background: rgba(90,122,82,0.2);
+      border-radius: 1px;
+      border: none;
+      padding: 0;
+      outline: none;
+    }
+    .srow input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 13px; height: 13px;
+      border-radius: 50%;
+      background: var(--green);
+      cursor: pointer;
+    }
+    .snum { font-family: var(--serif); font-size: 1.25rem; color: var(--green); min-width: 2ch; text-align: right; }
+
+    .chips { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .chip {
+      padding: 0.32rem 0.7rem;
+      font-size: 0.6rem;
+      font-family: var(--sans);
+      border: 1px solid rgba(90,122,82,0.22);
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
+      color: var(--muted);
+    }
+    .chip.on { background: var(--bg3); border-color: var(--green); color: var(--green); }
+
+    .m-actions { display: flex; gap: 0.6rem; margin-top: 1.4rem; }
+    .btn-ok {
+      flex: 1;
+      padding: 0.65rem;
+      background: var(--green);
+      color: #fff;
+      border: none;
+      font-family: var(--sans);
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: opacity 0.15s;
+    }
+    .btn-ok:hover { opacity: 0.85; }
+    .btn-cancel {
+      padding: 0.65rem 1rem;
+      background: none;
+      color: var(--muted);
+      border: 1px solid rgba(90,122,82,0.2);
+      font-family: var(--sans);
+      font-size: 0.62rem;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.15s;
+    }
+    .btn-cancel:hover { color: var(--text); border-color: rgba(90,122,82,0.5); }
+    .err { border-color: #b56340 !important; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Emotional Geography</h1>
+    <div class="sub">Somatic Memory &amp; Emotional Geography · DTU Interaction Design 2025</div>
+    <a class="back-link" href="dataviz.html">← Back to the study</a>
+  </div>
+  <p>Map the places, sounds, and people your nervous system carries data about — faster than conscious thought.</p>
+</header>
+
+<div class="stats-bar">
+  <div>
+    <div class="stat-val" id="s-total">0</div>
+    <div class="stat-lbl">triggers mapped</div>
+  </div>
+  <div>
+    <div class="stat-val" id="s-before">—</div>
+    <div class="stat-lbl">avg autopilot</div>
+  </div>
+  <div>
+    <div class="stat-val" id="s-after">—</div>
+    <div class="stat-lbl">avg after recognition</div>
+  </div>
+  <div>
+    <div class="stat-val" id="s-delta">—</div>
+    <div class="stat-lbl">avg reduction</div>
+  </div>
+</div>
+
+<div class="main">
+
+  <div id="map-container">
+    <div id="map">
+      <div class="map-hint">Click anywhere on the map to place this memory</div>
+      <div class="search-wrap" id="search-wrap">
+        <input id="search-input" type="text" placeholder="Search a location…" onkeydown="searchKey(event)">
+        <button onclick="doSearch()" title="Search">↵</button>
+        <div class="search-results" id="search-results"></div>
+      </div>
+    </div>
+    <div id="insights">
+      <div class="ins-row" id="ins-row"></div>
+    </div>
+  </div>
+
+  <div class="sidebar">
+    <div class="s-tabs">
+      <button class="s-tab on" onclick="showTab('places',this)">🗺 Places</button>
+      <button class="s-tab"    onclick="showTab('sounds',this)">♪ Sounds</button>
+      <button class="s-tab"    onclick="showTab('people',this)">◎ People</button>
+    </div>
+    <div class="s-body" id="s-body">
+      <div class="empty">No places mapped yet.<br>Click "+ Place" below and<br>drop a pin anywhere on the map.</div>
+    </div>
+    <div class="add-bar">
+      <button class="add-btn" onclick="startPlace()">+ Place</button>
+      <button class="add-btn" onclick="openModal('sound')">+ Sound</button>
+      <button class="add-btn" onclick="openModal('person')">+ Person / Thing</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Modal -->
+<div class="overlay" id="overlay" onclick="overlayClick(event)">
+  <div class="modal">
+    <h2 id="m-title">Add a Place</h2>
+    <p class="msub" id="m-sub">Describe this location and the automatic response your body produces when you approach it.</p>
+
+    <div class="fg">
+      <label>Name or description</label>
+      <input id="f-name" type="text" placeholder="e.g. staircase window, parents' house">
+    </div>
+
+    <div class="fg">
+      <label>What did you feel automatically?</label>
+      <textarea id="f-feel" placeholder="e.g. low dread, a sense of being trapped, inexplicable calm…"></textarea>
+    </div>
+
+    <div class="fg">
+      <label>Autopilot intensity — <span id="lbl-b">5</span>/10</label>
+      <div class="srow">
+        <input type="range" min="1" max="10" value="5" id="f-before" oninput="syncSlider('b')">
+        <span class="snum" id="n-b">5</span>
+      </div>
+    </div>
+
+    <div class="fg">
+      <label>Do you know the origin of this response?</label>
+      <div class="chips" id="ch-origin">
+        <div class="chip" data-v="yes"       onclick="pick('origin','yes',this)">Yes</div>
+        <div class="chip" data-v="no"        onclick="pick('origin','no',this)">No</div>
+        <div class="chip on" data-v="unsure" onclick="pick('origin','unsure',this)">Unsure</div>
+      </div>
+    </div>
+
+    <div class="fg">
+      <label>Is that origin still present in your life?</label>
+      <div class="chips" id="ch-present">
+        <div class="chip" data-v="yes"           onclick="pick('present','yes',this)">Yes</div>
+        <div class="chip" data-v="no"            onclick="pick('present','no',this)">No</div>
+        <div class="chip on" data-v="partially"  onclick="pick('present','partially',this)">Partially</div>
+      </div>
+    </div>
+
+    <div class="fg">
+      <label>Intensity after naming its origin — <span id="lbl-a">5</span>/10</label>
+      <div class="srow">
+        <input type="range" min="1" max="10" value="5" id="f-after" oninput="syncSlider('a')">
+        <span class="snum" id="n-a">5</span>
+      </div>
+    </div>
+
+    <div class="m-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-ok" onclick="submit()">Map this memory</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+const db  = { places: [], sounds: [], people: [] };
+let curTab  = 'places';
+let curType = 'place';
+let pendLL  = null;
+let addingP = false;
+const sel   = { origin: 'unsure', present: 'partially' };
+
+const map = L.map('map', { zoomControl: true, attributionControl: false }).setView([20,0],2);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+  subdomains: 'abcd', maxZoom: 19
+}).addTo(map);
+
+map.on('click', e => {
+  if (!addingP) return;
+  pendLL  = e.latlng;
+  addingP = false;
+  document.getElementById('map').classList.remove('adding');
+  openModal('place');
+});
+
+function startPlace() {
+  addingP = true;
+  document.getElementById('map').classList.add('adding');
+}
+
+function iColor(n) {
+  if (n <= 3) return '#5a7a52';
+  if (n <= 6) return '#c8913a';
+  return '#7d2d00';
+}
+
+function addMarker(ll, e) {
+  const c = iColor(e.before);
+  const r = 7 + e.before * 1.5;
+  const icon = L.divIcon({
+    className: '',
+    html: `<div style="width:${r}px;height:${r}px;background:${c};border-radius:50%;border:2px solid rgba(249,246,240,0.9);box-shadow:0 2px ${e.before*2}px ${c}44;cursor:pointer;"></div>`,
+    iconSize: [r,r], iconAnchor: [r/2,r/2]
+  });
+  const marker = L.marker(ll, { icon }).addTo(map);
+  const diff = e.before - e.after;
+  const ds = diff > 0 ? `↓${diff} after recognition` : diff < 0 ? `↑${Math.abs(diff)}` : 'no change';
+  marker.bindPopup(`<div class="pop-name">${e.name}</div><div class="pop-feel">${e.feel||'—'}</div><div class="pop-nums"><span class="pop-b">auto: ${e.before}/10</span><span class="pop-a">${ds}</span></div>`);
+}
+
+const CONF = {
+  place:  { title:'Add a Place',           sub:'Describe this location and the automatic response your body produces on approach.',      ph:"e.g. staircase window, my old hostel room" },
+  sound:  { title:'Add a Sound',           sub:'A song, album, or sound that triggers an automatic emotional response.',                ph:"e.g. Banana Fish OST, Windows by Angel Olsen" },
+  person: { title:'Add a Person or Thing', sub:'A person, object, or relationship your body holds conditioned data about.',             ph:"e.g. initials only, an old object, a particular room" }
+};
+
+function openModal(type) {
+  curType = type;
+  const c = CONF[type];
+  document.getElementById('m-title').textContent = c.title;
+  document.getElementById('m-sub').textContent   = c.sub;
+  document.getElementById('f-name').placeholder  = c.ph;
+  document.getElementById('f-name').value        = '';
+  document.getElementById('f-name').classList.remove('err');
+  document.getElementById('f-feel').value        = '';
+  document.getElementById('f-before').value      = 5;
+  document.getElementById('f-after').value       = 5;
+  syncSlider('b'); syncSlider('a');
+  resetChips('origin','unsure');
+  resetChips('present','partially');
+  document.getElementById('overlay').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('overlay').classList.remove('open');
+  if (addingP) { addingP = false; document.getElementById('map').classList.remove('adding'); }
+  pendLL = null;
+}
+
+function overlayClick(e) { if (e.target===document.getElementById('overlay')) closeModal(); }
+
+function syncSlider(w) {
+  const v = document.getElementById(w==='b'?'f-before':'f-after').value;
+  document.getElementById(`lbl-${w}`).textContent = v;
+  document.getElementById(`n-${w}`).textContent   = v;
+}
+
+function pick(group, val, el) {
+  sel[group] = val;
+  document.getElementById(`ch-${group}`).querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+}
+
+function resetChips(group, def) {
+  sel[group] = def;
+  document.getElementById(`ch-${group}`).querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c.dataset.v===def));
+}
+
+function submit() {
+  const name = document.getElementById('f-name').value.trim();
+  if (!name) { document.getElementById('f-name').classList.add('err'); document.getElementById('f-name').focus(); return; }
+  const entry = {
+    id: Date.now(), type: curType, name,
+    feel:    document.getElementById('f-feel').value.trim(),
+    before:  +document.getElementById('f-before').value,
+    after:   +document.getElementById('f-after').value,
+    origin:  sel.origin, present: sel.present, ll: pendLL
+  };
+  const bucket = curType==='place'?'places':curType==='sound'?'sounds':'people';
+  db[bucket].push(entry);
+  if (curType==='place' && entry.ll) { addMarker(entry.ll,entry); map.flyTo(entry.ll,Math.max(map.getZoom(),11),{duration:1.2}); }
+  pendLL = null;
+  closeModal();
+  render();
+}
+
+function showTab(tab,btn) {
+  curTab = tab;
+  document.querySelectorAll('.s-tab').forEach(t=>t.classList.remove('on'));
+  btn.classList.add('on');
+  render();
+}
+
+function render() { renderSidebar(); renderStats(); renderInsights(); }
+
+function renderSidebar() {
+  const body = document.getElementById('s-body');
+  const list = db[curTab];
+  if (!list.length) {
+    const msgs = { places:'No places mapped yet.<br>Click "+ Place" below and<br>drop a pin anywhere on the map.', sounds:'No sounds added yet.<br>Click "+ Sound" below.', people:'No people or things added.<br>Click "+ Person / Thing" below.' };
+    body.innerHTML = `<div class="empty">${msgs[curTab]}</div>`;
+    return;
+  }
+  body.innerHTML = list.map(e => {
+    const diff = e.before - e.after;
+    const ds   = diff>0?`↓${diff} → ${e.after}/10`:diff<0?`↑${Math.abs(diff)} → ${e.after}/10`:`→ ${e.after}/10`;
+    const ac   = diff>0?'var(--green)':diff<0?'#7d2d00':'var(--muted)';
+    const otag = {yes:'origin known',no:'origin unknown',unsure:'origin unsure'}[e.origin];
+    const ptag = {yes:'still present',no:'no longer present',partially:'partially present'}[e.present];
+    return `<div class="card">
+      <div class="card-name">${e.name}</div>
+      <div class="card-feel">${e.feel||'—'}</div>
+      <div class="ibar"><div class="ifill" style="width:${e.before*10}%;background:${iColor(e.before)}"></div></div>
+      <div class="ilabels"><span style="color:var(--amber)">auto: ${e.before}/10</span><span style="color:${ac}">${ds}</span></div>
+      <div>
+        <span class="tag" style="background:${iColor(e.before)}14;color:${iColor(e.before)};border:1px solid ${iColor(e.before)}33">${otag}</span>
+        <span class="tag" style="background:var(--sage);color:var(--muted);border:1px solid var(--border);margin-left:.3rem">${ptag}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderStats() {
+  const all = [...db.places,...db.sounds,...db.people];
+  document.getElementById('s-total').textContent = all.length;
+  if (!all.length) return;
+  const ab = (all.reduce((s,e)=>s+e.before,0)/all.length).toFixed(1);
+  const aa = (all.reduce((s,e)=>s+e.after, 0)/all.length).toFixed(1);
+  const ad = (ab-aa).toFixed(1);
+  document.getElementById('s-before').textContent = ab;
+  document.getElementById('s-after').textContent  = aa;
+  document.getElementById('s-delta').textContent  = (ad>0?'↓':'')+ad;
+}
+
+function renderInsights() {
+  const all = [...db.places,...db.sounds,...db.people];
+  const box = document.getElementById('insights');
+  if (all.length<2) { box.style.display='none'; return; }
+  box.style.display = 'block';
+  const resistant = [...all].sort((a,b)=>(b.after/b.before)-(a.after/a.before))[0];
+  const shifted   = [...all].sort((a,b)=>(b.before-b.after)-(a.before-a.after))[0];
+  document.getElementById('ins-row').innerHTML = `
+    <div><div class="ins-lbl">Most resistant</div><div class="ins-name">${resistant.name}</div><div class="ins-nums" style="color:var(--amber)">${resistant.before} → ${resistant.after}/10</div></div>
+    ${shifted!==resistant?`<div><div class="ins-lbl">Biggest shift</div><div class="ins-name">${shifted.name}</div><div class="ins-nums" style="color:var(--green)">${shifted.before} → ${shifted.after}/10 ↓${shifted.before-shifted.after}</div></div>`:''}`;
+}
+
+// SEARCH
+function searchKey(e) { if(e.key==='Enter') doSearch(); if(e.key==='Escape') closeSearch(); }
+
+async function doSearch() {
+  const q = document.getElementById('search-input').value.trim();
+  if (!q) return;
+  const res = document.getElementById('search-results');
+  res.innerHTML = `<div class="sr-none">Searching…</div>`;
+  res.classList.add('open');
+  try {
+    const r = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=5`,{headers:{'Accept-Language':'en'}});
+    const data = await r.json();
+    if (!data.length) { res.innerHTML=`<div class="sr-none">No results found.</div>`; return; }
+    res.innerHTML = data.map(d=>`<div class="sr-item" onclick="pickResult(${d.lat},${d.lon},'${d.display_name.replace(/'/g,"&#39;")}')">${d.display_name}</div>`).join('');
+  } catch { res.innerHTML=`<div class="sr-none">Search unavailable.</div>`; }
+}
+
+function pickResult(lat,lon,name) {
+  closeSearch();
+  const ll = L.latLng(lat,lon);
+  map.flyTo(ll,13,{duration:1.4});
+  setTimeout(()=>{ pendLL=ll; addingP=false; document.getElementById('map').classList.remove('adding'); openModal('place'); document.getElementById('f-name').value=name.split(',')[0].trim(); },1500);
+}
+
+function closeSearch() { document.getElementById('search-results').classList.remove('open'); }
+document.addEventListener('click',e=>{ if(!document.getElementById('search-wrap').contains(e.target)) closeSearch(); });
+</script>
+</body>
+</html>
