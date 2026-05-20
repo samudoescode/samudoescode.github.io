@@ -42,23 +42,25 @@
       -webkit-font-smoothing: antialiased;
       min-height: 100vh;
       overflow-x: hidden;
+      padding-bottom: 260px;
     }
 
     /* HEADER */
     header {
       display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      padding: 1.5rem 2.4rem 1.1rem;
-      border-bottom: 1px solid var(--border);
-      background: rgba(20, 28, 16, 0.92);
-      backdrop-filter: blur(8px);
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 2.4rem 1.35rem;
+      border-bottom: none;
+      background: transparent;
+      backdrop-filter: none;
       position: relative;
       z-index: 10;
+      text-align: center;
     }
     header h1 {
       font-family: var(--serif);
-      font-size: 1.75rem;
+      font-size: clamp(2rem, 4vw, 3.25rem);
       font-weight: 400;
       line-height: 1.1;
     }
@@ -70,11 +72,12 @@
       text-transform: uppercase;
     }
     header p {
-      font-size: 0.7rem;
+      font-size: 0.78rem;
       color: var(--muted);
-      max-width: 260px;
-      text-align: right;
+      max-width: 560px;
+      text-align: center;
       line-height: 1.7;
+      margin: 0.65rem auto 0;
     }
     .back-link {
       display: inline-block;
@@ -90,11 +93,20 @@
 
     /* STATS */
     .stats-bar {
-      display: flex;
-      gap: 2.5rem;
-      padding: 0.85rem 2.4rem;
-      border-bottom: 1px solid var(--border);
-      background: var(--sage);
+      position: relative;
+      margin: 0 auto 1.4rem;
+      z-index: 900;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1.1rem;
+      width: min(760px, calc(100vw - 48px));
+      padding: 1rem 1.25rem;
+      border: 1px solid rgba(90,122,82,0.22);
+      border-radius: 10px;
+      background: rgba(20, 28, 16, 0.88);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 18px 48px rgba(0,0,0,0.35);
+      text-align: center;
     }
     .stat-val {
       font-family: var(--serif);
@@ -113,9 +125,11 @@
 
     /* LAYOUT */
     .main {
-      display: grid;
-      grid-template-columns: 1fr 360px;
-      height: calc(100vh - 126px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 62vh;
+      padding: 0 clamp(20px, 4vw, 64px);
     }
 
     /* MAP */
@@ -124,10 +138,193 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      border-right: 1px solid var(--border);
+      width: min(70%, 980px);
+      min-width: min(720px, calc(100vw - 48px));
+      height: min(62vh, 620px);
+      border: 1px solid rgba(90,122,82,0.24);
+      border-radius: 18px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.42);
+      background: var(--bg2);
     }
     #map { flex: 1; }
     #map.adding { cursor: crosshair; }
+    #map-container.people-mode #map,
+    #map-container.people-mode #insights,
+    #map-container.sound-mode #map,
+    #map-container.sound-mode #insights { display: none !important; }
+    #map-container.people-mode #people-stage { display: flex; }
+    #map-container.sound-mode #sound-stage { display: flex; }
+
+    #people-stage,
+    #sound-stage {
+      display: none;
+      flex: 1;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(24px, 5vw, 56px);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(122,158,112,0.12), transparent 34%),
+        radial-gradient(circle at 80% 70%, rgba(200,145,58,0.10), transparent 32%),
+        var(--bg2);
+    }
+    .people-empty,
+    .sound-empty {
+      text-align: center;
+      color: var(--muted);
+      font-family: var(--serif);
+      font-size: clamp(1.05rem, 2vw, 1.45rem);
+      font-style: italic;
+      line-height: 1.7;
+    }
+    .sound-wrap {
+      width: min(820px, 100%);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .sound-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+    .sound-title {
+      font-family: var(--serif);
+      font-size: clamp(1.15rem, 2.3vw, 1.7rem);
+      line-height: 1.2;
+    }
+    .sound-toggle {
+      display: inline-flex;
+      padding: 0.18rem;
+      border: 1px solid rgba(122,158,112,0.24);
+      border-radius: 999px;
+      background: rgba(20,18,16,0.7);
+      flex-shrink: 0;
+    }
+    .sound-toggle button {
+      border: none;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      font-family: var(--sans);
+      font-size: 0.58rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.45rem 0.7rem;
+      cursor: pointer;
+    }
+    .sound-toggle button.on { background: var(--green); color: var(--bg); }
+    .sound-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.9rem;
+    }
+    .sound-card {
+      border: 1px solid rgba(122,158,112,0.22);
+      border-radius: 14px;
+      background: rgba(20,18,16,0.72);
+      padding: 1rem;
+      box-shadow: 0 14px 34px rgba(0,0,0,0.24);
+    }
+    .sound-name { font-family: var(--serif); font-size: 1.05rem; margin-bottom: 0.45rem; }
+    .sound-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.7rem;
+      font-size: 0.66rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .sound-meta strong {
+      display: block;
+      color: var(--green);
+      font-size: 0.55rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.2rem;
+    }
+    .sound-graph-row {
+      display: grid;
+      grid-template-columns: minmax(110px, 170px) 1fr;
+      gap: 0.85rem;
+      align-items: center;
+      margin-bottom: 0.8rem;
+    }
+    .sound-bar-track {
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(122,158,112,0.12);
+      overflow: hidden;
+    }
+    .sound-bar {
+      height: 100%;
+      min-width: 4px;
+      border-radius: 999px;
+      background: var(--amber);
+    }
+    .sound-bar.after { background: var(--green); }
+    .sound-graph-label {
+      color: var(--muted);
+      font-size: 0.62rem;
+      line-height: 1.35;
+    }
+    .sound-graph-label strong {
+      display: block;
+      color: var(--text);
+      font-family: var(--serif);
+      font-size: 0.9rem;
+      font-weight: 400;
+    }
+    .people-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: clamp(16px, 2vw, 28px);
+      width: min(760px, 100%);
+      align-items: stretch;
+    }
+    .persona-card {
+      min-height: 260px;
+      padding: 1.1rem;
+      border: 1px solid rgba(122,158,112,0.22);
+      border-radius: 18px;
+      background: rgba(20,18,16,0.72);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 18px 46px rgba(0,0,0,0.28);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .persona-img {
+      width: min(140px, 42vw);
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 50%;
+      background: #f7f3ec;
+      border: 1px solid rgba(228,221,208,0.22);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.28);
+      margin-bottom: 1rem;
+    }
+    .persona-name {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      line-height: 1.25;
+      margin-bottom: 0.4rem;
+    }
+    .persona-feel {
+      color: var(--muted);
+      font-size: 0.68rem;
+      line-height: 1.55;
+      max-width: 22ch;
+      margin-bottom: 0.6rem;
+    }
+    .persona-nums {
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--green);
+    }
 
     .map-hint {
       display: none;
@@ -240,11 +437,49 @@
 
     /* SIDEBAR */
     .sidebar {
+      position: fixed;
+      left: 50%;
+      right: auto;
+      bottom: 24px;
+      transform: translateX(-50%);
+      z-index: 1200;
+      width: min(960px, calc(100vw - 48px));
+      height: 230px;
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      background: var(--bg);
+      background: rgba(20, 18, 16, 0.9);
+      border: 1px solid rgba(90,122,82,0.26);
+      border-radius: 18px;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow: 0 24px 70px rgba(0,0,0,0.48);
     }
+    .add-bar {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      padding: 1rem 1.1rem 0.75rem;
+      flex-shrink: 0;
+    }
+    .add-btn {
+      flex: 0 1 210px;
+      min-height: 44px;
+      padding: 0.75rem 1.1rem;
+      font-family: var(--sans);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: rgba(122,158,112,0.13);
+      border: 1px solid rgba(122,158,112,0.45);
+      border-radius: 999px;
+      color: var(--green);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.15s;
+      white-space: nowrap;
+    }
+    .add-btn:hover { background: var(--green); color: var(--bg); border-color: var(--green); transform: translateY(-1px); }
     .s-tabs {
       display: flex;
       border-bottom: 1px solid var(--border);
@@ -269,14 +504,14 @@
     .s-body {
       flex: 1;
       overflow-y: auto;
-      padding: 1rem;
+      padding: 1rem 1.2rem;
     }
     .s-body::-webkit-scrollbar { width: 3px; }
     .s-body::-webkit-scrollbar-thumb { background: var(--border); }
 
     .empty {
       text-align: center;
-      padding: 2.5rem 1rem;
+      padding: 1.25rem 1rem;
       color: var(--muted);
       font-size: 0.68rem;
       line-height: 2;
@@ -300,6 +535,9 @@
       box-shadow: 0 6px 20px rgba(0,0,0,0.28);
     }
     .card-name { font-family: var(--serif); font-size: 0.95rem; margin-bottom: 0.2rem; }
+    .card-head { display: flex; gap: 0.65rem; align-items: center; margin-bottom: 0.35rem; }
+    .card-avatar { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; background: #f7f3ec; border: 1px solid rgba(228,221,208,0.18); flex-shrink: 0; }
+    .card-head .card-name { margin-bottom: 0; }
     .card-feel { font-size: 0.62rem; color: var(--muted); margin-bottom: 0.5rem; line-height: 1.5; }
     .ibar { height: 2px; background: rgba(90,122,82,0.12); border-radius: 1px; overflow: hidden; margin-bottom: 0.3rem; }
     .ifill { height: 100%; border-radius: 1px; }
@@ -314,28 +552,56 @@
       border-radius: 2px;
     }
 
-    /* ADD BAR */
-    .add-bar {
-      display: flex;
-      border-top: 1px solid var(--border);
-      flex-shrink: 0;
+    .leaflet-bottom.leaflet-right { bottom: 1rem; right: 1rem; }
+    .leaflet-control-zoom {
+      border: 1px solid rgba(122,158,112,0.32) !important;
+      border-radius: 8px !important;
+      overflow: hidden;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.4) !important;
     }
-    .add-btn {
-      flex: 1;
-      padding: 0.72rem 0.4rem;
-      font-family: var(--sans);
-      font-size: 0.58rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      background: var(--bg);
-      border: none;
-      border-right: 1px solid var(--border);
-      color: var(--muted);
-      cursor: pointer;
-      transition: background 0.15s, color 0.15s;
+    .leaflet-control-zoom a {
+      width: 34px !important;
+      height: 34px !important;
+      line-height: 32px !important;
+      background: rgba(14, 15, 13, 0.94) !important;
+      color: var(--text) !important;
+      border-bottom: 1px solid rgba(122,158,112,0.24) !important;
     }
-    .add-btn:last-child { border-right: none; }
-    .add-btn:hover { background: var(--bg3); color: var(--green); }
+    .leaflet-control-zoom a:hover { background: var(--bg3) !important; color: var(--green) !important; }
+
+    @media (max-width: 900px) {
+      body { padding-bottom: 310px; }
+      header { padding: 1.5rem 1.2rem 1rem; }
+      .stats-bar {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        width: calc(100vw - 32px);
+      }
+      .main {
+        min-height: 54vh;
+        padding: 0 16px;
+      }
+      #map-container {
+        width: 100%;
+        min-width: 0;
+        height: 52vh;
+        border-radius: 14px;
+      }
+      .sidebar {
+        width: calc(100vw - 24px);
+        height: 288px;
+        bottom: 12px;
+        border-radius: 14px;
+      }
+      .add-bar {
+        flex-wrap: wrap;
+        gap: 0.55rem;
+      }
+      .add-btn {
+        flex: 1 1 140px;
+        min-height: 42px;
+        font-size: 0.62rem;
+      }
+    }
 
     /* MODAL */
     .overlay {
@@ -468,10 +734,9 @@
 <header>
   <div>
     <h1>Emotional Geography</h1>
-    <div class="sub">Somatic Memory &amp; Emotional Geography · DTU Interaction Design 2025</div>
+    <p>Map the places, sounds, and people your nervous system carries data about — faster than conscious thought.</p>
     <a class="back-link" href="dataviz.html">← Back to the study</a>
   </div>
-  <p>Map the places, sounds, and people your nervous system carries data about — faster than conscious thought.</p>
 </header>
 
 <div class="stats-bar">
@@ -504,24 +769,30 @@
         <div class="search-results" id="search-results"></div>
       </div>
     </div>
+    <div id="people-stage">
+      <div class="people-empty">Add a person or thing to see the emotional data take shape here.</div>
+    </div>
+    <div id="sound-stage">
+      <div class="sound-empty">Add a sound to compare how conditioning formed and how long it took to revise.</div>
+    </div>
     <div id="insights">
       <div class="ins-row" id="ins-row"></div>
     </div>
   </div>
 
   <div class="sidebar">
+    <div class="add-bar">
+      <button class="add-btn" onclick="startPlace()">+ Place</button>
+      <button class="add-btn" onclick="openModal('sound')">+ Sound</button>
+      <button class="add-btn" onclick="openModal('person')">+ Person / Thing</button>
+    </div>
     <div class="s-tabs">
       <button class="s-tab on" onclick="showTab('places',this)">🗺 Places</button>
       <button class="s-tab"    onclick="showTab('sounds',this)">♪ Sounds</button>
       <button class="s-tab"    onclick="showTab('people',this)">◎ People</button>
     </div>
     <div class="s-body" id="s-body">
-      <div class="empty">No places mapped yet.<br>Click "+ Place" below and<br>drop a pin anywhere on the map.</div>
-    </div>
-    <div class="add-bar">
-      <button class="add-btn" onclick="startPlace()">+ Place</button>
-      <button class="add-btn" onclick="openModal('sound')">+ Sound</button>
-      <button class="add-btn" onclick="openModal('person')">+ Person / Thing</button>
+      <div class="empty">No places mapped yet.<br>Click "+ Place" above and<br>drop a pin anywhere on the map.</div>
     </div>
   </div>
 
@@ -541,6 +812,18 @@
     <div class="fg">
       <label>What did you feel automatically?</label>
       <textarea id="f-feel" placeholder="e.g. low dread, a sense of being trapped, inexplicable calm…"></textarea>
+    </div>
+
+    <div id="sound-extra" style="display:none;">
+      <div class="fg">
+        <label>On average, how many times or how long did you listen before associating the emotion with it?</label>
+        <input id="f-sound-build" type="text" placeholder="e.g. 20 listens, 3 weeks, one semester">
+      </div>
+
+      <div class="fg">
+        <label>How long did undoing the conditioning take?</label>
+        <input id="f-sound-undo" type="text" placeholder="e.g. 2 weeks, 5 listens, still ongoing">
+      </div>
     </div>
 
     <div class="fg">
@@ -591,9 +874,15 @@ let curTab  = 'places';
 let curType = 'place';
 let pendLL  = null;
 let addingP = false;
+let soundView = 'graph';
 const sel   = { origin: 'unsure', present: 'partially' };
+const PERSONA_IMAGES = [
+  `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220"><rect width="220" height="220" fill="#f8f6f1"/><path d="M49 149c-17-54 2-105 42-123 41-19 95-3 117 45 13 30 5 70-19 93-13 12-30 16-48 15-36-1-70-4-92-30z" fill="#000"/><path d="M62 146c12 27 44 47 76 39 28-7 52-31 58-67 5-28-9-51-33-66-36-23-79-15-101 16-18 25-16 51 0 78z" fill="#f8f6f1"/><path d="M41 157c2 22 23 31 42 20-14-5-25-15-31-30-4 3-8 6-11 10zM151 46c-26 13-58 12-79-8 17-20 63-26 94-6 22 14 35 34 40 62-20-22-37-37-55-48z" fill="#000"/><path d="M63 110c16-9 31-7 43 3M129 102c13-13 28-15 45-5" fill="none" stroke="#000" stroke-width="8" stroke-linecap="round"/><path d="M78 124c10 7 22 7 32 0M144 120c9 6 20 6 29-1" fill="none" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M105 120c-7 18-9 28 8 35M125 174c10 1 18 4 23 11" fill="none" stroke="#000" stroke-width="7" stroke-linecap="round"/><path d="M187 91c14-15 28-2 20 20-5 14-18 18-26 9" fill="#f8f6f1" stroke="#000" stroke-width="7" stroke-linecap="round"/></svg>`)}`,
+  `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220"><rect width="220" height="220" fill="#f8f6f1"/><path d="M44 85c8-42 48-70 91-58 36 10 58 43 54 83-3 31-21 61-53 74-34 14-73 2-91-26-14-21-12-47-1-73z" fill="#000"/><path d="M54 113c1-41 35-74 76-73 40 1 70 33 69 74-1 45-32 81-73 83-41 2-73-33-72-84z" fill="#f8f6f1"/><path d="M44 105c8-54 45-79 93-77 33 1 64 28 61 68-15-18-33-27-57-31-32-6-62 7-97 40zM27 94c0 22 13 38 33 45-2-22 0-42 10-60-17-2-32 3-43 15zM157 43c24 4 41 20 48 43-17-9-34-13-52-10 6-12 8-23 4-33z" fill="#000"/><path d="M75 111c13-12 29-12 43-1M140 110c13-9 27-9 40 1" fill="none" stroke="#000" stroke-width="7" stroke-linecap="round"/><ellipse cx="96" cy="127" rx="8" ry="9" fill="#000"/><ellipse cx="157" cy="127" rx="8" ry="9" fill="#000"/><path d="M128 124c-5 19-5 31 0 40M104 177c17 8 35 8 51 0" fill="none" stroke="#000" stroke-width="7" stroke-linecap="round"/><path d="M72 145l8 8M180 145l8 8" stroke="#000" stroke-width="6" stroke-linecap="round"/></svg>`)}`  
+];
 
 const map = L.map('map', { zoomControl: true, attributionControl: false }).setView([20,0],2);
+map.zoomControl.setPosition('bottomright');
 L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
   subdomains: 'abcd', maxZoom: 19
 }).addTo(map);
@@ -607,6 +896,12 @@ map.on('click', e => {
 });
 
 function startPlace() {
+  if (curTab !== 'places') {
+    curTab = 'places';
+    document.querySelectorAll('.s-tab').forEach(t=>t.classList.remove('on'));
+    document.querySelector('.s-tab')?.classList.add('on');
+    render();
+  }
   addingP = true;
   document.getElementById('map').classList.add('adding');
 }
@@ -646,6 +941,9 @@ function openModal(type) {
   document.getElementById('f-name').value        = '';
   document.getElementById('f-name').classList.remove('err');
   document.getElementById('f-feel').value        = '';
+  document.getElementById('sound-extra').style.display = type === 'sound' ? 'block' : 'none';
+  document.getElementById('f-sound-build').value = '';
+  document.getElementById('f-sound-undo').value  = '';
   document.getElementById('f-before').value      = 5;
   document.getElementById('f-after').value       = 5;
   syncSlider('b'); syncSlider('a');
@@ -690,6 +988,11 @@ function submit() {
     origin:  sel.origin, present: sel.present, ll: pendLL
   };
   const bucket = curType==='place'?'places':curType==='sound'?'sounds':'people';
+  if (bucket === 'sounds') {
+    entry.soundBuild = document.getElementById('f-sound-build').value.trim();
+    entry.soundUndo = document.getElementById('f-sound-undo').value.trim();
+  }
+  if (bucket === 'people') entry.avatar = PERSONA_IMAGES[db.people.length % PERSONA_IMAGES.length];
   db[bucket].push(entry);
   if (curType==='place' && entry.ll) { addMarker(entry.ll,entry); map.flyTo(entry.ll,Math.max(map.getZoom(),11),{duration:1.2}); }
   pendLL = null;
@@ -704,13 +1007,20 @@ function showTab(tab,btn) {
   render();
 }
 
-function render() { renderSidebar(); renderStats(); renderInsights(); }
+function render() { renderMode(); renderSidebar(); renderStats(); renderInsights(); renderPeopleStage(); renderSoundStage(); }
+
+function renderMode() {
+  const container = document.getElementById('map-container');
+  container.classList.toggle('people-mode', curTab === 'people');
+  container.classList.toggle('sound-mode', curTab === 'sounds');
+  if (curTab === 'places') setTimeout(()=>map.invalidateSize(), 0);
+}
 
 function renderSidebar() {
   const body = document.getElementById('s-body');
   const list = db[curTab];
   if (!list.length) {
-    const msgs = { places:'No places mapped yet.<br>Click "+ Place" below and<br>drop a pin anywhere on the map.', sounds:'No sounds added yet.<br>Click "+ Sound" below.', people:'No people or things added.<br>Click "+ Person / Thing" below.' };
+    const msgs = { places:'No places mapped yet.<br>Click "+ Place" above and<br>drop a pin anywhere on the map.', sounds:'No sounds added yet.<br>Click "+ Sound" above.', people:'No people or things added.<br>Click "+ Person / Thing" above.' };
     body.innerHTML = `<div class="empty">${msgs[curTab]}</div>`;
     return;
   }
@@ -721,8 +1031,9 @@ function renderSidebar() {
     const otag = {yes:'origin known',no:'origin unknown',unsure:'origin unsure'}[e.origin];
     const ptag = {yes:'still present',no:'no longer present',partially:'partially present'}[e.present];
     return `<div class="card">
-      <div class="card-name">${e.name}</div>
+      ${curTab === 'people' ? `<div class="card-head"><img class="card-avatar" src="${e.avatar || PERSONA_IMAGES[0]}" alt=""><div class="card-name">${e.name}</div></div>` : `<div class="card-name">${e.name}</div>`}
       <div class="card-feel">${e.feel||'—'}</div>
+      ${curTab === 'sounds' ? `<div class="sound-meta" style="margin-bottom:.65rem;"><div><strong>Before association</strong>${e.soundBuild || 'not recorded'}</div><div><strong>Undoing took</strong>${e.soundUndo || 'not recorded'}</div></div>` : ''}
       <div class="ibar"><div class="ifill" style="width:${e.before*10}%;background:${iColor(e.before)}"></div></div>
       <div class="ilabels"><span style="color:var(--amber)">auto: ${e.before}/10</span><span style="color:${ac}">${ds}</span></div>
       <div>
@@ -731,6 +1042,79 @@ function renderSidebar() {
       </div>
     </div>`;
   }).join('');
+}
+
+function metricValue(text, fallback) {
+  const match = String(text || '').match(/\d+(\.\d+)?/);
+  return match ? Math.max(0.1, parseFloat(match[0])) : fallback;
+}
+
+function setSoundView(view) {
+  soundView = view;
+  renderSoundStage();
+}
+
+function renderSoundStage() {
+  const stage = document.getElementById('sound-stage');
+  if (!stage) return;
+  if (!db.sounds.length) {
+    stage.innerHTML = `<div class="sound-empty">Add a sound to compare how conditioning formed and how long it took to revise.</div>`;
+    return;
+  }
+  const values = db.sounds.flatMap(e => [metricValue(e.soundBuild, e.before), metricValue(e.soundUndo, Math.max(1, e.before - e.after || e.after))]);
+  const max = Math.max(...values, 1);
+  const body = soundView === 'graph'
+    ? db.sounds.map(e => {
+        const beforeVal = metricValue(e.soundBuild, e.before);
+        const afterVal = metricValue(e.soundUndo, Math.max(1, e.before - e.after || e.after));
+        return `<div class="sound-card">
+          <div class="sound-name">${e.name}</div>
+          <div class="sound-graph-row">
+            <div class="sound-graph-label"><strong>${e.soundBuild || 'Not recorded'}</strong>before association</div>
+            <div class="sound-bar-track"><div class="sound-bar" style="width:${Math.max(4, (beforeVal / max) * 100)}%"></div></div>
+          </div>
+          <div class="sound-graph-row" style="margin-bottom:0;">
+            <div class="sound-graph-label"><strong>${e.soundUndo || 'Not recorded'}</strong>undoing / after</div>
+            <div class="sound-bar-track"><div class="sound-bar after" style="width:${Math.max(4, (afterVal / max) * 100)}%"></div></div>
+          </div>
+        </div>`;
+      }).join('')
+    : `<div class="sound-list">${db.sounds.map(e => `<div class="sound-card">
+        <div class="sound-name">${e.name}</div>
+        <div class="sound-meta">
+          <div><strong>Before association</strong>${e.soundBuild || 'not recorded'}</div>
+          <div><strong>Undoing took</strong>${e.soundUndo || 'not recorded'}</div>
+        </div>
+      </div>`).join('')}</div>`;
+  stage.innerHTML = `<div class="sound-wrap">
+    <div class="sound-head">
+      <div class="sound-title">Sound Conditioning</div>
+      <div class="sound-toggle">
+        <button class="${soundView === 'graph' ? 'on' : ''}" onclick="setSoundView('graph')">Graph</button>
+        <button class="${soundView === 'dashboard' ? 'on' : ''}" onclick="setSoundView('dashboard')">Dashboard</button>
+      </div>
+    </div>
+    ${body}
+  </div>`;
+}
+
+function renderPeopleStage() {
+  const stage = document.getElementById('people-stage');
+  if (!stage) return;
+  if (!db.people.length) {
+    stage.innerHTML = `<div class="people-empty">Add a person or thing to see the emotional data take shape here.</div>`;
+    return;
+  }
+  stage.innerHTML = `<div class="people-grid">${db.people.map((e,i) => {
+    const diff = e.before - e.after;
+    const ds = diff > 0 ? `reduced by ${diff}` : diff < 0 ? `increased by ${Math.abs(diff)}` : 'no change';
+    return `<article class="persona-card">
+      <img class="persona-img" src="${e.avatar || PERSONA_IMAGES[i % PERSONA_IMAGES.length]}" alt="">
+      <div class="persona-name">${e.name}</div>
+      <div class="persona-feel">${e.feel || 'No feeling described yet.'}</div>
+      <div class="persona-nums">${e.before}/10 → ${e.after}/10 · ${ds}</div>
+    </article>`;
+  }).join('')}</div>`;
 }
 
 function renderStats() {
