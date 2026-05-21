@@ -42,7 +42,7 @@
       -webkit-font-smoothing: antialiased;
       min-height: 100vh;
       overflow-x: hidden;
-      padding-bottom: 260px;
+      padding-bottom: 210px;
     }
 
     /* HEADER */
@@ -50,7 +50,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 2rem 2.4rem 1.35rem;
+      padding: 0.7rem 2.4rem 0.55rem;
       border-bottom: none;
       background: transparent;
       backdrop-filter: none;
@@ -60,7 +60,7 @@
     }
     header h1 {
       font-family: var(--serif);
-      font-size: clamp(2rem, 4vw, 3.25rem);
+      font-size: clamp(1.85rem, 3.5vw, 2.85rem);
       font-weight: 400;
       line-height: 1.1;
     }
@@ -77,16 +77,19 @@
       max-width: 560px;
       text-align: center;
       line-height: 1.7;
-      margin: 0.65rem auto 0;
+      margin: 0.35rem auto 0;
     }
     .back-link {
+      position: fixed;
+      top: 18px;
+      left: 22px;
+      z-index: 1400;
       display: inline-block;
       font-size: 0.58rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--muted);
       text-decoration: none;
-      margin-top: 0.35rem;
       transition: color 0.15s;
     }
     .back-link:hover { color: var(--green); }
@@ -94,13 +97,13 @@
     /* STATS */
     .stats-bar {
       position: relative;
-      margin: 0 auto 1.4rem;
+      margin: 0 auto 0.75rem;
       z-index: 900;
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 1.1rem;
       width: min(760px, calc(100vw - 48px));
-      padding: 1rem 1.25rem;
+      padding: 0.75rem 1.1rem;
       border: 1px solid rgba(90,122,82,0.22);
       border-radius: 10px;
       background: rgba(20, 28, 16, 0.88);
@@ -110,7 +113,7 @@
     }
     .stat-val {
       font-family: var(--serif);
-      font-size: 1.5rem;
+      font-size: 1.35rem;
       font-weight: 400;
       line-height: 1;
       color: var(--green);
@@ -127,9 +130,9 @@
     .main {
       display: flex;
       justify-content: center;
-      align-items: center;
-      min-height: 62vh;
-      padding: 0 clamp(20px, 4vw, 64px);
+      align-items: flex-start;
+      min-height: calc(100vh - 360px);
+      padding: 0 clamp(12px, 2.5vw, 32px);
     }
 
     /* MAP */
@@ -138,9 +141,9 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      width: min(70%, 980px);
-      min-width: min(720px, calc(100vw - 48px));
-      height: min(62vh, 620px);
+      width: min(1220px, calc(100vw - 48px));
+      min-width: 0;
+      height: clamp(420px, calc(100vh - 335px), 620px);
       border: 1px solid rgba(90,122,82,0.24);
       border-radius: 18px;
       box-shadow: 0 24px 80px rgba(0,0,0,0.42);
@@ -159,9 +162,9 @@
     #sound-stage {
       display: none;
       flex: 1;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
-      padding: clamp(24px, 5vw, 56px);
+      padding: clamp(20px, 3.5vw, 42px);
       background:
         radial-gradient(circle at 20% 20%, rgba(122,158,112,0.12), transparent 34%),
         radial-gradient(circle at 80% 70%, rgba(200,145,58,0.10), transparent 32%),
@@ -175,6 +178,7 @@
       font-size: clamp(1.05rem, 2vw, 1.45rem);
       font-style: italic;
       line-height: 1.7;
+      margin: auto;
     }
     .sound-wrap {
       width: min(820px, 100%);
@@ -281,6 +285,7 @@
       gap: clamp(16px, 2vw, 28px);
       width: min(760px, 100%);
       align-items: stretch;
+      margin: 0 auto;
     }
     .persona-card {
       min-height: 260px;
@@ -444,7 +449,7 @@
       transform: translateX(-50%);
       z-index: 1200;
       width: min(960px, calc(100vw - 48px));
-      height: 230px;
+      height: 196px;
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -459,13 +464,13 @@
       display: flex;
       justify-content: center;
       gap: 0.75rem;
-      padding: 1rem 1.1rem 0.75rem;
+      padding: 0.75rem 1rem 0.55rem;
       flex-shrink: 0;
     }
     .add-btn {
       flex: 0 1 210px;
-      min-height: 44px;
-      padding: 0.75rem 1.1rem;
+      min-height: 40px;
+      padding: 0.65rem 1rem;
       font-family: var(--sans);
       font-size: 0.68rem;
       font-weight: 700;
@@ -480,6 +485,62 @@
       white-space: nowrap;
     }
     .add-btn:hover { background: var(--green); color: var(--bg); border-color: var(--green); transform: translateY(-1px); }
+
+    .community-toggle-wrap {
+      display: flex;
+      justify-content: center;
+      padding: 0 1rem 0.75rem;
+      flex-shrink: 0;
+    }
+    .community-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      border: 1px solid rgba(200,145,58,0.42);
+      border-radius: 999px;
+      background: rgba(200,145,58,0.08);
+      color: var(--amber);
+      font-family: var(--sans);
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.45rem 0.7rem 0.45rem 0.95rem;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+    .community-toggle .switch {
+      width: 34px;
+      height: 18px;
+      border-radius: 999px;
+      background: rgba(228,221,208,0.14);
+      border: 1px solid rgba(228,221,208,0.18);
+      position: relative;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .community-toggle .switch::after {
+      content: "";
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      top: 2px;
+      left: 3px;
+      background: var(--muted);
+      transition: transform 0.15s, background 0.15s;
+    }
+    .community-toggle.on {
+      background: rgba(200,145,58,0.16);
+      border-color: rgba(200,145,58,0.7);
+    }
+    .community-toggle.on .switch {
+      background: var(--amber);
+      border-color: var(--amber);
+    }
+    .community-toggle.on .switch::after {
+      transform: translateX(15px);
+      background: var(--bg);
+    }
     .s-tabs {
       display: flex;
       border-bottom: 1px solid var(--border);
@@ -487,7 +548,7 @@
     }
     .s-tab {
       flex: 1;
-      padding: 0.7rem 0.4rem;
+      padding: 0.55rem 0.4rem;
       font-family: var(--sans);
       font-size: 0.58rem;
       letter-spacing: 0.1em;
@@ -551,6 +612,11 @@
       margin-top: 0.45rem;
       border-radius: 2px;
     }
+    .tag.shared-tag {
+      background: rgba(200,145,58,0.12) !important;
+      border-color: rgba(200,145,58,0.34) !important;
+      color: var(--amber) !important;
+    }
 
     .leaflet-bottom.leaflet-right { bottom: 1rem; right: 1rem; }
     .leaflet-control-zoom {
@@ -570,25 +636,25 @@
     .leaflet-control-zoom a:hover { background: var(--bg3) !important; color: var(--green) !important; }
 
     @media (max-width: 900px) {
-      body { padding-bottom: 310px; }
-      header { padding: 1.5rem 1.2rem 1rem; }
+      body { padding-bottom: 260px; }
+      header { padding: 0.8rem 1.2rem 0.55rem; }
       .stats-bar {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         width: calc(100vw - 32px);
       }
       .main {
-        min-height: 54vh;
-        padding: 0 16px;
+        min-height: calc(100vh - 390px);
+        padding: 0 12px;
       }
       #map-container {
         width: 100%;
         min-width: 0;
-        height: 52vh;
+        height: clamp(360px, calc(100vh - 370px), 52vh);
         border-radius: 14px;
       }
       .sidebar {
         width: calc(100vw - 24px);
-        height: 288px;
+        height: 250px;
         bottom: 12px;
         border-radius: 14px;
       }
@@ -786,6 +852,12 @@
       <button class="add-btn" onclick="openModal('sound')">+ Sound</button>
       <button class="add-btn" onclick="openModal('person')">+ Person / Thing</button>
     </div>
+    <div class="community-toggle-wrap">
+      <button class="community-toggle" id="all-data-btn" onclick="toggleCommunityData()" aria-pressed="false">
+        <span id="all-data-label">Everyone's Data</span>
+        <span class="switch" aria-hidden="true"></span>
+      </button>
+    </div>
     <div class="s-tabs">
       <button class="s-tab on" onclick="showTab('places',this)">🗺 Places</button>
       <button class="s-tab"    onclick="showTab('sounds',this)">♪ Sounds</button>
@@ -870,11 +942,37 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 const db  = { places: [], sounds: [], people: [] };
+const community = {
+  places: [
+    { id:'c-place-1', shared:true, type:'place', name:'Virangana Laxmibai Hostel, DTU', feel:'Hostel lights after midnight; anxiety before conscious thought.', before:7, after:4, origin:'yes', present:'partially', ll:[28.7509,77.1177] },
+    { id:'c-place-2', shared:true, type:'place', name:'Staircase window, DTU hostel', feel:'Dread attached to a repeated campus route.', before:6, after:3, origin:'yes', present:'partially', ll:[28.7514,77.1182] },
+    { id:'c-place-3', shared:true, type:'place', name:'Lift area window, DTU hostel', feel:'Trapped, bored, body wanting to leave.', before:7, after:2, origin:'yes', present:'no', ll:[28.7505,77.1171] },
+    { id:'c-place-4', shared:true, type:'place', name:'Hostel room curtains, DTU', feel:'A quieter hostel-room trigger that still carried some charge.', before:5, after:3, origin:'yes', present:'partially', ll:[28.7502,77.1184] },
+    { id:'c-place-5', shared:true, type:'place', name:'Tower B2, Jaypee Wishtown Klassic, Noida', feel:"Sister's house; survival-anxiety and old relational data.", before:6, after:4, origin:'yes', present:'partially', ll:[28.5154,77.3813] },
+    { id:'c-place-6', shared:true, type:'place', name:'Dehradun', feel:"Parents' house and home state; dense old feelings.", before:8, after:6, origin:'yes', present:'yes', ll:[30.3165,78.0322] },
+    { id:'c-place-7', shared:true, type:'place', name:'Varkala Cliff', feel:'Hot place; irritation and wanting to move away quickly.', before:8, after:4, origin:'yes', present:'yes', ll:[8.7356,76.7060] },
+    { id:'c-place-8', shared:true, type:'place', name:'Bir, Himachal', feel:'Campus-road style alertness; repeated route that could not fully revise.', before:6, after:5, origin:'yes', present:'yes', ll:[32.0456,76.7236] }
+  ],
+  sounds: [
+    { id:'c-sound-1', shared:true, type:'sound', name:'Banana Fish Original Soundtrack', feel:'Grief regardless of current mood.', before:9, after:8, origin:'yes', present:'partially', soundBuild:'strong repeated association', soundUndo:'still ongoing' },
+    { id:'c-sound-2', shared:true, type:'sound', name:'Windows — Angel Olsen', feel:'A softer auditory trigger that retained some emotional charge.', before:5, after:3, origin:'yes', present:'no', soundBuild:'old association', soundUndo:'weakened over time' },
+    { id:'c-sound-3', shared:true, type:'sound', name:'The Adults Are Talking', feel:'Earlier emotional weight gradually remapped through changed circumstances.', before:6, after:2, origin:'yes', present:'no', soundBuild:'semester association', soundUndo:'changed context' },
+    { id:'c-sound-4', shared:true, type:'sound', name:'Teahouse', feel:'Intentionally conditioned calm response.', before:3, after:1, origin:'yes', present:'yes', soundBuild:'repeated calm pairing', soundUndo:'positive conditioning' },
+    { id:'c-sound-5', shared:true, type:'sound', name:'Song on shuffle', feel:'Guilt when it started playing randomly.', before:6, after:1, origin:'yes', present:'no', soundBuild:'personal event association', soundUndo:'origin recognized' }
+  ],
+  people: [
+    { id:'c-person-1', shared:true, type:'person', name:'Text messages', feel:'Excited, nervy.', before:8, after:4, origin:'unsure', present:'yes' },
+    { id:'c-person-2', shared:true, type:'person', name:'Marriage conversation', feel:'Anger when parents bring it up.', before:7, after:4, origin:'yes', present:'partially' },
+    { id:'c-person-3', shared:true, type:'person', name:'Person trigger', feel:'Unchanged high-intensity response.', before:10, after:10, origin:'yes', present:'yes' }
+  ]
+};
 let curTab  = 'places';
 let curType = 'place';
 let pendLL  = null;
 let addingP = false;
 let soundView = 'graph';
+let showCommunity = false;
+let communityMarkersVisible = false;
 const sel   = { origin: 'unsure', present: 'partially' };
 const PERSONA_IMAGES = [
   `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220"><rect width="220" height="220" fill="#f8f6f1"/><path d="M49 149c-17-54 2-105 42-123 41-19 95-3 117 45 13 30 5 70-19 93-13 12-30 16-48 15-36-1-70-4-92-30z" fill="#000"/><path d="M62 146c12 27 44 47 76 39 28-7 52-31 58-67 5-28-9-51-33-66-36-23-79-15-101 16-18 25-16 51 0 78z" fill="#f8f6f1"/><path d="M41 157c2 22 23 31 42 20-14-5-25-15-31-30-4 3-8 6-11 10zM151 46c-26 13-58 12-79-8 17-20 63-26 94-6 22 14 35 34 40 62-20-22-37-37-55-48z" fill="#000"/><path d="M63 110c16-9 31-7 43 3M129 102c13-13 28-15 45-5" fill="none" stroke="#000" stroke-width="8" stroke-linecap="round"/><path d="M78 124c10 7 22 7 32 0M144 120c9 6 20 6 29-1" fill="none" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M105 120c-7 18-9 28 8 35M125 174c10 1 18 4 23 11" fill="none" stroke="#000" stroke-width="7" stroke-linecap="round"/><path d="M187 91c14-15 28-2 20 20-5 14-18 18-26 9" fill="#f8f6f1" stroke="#000" stroke-width="7" stroke-linecap="round"/></svg>`)}`,
@@ -886,6 +984,7 @@ map.zoomControl.setPosition('bottomright');
 L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
   subdomains: 'abcd', maxZoom: 19
 }).addTo(map);
+const communityLayer = L.layerGroup();
 
 map.on('click', e => {
   if (!addingP) return;
@@ -914,16 +1013,50 @@ function iColor(n) {
 
 function addMarker(ll, e) {
   const c = iColor(e.before);
-  const r = 7 + e.before * 1.5;
+  const r = e.shared ? 7 + e.before * 1.15 : 7 + e.before * 1.5;
   const icon = L.divIcon({
     className: '',
-    html: `<div style="width:${r}px;height:${r}px;background:${c};border-radius:50%;border:2px solid rgba(249,246,240,0.9);box-shadow:0 2px ${e.before*2}px ${c}44;cursor:pointer;"></div>`,
+    html: `<div style="width:${r}px;height:${r}px;background:${c};border-radius:50%;border:${e.shared ? 1 : 2}px solid ${e.shared ? 'rgba(200,145,58,0.78)' : 'rgba(249,246,240,0.9)'};box-shadow:0 2px ${e.before*2}px ${c}44;cursor:pointer;${e.shared ? 'opacity:.82;' : ''}"></div>`,
     iconSize: [r,r], iconAnchor: [r/2,r/2]
   });
-  const marker = L.marker(ll, { icon }).addTo(map);
+  const marker = L.marker(ll, { icon }).addTo(e.shared ? communityLayer : map);
   const diff = e.before - e.after;
   const ds = diff > 0 ? `↓${diff} after recognition` : diff < 0 ? `↑${Math.abs(diff)}` : 'no change';
   marker.bindPopup(`<div class="pop-name">${e.name}</div><div class="pop-feel">${e.feel||'—'}</div><div class="pop-nums"><span class="pop-b">auto: ${e.before}/10</span><span class="pop-a">${ds}</span></div>`);
+}
+
+function visibleList(tab) {
+  return showCommunity ? [...db[tab], ...community[tab]] : db[tab];
+}
+
+function visibleAll() {
+  return [...visibleList('places'), ...visibleList('sounds'), ...visibleList('people')];
+}
+
+function syncCommunityMarkers() {
+  if (showCommunity && !communityMarkersVisible) {
+    community.places.forEach(e => addMarker(e.ll, e));
+    communityLayer.addTo(map);
+    communityMarkersVisible = true;
+  } else if (!showCommunity && communityMarkersVisible) {
+    communityLayer.clearLayers();
+    map.removeLayer(communityLayer);
+    communityMarkersVisible = false;
+  }
+}
+
+function toggleCommunityData() {
+  showCommunity = !showCommunity;
+  const btn = document.getElementById('all-data-btn');
+  btn.classList.toggle('on', showCommunity);
+  btn.setAttribute('aria-pressed', showCommunity ? 'true' : 'false');
+  syncCommunityMarkers();
+  if (showCommunity && curTab === 'places') {
+    const bounds = L.latLngBounds(community.places.map(e => e.ll));
+    db.places.forEach(e => { if (e.ll) bounds.extend(e.ll); });
+    map.fitBounds(bounds.pad(0.18), { maxZoom: 6 });
+  }
+  render();
 }
 
 const CONF = {
@@ -1018,7 +1151,7 @@ function renderMode() {
 
 function renderSidebar() {
   const body = document.getElementById('s-body');
-  const list = db[curTab];
+  const list = visibleList(curTab);
   if (!list.length) {
     const msgs = { places:'No places mapped yet.<br>Click "+ Place" above and<br>drop a pin anywhere on the map.', sounds:'No sounds added yet.<br>Click "+ Sound" above.', people:'No people or things added.<br>Click "+ Person / Thing" above.' };
     body.innerHTML = `<div class="empty">${msgs[curTab]}</div>`;
@@ -1039,6 +1172,7 @@ function renderSidebar() {
       <div>
         <span class="tag" style="background:${iColor(e.before)}14;color:${iColor(e.before)};border:1px solid ${iColor(e.before)}33">${otag}</span>
         <span class="tag" style="background:var(--sage);color:var(--muted);border:1px solid var(--border);margin-left:.3rem">${ptag}</span>
+        ${e.shared ? `<span class="tag shared-tag" style="margin-left:.3rem">shared data</span>` : ''}
       </div>
     </div>`;
   }).join('');
@@ -1057,18 +1191,19 @@ function setSoundView(view) {
 function renderSoundStage() {
   const stage = document.getElementById('sound-stage');
   if (!stage) return;
-  if (!db.sounds.length) {
+  const sounds = visibleList('sounds');
+  if (!sounds.length) {
     stage.innerHTML = `<div class="sound-empty">Add a sound to compare how conditioning formed and how long it took to revise.</div>`;
     return;
   }
-  const values = db.sounds.flatMap(e => [metricValue(e.soundBuild, e.before), metricValue(e.soundUndo, Math.max(1, e.before - e.after || e.after))]);
+  const values = sounds.flatMap(e => [metricValue(e.soundBuild, e.before), metricValue(e.soundUndo, Math.max(1, e.before - e.after || e.after))]);
   const max = Math.max(...values, 1);
   const body = soundView === 'graph'
-    ? db.sounds.map(e => {
+    ? sounds.map(e => {
         const beforeVal = metricValue(e.soundBuild, e.before);
         const afterVal = metricValue(e.soundUndo, Math.max(1, e.before - e.after || e.after));
         return `<div class="sound-card">
-          <div class="sound-name">${e.name}</div>
+          <div class="sound-name">${e.name}${e.shared ? ' <span style="font-family:var(--sans);font-size:.52rem;color:var(--amber);letter-spacing:.08em;text-transform:uppercase;">shared</span>' : ''}</div>
           <div class="sound-graph-row">
             <div class="sound-graph-label"><strong>${e.soundBuild || 'Not recorded'}</strong>before association</div>
             <div class="sound-bar-track"><div class="sound-bar" style="width:${Math.max(4, (beforeVal / max) * 100)}%"></div></div>
@@ -1079,8 +1214,8 @@ function renderSoundStage() {
           </div>
         </div>`;
       }).join('')
-    : `<div class="sound-list">${db.sounds.map(e => `<div class="sound-card">
-        <div class="sound-name">${e.name}</div>
+    : `<div class="sound-list">${sounds.map(e => `<div class="sound-card">
+        <div class="sound-name">${e.name}${e.shared ? ' <span style="font-family:var(--sans);font-size:.52rem;color:var(--amber);letter-spacing:.08em;text-transform:uppercase;">shared</span>' : ''}</div>
         <div class="sound-meta">
           <div><strong>Before association</strong>${e.soundBuild || 'not recorded'}</div>
           <div><strong>Undoing took</strong>${e.soundUndo || 'not recorded'}</div>
@@ -1101,26 +1236,32 @@ function renderSoundStage() {
 function renderPeopleStage() {
   const stage = document.getElementById('people-stage');
   if (!stage) return;
-  if (!db.people.length) {
+  const people = visibleList('people');
+  if (!people.length) {
     stage.innerHTML = `<div class="people-empty">Add a person or thing to see the emotional data take shape here.</div>`;
     return;
   }
-  stage.innerHTML = `<div class="people-grid">${db.people.map((e,i) => {
+  stage.innerHTML = `<div class="people-grid">${people.map((e,i) => {
     const diff = e.before - e.after;
     const ds = diff > 0 ? `reduced by ${diff}` : diff < 0 ? `increased by ${Math.abs(diff)}` : 'no change';
     return `<article class="persona-card">
       <img class="persona-img" src="${e.avatar || PERSONA_IMAGES[i % PERSONA_IMAGES.length]}" alt="">
       <div class="persona-name">${e.name}</div>
-      <div class="persona-feel">${e.feel || 'No feeling described yet.'}</div>
+      <div class="persona-feel">${e.feel || 'No feeling described yet.'}${e.shared ? '<br><span style="color:var(--amber);font-family:var(--sans);font-size:.52rem;letter-spacing:.08em;text-transform:uppercase;">shared data</span>' : ''}</div>
       <div class="persona-nums">${e.before}/10 → ${e.after}/10 · ${ds}</div>
     </article>`;
   }).join('')}</div>`;
 }
 
 function renderStats() {
-  const all = [...db.places,...db.sounds,...db.people];
+  const all = visibleAll();
   document.getElementById('s-total').textContent = all.length;
-  if (!all.length) return;
+  if (!all.length) {
+    document.getElementById('s-before').textContent = '—';
+    document.getElementById('s-after').textContent  = '—';
+    document.getElementById('s-delta').textContent  = '—';
+    return;
+  }
   const ab = (all.reduce((s,e)=>s+e.before,0)/all.length).toFixed(1);
   const aa = (all.reduce((s,e)=>s+e.after, 0)/all.length).toFixed(1);
   const ad = (ab-aa).toFixed(1);
@@ -1130,7 +1271,7 @@ function renderStats() {
 }
 
 function renderInsights() {
-  const all = [...db.places,...db.sounds,...db.people];
+  const all = visibleAll();
   const box = document.getElementById('insights');
   if (all.length<2) { box.style.display='none'; return; }
   box.style.display = 'block';
