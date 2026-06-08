@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio OS — Saumya</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:     #c7d8c6;
+      --accent: #f34e3c;
+      --cream:  #f5f5db;
+      --cursor-custom: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAQAAAAAYLlVAAAApUlEQVR4nO3TQQ6EIBBE0Y/h/lfuWchoxoiZxNDVi/pLNJF+IASBsE358XMDQoUaAkHIFGoIgE6hjgBoFGoJQL5CPQHIVagpAHkKdQUgR6G2AKxXkAv02YN2XYi7xffVEmjwe9gLJr4mF2j7JR/DDoI4HrJcQS7QIWfSWXKBdvt/J94DuUBXnf03ucB8/qR7IBfwBp5PNv5661VyAeecc84555xzH2YAMDCBc1xgAAAAAElFTkSuQmCC") 4 4;
+      --g0:     #ffffff;
+      --g1:     #dfdfdf;
+      --g2:     #c7d8c6;
+      --g3:     #808080;
+      --g4:     #0a0a0a;
+
+      --shadow-window-outer: 4px 4px 0 rgba(0,0,0,0.4);
+      --shadow-window-inner: inset -4px -4px 0 rgba(0,0,0,0.4);
+      --shadow-raised: inset -2px -2px 0 rgba(0,0,0,0.4), inset 2px 2px 0 rgba(255,255,255,0.6);
+      --shadow-sunken: inset -2px -2px 0 rgba(255,255,255,0.5), inset 2px 2px 0 rgba(0,0,0,0.35);
+      --shadow-clock:  inset 2px 2px 0 rgba(0,0,0,0.25), inset -2px -2px 0 rgba(255,255,255,0.6);
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      overflow: hidden;
+      height: 100vh; width: 100vw;
+      cursor: var(--cursor-custom), default;
+      user-select: none;
+    }
+    a, button, .desk-icon, .tb-btn, .start-btn, .bar-btn, .wc-btn, .sb-item, .ctx-i, .cal-day, .win-resize, #hue-slider {
+      cursor: var(--cursor-custom), pointer !important;
+    }
+
+    /* ── DESKTOP ── */
+    #desktop {
+      position: fixed;
+      inset: 0 0 58px 0;
+      overflow: hidden;
+      background-color: var(--cream);
+      background-image:
+        linear-gradient(rgba(0,0,0,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.07) 1px, transparent 1px);
+      background-size: 29px 29px;
+    }
+
+    /* ── DESKTOP ICONS ── */
+    .desk-icon {
+      position: absolute;
+      width: 80px;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 5px;
+      padding: 8px 4px; border-radius: 4px; cursor: pointer;
+    }
+    .desk-icon:hover    { background: var(--desk-hover); }
+    .desk-icon.selected { background: var(--desk-sel); outline: 1px dotted #888; }
+    .desk-icon.dragging { opacity: 0.75; cursor: grabbing; z-index: 8000 !important; }
+    .desk-icon .fi {
+      width: 48px; height: 48px;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none;
+      image-rendering: pixelated;
+    }
+    .desk-icon .fi img {
+      width: 48px; height: 48px;
+      pointer-events: none;
+      image-rendering: pixelated;
+      display: block;
+    }
+    .desk-icon .fi svg {
+      width: 48px; height: 48px;
+      pointer-events: none;
+      image-rendering: pixelated;
+      display: block;
+    }
+    .desk-icon span {
+      font-size: 11px; color: #1a1a1a;
+      text-align: center; line-height: 1.2;
+      text-shadow: 1px 1px 0 rgba(255,255,255,0.85);
+      pointer-events: none;
+    }
+
+    /* ══════════════════════════════════════
+       TASKBAR
+    ══════════════════════════════════════ */
+    #taskbar {
+      position: fixed;
+      bottom: 4px; left: 4px; right: 4px;
+      height: 50px;
+      background: var(--bg);
+      box-shadow: inset -1px -1px 0 rgba(0,0,0,0.4);
+      border-radius: 12px;
+      display: flex; align-items: center;
+      padding: 3px; gap: 3px; z-index: 9999;
+    }
+
+    .start-btn {
+      height: 44px; padding: 0 14px;
+      background: var(--bg);
+      box-shadow: var(--shadow-raised);
+      border-radius: 8px;
+      display: flex; align-items: center; gap: 6px;
+      cursor: pointer; flex-shrink: 0;
+      font-size: 15px; font-weight: 700;
+      color: var(--accent);
+    }
+    .start-btn:active { box-shadow: var(--shadow-sunken); }
+
+    .taskbar-apps { display: flex; gap: 3px; flex: 1; min-width: 0; }
+
+    .tb-btn {
+      height: 44px; padding: 0 10px;
+      background: var(--bg);
+      box-shadow: var(--shadow-sunken);
+      border-radius: 8px;
+      display: flex; align-items: center; gap: 5px;
+      cursor: pointer; font-size: 12px; font-weight: 700;
+      white-space: nowrap; overflow: hidden;
+      max-width: 180px; text-overflow: ellipsis;
+      color: var(--accent);
+    }
+    .tb-btn.active {
+      box-shadow: var(--shadow-raised);
+      background: var(--bg);
+    }
+    .tb-btn .fi { font-size: 16px; flex-shrink: 0; }
+
+    .tb-divider {
+      width: 1px; height: 32px;
+      background: rgba(0,0,0,0.2);
+      flex-shrink: 0; margin: 0 2px;
+    }
+
+    .taskbar-accent {
+      height: 44px;
+      display: flex; align-items: center; gap: 8px;
+      padding: 0 12px;
+      background: var(--g2);
+      box-shadow: var(--shadow-sunken);
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+    .taskbar-accent label {
+      font-size: 11px; font-weight: 700;
+      color: var(--accent); white-space: nowrap;
+    }
+
+    .tb-clock {
+      height: 44px; padding: 0 16px;
+      background: var(--bg);
+      box-shadow: var(--shadow-clock);
+      border-radius: 8px 8px 8px 12px;
+      display: flex; align-items: center;
+      font-size: 20px; font-weight: 700;
+      color: var(--accent); flex-shrink: 0;
+    }
+
+    /* ══════════════════════════════════════
+       WINDOW SHELL
+    ══════════════════════════════════════ */
+    .os-window {
+      position: absolute;
+      min-width: 340px; min-height: 220px;
+      background: var(--bg);
+      border-radius: 8px;
+      box-shadow: var(--shadow-window-outer), var(--shadow-window-inner);
+      display: flex; flex-direction: column;
+      overflow: hidden;
+    }
+    .os-window.minimized { display: none !important; }
+    @keyframes winOpen {
+      from { opacity:0; transform:scale(0.88) translateY(8px); }
+      to   { opacity:1; transform:scale(1) translateY(0); }
+    }
+    .win-open-anim { animation: winOpen 0.14s cubic-bezier(.34,1.4,.64,1) forwards; }
+
+    /* ── TITLEBAR ── */
+    .win-tb {
+      height: 48px;
+      background: var(--bg);
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 0 8px 0 14px;
+      flex-shrink: 0; cursor: grab;
+    }
+    .win-tb:active { cursor: grabbing; }
+
+    .win-tb-inner {
+      flex: 1; height: 48px;
+      display: flex; align-items: center;
+      justify-content: space-between;
+      background: transparent;
+    }
+    .win-tb-title {
+      font-size: 22px; font-weight: 700;
+      color: var(--accent);
+      pointer-events: none;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      transition: opacity 0.15s;
+    }
+    .win-tb-inner.inactive .win-tb-title { opacity: 0.35; }
+
+    .win-ctrls { display: flex; gap: 3px; }
+    .wc-btn {
+      width: 29px; height: 26px;
+      background: var(--accent);
+      box-shadow: 2px 2px 0 rgba(0,0,0,0.4);
+      border: none; cursor: pointer;
+      border-radius: 3px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 800;
+      color: var(--bg);
+      line-height: 1; flex-shrink: 0;
+    }
+    .wc-btn:active {
+      box-shadow: inset 2px 2px 0 rgba(0,0,0,0.5);
+      transform: translate(1px, 1px);
+    }
+
+    /* ── TOOLBAR strip ── */
+    .win-bar {
+      height: 28px; background: var(--g2);
+      border-bottom: 1px solid rgba(0,0,0,0.12);
+      display: flex; align-items: center;
+      padding: 0 4px; gap: 2px; flex-shrink: 0;
+    }
+    .bar-btn {
+      height: 22px; padding: 0 10px; font-size: 12px;
+      background: var(--bg);
+      box-shadow: inset -1px -1px 0 rgba(0,0,0,0.2), inset 1px 1px 0 rgba(255,255,255,0.6);
+      border: none; cursor: pointer; color: var(--accent);
+      border-radius: 3px;
+    }
+    .bar-btn:active {
+      box-shadow: inset 2px 2px 0 rgba(0,0,0,0.25);
+      transform: translate(1px,1px);
+    }
+
+    /* ── BODY: sidebar + content ── */
+    .win-body { display: flex; flex: 1; overflow: hidden; }
+
+    /* Sidebar */
+    .win-sb {
+      width: 168px; background: var(--bg);
+      border-right: 1px solid rgba(0,0,0,0.12);
+      display: flex; flex-direction: column;
+      padding: 4px 0; flex-shrink: 0; overflow-y: auto;
+    }
+    .sb-section {
+      font-size: 10px; font-weight: 700; color: rgba(0,0,0,0.45);
+      padding: 8px 10px 3px;
+      text-transform: uppercase; letter-spacing: 0.07em;
+    }
+    .sb-item {
+      display: flex; align-items: center; gap: 6px;
+      padding: 6px 10px; font-size: 12px; cursor: pointer;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      color: #000; border-radius: 4px; margin: 0 4px;
+    }
+    .sb-item:hover  { background: var(--accent); color: var(--bg); }
+    .sb-item.active { background: var(--accent); color: var(--bg); }
+
+    /* Content pane */
+    .win-ct {
+      flex: 1; background: var(--content-bg, #f0f0f0);
+      box-shadow: inset 2px 2px 0 rgba(0,0,0,0.12);
+      overflow-y: auto;
+    }
+    .win-ct::-webkit-scrollbar { width: 14px; }
+    .win-ct::-webkit-scrollbar-track { background: var(--g2); }
+    .win-ct::-webkit-scrollbar-thumb {
+      background: var(--g2);
+      box-shadow: var(--shadow-raised);
+    }
+
+    /* ── TABS ── */
+    .tabs-strip {
+      display: flex; gap: 4px;
+      padding: 8px 8px 0; background: var(--bg);
+      border-bottom: 1px solid rgba(0,0,0,0.12);
+    }
+    .tab-btn {
+      padding: 5px 14px; font-size: 12px; cursor: pointer;
+      background: var(--g2); border: none;
+      border-radius: 6px 6px 0 0; color: #555;
+      box-shadow: inset -1px -1px 0 rgba(0,0,0,0.12), inset 1px 1px 0 rgba(255,255,255,0.8);
+    }
+    .tab-btn.active {
+      background: #f0f0f0; font-weight: 700;
+      color: var(--pink); z-index: 1;
+      box-shadow: inset 1px 1px 0 rgba(255,255,255,0.9);
+    }
+
+    /* ── ENTRY CONTENT ── */
+    .entry-area { padding: 20px 24px; }
+    .entry-date { font-size: 11px; color: var(--g3); margin-bottom: 3px; }
+    .entry-heading {
+      font-size: 20px; font-weight: 700; color: #1a1a1a;
+      line-height: 1.25; margin-bottom: 7px;
+    }
+    .entry-tag {
+      display: inline-block; font-size: 10px; font-weight: 700;
+      padding: 3px 10px;
+      background: var(--accent); color: var(--bg);
+      margin-bottom: 12px; letter-spacing: 0.04em;
+      border-radius: 5px;
+      box-shadow: inset -2px -2px 0 rgba(0,0,0,0.25), inset 1px 1px 0 rgba(255,255,255,0.3);
+    }
+    .divider { height: 1px; background: rgba(0,0,0,0.1); margin: 12px 0 14px; }
+    .entry-body { font-size: 13px; line-height: 1.75; color: #2a2a2a; }
+    .entry-body em { font-style: italic; color: var(--accent); opacity: 0.8; }
+    .entry-body strong { font-weight: 700; }
+
+    /* Buddy box */
+    .buddy-box {
+      background: #fff4ff; border: 1px solid rgba(221,106,223,0.25);
+      box-shadow: inset 2px 2px 0 rgba(0,0,0,0.06);
+      padding: 12px 14px; margin-top: 0; border-radius: 6px;
+    }
+    .buddy-label {
+      font-size: 10px; font-weight: 700;
+      color: var(--accent); opacity: 0.85; text-transform: uppercase;
+      letter-spacing: 0.09em; margin-bottom: 7px;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .buddy-label::before {
+      content: ''; display: inline-block;
+      width: 8px; height: 8px;
+      background: var(--pink); border-radius: 2px;
+    }
+    .buddy-body { font-size: 13px; line-height: 1.7; color: #3a1a3a; }
+    .buddy-body em { font-style: italic; color: var(--accent); opacity: 0.75; }
+
+    /* Status bar */
+    .win-status {
+      height: 26px; background: var(--bg);
+      border-top: 1px solid rgba(0,0,0,0.1);
+      display: flex; align-items: center; flex-shrink: 0;
+    }
+    .status-pane {
+      padding: 0 10px; font-size: 11px; height: 100%;
+      display: flex; align-items: center;
+      color: rgba(0,0,0,0.55);
+      border-right: 1px solid rgba(0,0,0,0.1);
+    }
+
+    /* Resize handle — invisible but functional */
+    .win-resize {
+      position: absolute; right: 0; bottom: 0;
+      width: 18px; height: 18px; cursor: se-resize;
+      background: transparent;
+    }
+
+    /* ── HUE SLIDER ── */
+    .slider-wrap {
+      position: relative;
+      width: 130px; height: 21px;
+      display: flex; align-items: center;
+      flex-shrink: 0;
+    }
+    .slider-wrap::before {
+      content: '';
+      position: absolute;
+      left: 0; right: 0;
+      top: 50%; transform: translateY(-50%);
+      height: 3px;
+      background: #000;
+      box-shadow:
+        inset 1px 1px 0 #b8b8b8,
+        inset -1px -1px 0 #757575,
+        inset 0 1px 0 #9f9f9f,
+        0 1px 0 #fff;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .slider-wrap::after {
+      content: '';
+      position: absolute;
+      left: 6px; right: 6px;
+      top: 50%; transform: translateY(-50%);
+      height: 3px;
+      background: linear-gradient(to right,
+        hsl(0,75%,58%), hsl(30,75%,58%), hsl(60,75%,58%),
+        hsl(90,75%,58%), hsl(120,75%,58%), hsl(150,75%,58%),
+        hsl(180,75%,58%), hsl(210,75%,58%), hsl(240,75%,58%),
+        hsl(270,75%,58%), hsl(300,75%,58%), hsl(330,75%,58%),
+        hsl(360,75%,58%));
+      pointer-events: none;
+      z-index: 1;
+    }
+    #hue-slider {
+      -webkit-appearance: none; appearance: none;
+      position: relative; z-index: 2;
+      width: 100%; height: 21px;
+      background: transparent;
+      border: none; outline: none;
+      cursor: pointer;
+      margin: 0;
+    }
+    #hue-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 11px; height: 21px;
+      background: var(--bg);
+      box-shadow:
+        inset -1px -1px 0 #0a0a0a,
+        inset  1px  1px 0 #ffffff,
+        inset -2px -2px 0 #808080,
+        inset  2px  2px 0 #dfdfdf;
+      border-radius: 0;
+      cursor: pointer;
+    }
+    #hue-slider::-moz-range-thumb {
+      width: 11px; height: 21px;
+      background: var(--bg);
+      box-shadow:
+        inset -1px -1px 0 #0a0a0a,
+        inset  1px  1px 0 #ffffff,
+        inset -2px -2px 0 #808080,
+        inset  2px  2px 0 #dfdfdf;
+      border-radius: 0; border: none;
+      cursor: pointer;
+    }
+    #hue-slider::-webkit-slider-runnable-track { background: transparent; }
+    #hue-slider::-moz-range-track { background: transparent; }
+
+    /* ── PALETTE SWATCHES ── */
+    .palette-strip {
+      height: 44px;
+      display: flex; align-items: center; gap: 6px;
+      padding: 0 12px;
+      background: var(--bg);
+      box-shadow: var(--shadow-sunken);
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+    .pal-label {
+      font-size: 11px; font-weight: 700;
+      color: var(--accent); white-space: nowrap;
+    }
+    .pal-swatch {
+      width: 28px; height: 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      box-shadow: inset -1px -1px 0 rgba(0,0,0,0.35), inset 1px 1px 0 rgba(255,255,255,0.5);
+      transition: transform 0.1s;
+      flex-shrink: 0;
+      position: relative; overflow: hidden;
+    }
+    .pal-swatch::after {
+      content: '';
+      position: absolute; right: 0; top: 0;
+      width: 50%; height: 100%;
+    }
+    .pal-swatch:hover { transform: scale(1.12); }
+    .pal-swatch.active {
+      outline: 2px solid rgba(255,255,255,0.9);
+      outline-offset: 1px;
+    }
+
+    /* ── CALENDAR ── */
+    .cal-shell { background: #f0f0f0; flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    .cal-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 12px;
+      background: var(--bg);
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      flex-shrink: 0;
+    }
+    .cal-nav-btn {
+      width: 28px; height: 24px;
+      background: var(--bg);
+      box-shadow: var(--shadow-raised);
+      border: none; border-radius: 4px;
+      cursor: pointer; font-size: 13px; font-weight: 700; color: #000;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cal-nav-btn:active { box-shadow: var(--shadow-sunken); transform: translate(1px,1px); }
+    .cal-month-title { font-size: 13px; font-weight: 700; color: var(--accent); }
+    .cal-dow-row {
+      display: grid; grid-template-columns: repeat(7, 1fr);
+      background: var(--bg); border-bottom: 1px solid rgba(0,0,0,0.1);
+      flex-shrink: 0;
+    }
+    .cal-dow { font-size: 10px; font-weight: 700; color: var(--g3); text-align: center; padding: 4px 0; }
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); padding: 4px; gap: 2px; }
+    .cal-day {
+      aspect-ratio: 1;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; cursor: pointer; position: relative;
+      border-radius: 4px;
+    }
+    .cal-day:hover { background: rgba(221,106,223,0.15); }
+    .cal-day.empty { pointer-events: none; }
+    .cal-day.marked {
+      background: var(--accent); color: var(--bg); font-weight: 700;
+      box-shadow: inset -2px -2px 0 rgba(0,0,0,0.2), inset 1px 1px 0 rgba(255,255,255,0.3);
+    }
+    .cal-day.marked:hover { filter: brightness(1.1); }
+    .cal-day.selected-day { outline: 2px solid var(--accent); outline-offset: -2px; }
+    .cal-day.today { outline: 2px solid var(--accent); outline-offset: -2px; font-weight: 700; }
+    .cal-day .cal-tip {
+      display: none; position: absolute; bottom: calc(100% + 6px); left: 50%;
+      transform: translateX(-50%);
+      background: #1a1a1a; color: #fff; font-size: 10px;
+      padding: 4px 8px; z-index: 9999;
+      pointer-events: none; max-width: 180px;
+      white-space: normal; text-align: center;
+      border-radius: 4px;
+    }
+    .cal-day:hover .cal-tip { display: block; }
+    .cal-notebar {
+      height: 36px; background: var(--bg);
+      border-top: 1px solid rgba(0,0,0,0.1);
+      display: flex; align-items: center; gap: 6px; padding: 0 10px;
+      flex-shrink: 0;
+    }
+    .cal-selected-info { font-size: 11px; color: #555; white-space: nowrap; flex-shrink: 0; }
+    .cal-notebar input {
+      flex: 1; height: 22px; font-size: 11px;
+      box-shadow: inset 2px 2px 0 rgba(0,0,0,0.2), inset -1px -1px 0 rgba(255,255,255,0.6);
+      border: none; background: #fff; border-radius: 3px;
+      padding: 0 6px; outline: none; font-family: inherit;
+    }
+    .cal-notebar button {
+      height: 24px; padding: 0 10px; font-size: 11px;
+      background: var(--bg); box-shadow: var(--shadow-raised);
+      border: none; cursor: pointer; font-family: inherit; border-radius: 4px; color: var(--accent);
+    }
+    .cal-notebar button:active { box-shadow: var(--shadow-sunken); }
+
+    /* ── DARK MODE overrides ── */
+    body.dark #desktop {
+      background-color: #111111;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    }
+    body.dark .desk-icon span {
+      color: #d8d8d8;
+      text-shadow: 1px 1px 0 rgba(0,0,0,0.8);
+    }
+    /* Entry content */
+    body.dark .entry-heading { color: #ececec !important; }
+    body.dark .entry-body    { color: #c8c8c8 !important; }
+    body.dark .entry-body em { color: inherit; opacity: 0.85; }
+    body.dark .entry-date    { color: #888 !important; }
+    body.dark .divider       { background: rgba(255,255,255,0.08); }
+    /* Buddy box */
+    body.dark .buddy-body    { color: #ccaacc !important; }
+    body.dark .buddy-box     { background: rgba(255,255,255,0.05); border-color: rgba(200,100,200,0.2); }
+    body.dark .buddy-label   { opacity: 1; }
+    /* Calendar grid numbers */
+    body.dark .cal-day          { color: #d0d0d0; }
+    body.dark .cal-day.empty    { color: transparent; }
+    body.dark .cal-selected-info { color: #b0b0b0; }
+    body.dark .cal-notebar input { background: rgba(255,255,255,0.07); color: #d0d0d0; border: 1px solid rgba(255,255,255,0.1); }
+    body.dark .cal-dow          { color: #999 !important; }
+    /* Status & sidebar */
+    body.dark .status-pane  { color: rgba(255,255,255,0.5) !important; }
+    body.dark .sb-section   { color: rgba(255,255,255,0.4) !important; }
+    /* Context menu in dark */
+    body.dark #ctx-menu     { background: #1e1e1e; }
+    body.dark .ctx-i        { color: #d0d0d0; }
+    body.dark .ctx-sep      { background: rgba(255,255,255,0.1); }
+    /* Sidebar item text in dark mode */
+    body.dark .sb-item        { color: #c8c8c8 !important; }
+    body.dark .win-bar .bar-btn { color: inherit; }
+
+    /* Dark mode toggle button */
+    .dm-btn {
+      height: 44px; padding: 0 12px;
+      background: var(--bg);
+      box-shadow: var(--shadow-raised);
+      border-radius: 8px;
+      display: flex; align-items: center; gap: 5px;
+      cursor: pointer; flex-shrink: 0;
+      font-size: 13px; font-weight: 700;
+      color: var(--accent);
+      border: none; font-family: inherit;
+      white-space: nowrap;
+    }
+    .dm-btn:active { box-shadow: var(--shadow-sunken); }
+    #ctx-menu {
+      position: fixed; background: var(--g2);
+      box-shadow: 4px 4px 0 rgba(0,0,0,0.4), inset -1px -1px 0 rgba(0,0,0,0.15);
+      z-index: 99999; min-width: 160px;
+      display: none; padding: 4px;
+      border-radius: 8px;
+    }
+    .ctx-i { padding: 6px 16px; font-size: 13px; cursor: pointer; color: #000; border-radius: 5px; }
+    .ctx-i:hover { background: var(--accent); color: var(--bg); }
+    .ctx-sep { height: 1px; background: rgba(0,0,0,0.12); margin: 3px 6px; }
+  </style>
+</head>
+<body>
+<style id="dynamic-theme"></style>
+
+<!-- Desktop -->
+<div id="desktop" oncontextmenu="showCtx(event)" onclick="clearSel(event)">
+  <div class="desk-icon" id="icon-professional" style="left:16px;top:16px" ondblclick="openWin('professional')">
+    <div class="fi"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%20shape-rendering%3D%22crispEdges%22%3E%0A%20%20%3C%21--%20back%20of%20open%20folder%20--%3E%0A%20%20%3Crect%20x%3D%221%22%20y%3D%229%22%20width%3D%2219%22%20height%3D%223%22%20fill%3D%22%23c8962e%22/%3E%0A%20%20%3Crect%20x%3D%221%22%20y%3D%2212%22%20width%3D%2230%22%20height%3D%2216%22%20fill%3D%22%23c8962e%22/%3E%0A%20%20%3C%21--%20papers%20sticking%20up%20--%3E%0A%20%20%3Crect%20x%3D%2210%22%20y%3D%225%22%20width%3D%227%22%20height%3D%2211%22%20fill%3D%22%23fffef0%22%20stroke%3D%22%23888%22%20stroke-width%3D%220.5%22/%3E%0A%20%20%3Cline%20x1%3D%2212%22%20y1%3D%228%22%20x2%3D%2215%22%20y2%3D%228%22%20stroke%3D%22%23aaa%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%3Cline%20x1%3D%2212%22%20y1%3D%2210%22%20x2%3D%2215%22%20y2%3D%2210%22%20stroke%3D%22%23aaa%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%3Cline%20x1%3D%2212%22%20y1%3D%2212%22%20x2%3D%2215%22%20y2%3D%2212%22%20stroke%3D%22%23aaa%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%3Crect%20x%3D%2217%22%20y%3D%227%22%20width%3D%226%22%20height%3D%229%22%20fill%3D%22%23fffef0%22%20stroke%3D%22%23888%22%20stroke-width%3D%220.5%22/%3E%0A%20%20%3C%21--%20open%20folder%20front%20--%3E%0A%20%20%3Cpath%20d%3D%22M0%2013%20L5%2022%20L31%2022%20L31%2013%20Z%22%20fill%3D%22%23ffd34f%22/%3E%0A%20%20%3Cpath%20d%3D%22M0%2013%20L5%2022%20L31%2022%20L31%2013%20Z%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%3C%21--%20folder%20tab%20--%3E%0A%20%20%3Crect%20x%3D%221%22%20y%3D%229%22%20width%3D%2210%22%20height%3D%224%22%20fill%3D%22%23ffd34f%22%20stroke%3D%22%23000%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%3C%21--%20folder%20body%20outline%20--%3E%0A%20%20%3Crect%20x%3D%221%22%20y%3D%2212%22%20width%3D%2230%22%20height%3D%2211%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%220.8%22/%3E%0A%3C/svg%3E" alt="Professional" /></div><span>Professional</span>
+  </div>
+  <div class="desk-icon" id="icon-physical" style="left:16px;top:110px" ondblclick="openWin('physical')">
+    <div class="fi"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%20shape-rendering%3D%22crispEdges%22%3E%0A%20%20%3C%21--%20phone%20body%20--%3E%0A%20%20%3Crect%20x%3D%228%22%20y%3D%224%22%20width%3D%2216%22%20height%3D%2224%22%20rx%3D%222%22%20fill%3D%22%23c0c0c0%22%20stroke%3D%22%23000%22%20stroke-width%3D%221%22/%3E%0A%20%20%3Crect%20x%3D%229%22%20y%3D%225%22%20width%3D%2214%22%20height%3D%2222%22%20rx%3D%221%22%20fill%3D%22%23dfdfdf%22/%3E%0A%20%20%3C%21--%20keypad%20dots%20--%3E%0A%20%20%3Crect%20x%3D%2211%22%20y%3D%2213%22%20width%3D%223%22%20height%3D%222%22%20fill%3D%22%23808080%22/%3E%0A%20%20%3Crect%20x%3D%2215%22%20y%3D%2213%22%20width%3D%223%22%20height%3D%222%22%20fill%3D%22%23808080%22/%3E%0A%20%20%3Crect%20x%3D%2219%22%20y%3D%2213%22%20width%3D%223%22%20height%3D%222%22%20fill%3D%22%23808080%22/%3E%0A%20%20%3Crect%20x%3D%2211%22%20y%3D%2217%22%20width%3D%223%22%20height%3D%222%22%20fill%3D%22%23808080%22/%3E%0A%20%20%3Crect%20x%3D%2215%22%20y%3D%2217%22%20width%3D%223%22%20height%3D%222%22%20fill%3D%22%23808080%22/%3E%0A%20%20%3Crect%20x%3D%2219%22%20y%3D%2217%22%20width%3D%223%22%20height%3D%222%22%20fill%3D%22%23808080%22/%3E%0A%20%20%3C%21--%20screen%20--%3E%0A%20%20%3Crect%20x%3D%2210%22%20y%3D%226%22%20width%3D%2212%22%20height%3D%226%22%20fill%3D%22%23000080%22/%3E%0A%20%20%3Crect%20x%3D%2211%22%20y%3D%227%22%20width%3D%224%22%20height%3D%221%22%20fill%3D%22%2300cc00%22/%3E%0A%20%20%3C%21--%20call%20button%20--%3E%0A%20%20%3Crect%20x%3D%2213%22%20y%3D%2222%22%20width%3D%226%22%20height%3D%223%22%20rx%3D%221%22%20fill%3D%22%23008000%22/%3E%0A%3C/svg%3E" alt="Physical" /></div><span>Physical</span>
+  </div>
+  <div class="desk-icon" id="icon-social" style="left:16px;top:204px" ondblclick="openWin('social')">
+    <div class="fi"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%20shape-rendering%3D%22crispEdges%22%3E%0A%20%20%3C%21--%20person%201%20%28left%2C%20green%29%20--%3E%0A%20%20%3Ccircle%20cx%3D%2210%22%20cy%3D%228%22%20r%3D%224%22%20fill%3D%22%2300aa00%22%20stroke%3D%22%23000%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%3Crect%20x%3D%224%22%20y%3D%2214%22%20width%3D%2212%22%20height%3D%2211%22%20rx%3D%222%22%20fill%3D%22%2300aa00%22%20stroke%3D%22%23000%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%3Crect%20x%3D%226%22%20y%3D%2212%22%20width%3D%228%22%20height%3D%224%22%20fill%3D%22%2300aa00%22/%3E%0A%20%20%3C%21--%20person%202%20%28right%2C%20darker%29%20--%3E%0A%20%20%3Ccircle%20cx%3D%2222%22%20cy%3D%229%22%20r%3D%224%22%20fill%3D%22%23007700%22%20stroke%3D%22%23000%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%3Crect%20x%3D%2216%22%20y%3D%2215%22%20width%3D%2212%22%20height%3D%2210%22%20rx%3D%222%22%20fill%3D%22%23007700%22%20stroke%3D%22%23000%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%3Crect%20x%3D%2218%22%20y%3D%2213%22%20width%3D%228%22%20height%3D%224%22%20fill%3D%22%23007700%22/%3E%0A%20%20%3C%21--%20highlight%20dots%20%28eyes%29%20--%3E%0A%20%20%3Crect%20x%3D%228%22%20y%3D%227%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22/%3E%0A%20%20%3Crect%20x%3D%2211%22%20y%3D%227%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22/%3E%0A%20%20%3Crect%20x%3D%2220%22%20y%3D%228%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22/%3E%0A%20%20%3Crect%20x%3D%2223%22%20y%3D%228%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22/%3E%0A%3C/svg%3E" alt="Social" /></div><span>Social</span>
+  </div>
+  <div class="desk-icon" id="icon-emotional" style="left:16px;top:298px" ondblclick="openWin('emotional')">
+    <div class="fi"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%20shape-rendering%3D%22crispEdges%22%3E%0A%20%20%3C%21--%20bin%20body%20--%3E%0A%20%20%3Crect%20x%3D%226%22%20y%3D%2210%22%20width%3D%2220%22%20height%3D%2218%22%20rx%3D%221%22%20fill%3D%22%23c0c0c0%22%20stroke%3D%22%23000%22%20stroke-width%3D%221%22/%3E%0A%20%20%3Crect%20x%3D%227%22%20y%3D%2211%22%20width%3D%2218%22%20height%3D%2216%22%20fill%3D%22%23dfdfdf%22/%3E%0A%20%20%3C%21--%20lid%20--%3E%0A%20%20%3Crect%20x%3D%224%22%20y%3D%227%22%20width%3D%2224%22%20height%3D%224%22%20rx%3D%221%22%20fill%3D%22%23c0c0c0%22%20stroke%3D%22%23000%22%20stroke-width%3D%221%22/%3E%0A%20%20%3Crect%20x%3D%2211%22%20y%3D%224%22%20width%3D%2210%22%20height%3D%224%22%20rx%3D%221%22%20fill%3D%22%23c0c0c0%22%20stroke%3D%22%23000%22%20stroke-width%3D%221%22/%3E%0A%20%20%3C%21--%20recycle%20arrows%20on%20bin%20--%3E%0A%20%20%3Cpath%20d%3D%22M12%2016%20L16%2013%20L20%2016%20L18%2016%20Q17%2020%2016%2021%20Q15%2020%2014%2016%20Z%22%20fill%3D%22%23008000%22/%3E%0A%20%20%3Cpath%20d%3D%22M10%2022%20L13%2019%20L13%2024%20Z%22%20fill%3D%22%23008000%22/%3E%0A%20%20%3Cpath%20d%3D%22M22%2022%20L19%2019%20L19%2024%20Z%22%20fill%3D%22%23008000%22/%3E%0A%20%20%3C%21--%20lines%20on%20bin%20--%3E%0A%20%20%3Cline%20x1%3D%2211%22%20y1%3D%2214%22%20x2%3D%2211%22%20y2%3D%2226%22%20stroke%3D%22%23aaa%22%20stroke-width%3D%221%22/%3E%0A%20%20%3Cline%20x1%3D%2216%22%20y1%3D%2214%22%20x2%3D%2216%22%20y2%3D%2226%22%20stroke%3D%22%23aaa%22%20stroke-width%3D%221%22/%3E%0A%20%20%3Cline%20x1%3D%2221%22%20y1%3D%2214%22%20x2%3D%2221%22%20y2%3D%2226%22%20stroke%3D%22%23aaa%22%20stroke-width%3D%221%22/%3E%0A%3C/svg%3E" alt="Emotional" /></div><span>Emotional</span>
+  </div>
+  <div class="desk-icon" id="icon-misc" style="left:104px;top:16px" ondblclick="openWin('misc')">
+    <div class="fi"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%20shape-rendering%3D%22crispEdges%22%3E%0A%20%20%3C%21--%20notepad%20body%20--%3E%0A%20%20%3Crect%20x%3D%225%22%20y%3D%224%22%20width%3D%2222%22%20height%3D%2226%22%20rx%3D%221%22%20fill%3D%22%23fffef0%22%20stroke%3D%22%23000%22%20stroke-width%3D%221%22/%3E%0A%20%20%3C%21--%20spiral%20rings%20--%3E%0A%20%20%3Crect%20x%3D%223%22%20y%3D%226%22%20width%3D%224%22%20height%3D%223%22%20rx%3D%221%22%20fill%3D%22%23c0c0c0%22%20stroke%3D%22%23000%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%3Crect%20x%3D%223%22%20y%3D%2212%22%20width%3D%224%22%20height%3D%223%22%20rx%3D%221%22%20fill%3D%22%23c0c0c0%22%20stroke%3D%22%23000%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%3Crect%20x%3D%223%22%20y%3D%2218%22%20width%3D%224%22%20height%3D%223%22%20rx%3D%221%22%20fill%3D%22%23c0c0c0%22%20stroke%3D%22%23000%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%3Crect%20x%3D%223%22%20y%3D%2224%22%20width%3D%224%22%20height%3D%223%22%20rx%3D%221%22%20fill%3D%22%23c0c0c0%22%20stroke%3D%22%23000%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%3C%21--%20red%20margin%20line%20--%3E%0A%20%20%3Cline%20x1%3D%2211%22%20y1%3D%224%22%20x2%3D%2211%22%20y2%3D%2230%22%20stroke%3D%22%23ff6666%22%20stroke-width%3D%221%22/%3E%0A%20%20%3C%21--%20text%20lines%20--%3E%0A%20%20%3Cline%20x1%3D%2213%22%20y1%3D%229%22%20x2%3D%2224%22%20y2%3D%229%22%20stroke%3D%22%23aaaaff%22%20stroke-width%3D%221%22/%3E%0A%20%20%3Cline%20x1%3D%2213%22%20y1%3D%2213%22%20x2%3D%2224%22%20y2%3D%2213%22%20stroke%3D%22%23aaaaff%22%20stroke-width%3D%221%22/%3E%0A%20%20%3Cline%20x1%3D%2213%22%20y1%3D%2217%22%20x2%3D%2224%22%20y2%3D%2217%22%20stroke%3D%22%23aaaaff%22%20stroke-width%3D%221%22/%3E%0A%20%20%3Cline%20x1%3D%2213%22%20y1%3D%2221%22%20x2%3D%2224%22%20y2%3D%2221%22%20stroke%3D%22%23aaaaff%22%20stroke-width%3D%221%22/%3E%0A%20%20%3Cline%20x1%3D%2213%22%20y1%3D%2225%22%20x2%3D%2224%22%20y2%3D%2225%22%20stroke%3D%22%23aaaaff%22%20stroke-width%3D%221%22/%3E%0A%3C/svg%3E" alt="Class Notes" /></div><span>Class Notes</span>
+  </div>
+  <div class="desk-icon" id="icon-about" style="left:104px;top:110px" ondblclick="openWin('about')">
+    <div class="fi"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%20shape-rendering%3D%22crispEdges%22%3E%0A%20%20%3C%21--%20monitor%20body%20--%3E%0A%20%20%3Crect%20x%3D%222%22%20y%3D%223%22%20width%3D%2228%22%20height%3D%2220%22%20rx%3D%222%22%20fill%3D%22%23c0c0c0%22%20stroke%3D%22%23000%22%20stroke-width%3D%221%22/%3E%0A%20%20%3Crect%20x%3D%223%22%20y%3D%224%22%20width%3D%2226%22%20height%3D%2218%22%20fill%3D%22%23dfdfdf%22/%3E%0A%20%20%3C%21--%20screen%20--%3E%0A%20%20%3Crect%20x%3D%224%22%20y%3D%225%22%20width%3D%2224%22%20height%3D%2216%22%20fill%3D%22%23000080%22/%3E%0A%20%20%3C%21--%20screen%20content%20--%3E%0A%20%20%3Crect%20x%3D%226%22%20y%3D%228%22%20width%3D%228%22%20height%3D%221%22%20fill%3D%22%2300ff00%22/%3E%0A%20%20%3Crect%20x%3D%226%22%20y%3D%2211%22%20width%3D%2212%22%20height%3D%221%22%20fill%3D%22%2300ff00%22/%3E%0A%20%20%3Crect%20x%3D%226%22%20y%3D%2214%22%20width%3D%2210%22%20height%3D%221%22%20fill%3D%22%2300ff00%22/%3E%0A%20%20%3Crect%20x%3D%226%22%20y%3D%2217%22%20width%3D%226%22%20height%3D%221%22%20fill%3D%22%23aaaaaa%22/%3E%0A%20%20%3C%21--%20cursor%20blink%20--%3E%0A%20%20%3Crect%20x%3D%2215%22%20y%3D%2217%22%20width%3D%222%22%20height%3D%221%22%20fill%3D%22%23ffffff%22/%3E%0A%20%20%3C%21--%20stand%20neck%20--%3E%0A%20%20%3Crect%20x%3D%2213%22%20y%3D%2223%22%20width%3D%226%22%20height%3D%223%22%20fill%3D%22%23c0c0c0%22%20stroke%3D%22%23000%22%20stroke-width%3D%220.5%22/%3E%0A%20%20%3C%21--%20stand%20base%20--%3E%0A%20%20%3Crect%20x%3D%228%22%20y%3D%2226%22%20width%3D%2216%22%20height%3D%223%22%20rx%3D%221%22%20fill%3D%22%23c0c0c0%22%20stroke%3D%22%23000%22%20stroke-width%3D%221%22/%3E%0A%20%20%3C%21--%20monitor%20bevel%20highlights%20--%3E%0A%20%20%3Cline%20x1%3D%222%22%20y1%3D%223%22%20x2%3D%2230%22%20y2%3D%223%22%20stroke%3D%22%23fff%22%20stroke-width%3D%220.5%22/%3E%0A%20%20%3Cline%20x1%3D%222%22%20y1%3D%223%22%20x2%3D%222%22%20y2%3D%2223%22%20stroke%3D%22%23fff%22%20stroke-width%3D%220.5%22/%3E%0A%3C/svg%3E" alt="About" /></div><span>About</span>
+  </div>
+  <div class="desk-icon" id="icon-calendar" style="left:104px;top:204px" ondblclick="openCalendar()">
+    <div class="fi"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%20shape-rendering%3D%22crispEdges%22%3E%0A%20%20%3C%21--%20calendar%20body%20--%3E%0A%20%20%3Crect%20x%3D%222%22%20y%3D%225%22%20width%3D%2228%22%20height%3D%2224%22%20rx%3D%221%22%20fill%3D%22%23fff%22%20stroke%3D%22%23000%22%20stroke-width%3D%221%22/%3E%0A%20%20%3C%21--%20header%20bar%20red%20--%3E%0A%20%20%3Crect%20x%3D%222%22%20y%3D%225%22%20width%3D%2228%22%20height%3D%227%22%20fill%3D%22%23cc0000%22/%3E%0A%20%20%3Crect%20x%3D%223%22%20y%3D%226%22%20width%3D%2226%22%20height%3D%225%22%20fill%3D%22%23dd1111%22/%3E%0A%20%20%3C%21--%20ring%20holes%20--%3E%0A%20%20%3Crect%20x%3D%228%22%20y%3D%223%22%20width%3D%223%22%20height%3D%225%22%20rx%3D%221%22%20fill%3D%22%23555%22%20stroke%3D%22%23000%22%20stroke-width%3D%220.5%22/%3E%0A%20%20%3Crect%20x%3D%2221%22%20y%3D%223%22%20width%3D%223%22%20height%3D%225%22%20rx%3D%221%22%20fill%3D%22%23555%22%20stroke%3D%22%23000%22%20stroke-width%3D%220.5%22/%3E%0A%20%20%3C%21--%20day-of-week%20row%20--%3E%0A%20%20%3Crect%20x%3D%223%22%20y%3D%2212%22%20width%3D%2226%22%20height%3D%224%22%20fill%3D%22%23ddddff%22/%3E%0A%20%20%3C%21--%20day%20cells%20--%3E%0A%20%20%3Crect%20x%3D%223%22%20y%3D%2217%22%20width%3D%223%22%20height%3D%223%22%20fill%3D%22%23eef%22/%3E%0A%20%20%3Crect%20x%3D%227%22%20y%3D%2217%22%20width%3D%223%22%20height%3D%223%22%20fill%3D%22%23eef%22/%3E%0A%20%20%3Crect%20x%3D%2211%22%20y%3D%2217%22%20width%3D%223%22%20height%3D%223%22%20fill%3D%22%23eef%22/%3E%0A%20%20%3Crect%20x%3D%2215%22%20y%3D%2217%22%20width%3D%223%22%20height%3D%223%22%20fill%3D%22%23eef%22/%3E%0A%20%20%3Crect%20x%3D%2219%22%20y%3D%2217%22%20width%3D%223%22%20height%3D%223%22%20fill%3D%22%23eef%22/%3E%0A%20%20%3Crect%20x%3D%2223%22%20y%3D%2217%22%20width%3D%223%22%20height%3D%223%22%20fill%3D%22%23eef%22/%3E%0A%20%20%3C%21--%20highlighted%20date%20--%3E%0A%20%20%3Crect%20x%3D%2211%22%20y%3D%2222%22%20width%3D%225%22%20height%3D%225%22%20fill%3D%22%23cc0000%22/%3E%0A%20%20%3Crect%20x%3D%223%22%20y%3D%2222%22%20width%3D%223%22%20height%3D%223%22%20fill%3D%22%23eef%22/%3E%0A%20%20%3Crect%20x%3D%227%22%20y%3D%2222%22%20width%3D%223%22%20height%3D%223%22%20fill%3D%22%23eef%22/%3E%0A%20%20%3Crect%20x%3D%2219%22%20y%3D%2222%22%20width%3D%223%22%20height%3D%223%22%20fill%3D%22%23eef%22/%3E%0A%20%20%3Crect%20x%3D%2223%22%20y%3D%2222%22%20width%3D%223%22%20height%3D%223%22%20fill%3D%22%23eef%22/%3E%0A%3C/svg%3E" alt="My Dates" /></div><span>My Dates</span>
+  </div>
+  <div class="desk-icon" id="icon-dataviz" style="left:104px;top:298px" ondblclick="openDataViz()">
+    <div class="fi"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%20shape-rendering%3D%22crispEdges%22%3E%0A%20%20%3C%21--%20chart%20background%20--%3E%0A%20%20%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2228%22%20height%3D%2228%22%20rx%3D%221%22%20fill%3D%22%23fffef0%22%20stroke%3D%22%23000%22%20stroke-width%3D%221%22/%3E%0A%20%20%3C%21--%20axes%20--%3E%0A%20%20%3Cline%20x1%3D%226%22%20y1%3D%224%22%20x2%3D%226%22%20y2%3D%2225%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.5%22/%3E%0A%20%20%3Cline%20x1%3D%226%22%20y1%3D%2225%22%20x2%3D%2229%22%20y2%3D%2225%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.5%22/%3E%0A%20%20%3C%21--%20bar%201%20%28tall%2C%20blue%29%20--%3E%0A%20%20%3Crect%20x%3D%228%22%20y%3D%2210%22%20width%3D%225%22%20height%3D%2215%22%20fill%3D%22%23000080%22/%3E%0A%20%20%3Crect%20x%3D%228%22%20y%3D%2210%22%20width%3D%225%22%20height%3D%221%22%20fill%3D%22%234444cc%22/%3E%0A%20%20%3Crect%20x%3D%228%22%20y%3D%2210%22%20width%3D%221%22%20height%3D%2215%22%20fill%3D%22%234444cc%22/%3E%0A%20%20%3C%21--%20bar%202%20%28medium%2C%20red%29%20--%3E%0A%20%20%3Crect%20x%3D%2215%22%20y%3D%2215%22%20width%3D%225%22%20height%3D%2210%22%20fill%3D%22%23cc0000%22/%3E%0A%20%20%3Crect%20x%3D%2215%22%20y%3D%2215%22%20width%3D%225%22%20height%3D%221%22%20fill%3D%22%23ff4444%22/%3E%0A%20%20%3Crect%20x%3D%2215%22%20y%3D%2215%22%20width%3D%221%22%20height%3D%2210%22%20fill%3D%22%23ff4444%22/%3E%0A%20%20%3C%21--%20bar%203%20%28short%2C%20green%29%20--%3E%0A%20%20%3Crect%20x%3D%2222%22%20y%3D%2218%22%20width%3D%225%22%20height%3D%227%22%20fill%3D%22%23007700%22/%3E%0A%20%20%3Crect%20x%3D%2222%22%20y%3D%2218%22%20width%3D%225%22%20height%3D%221%22%20fill%3D%22%2300aa00%22/%3E%0A%20%20%3Crect%20x%3D%2222%22%20y%3D%2218%22%20width%3D%221%22%20height%3D%227%22%20fill%3D%22%2300aa00%22/%3E%0A%20%20%3C%21--%20tick%20marks%20--%3E%0A%20%20%3Cline%20x1%3D%225%22%20y1%3D%2210%22%20x2%3D%227%22%20y2%3D%2210%22%20stroke%3D%22%23000%22%20stroke-width%3D%221%22/%3E%0A%20%20%3Cline%20x1%3D%225%22%20y1%3D%2218%22%20x2%3D%227%22%20y2%3D%2218%22%20stroke%3D%22%23000%22%20stroke-width%3D%221%22/%3E%0A%3C/svg%3E" alt="Data Viz" /></div><span>Data Visualization</span>
+  </div>
+  <div class="desk-icon" id="icon-booknest" style="left:192px;top:16px" ondblclick="openBooknest()">
+    <div class="fi">
+      <svg viewBox="0 0 32 32" shape-rendering="crispEdges" aria-hidden="true">
+        <rect x="2" y="8" width="27" height="19" fill="#8b2cbb" stroke="#000" stroke-width="1"/>
+        <rect x="2" y="6" width="11" height="5" fill="#b96ee0" stroke="#000" stroke-width="1"/>
+        <rect x="5" y="12" width="7" height="11" fill="#fffef0" stroke="#000" stroke-width="1"/>
+        <rect x="13" y="12" width="7" height="11" fill="#fffef0" stroke="#000" stroke-width="1"/>
+        <rect x="21" y="12" width="5" height="11" fill="#f3b84a" stroke="#000" stroke-width="1"/>
+        <line x1="7" y1="15" x2="10" y2="15" stroke="#8b2cbb" stroke-width="1"/>
+        <line x1="15" y1="15" x2="18" y2="15" stroke="#8b2cbb" stroke-width="1"/>
+        <rect x="3" y="26" width="27" height="2" fill="#5c1f7b"/>
+      </svg>
+    </div><span>Booknest</span>
+  </div>
+</div>
+
+<!-- Taskbar -->
+<div id="taskbar">
+  <div class="start-btn" id="start-btn" onclick="openWin('about')">Start</div>
+  <div class="taskbar-apps" id="tbApps"></div>
+  <div class="tb-divider"></div>
+  <button class="dm-btn" id="dark-mode-btn" onclick="toggleDarkMode()">☾ Dark</button>
+  <div class="tb-divider"></div>
+  <div class="palette-strip">
+    <span class="pal-label">Theme</span>
+    <div class="pal-swatch active" data-bg="#c7d8c6" data-accent="#f34e3c" title="Blue + Orange" style="background:#c7d8c6;"></div>
+    <div class="pal-swatch"        data-bg="#c7cc8d" data-accent="#7b004f" title="Olive + Magenta" style="background:#c7cc8d;"></div>
+    <div class="pal-swatch"        data-bg="#7b004f" data-accent="#c7cc8d" title="Magenta + Olive (Inverted)" style="background:#7b004f;"></div>
+    <div class="pal-swatch"        data-bg="#5c1030" data-accent="#e890b0" title="Wine"   style="background:#5c1030;"></div>
+    <div class="pal-swatch"        data-bg="#f2c3b9" data-accent="#1e207a" title="Blush"  style="background:#f2c3b9;"></div>
+    <div class="pal-swatch"        data-bg="#d4b0c0" data-accent="#2a2870" title="Mauve"  style="background:#d4b0c0;"></div>
+    <input type="range" id="hue-slider" min="0" max="360" value="6" style="width:80px;" />
+  </div>
+  <div class="tb-clock" id="clock">00:00</div>
+</div>
+
+<!-- Context menu -->
+<div id="ctx-menu">
+  <div class="ctx-i" onclick="openAllWins();hideCtx()">Open All Folders</div>
+  <div class="ctx-i" onclick="tileWins();hideCtx()">Tile Windows</div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-i" onclick="closeAllWins();hideCtx()">Close All</div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════
+const SEC = {
+  professional: {
+    label: 'Professional', icon: '',
+    entries: [
+      {
+        id: 'jan', tab: 'January',
+        date: 'January 2025', tag: '4/5',
+        heading: 'First internship. Exciting and terrifying.',
+        samu: `First UX internship. Super excited about the work — my superior was genuinely nice — but I was constantly anxious. The late-night check-ins didn't help my mental state at all.\n\nWorked on a website and learned Figma Auto Layout. Got small moments of confidence from that. But the overall vibe was scary and unfamiliar and I kept questioning myself even when things were objectively fine.\n\n4/5 because I showed up and kept learning even while anxious. That counts for something.`,
+        khushi: `Khushi was managing her internship and the start of semester 5 simultaneously — work, college and social plans all overlapping without much breathing room. She made solid progress on the internship itself and started experimenting with motion design tools through small side projects. Summer internship applications began early.\n\nThe uncertainty arrived quickly though. She felt confused about what came next and started rushing applications — a lot of effort that didn't really go anywhere useful.`,
+      },
+      {
+        id: 'feb', tab: 'February',
+        date: 'February 2025', tag: '5/5',
+        heading: 'Finally settled in.',
+        samu: `Finally felt used to it. Working at a good pace, not anxious anymore — just doing the work. Finalising the website and fixing bugs. 5/5.\n\nIt's interesting how much of January's anxiety was just unfamiliarity. Once that wore off, the same environment felt completely different. The late-night check-ins stopped feeling like a threat and just became a part of the rhythm.`,
+        khushi: `With her internship over, Khushi found herself with more time but significantly less direction. She shifted back to college projects and tried to rebuild that routine. Applications continued but nothing substantial came through despite consistent effort.\n\nProfessionally it felt like being in motion without actually going anywhere.`,
+      },
+      {
+        id: 'march', tab: 'March',
+        date: 'March 2025', tag: '3/5',
+        heading: 'Ready for it to end.',
+        samu: `Ready for the internship to end — it started conflicting with what I actually wanted to be doing. My heart wasn't really in it anymore.\n\nBut I did get into some genuinely interesting things on the side: dashboard design, new tools, version control. That was fun in a way the main work wasn't. So not a total loss. 3/5 because the motivation was gone but the learning continued.`,
+        khushi: `A rejection from an opportunity she had genuinely wanted hit Khushi hard and knocked out most of her drive to keep applying. She slowed down professionally even as other areas of life were improving — the contrast was frustrating and difficult to ignore.\n\nShe had planned to start building her portfolio with a new design tool but didn't follow through. Other areas improving made it easier to keep postponing this.`,
+      },
+      {
+        id: 'april', tab: 'April',
+        date: 'April 2025', tag: '→ free',
+        heading: 'Over. Building on my own terms now.',
+        samu: `Internship ended on the first of the month. Felt good but also carried a slight sense of — did I miss out on exploring it more deeply? Maybe.\n\nStarted building my own Figma designs from scratch with the help of AI tools. That was genuinely enjoyable in a way the structured internship work wasn't — no brief, no feedback loop, just making things. Started applying to new places as well. Got scammed by one company :(\n\nBuilding independently hit differently. I think I found what actually works for me.`,
+        khushi: `Khushi shifted her focus toward finishing college submissions, which gave her a sense of control she'd been missing for a while. Toward the end of the month she finally began learning the design tool she'd been putting off — a step toward the portfolio work that had been stalled since early in the semester.`,
+      },
+    ],
+  },
+  physical: {
+    label: 'Physical', icon: '',
+    entries: [
+      {
+        id: 'jan', tab: 'January',
+        date: 'January 2025', tag: '2/5',
+        heading: 'Aware of it. Not doing much about it.',
+        samu: `2/5. Noticed I'd gained weight over the previous few months and genuinely wanted to do something about it. But the internship gave me enough to justify inaction — too busy, will start later.\n\nOnly thing I actually did was intermittent fasting. Not much, but it was the beginning of paying attention to my body rather than ignoring it entirely.`,
+        khushi: `Khushi rated herself a 2 this month. The lifestyle — late nights, no real structure — left her physically drained throughout. No consistent movement happened and she wasn't doing anything to change that.`,
+      },
+      {
+        id: 'feb', tab: 'February',
+        date: 'February 2025', tag: '2/5',
+        heading: 'No exercise. But something shifted with food.',
+        samu: `Still 2/5 on exercise. Didn't move my body much at all. But something real shifted with my relationship to food this month.\n\nStopped binge eating. Realised the issue wasn't appetite — my body never actually wanted that much food. I just wasn't listening to it. Once I understood that, it got easier on its own. Not a physical breakthrough, but a foundational one.`,
+        khushi: `A 4 this month for Khushi — a small step up but still not consistent with any form of exercise. Not much had changed here compared to January.`,
+      },
+      {
+        id: 'march', tab: 'March',
+        date: 'March 2025', tag: '4/5',
+        heading: 'Movement is back. Forgot how good it feels.',
+        samu: `Started going on walks at night — just to get a little active, nothing intense. By the end of the month, picked up badminton as well.\n\nPhysical movement feels genuinely good and I had forgotten that. Once you start again, something wakes back up. Never got back to running but badminton felt like enough for now.`,
+        khushi: `Khushi hit 10 this month. Gym became a daily habit alongside reading and sketching coming back into her routine. The shift in physical activity made a visible difference in how she felt day to day — everything else felt a bit more manageable because of it.`,
+      },
+      {
+        id: 'april', tab: 'April',
+        date: 'April 2025', tag: '5/5',
+        heading: 'Everyday badminton. Actually waking up early.',
+        samu: `5/5. Still playing badminton every single day. Adjusted when I eat, started waking up early and actually having breakfast. Days genuinely feel longer and better when sleep and waking hours are on track — that's not productivity advice, it's just true.\n\nEventually stopped intermittent fasting entirely to see how my body responded without it. Had suspected it was affecting my skin. Turned out probably not. Either way, still going well.`,
+        khushi: `Another 10 for Khushi. Gym stayed consistent even as other parts of the month felt heavy. Cooking at home came back too, alongside lighter reading. These habits became stabilisers when the emotional weight increased.`,
+      },
+    ],
+  },
+  social: {
+    label: 'Social', icon: '',
+    entries: [
+      {
+        id: 'jan', tab: 'January',
+        date: 'January 2025', tag: '1/5 (chosen)',
+        heading: 'Three people. That\'s the orbit.',
+        samu: `1/5 but completely by choice. My social circle is three people deep — that's just how I function. I wouldn't want more and couldn't handle more anyway. So is it really 1/5 or closer to 5/5 on my own terms? I chose this and it was working.\n\nWent inward this month. Processed a lot. Social energy went toward the internship and that was plenty.`,
+        khushi: `Khushi had a mixed month socially — 5/10. Outings happened, events were attended, and there were genuinely enjoyable moments. But a quiet disconnect with her closest friend ran through the whole thing and made everything feel slightly less present than it looked from the outside.`,
+      },
+      {
+        id: 'feb', tab: 'February',
+        date: 'February 2025', tag: '1/5 (still chosen)',
+        heading: 'Same orbit. Added a fortnightly call.',
+        samu: `Still 1/5, still by choice. Same three people, no desire to expand.\n\nOne addition that became a proper routine: fortnightly calls with my long-distance best friend. Small thing. Made a real difference. Consistency in connection matters more than volume.`,
+        khushi: `February was one of Khushi's better social months — 8/10. She reconciled with a close friend, properly caught up with people she'd been distant from, and attended family events. More present and more connected than January, which she had been needing.`,
+      },
+      {
+        id: 'march', tab: 'March',
+        date: 'March 2025', tag: '4/5',
+        heading: 'More interaction. More noticing.',
+        samu: `4/5. Interacted with more people than expected this month — partly because I was spending so much time focused inward, which made external patterns more visible when they did appear.\n\nRealised that more people operate transactionally than I tend to notice. Not a dramatic revelation, just a pattern that became clear once I was paying attention.`,
+        khushi: `A 7 for Khushi socially. She attended meaningful events and reconnected with long-distance friends. Things were falling back into place without being forced — a quieter, more organic kind of social fulfilment.`,
+      },
+      {
+        id: 'april', tab: 'April',
+        date: 'April 2025', tag: '5/5',
+        heading: 'The trip. Real connections.',
+        samu: `5/5. A trip led to meeting a lot of new people. Real friendships formed — not surface-level ones. The connections grew without any particular agenda behind them.\n\nSocial energy flowed naturally this month in a way that felt entirely different from January's intentional withdrawal. Both were right for when they happened.`,
+        khushi: `Khushi rated this a 5 socially. A family trip kept her occupied but drained her more than it replenished. She was around people throughout but not particularly connected to any of them — busy in a way that doesn't fill you up.`,
+      },
+    ],
+  },
+  emotional: {
+    label: 'Emotional', icon: '',
+    entries: [
+      {
+        id: 'jan', tab: 'January',
+        date: 'January 2025', tag: '1/5',
+        heading: 'Scattered. Honest. Breakup.',
+        samu: `1/5 — a lot of internal scatter and confusion. A significant mindset shift at the start of the month made me want to invest more seriously in myself and return to a spiritual practice I'd let go of.\n\nThat clarity also made something undeniable: I'd been postponing ending a relationship that had quietly stopped working. We'd become distant. I didn't enjoy the time together anymore. The decision had been waiting. Once I was honest about it, the breakup happened — and I handled it with more composure than I'd expected.`,
+        khushi: `Khushi rated January a 6 emotionally — manageable but somewhat overwhelming. She was carrying a lot at once: a demanding schedule, shifting relationships, and the pressure of figuring out what came next. Nothing catastrophic but very little space to breathe.`,
+      },
+      {
+        id: 'feb', tab: 'February',
+        date: 'February 2025', tag: '3.7/5',
+        heading: 'Thrown off balance. Chose peace anyway.',
+        samu: `3.7/5. Doing much better than January overall. But a close friend's unexpected confession surfaced a lot of unresolved feelings and threw me off balance. Became a bit bitter about things that had been sitting unaddressed for a long time.\n\nInstead of reacting I chose to seek peace internally. Went home, which actually worked better than it usually does.\n\nThis was also a period of using plant-based substances intentionally as a way to access deeper meditative states — the headspace it created was genuinely useful for introspection. It helped surface a lot of things about myself I hadn't looked at directly. Though it also had some unexpected ripple effects.\n\nMade a playlist that captured where my head was emotionally — a way of processing lingering feelings about a past relationship. Working on yourself tends to bring suppressed things to the surface. That's just what was happening.`,
+        khushi: `A 4 for Khushi emotionally. She felt lost and restless for most of the month. The lack of a clear professional direction coloured everything else and left her feeling unsettled in a way that was hard to name.`,
+      },
+      {
+        id: 'march', tab: 'March',
+        date: 'March 2025', tag: '5/5',
+        heading: 'The book on the bus. The awareness that actually happened.',
+        samu: `5/5. The strongest emotional month by a significant margin.\n\nThe news from February had thrown me enough that I went home — which doesn't usually end well, but this time it did. Calmer with my parents than usual. Did some genuinely good meditations.\n\nFound a book about the destructiveness of overthinking at the bus station on the way back. Picked it up on impulse. Felt like the right moment. Started replacing passive habits with reading and actual presence.\n\nOne night, using plant-based substances in the way I had been exploring, something unusual happened — the heightened awareness didn't fade. It carried into the next morning. For a stretch of time I was fully observing my own thoughts without being absorbed into them. Like watching waves from the shore rather than being in the water — present without being pulled. No anxiety, no worry. Just existing in the moment.\n\nI haven't been able to return to that exact state since. But knowing it's reachable changes the relationship with everything.`,
+        khushi: `A 6 emotionally for Khushi. More fulfilled than previous months — good habits were back, connections felt meaningful again. But the internship rejection left a residue of confusion about direction that ran underneath everything else. Two things existing at the same time.`,
+      },
+      {
+        id: 'april', tab: 'April',
+        date: 'April 2025', tag: '5/5',
+        heading: 'Stable. Actually stable.',
+        samu: `5/5. The most settled I'd felt in months — maybe longer.\n\nThoughts about reaching out to a different ex surfaced. But instead of acting on impulse, I sat with it. Realised the contact would happen eventually and it didn't need to be rushed or emotionally loaded. Just calm, when the time felt right. That kind of clarity about something that would have destabilised me in January felt significant.\n\nAlso returned to smoking after months without it. No guilt attached, no compulsive need to repeat it or obsessively avoid it again. It was just an action with no particular weight. That kind of neutrality toward something that used to carry a lot — that felt like something worth noting.\n\nNot the anxious, second-guessing version of myself anymore. That shift is real.`,
+        khushi: `Khushi rated April a 7 emotionally. The month felt heavy and slow in ways that were difficult to push through — a creative block, low periods, being mentally stretched across too many things at once. But she kept moving. Gym stayed consistent. Lighter reading helped. Progress came eventually, just slowly.`,
+      },
+    ],
+  },
+  misc: {
+    label: 'Class Notes & Misc', icon: '',
+    entries: [
+      {
+        id: 'insights', tab: 'Things That Stuck',
+        date: 'Jan – Apr 2025', tag: 'Insights',
+        heading: 'What actually stayed with me',
+        samu: `<strong>Figma Auto Layout</strong> — constraints are instructions, not restrictions. Once I stopped fighting the system and started describing intent, things built themselves.\n\n<strong>AI-assisted design tools</strong> — the gap between what I can imagine and what I can actually build collapsed. That's not a tool update, it's an identity shift.\n\n<strong>The mind constructs emotions</strong> from raw experience, and those emotions feed more thought, which feeds more emotion. Knowing the loop exists makes it possible to step outside it.\n\n<strong>Observing thoughts versus being them</strong> — easy in theory, genuinely difficult in practice. But achievable. I know because it happened once.\n\n<strong>Physical movement is irreplaceable.</strong> I forgot. I remembered. Don't forget again.\n\n<strong>On food:</strong> the body rarely wants as much as gets given to it. The trick is actually listening.`,
+        khushi: null,
+      },
+      {
+        id: 'ratings', tab: 'Monthly Ratings',
+        date: 'Jan – Apr 2025', tag: 'Review',
+        heading: 'How the months rated out',
+        samu: `<strong>Saumya — rated out of 5</strong>\n\nJanuary · Professional 4 · Social 1 · Emotional 1 · Physical 2\nFebruary · Professional 5 · Social 1 · Emotional 3.7 · Physical 2\nMarch · Professional 3 · Social 4 · Emotional 5 · Physical 4\nApril · Professional — · Social 5 · Emotional 5 · Physical 5\n\nThe trajectory is clear in hindsight. January was rough across the board. By April almost everything had quietly become good. The professional rating for April is harder to place because the internship ending and building independently don't sit on the same scale — so leaving it unscored feels more honest.`,
+        khushi: `<strong>Khushi — rated out of 10</strong>\n\nJanuary · Professional 8 · Social 5 · Emotional 6 · Physical 2\nFebruary · Professional 7 · Social 8 · Emotional 4 · Physical 4\nMarch · Professional 4 · Social 7 · Emotional 6 · Physical 10\nApril · Professional 6 · Social 5 · Emotional 7 · Physical 10\n\nKhushi's biggest shift was physical — 2 to 10 by March and holding steady through April. Professional moved in the opposite direction after the rejection and never fully recovered that semester. Social peaked in February. Emotional dipped in February when direction felt most unclear and gradually recovered after that.`,
+      },
+    ],
+  },
+  dataviz: {
+    label: 'Data Visualization', icon: '',
+    entries: [
+      {
+        id: 'placeholder', tab: 'Coming Soon',
+        date: '2025', tag: 'Data',
+        heading: 'Data Visualization',
+        samu: `Content coming soon. This space will hold data visualizations and charts built from the journal data.
+
+<em>Check back once the contents are ready.</em>`,
+        khushi: null,
+      },
+    ],
+  },
+  about: {
+    label: 'About Me', icon: '',
+    entries: [
+      {
+        id: 'readme', tab: 'README',
+        date: 'Spring 2025', tag: 'Intro',
+        heading: 'Saumya — DTU Interaction Design',
+        samu: `Welcome to <strong>Journal OS</strong> — a semester log built to look like a desktop operating system because that felt more honest than a regular document.\n\nFive folders: Professional, Physical, Social, Emotional, and Class Notes. Each contains four months — January through April. My entries are in the main view. My buddy <strong>Khushi's</strong> perspective on the same period is in the tab next to it, written from the outside looking in.\n\nThis isn't a highlight reel. It's what actually happened.\n\n<em>Double-click any folder to open it. Windows are draggable and resizable. Right-click the desktop for options. Dark mode is in the taskbar.</em>\n\nBuilt with vanilla HTML/CSS/JS. Designed in Figma.`,
+        khushi: null,
+      },
+    ],
+  },
+};
+
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+const wins = {};
+let zTop = 100;
+
+// ═══════════════════════════════════════════
+// CLOCK
+// ═══════════════════════════════════════════
+function tick() {
+  const n = new Date();
+  document.getElementById('clock').textContent =
+    String(n.getHours()).padStart(2,'0') + ':' + String(n.getMinutes()).padStart(2,'0');
+}
+tick(); setInterval(tick, 10000);
+
+// ═══════════════════════════════════════════
+// OPEN WINDOW
+// ═══════════════════════════════════════════
+function openWin(id) {
+  if (wins[id]) {
+    wins[id].el.classList.remove('minimized');
+    focusWin(id); return;
+  }
+  const sec = SEC[id];
+  const off = Object.keys(wins).length;
+  const win = document.createElement('div');
+  win.className = 'os-window win-open-anim';
+  win.style.cssText = `width:700px;height:520px;left:${55+off*28}px;top:${28+off*22}px;z-index:${++zTop}`;
+
+  const firstId = sec.entries[0].id;
+  const sidebarHTML = sec.entries.map(e => `
+    <div class="sb-item ${e.id===firstId?'active':''}"
+         data-entry="${e.id}"
+         onclick="loadEntry('${id}','${e.id}')">
+      ${e.tab}
+    </div>`).join('');
+
+  win.innerHTML = `
+    <div class="win-tb">
+      <div class="win-tb-inner" id="tb-inner-${id}">
+        <span class="win-tb-title">${sec.label}</span>
+        <div class="win-ctrls">
+          <button class="wc-btn" onclick="minWin('${id}')">─</button>
+          <button class="wc-btn" onclick="maxWin('${id}')">▢</button>
+          <button class="wc-btn" onclick="closeWin('${id}')">✕</button>
+        </div>
+      </div>
+    </div>
+    <div class="win-bar">
+      <button class="bar-btn" onclick="closeWin('${id}')">← Back</button>
+    </div>
+    <div class="win-body">
+      <div class="win-sb" id="sb-${id}">
+        <div class="sb-section">Entries</div>
+        ${sidebarHTML}
+      </div>
+      <div class="win-ct" id="ct-${id}"></div>
+    </div>
+    <div class="win-status">
+      <div class="status-pane">${sec.entries.length} item${sec.entries.length>1?'s':''}</div>
+      <div class="status-pane">Journal OS</div>
+    </div>
+    <div class="win-resize"></div>
+  `;
+
+  document.getElementById('desktop').appendChild(win);
+  wins[id] = { el: win };
+  win.addEventListener('mousedown', () => focusWin(id));
+  makeDrag(win, win.querySelector('.win-tb'));
+  makeResize(win, win.querySelector('.win-resize'));
+  setTimeout(() => win.classList.remove('win-open-anim'), 200);
+
+  loadEntry(id, firstId);
+
+  // Use the same surface/content colours applyPalette uses (dark-mode aware)
+  const [_h, _s] = hexToHsl(currentBg);
+  const surfaceBg = isDarkMode ? hslToHex(_h, Math.min(_s*0.6,20), 14) : currentBg;
+  const contentBg = isDarkMode ? hslToHex(_h, Math.min(_s*0.3,10),  8) : shiftL(currentBg, 6);
+
+  win.querySelectorAll('.win-tb,.win-tb-inner,.win-sb,.win-bar,.win-status,.status-pane,.bar-btn').forEach(el=>el.style.background=surfaceBg);
+  win.querySelectorAll('.win-ct').forEach(el=>el.style.background=contentBg);
+  // Use displayAccent for text if in dark mode with a dark accent
+  const [_da_h, _da_s, _da_l] = hexToHsl(currentAccent);
+  const _displayAccent = (isDarkMode && _da_l < 55) ? hslToHex(_da_h, Math.min(_da_s, 72), 68) : currentAccent;
+  win.querySelectorAll('.win-tb-title').forEach(el=>el.style.color=_displayAccent);
+  win.querySelectorAll('.wc-btn').forEach(el=>{ el.style.background=currentAccent; el.style.color=surfaceBg; });
+
+  updateTB();
+}
+
+// ═══════════════════════════════════════════
+// LOAD ENTRY
+// ═══════════════════════════════════════════
+function loadEntry(secId, entryId) {
+  const sec = SEC[secId];
+  const e   = sec.entries.find(x => x.id === entryId);
+  if (!e) return;
+
+  const sb = document.getElementById('sb-' + secId);
+  if (sb) sb.querySelectorAll('.sb-item').forEach(el =>
+    el.classList.toggle('active', el.dataset.entry === entryId));
+
+  const ct = document.getElementById('ct-' + secId);
+  if (!ct) return;
+
+  const hasBuddy = !!e.khushi;
+  const samuBody = fmt(e.samu || '');
+  const tabs = hasBuddy ? `
+    <div class="tabs-strip">
+      <button class="tab-btn active" id="t-s-${secId}-${entryId}"
+        onclick="switchTab('${secId}','${entryId}','samu')">My Journal</button>
+      <button class="tab-btn" id="t-k-${secId}-${entryId}"
+        onclick="switchTab('${secId}','${entryId}','khushi')">Khushi</button>
+    </div>` : '';
+
+  ct.innerHTML = `
+    ${tabs}
+    <div class="entry-area">
+      <div class="entry-date">${e.date}</div>
+      <div class="entry-heading">${e.heading}</div>
+      <span class="entry-tag">${e.tag}</span>
+      <div class="divider"></div>
+      <div id="pane-s-${secId}-${entryId}" class="entry-body">${samuBody}</div>
+      ${hasBuddy ? `
+        <div id="pane-k-${secId}-${entryId}" class="buddy-box" style="display:none;">
+          <div class="buddy-label">Khushi — Buddy Entry</div>
+          <div class="buddy-body">${fmt(e.khushi)}</div>
+        </div>` : ''}
+    </div>`;
+}
+
+function fmt(str) { return (str||'').replace(/\n/g,'<br><br>'); }
+
+function switchTab(secId, entryId, which) {
+  const ts = document.getElementById(`t-s-${secId}-${entryId}`);
+  const tk = document.getElementById(`t-k-${secId}-${entryId}`);
+  const ps = document.getElementById(`pane-s-${secId}-${entryId}`);
+  const pk = document.getElementById(`pane-k-${secId}-${entryId}`);
+  if (which === 'samu') {
+    ts?.classList.add('active');    tk?.classList.remove('active');
+    ps && (ps.style.display='');    pk && (pk.style.display='none');
+  } else {
+    tk?.classList.add('active');    ts?.classList.remove('active');
+    pk && (pk.style.display='');    ps && (ps.style.display='none');
+  }
+}
+
+// ═══════════════════════════════════════════
+// WINDOW CONTROLS
+// ═══════════════════════════════════════════
+function closeWin(id) {
+  if (!wins[id]) return;
+  const el = wins[id].el;
+  el.style.transition = 'opacity .12s, transform .12s';
+  el.style.opacity='0'; el.style.transform='scale(0.9)';
+  setTimeout(()=>{ el.remove(); delete wins[id]; updateTB(); }, 130);
+}
+function minWin(id) { wins[id]?.el.classList.toggle('minimized'); updateTB(); }
+function maxWin(id) {
+  const w = wins[id]?.el; if (!w) return;
+  if (w.dataset.mx) {
+    w.style.left=w.dataset.ox; w.style.top=w.dataset.oy;
+    w.style.width=w.dataset.ow; w.style.height=w.dataset.oh;
+    delete w.dataset.mx;
+  } else {
+    w.dataset.ox=w.style.left; w.dataset.oy=w.style.top;
+    w.dataset.ow=w.style.width; w.dataset.oh=w.style.height;
+    w.style.left='0'; w.style.top='0'; w.style.width='100%'; w.style.height='100%';
+    w.dataset.mx='1';
+  }
+}
+function focusWin(id) {
+  Object.entries(wins).forEach(([k,v]) => {
+    const inner = v.el.querySelector('.win-tb-inner');
+    if (inner) inner.classList.toggle('inactive', k !== id);
+  });
+  if (wins[id]) wins[id].el.style.zIndex = ++zTop;
+  updateTB();
+}
+function openAllWins()  { Object.keys(SEC).forEach((k,i)=>setTimeout(()=>openWin(k),i*80)); }
+function closeAllWins() { Object.keys(wins).forEach(closeWin); }
+function tileWins() {
+  const ks = Object.keys(wins); if (!ks.length) return;
+  const cols = Math.ceil(Math.sqrt(ks.length));
+  const dw = document.getElementById('desktop').clientWidth;
+  const dh = document.getElementById('desktop').clientHeight;
+  ks.forEach((k,i) => {
+    const w = wins[k].el;
+    w.classList.remove('minimized');
+    w.style.left = ((i%cols)*Math.floor(dw/cols))+'px';
+    w.style.top  = (Math.floor(i/cols)*Math.floor(dh/Math.ceil(ks.length/cols)))+'px';
+    w.style.width  = Math.floor(dw/cols)+'px';
+    w.style.height = Math.floor(dh/Math.ceil(ks.length/cols))+'px';
+    delete w.dataset.mx;
+  });
+}
+
+// ═══════════════════════════════════════════
+// TASKBAR
+// ═══════════════════════════════════════════
+function updateTB() {
+  const bar = document.getElementById('tbApps');
+  bar.innerHTML = '';
+  Object.entries(wins).forEach(([id,rec]) => {
+    const sec = SEC[id];
+    const label = sec ? sec.label : 'My Dates';
+    const focused = +rec.el.style.zIndex === zTop;
+    const btn = document.createElement('div');
+    btn.className = 'tb-btn' + (focused ? ' active' : '');
+    btn.innerHTML = label;
+    btn.onclick = () => {
+      if (rec.el.classList.contains('minimized')) { rec.el.classList.remove('minimized'); focusWin(id); }
+      else if (focused) minWin(id);
+      else focusWin(id);
+    };
+    bar.appendChild(btn);
+  });
+}
+
+// ═══════════════════════════════════════════
+// DRAG + RESIZE
+// ═══════════════════════════════════════════
+function makeDrag(win, handle) {
+  let sx, sy, sl, st;
+  handle.addEventListener('mousedown', e => {
+    if (e.target.closest('.win-ctrls') || win.dataset.mx) return;
+    sx=e.clientX; sy=e.clientY;
+    sl=parseInt(win.style.left)||0; st=parseInt(win.style.top)||0;
+    const mv = e2 => {
+      win.style.left = Math.max(0, sl+e2.clientX-sx)+'px';
+      win.style.top  = Math.max(0, st+e2.clientY-sy)+'px';
+    };
+    document.addEventListener('mousemove', mv);
+    document.addEventListener('mouseup', ()=>document.removeEventListener('mousemove',mv), {once:true});
+  });
+}
+function makeResize(win, handle) {
+  handle.addEventListener('mousedown', e => {
+    e.stopPropagation();
+    const sx=e.clientX, sy=e.clientY, sw=win.offsetWidth, sh=win.offsetHeight;
+    const mv = e2 => {
+      win.style.width  = Math.max(340, sw+e2.clientX-sx)+'px';
+      win.style.height = Math.max(220, sh+e2.clientY-sy)+'px';
+    };
+    document.addEventListener('mousemove', mv);
+    document.addEventListener('mouseup', ()=>document.removeEventListener('mousemove',mv), {once:true});
+  });
+}
+
+// ═══════════════════════════════════════════
+// DRAGGABLE ICONS
+// ═══════════════════════════════════════════
+function selIcon(el) {
+  document.querySelectorAll('.desk-icon').forEach(d=>d.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function clearSel(e) {
+  if (!e.target.closest('.desk-icon'))
+    document.querySelectorAll('.desk-icon').forEach(d=>d.classList.remove('selected'));
+}
+function makeIconDraggable(icon) {
+  let dragging=false, moved=false, sx,sy,sl,st;
+  icon.addEventListener('mousedown', e => {
+    if (e.button!==0) return;
+    moved=false; dragging=false;
+    sx=e.clientX; sy=e.clientY;
+    sl=parseInt(icon.style.left)||0; st=parseInt(icon.style.top)||0;
+    selIcon(icon);
+    const onMove = e2 => {
+      const dx=e2.clientX-sx, dy=e2.clientY-sy;
+      if (Math.hypot(dx,dy)<6) return;
+      if (!dragging) { dragging=true; moved=true; icon.classList.add('dragging'); icon.style.zIndex=8000; }
+      const desk=document.getElementById('desktop');
+      icon.style.left = Math.max(0,Math.min(desk.clientWidth-icon.offsetWidth,  sl+dx))+'px';
+      icon.style.top  = Math.max(0,Math.min(desk.clientHeight-icon.offsetHeight, st+dy))+'px';
+    };
+    const onUp = () => {
+      if (dragging) { icon.classList.remove('dragging'); icon.style.zIndex=''; dragging=false; }
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+    };
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  });
+  icon.addEventListener('dblclick', e => { if (moved) { moved=false; e.stopPropagation(); e.preventDefault(); } });
+}
+document.querySelectorAll('.desk-icon').forEach(makeIconDraggable);
+
+// ═══════════════════════════════════════════
+// CONTEXT MENU
+// ═══════════════════════════════════════════
+function showCtx(e) {
+  e.preventDefault();
+  const m=document.getElementById('ctx-menu');
+  m.style.display='block'; m.style.left=e.clientX+'px'; m.style.top=e.clientY+'px';
+}
+function hideCtx() { document.getElementById('ctx-menu').style.display='none'; }
+document.addEventListener('click', hideCtx);
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') hideCtx(); });
+
+// ═══════════════════════════════════════════
+// COLOUR / PALETTE SYSTEM
+// ═══════════════════════════════════════════
+let currentBg = '#c7d8c6';
+let currentAccent = '#f34e3c';
+let isDarkMode = false;
+
+// ═══════════════════════════════════════════
+// DARK MODE
+// ═══════════════════════════════════════════
+function toggleDarkMode() {
+  isDarkMode = !isDarkMode;
+  document.body.classList.toggle('dark', isDarkMode);
+  document.body.style.background = isDarkMode ? '#111111' : 'var(--cream)';
+  const btn = document.getElementById('dark-mode-btn');
+  if (btn) {
+    btn.textContent = isDarkMode ? '☀ Light' : '☾ Dark';
+    btn.style.boxShadow = isDarkMode
+      ? 'inset -2px -2px 0 rgba(255,255,255,0.5), inset 2px 2px 0 rgba(0,0,0,0.35)'  // sunken = active
+      : 'inset -2px -2px 0 rgba(0,0,0,0.4), inset 2px 2px 0 rgba(255,255,255,0.6)';  // raised = off
+  }
+  applyPalette(currentBg, currentAccent);
+}
+
+function hexToHsl(hex) {
+  let r=parseInt(hex.slice(1,3),16)/255,g=parseInt(hex.slice(3,5),16)/255,b=parseInt(hex.slice(5,7),16)/255;
+  const max=Math.max(r,g,b),min=Math.min(r,g,b);
+  let h=0,s=0,l=(max+min)/2;
+  if(max!==min){const d=max-min;s=l>0.5?d/(2-max-min):d/(max+min);switch(max){case r:h=((g-b)/d+(g<b?6:0))/6;break;case g:h=((b-r)/d+2)/6;break;default:h=((r-g)/d+4)/6;}}
+  return[h*360,s*100,l*100];
+}
+function hslToHex(h,s,l){
+  s/=100;l/=100;const c=(1-Math.abs(2*l-1))*s,hp=((h%360)+360)%360/60,x=c*(1-Math.abs(hp%2-1));
+  let r=0,g=0,b=0;if(hp<1)[r,g,b]=[c,x,0];else if(hp<2)[r,g,b]=[x,c,0];else if(hp<3)[r,g,b]=[0,c,x];else if(hp<4)[r,g,b]=[0,x,c];else if(hp<5)[r,g,b]=[x,0,c];else[r,g,b]=[c,0,x];
+  const m=l-c/2,h2=v=>Math.round((v+m)*255).toString(16).padStart(2,'0');
+  return`#${h2(r)}${h2(g)}${h2(b)}`;
+}
+function hexAlpha(hex,a){return`rgba(${parseInt(hex.slice(1,3),16)},${parseInt(hex.slice(3,5),16)},${parseInt(hex.slice(5,7),16)},${a})`;}
+
+// For dark backgrounds: create a very light, barely-tinted content pane
+// For light backgrounds: subtle lightening as before
+function lightenBg(bg){
+  const[h,s,l]=hexToHsl(bg);
+  if(l < 45){
+    // Dark theme — content pane becomes a very light, low-saturation tint
+    return hslToHex(h, Math.min(s*0.14, 12), 92);
+  }
+  return hslToHex(h, Math.max(0,s-8), Math.min(95,l+10));
+}
+
+// shiftL used inline in openWin for content bg
+function shiftL(hex, amt){
+  const[h,s,l]=hexToHsl(hex);
+  if(l < 45) return hslToHex(h, Math.min(s*0.14, 12), 92);
+  return hslToHex(h, Math.max(0,s-8), Math.min(95,l+amt));
+}
+
+function applyPalette(bgHex, accentHex) {
+  currentBg = bgHex;
+  currentAccent = accentHex;
+
+  // In dark mode: derive a very dark tinted surface from the palette hue
+  let surfaceBg = bgHex;
+  let cBg;
+  if (isDarkMode) {
+    const [h, s] = hexToHsl(bgHex);
+    surfaceBg = hslToHex(h, Math.min(s * 0.6, 20), 14);   // dark surface
+    cBg       = hslToHex(h, Math.min(s * 0.3, 10),  8);   // even darker content pane
+  } else {
+    cBg = lightenBg(bgHex);
+  }
+
+  // In dark mode, if accent is too dark to read on dark surfaces, auto-lighten it for text/icons
+  // (e.g. navy blue #1e207a or #2a2870 on a near-black surface)
+  let displayAccent = accentHex;
+  if (isDarkMode) {
+    const [ah, as_, al] = hexToHsl(accentHex);
+    if (al < 55) {
+      // Lighten to ~68% L, keep hue and moderate saturation
+      displayAccent = hslToHex(ah, Math.min(as_, 72), 68);
+    }
+  }
+
+  const R = document.documentElement.style;
+  R.setProperty('--bg',         surfaceBg);
+  R.setProperty('--g2',         surfaceBg);
+  R.setProperty('--accent',     accentHex);
+  R.setProperty('--pink',       accentHex);
+  R.setProperty('--content-bg', cBg);
+
+  // Also update the cream desktop colour
+  document.getElementById('desktop').style.backgroundColor = isDarkMode ? '#111111' : '#f5f5db';
+
+  ['#taskbar','.os-window','.win-tb','.win-tb-inner','.win-sb','.win-bar',
+   '.win-status','.status-pane','.start-btn','.tb-btn','.tb-clock',
+   '.palette-strip','.bar-btn','.cal-nav','.cal-nav-btn','.cal-dow-row',
+   '.cal-notebar','.cal-notebar button','.tabs-strip','.tab-btn','.sb-section',
+   '.dm-btn',
+  ].forEach(sel=>document.querySelectorAll(sel).forEach(el=>el.style.background=surfaceBg));
+
+  document.querySelectorAll('.win-ct').forEach(el=>el.style.background=cBg);
+  document.querySelectorAll('.cal-shell').forEach(el=>el.style.background=cBg);
+
+  ['.win-tb-title','.start-btn','.tb-btn','.tb-clock','.pal-label','.cal-month-title','.bar-btn','.dm-btn']
+    .forEach(sel=>document.querySelectorAll(sel).forEach(el=>el.style.color=displayAccent));
+
+  ['.wc-btn','.entry-tag','.sb-item.active','.cal-day.marked','.cal-notebar button']
+    .forEach(sel=>document.querySelectorAll(sel).forEach(el=>{
+      el.style.background=accentHex; el.style.color=surfaceBg;
+    }));
+
+  document.querySelectorAll('.tab-btn.active').forEach(el=>{
+    el.style.background=cBg; el.style.color=displayAccent;
+  });
+
+  // Keep dark-mode-btn shadow state correct
+  const dmBtn = document.getElementById('dark-mode-btn');
+  if (dmBtn) {
+    dmBtn.style.boxShadow = isDarkMode
+      ? 'inset -2px -2px 0 rgba(255,255,255,0.5), inset 2px 2px 0 rgba(0,0,0,0.35)'
+      : 'inset -2px -2px 0 rgba(0,0,0,0.4), inset 2px 2px 0 rgba(255,255,255,0.6)';
+  }
+
+  document.getElementById('dynamic-theme').textContent=`
+    .desk-icon:hover   {background:${hexAlpha(displayAccent,.15)}!important}
+    .desk-icon.selected{background:${hexAlpha(displayAccent,.28)}!important}
+    .sb-item:hover     {background:${displayAccent}!important;color:${isDarkMode?'#111':surfaceBg}!important}
+    .sb-item.active    {background:${displayAccent}!important;color:${isDarkMode?'#111':surfaceBg}!important}
+    .ctx-i:hover       {background:${displayAccent}!important;color:${isDarkMode?'#111':surfaceBg}!important}
+    .cal-day:hover     {background:${hexAlpha(displayAccent,.18)}!important}
+    .cal-day.marked    {background:${displayAccent}!important;color:${isDarkMode?'#111':surfaceBg}!important}
+    .tab-btn.active    {background:${cBg}!important;color:${displayAccent}!important}
+    .wc-btn            {background:${displayAccent}!important;color:${isDarkMode?'#111':surfaceBg}!important}
+    .entry-tag         {background:${displayAccent}!important;color:${isDarkMode?'#111':surfaceBg}!important}
+    .cal-nav-btn       {background:${surfaceBg}!important;color:${displayAccent}!important}
+    body:not(.dark) .entry-heading {color:#1a1a1a!important}
+    body:not(.dark) .entry-body    {color:#2a2a2a!important}
+    body:not(.dark) .desk-icon span{color:#1a1a1a!important}
+    body:not(.dark) .cal-day       {color:#111!important}
+    body:not(.dark) .status-pane   {color:rgba(0,0,0,0.55)!important}
+    body:not(.dark) .ctx-i         {color:#000!important}
+  `;
+
+  const[h]=hexToHsl(accentHex);
+  hueSlider.value=Math.round(h);
+}
+
+const hueSlider = document.getElementById('hue-slider');
+
+hueSlider.addEventListener('input', e=>{
+  const[,s,l]=hexToHsl(currentAccent);
+  applyPalette(currentBg, hslToHex(Number(e.target.value), Math.max(50,s), Math.max(28,Math.min(62,l))));
+  document.querySelectorAll('.pal-swatch').forEach(s=>s.classList.remove('active'));
+});
+
+document.querySelectorAll('.pal-swatch').forEach(sw=>{
+  sw.addEventListener('click',()=>{
+    applyPalette(sw.dataset.bg, sw.dataset.accent);
+    document.querySelectorAll('.pal-swatch').forEach(s=>s.classList.remove('active'));
+    sw.classList.add('active');
+  });
+});
+
+// ═══════════════════════════════════════════
+// DATA VIZ
+// ═══════════════════════════════════════════
+function openDataViz() {
+  window.location.href = 'dataviz.html';
+}
+
+function openBooknest() {
+  window.location.href = 'booknest.html';
+}
+
+// ═══════════════════════════════════════════
+// CALENDAR
+// ═══════════════════════════════════════════
+const markedDates = {};
+const PRESET = {
+  '2026-01-05': 'Assignment begins',
+  '2026-01-12': 'First journal entry',
+  '2026-01-20': 'Figma auto-layout breakthrough',
+  '2026-02-03': 'Badminton habit started',
+  '2026-02-14': 'Orbit of 3 realisation',
+  '2026-02-28': 'Waves on the Shore meditation',
+  '2026-03-10': 'Physical rating hits 5/5',
+  '2026-03-22': 'Social: new friends on trip',
+  '2026-04-01': 'Khushi difficult month begins',
+  '2026-04-15': 'Mind Creates Emotions insight',
+  '2026-04-25': 'Assignment wraps up!',
+};
+Object.assign(markedDates, PRESET);
+
+let calSelectedKey = null;
+let calCurrentMonth = 0;
+const CAL_MONTHS = [
+  { year:2026, month:0, label:'January 2026' },
+  { year:2026, month:1, label:'February 2026' },
+  { year:2026, month:2, label:'March 2026' },
+  { year:2026, month:3, label:'April 2026' },
+];
+
+function openCalendar() {
+  const id='__calendar__';
+  if (wins[id]) { wins[id].el.classList.remove('minimized'); focusWin(id); return; }
+  const off=Object.keys(wins).length;
+  const win=document.createElement('div');
+  win.className='os-window win-open-anim';
+  win.style.cssText=`width:420px;height:420px;left:${80+off*28}px;top:${40+off*22}px;z-index:${++zTop}`;
+
+  win.innerHTML=`
+    <div class="win-tb">
+      <div class="win-tb-inner" id="tb-inner-${id}">
+        <span class="win-tb-title">My Dates</span>
+        <div class="win-ctrls">
+          <button class="wc-btn" onclick="minWin('${id}')">─</button>
+          <button class="wc-btn" onclick="maxWin('${id}')">▢</button>
+          <button class="wc-btn" onclick="closeWin('${id}')">✕</button>
+        </div>
+      </div>
+    </div>
+    <div class="cal-shell">
+      <div class="cal-nav">
+        <button class="cal-nav-btn" onclick="calNav(-1)">◀</button>
+        <span class="cal-month-title" id="cal-month-title"></span>
+        <button class="cal-nav-btn" onclick="calNav(1)">▶</button>
+      </div>
+      <div class="cal-dow-row">
+        ${['Su','Mo','Tu','We','Th','Fr','Sa'].map(d=>`<div class="cal-dow">${d}</div>`).join('')}
+      </div>
+      <div class="cal-grid" id="cal-grid"></div>
+      <div class="cal-notebar">
+        <span class="cal-selected-info" id="cal-sel-info">Click a date</span>
+        <input type="text" id="cal-note-input" placeholder="Add note…" disabled />
+        <button onclick="saveCalNote('${id}')">Mark</button>
+        <button onclick="clearCalNote('${id}')">Clear</button>
+      </div>
+    </div>
+    <div class="win-status">
+      <div class="status-pane" id="cal-status-pane">${Object.keys(markedDates).length} marked</div>
+      <div class="status-pane">Jan – Apr 2026</div>
+    </div>
+    <div class="win-resize"></div>
+  `;
+
+  document.getElementById('desktop').appendChild(win);
+  wins[id]={ el:win };
+  win.addEventListener('mousedown', ()=>focusWin(id));
+  makeDrag(win, win.querySelector('.win-tb'));
+  makeResize(win, win.querySelector('.win-resize'));
+  setTimeout(()=>win.classList.remove('win-open-anim'),200);
+
+  // Apply current palette to calendar window (dark-mode aware)
+  const [_ch, _cs] = hexToHsl(currentBg);
+  const calSurfaceBg = isDarkMode ? hslToHex(_ch, Math.min(_cs*0.6,20), 14) : currentBg;
+  const calContentBg = isDarkMode ? hslToHex(_ch, Math.min(_cs*0.3,10),  8) : lightenBg(currentBg);
+
+  win.querySelectorAll('.win-tb,.win-tb-inner,.cal-nav,.cal-dow-row,.cal-notebar,.win-status,.status-pane').forEach(el=>el.style.background=calSurfaceBg);
+  const [_ca_h, _ca_s, _ca_l] = hexToHsl(currentAccent);
+  const _calDisplayAccent = (isDarkMode && _ca_l < 55) ? hslToHex(_ca_h, Math.min(_ca_s, 72), 68) : currentAccent;
+  win.querySelectorAll('.win-tb-title,.cal-month-title').forEach(el=>el.style.color=_calDisplayAccent);
+  win.querySelectorAll('.wc-btn').forEach(el=>{el.style.background=currentAccent;el.style.color=calSurfaceBg;});
+  win.querySelectorAll('.cal-shell').forEach(el=>el.style.background=calContentBg);
+
+  renderCalGrid();
+  updateTB();
+}
+
+function calNav(dir) {
+  calCurrentMonth = Math.max(0, Math.min(3, calCurrentMonth + dir));
+  renderCalGrid();
+}
+
+function renderCalGrid() {
+  const { year, month, label } = CAL_MONTHS[calCurrentMonth];
+  const titleEl = document.getElementById('cal-month-title');
+  const [_rg_h, _rg_s, _rg_l] = hexToHsl(currentAccent);
+  const _rgDisplayAccent = (isDarkMode && _rg_l < 55) ? hslToHex(_rg_h, Math.min(_rg_s, 72), 68) : currentAccent;
+  if (titleEl) { titleEl.textContent = label; titleEl.style.color = _rgDisplayAccent; }
+
+  const grid = document.getElementById('cal-grid');
+  if (!grid) return;
+  grid.innerHTML='';
+
+  const today=new Date();
+  const firstDay=new Date(year,month,1).getDay();
+  const daysInMonth=new Date(year,month+1,0).getDate();
+
+  for(let i=0;i<firstDay;i++){
+    const e=document.createElement('div'); e.className='cal-day empty'; grid.appendChild(e);
+  }
+  for(let d=1;d<=daysInMonth;d++){
+    const key=`${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const cell=document.createElement('div');
+    cell.className='cal-day';
+    cell.textContent=d;
+    cell.dataset.key=key;
+    if(today.getFullYear()===year&&today.getMonth()===month&&today.getDate()===d) cell.classList.add('today');
+    if(markedDates[key]){
+      cell.classList.add('marked');
+      const tip=document.createElement('div'); tip.className='cal-tip'; tip.textContent=markedDates[key];
+      cell.appendChild(tip);
+    }
+    if(key===calSelectedKey) cell.classList.add('selected-day');
+    cell.addEventListener('click',()=>selectCalDay(key,cell));
+    grid.appendChild(cell);
+  }
+}
+
+function selectCalDay(key,cell) {
+  document.querySelectorAll('.cal-day.selected-day').forEach(el=>el.classList.remove('selected-day'));
+  calSelectedKey=key; cell.classList.add('selected-day');
+  const info=document.getElementById('cal-sel-info');
+  const input=document.getElementById('cal-note-input');
+  if(info) info.textContent=key;
+  if(input){ input.disabled=false; input.value=markedDates[key]||''; input.focus(); }
+}
+function saveCalNote(id) {
+  if(!calSelectedKey) return;
+  const input=document.getElementById('cal-note-input');
+  const note=input?input.value.trim():'';
+  if(note) markedDates[calSelectedKey]=note; else delete markedDates[calSelectedKey];
+  renderCalGrid();
+  const sp=document.getElementById('cal-status-pane');
+  if(sp) sp.textContent=Object.keys(markedDates).length+' marked';
+}
+function clearCalNote(id) {
+  if(!calSelectedKey) return;
+  delete markedDates[calSelectedKey];
+  const input=document.getElementById('cal-note-input');
+  if(input) input.value='';
+  renderCalGrid();
+  const sp=document.getElementById('cal-status-pane');
+  if(sp) sp.textContent=Object.keys(markedDates).length+' marked';
+}
+applyPalette(currentBg, currentAccent);
+</script>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Design System — Saumya</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Serif+Lao:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="design-system.css">
+  <style>
+    .sg-section { padding-block: var(--sp-16); border-bottom: 1px solid var(--rule); }
+    .sg-section:last-child { border-bottom: 0; }
+    .sg-label {
+      font-family: var(--font-mono);
+      font-size: var(--fs-meta);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: var(--sp-4);
+    }
+    .swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: var(--sp-4); }
+    .sw {
+      border: 1px solid var(--rule);
+      border-radius: var(--r-3);
+      overflow: hidden;
+      background: var(--paper-2);
+    }
+    .sw .chip { height: 88px; border-bottom: 1px solid var(--rule); }
+    .sw .info { padding: var(--sp-3); font-family: var(--font-mono); font-size: var(--fs-meta); }
+    .sw .info .name { color: var(--ink); display: block; }
+    .sw .info .hex { color: var(--ink-faint); }
+    .sw .info .hex-light { display: none; }
+    [data-theme="light"] .sw .info .hex-dark { display: none; }
+    [data-theme="light"] .sw .info .hex-light { display: inline; }
+
+    .type-sample { padding: var(--sp-6) 0; border-bottom: 1px dashed var(--rule); }
+    .type-sample:last-child { border-bottom: 0; }
+    .type-sample .lbl { font-family: var(--font-mono); font-size: var(--fs-meta); color: var(--ink-faint); margin-bottom: var(--sp-2); letter-spacing: 0.1em; text-transform: uppercase; }
+
+    .demo-grid { display: grid; gap: var(--sp-6); }
+    .placeholder {
+      aspect-ratio: 16 / 10;
+      background:
+        linear-gradient(45deg, transparent 49%, rgba(255,255,255,0.06) 49%, rgba(255,255,255,0.06) 51%, transparent 51%) 0 0 / 24px 24px,
+        var(--sage);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono); font-size: var(--fs-meta); color: var(--ink-soft);
+    }
+  </style>
+</head>
+<body>
+
+<header class="titlebar">
+  <div class="titlebar-inner">
+    <a class="tb-title" href="index.html">
+      <span class="dot"></span>
+      <span>saumya</span>
+      <span class="sep">—</span>
+      <span>portfolio</span>
+    </a>
+    <nav class="tb-menu">
+      <a href="#" class="is-active">Work</a>
+      <a href="#">Play</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </nav>
+    <button class="tb-theme" id="themeToggle" aria-label="Toggle light / dark">
+      <span class="glyph icon-moon">☾</span>
+      <span class="glyph icon-sun">☀</span>
+    </button>
+    <div class="tb-controls" aria-hidden="true">
+      <button title="Minimize"><span class="glyph">−</span></button>
+      <button title="Maximize"><span class="glyph">☐</span></button>
+      <button class="tb-close" title="Close"><span class="glyph">✕</span></button>
+    </div>
+  </div>
+</header>
+
+<header class="container" style="padding-block: var(--sp-16) var(--sp-8);">
+  <span class="eyebrow">Design System · v0.1</span>
+  <h1 class="display" style="margin-top: var(--sp-4);">Foundations for the<br>portfolio rebuild.</h1>
+  <p class="lead" style="margin-top: var(--sp-6);">A shared vocabulary for case studies and the homepage. Editorial whitespace, dense process callouts, and a few quiet nods to the retro Windows skin that started all this.</p>
+</header>
+
+<!-- COLOR -->
+<section class="sg-section">
+  <div class="container">
+    <p class="sg-label">01 — Color</p>
+    <div class="swatches">
+      <div class="sw"><div class="chip" style="background: var(--paper);"></div>     <div class="info"><span class="name">paper</span>     <span class="hex hex-dark">#14141a</span><span class="hex hex-light">#f4f3ee</span></div></div>
+      <div class="sw"><div class="chip" style="background: var(--paper-2);"></div>   <div class="info"><span class="name">paper-2</span>   <span class="hex hex-dark">#1d1d25</span><span class="hex hex-light">#e8e6df</span></div></div>
+      <div class="sw"><div class="chip" style="background: var(--sage);"></div>      <div class="info"><span class="name">surface</span>   <span class="hex hex-dark">#28282f</span><span class="hex hex-light">#ddd9cf</span></div></div>
+      <div class="sw"><div class="chip" style="background: var(--sage-2);"></div>    <div class="info"><span class="name">surface-2</span> <span class="hex hex-dark">#3a3a44</span><span class="hex hex-light">#c8c4b8</span></div></div>
+      <div class="sw"><div class="chip" style="background: var(--accent);"></div>    <div class="info"><span class="name">accent</span>    <span class="hex">#f5c64a</span></div></div>
+      <div class="sw"><div class="chip" style="background: var(--accent-soft); border: 1px solid var(--rule);"></div><div class="info"><span class="name">accent-soft</span><span class="hex hex-dark">rgba amber .14</span><span class="hex hex-light">rgba amber .28</span></div></div>
+      <div class="sw"><div class="chip" style="background: var(--ink);"></div>       <div class="info"><span class="name">ink</span>       <span class="hex hex-dark">#ededea</span><span class="hex hex-light">#16161a</span></div></div>
+      <div class="sw"><div class="chip" style="background: var(--ink-soft);"></div>  <div class="info"><span class="name">ink-soft</span>  <span class="hex hex-dark">#a4a49d</span><span class="hex hex-light">#5c5c54</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TYPE -->
+<section class="sg-section">
+  <div class="container">
+    <p class="sg-label">02 — Typography</p>
+    <div class="type-sample">
+      <p class="lbl">Display · Noto Serif Lao</p>
+      <p class="display">The form became the question.</p>
+    </div>
+    <div class="type-sample">
+      <p class="lbl">H1 · Noto Serif Lao</p>
+      <h1>A behavioural look at how we read on screens.</h1>
+    </div>
+    <div class="type-sample">
+      <p class="lbl">H2 · Noto Serif Lao</p>
+      <h2>Insights from 65 surveys and 24 interviews.</h2>
+    </div>
+    <div class="type-sample">
+      <p class="lbl">H3 · DM Sans 600</p>
+      <h3>Designing for partial attention</h3>
+    </div>
+    <div class="type-sample">
+      <p class="lbl">Lead · DM Sans</p>
+      <p class="lead">Most digital reading apps are built around a goal-completion model — finish the book, hit your streak. Our research suggests the opposite framing.</p>
+    </div>
+    <div class="type-sample">
+      <p class="lbl">Body · DM Sans</p>
+      <div class="prose">
+        <p>Across twelve weeks of research we kept hearing the same thing in different words. People wanted to read more but felt guilty when they didn't. The apps designed to help them felt like another inbox.</p>
+        <p>The hypothesis we ended up testing was simple: <strong>what if the app rewarded returning, not finishing?</strong></p>
+      </div>
+    </div>
+    <div class="type-sample">
+      <p class="lbl">Eyebrow / Meta · JetBrains Mono</p>
+      <span class="eyebrow">CASE STUDY · 12 WEEKS · UX RESEARCH</span>
+    </div>
+  </div>
+</section>
+
+<!-- CASE HERO + META -->
+<section class="sg-section">
+  <div class="container">
+    <p class="sg-label">03 — Case study hero</p>
+    <div class="case-hero" style="padding-block: 0;">
+      <span class="eyebrow">Case Study · 2024</span>
+      <h1 class="title display" style="margin-top: var(--sp-4);">BookNest</h1>
+      <p class="lead">A behavioural UX approach to digital reading engagement, built around the question of why readers stop returning.</p>
+      <div class="meta-row">
+        <div class="meta-item"><span class="label">Role</span><span class="value">UX Research · Product Design</span></div>
+        <div class="meta-item"><span class="label">Duration</span><span class="value">12 weeks</span></div>
+        <div class="meta-item"><span class="label">Team</span><span class="value">Solo project</span></div>
+        <div class="meta-item"><span class="label">Tools</span><span class="value">Figma · Notion · Dovetail</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMAGE FRAMES -->
+<section class="sg-section">
+  <div class="container">
+    <p class="sg-label">04 — Image frames (plain default · chrome as accent)</p>
+    <div class="grid-2">
+      <div>
+        <figure class="image-frame">
+          <div class="placeholder" style="border-radius: var(--r-3);">Plain frame · default</div>
+        </figure>
+        <p class="figure-caption">Fig 01 — Default frame. Used for most case-study imagery so the artwork carries itself.</p>
+      </div>
+      <div>
+        <figure class="image-frame image-frame--chrome">
+          <div class="frame-bar">
+            <span class="filename">booknest_home_v3.png</span>
+            <span class="mini-controls" aria-hidden="true">
+              <span>−</span><span>☐</span><span>✕</span>
+            </span>
+          </div>
+          <div class="frame-body">
+            <div class="placeholder">16:10 screenshot placeholder</div>
+          </div>
+        </figure>
+        <p class="figure-caption">Fig 02 — Chrome variant. Reserved for actual screenshots / "system" shots where the Windows-UI hint earns its keep.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALLOUTS -->
+<section class="sg-section">
+  <div class="container">
+    <p class="sg-label">05 — Callouts</p>
+    <div class="grid-2" style="align-items: start;">
+      <div class="callout">
+        <span class="callout-label">Insight 03</span>
+        <p>The "streak" mechanic, borrowed from habit-trackers, was the single most cited reason participants stopped opening the app after a missed day.</p>
+      </div>
+      <div class="hmw">
+        reframe finishing a book as one of many ways to value reading time?
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TAGS + KPI -->
+<section class="sg-section">
+  <div class="container">
+    <p class="sg-label">06 — Tags & KPI</p>
+    <div class="tag-row" style="margin-bottom: var(--sp-12);">
+      <span class="tag">UX Research</span>
+      <span class="tag">Product Design</span>
+      <span class="tag tag--neutral">Mobile App</span>
+      <span class="tag tag--ghost">2024</span>
+    </div>
+    <div class="kpi-row">
+      <div class="kpi"><span class="value">65</span><span class="label">Surveys</span></div>
+      <div class="kpi"><span class="value">24</span><span class="label">Interviews</span></div>
+      <div class="kpi"><span class="value">12 wks</span><span class="label">Duration</span></div>
+      <div class="kpi"><span class="value">3</span><span class="label">Design rounds</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PULL QUOTE -->
+<section class="sg-section">
+  <div class="container container-narrow">
+    <p class="sg-label">07 — Pull quote</p>
+    <blockquote class="pull-quote">
+      The question stopped being how to design a better streak. It became how to design without one.
+      <span class="attribution">— Synthesis note, week 8</span>
+    </blockquote>
+  </div>
+</section>
+
+<!-- PROCESS STEPS -->
+<section class="sg-section">
+  <div class="container">
+    <p class="sg-label">08 — Process steps</p>
+    <div class="process-step">
+      <span class="num">01</span>
+      <div class="body">
+        <h3>Discovery</h3>
+        <p>65 surveys distributed through reading-adjacent communities; 24 follow-up interviews with respondents who reported a recent lapse.</p>
+      </div>
+    </div>
+    <div class="process-step">
+      <span class="num">02</span>
+      <div class="body">
+        <h3>Synthesis</h3>
+        <p>Affinity-mapped the qualitative data into four behavioural patterns. Cross-referenced against the four leading apps in the category.</p>
+      </div>
+    </div>
+    <div class="process-step">
+      <span class="num">03</span>
+      <div class="body">
+        <h3>Reframe</h3>
+        <p>Moved from "increase completion" to "increase return." Built three concepts against the new frame.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION MARKER -->
+<section class="sg-section">
+  <div class="container">
+    <p class="sg-label">09 — Section marker</p>
+    <div class="section-marker">
+      <span class="eyebrow">04 · The Screens</span>
+    </div>
+    <p>Use the marker above to open each major section in a case study. The hairline extends the eyebrow across the column.</p>
+  </div>
+</section>
+
+<!-- BUTTONS -->
+<section class="sg-section">
+  <div class="container">
+    <p class="sg-label">10 — Buttons</p>
+    <div style="display: flex; gap: var(--sp-3); flex-wrap: wrap;">
+      <a class="btn" href="#">Read the case study →</a>
+      <a class="btn btn--ghost" href="#">View on Figma</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <span>© 2026 Saumya Dimri</span>
+    <span>design-system.css · v0.1</span>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    const root = document.documentElement;
+    const KEY = 'theme';
+    const saved = localStorage.getItem(KEY) || 'dark';
+    root.dataset.theme = saved;
+    const btn = document.getElementById('themeToggle');
+    if (btn) btn.addEventListener('click', () => {
+      const next = root.dataset.theme === 'light' ? 'dark' : 'light';
+      root.dataset.theme = next;
+      localStorage.setItem(KEY, next);
+    });
+  })();
+</script>
+
+</body>
+</html>

@@ -1,1121 +1,957 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BookNest — Case Study | Saumya Dimri</title>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Outfit:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BookNest — Saumya</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Serif+Lao:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@200,300,400,500,600,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="design-system.css">
+  <style>
+    /* ---------------------------------------------------------
+       Page-specific components for the BookNest case study.
+       Built on design-system tokens. No new colors introduced.
+       --------------------------------------------------------- */
+    .case-prose { max-width: 65ch; }
+    .case-prose p { line-height: 1.7; margin: 0 0 var(--sp-4); }
+    .case-prose p:last-child { margin-bottom: 0; }
+    .case-prose strong { color: var(--ink); font-weight: 600; }
 
-:root {
-  --os-bg: #008080;
-  --chrome: #c0c0c0;
-  --chrome-light: #ffffff;
-  --chrome-dark: #808080;
-  --chrome-darker: #404040;
-  --titlebar: linear-gradient(90deg, #000080 0%, #1084d0 100%);
-  --bn-purple: #8B2CBB;
-  --bn-dark: #2B1F3A;
-  --bn-darker: #1B1325;
-  --bn-amber: #F3B84A;
-  --bn-green: #4CAE70;
-  --bn-light: #F7F5FA;
-  --bn-muted: #A89EB2;
-  --text: #1a1a1a;
-  --text-sec: #4a4a4a;
-  --text-muted: #888;
-  --border: #e5e5e5;
-  --font-d: 'Fraunces', Georgia, serif;
-  --font-b: 'Outfit', system-ui, sans-serif;
-  --font-m: 'Space Mono', monospace;
-}
+    /* Hero */
+    .case-hero { padding-block: var(--sp-24) var(--sp-12); }
+    .case-hero .subtitle {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(1.125rem, 0.4vw + 1rem, 1.375rem);
+      color: var(--ink-soft);
+      margin-top: var(--sp-2);
+    }
+    .case-hero .lead { margin-top: var(--sp-8); }
+    .case-hero .meta-row { margin-top: var(--sp-12); }
 
-html, body {
-  height: 100%;
-  background: var(--os-bg);
-  font-family: var(--font-b);
-  overflow: hidden;
-}
+    /* Barrier cards */
+    .barrier-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-4);
+      margin-top: var(--sp-8);
+    }
+    @media (max-width: 720px) { .barrier-grid { grid-template-columns: 1fr; } }
+    .barrier {
+      padding: var(--sp-6);
+      background: var(--paper-2);
+      border: 1px solid var(--rule);
+      border-radius: var(--r-3);
+    }
+    .barrier .icon {
+      font-size: 22px;
+      margin-bottom: var(--sp-3);
+      display: block;
+    }
+    .barrier h4 {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 1rem;
+      margin: 0 0 var(--sp-2);
+      color: var(--ink);
+    }
+    .barrier p {
+      font-size: var(--fs-small);
+      line-height: 1.6;
+      color: var(--ink-soft);
+      margin: 0;
+    }
 
-/* ─── WINDOW SHELL ──────────────────────────────── */
-.window {
-  position: fixed;
-  inset: 8px;
-  display: flex;
-  flex-direction: column;
-  background: #fff;
-  border: 2px solid;
-  border-color: var(--chrome-light) var(--chrome-darker) var(--chrome-darker) var(--chrome-light);
-  box-shadow: 3px 3px 0 rgba(0,0,0,.35), 6px 6px 0 rgba(0,0,0,.12);
-}
+    /* Stats — long-label variant of KPI */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-6);
+      margin-top: var(--sp-8);
+    }
+    @media (max-width: 720px) { .stats-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 460px) { .stats-grid { grid-template-columns: 1fr; } }
+    .stat {
+      padding-block: var(--sp-4);
+      border-top: 1px solid var(--rule);
+    }
+    .stat .n {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(2rem, 1.8vw + 1rem, 2.5rem);
+      line-height: 1;
+      color: var(--accent);
+      display: block;
+      margin-bottom: var(--sp-2);
+    }
+    .stat .l {
+      font-size: var(--fs-small);
+      line-height: 1.55;
+      color: var(--ink-soft);
+    }
 
-/* Title bar */
-.titlebar {
-  background: var(--titlebar);
-  padding: 3px 5px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-shrink: 0;
-  user-select: none;
-  min-height: 26px;
-}
+    /* Comparison grid (replaces table) */
+    .comp-grid {
+      margin-top: var(--sp-8);
+      border-top: 1px solid var(--rule);
+    }
+    .comp-row {
+      display: grid;
+      grid-template-columns: 1.2fr 1.5fr 1.5fr 1.5fr;
+      gap: var(--sp-6);
+      padding: var(--sp-4) 0;
+      border-bottom: 1px solid var(--rule);
+      align-items: start;
+    }
+    .comp-row.head {
+      font-family: var(--font-mono);
+      font-size: var(--fs-meta);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+    .comp-row .dim {
+      font-family: var(--font-mono);
+      font-size: var(--fs-meta);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      padding-top: 2px;
+    }
+    .comp-row .cell {
+      font-size: var(--fs-small);
+      line-height: 1.6;
+      color: var(--ink-soft);
+    }
+    .comp-row .cell.is-bn { color: var(--ink); }
+    .comp-row .cell.is-bn::before {
+      content: '◆';
+      color: var(--accent);
+      margin-right: 6px;
+      font-size: 0.7em;
+      vertical-align: 2px;
+    }
+    @media (max-width: 860px) {
+      .comp-row, .comp-row.head { grid-template-columns: 1fr; gap: var(--sp-2); }
+      .comp-row .dim { margin-bottom: var(--sp-1); }
+    }
 
-.tb-dots { display: flex; gap: 4px; align-items: center; }
-.dot {
-  width: 11px; height: 11px; border-radius: 50%;
-  border: 1px solid rgba(0,0,0,.25); cursor: pointer; flex-shrink: 0;
-}
-.dot-r { background: #ff5f57; }
-.dot-y { background: #ffbd2e; }
-.dot-g { background: #28c840; }
+    /* Persona cards */
+    .personas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-6);
+      margin-top: var(--sp-8);
+    }
+    @media (max-width: 720px) { .personas { grid-template-columns: 1fr; } }
+    .persona {
+      padding: var(--sp-8);
+      background: var(--paper-2);
+      border: 1px solid var(--rule);
+      border-radius: var(--r-3);
+    }
+    .persona-head {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+      margin-bottom: var(--sp-6);
+    }
+    .persona-head .avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: var(--paper);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 1.25rem;
+    }
+    .persona-head .who { display: flex; flex-direction: column; gap: 2px; }
+    .persona-head .name {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 1.25rem;
+      line-height: 1;
+      color: var(--ink);
+    }
+    .persona-head .role {
+      font-family: var(--font-mono);
+      font-size: var(--fs-meta);
+      letter-spacing: 0.04em;
+      color: var(--ink-faint);
+    }
+    .persona-quote {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: 1.125rem;
+      line-height: 1.4;
+      color: var(--ink);
+      margin-bottom: var(--sp-5);
+      padding-bottom: var(--sp-5);
+      border-bottom: 1px solid var(--rule);
+    }
+    .persona-needs {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-2);
+    }
+    .persona-needs li {
+      font-size: var(--fs-small);
+      line-height: 1.55;
+      color: var(--ink-soft);
+      padding-left: var(--sp-4);
+      position: relative;
+    }
+    .persona-needs li::before {
+      content: '·';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 700;
+    }
 
-.tb-sep { width: 1px; height: 14px; background: rgba(255,255,255,.25); }
+    /* Insight → Design pair */
+    .insight {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: var(--sp-12);
+      padding-block: var(--sp-10);
+      border-top: 1px solid var(--rule);
+      align-items: start;
+    }
+    .insight:last-of-type { border-bottom: 1px solid var(--rule); }
+    @media (max-width: 860px) { .insight { grid-template-columns: 1fr; gap: var(--sp-6); } }
+    .insight .label {
+      font-family: var(--font-mono);
+      font-size: var(--fs-meta);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: var(--sp-3);
+      display: block;
+    }
+    .insight .finding {
+      font-size: 1.0625rem;
+      line-height: 1.55;
+      color: var(--ink);
+    }
+    .insight .feature-name {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 1.75rem;
+      line-height: 1.1;
+      margin-bottom: var(--sp-3);
+      color: var(--ink);
+    }
+    .insight .feature-desc {
+      font-size: var(--fs-small);
+      line-height: 1.7;
+      color: var(--ink-soft);
+      margin-bottom: var(--sp-4);
+    }
+    .insight .pill-row { display: flex; gap: var(--sp-2); flex-wrap: wrap; }
+    .insight .pill {
+      font-family: var(--font-mono);
+      font-size: var(--fs-meta);
+      letter-spacing: 0.04em;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: var(--sage);
+      color: var(--ink-soft);
+    }
+    .insight .pill.accent { background: var(--accent-soft); color: var(--accent); }
 
-.tb-back {
-  color: rgba(255,255,255,.9); font-family: var(--font-m); font-size: 9px;
-  cursor: pointer; display: flex; align-items: center; gap: 3px;
-  padding: 2px 5px; border-radius: 2px; transition: background .1s;
-  text-decoration: none; white-space: nowrap;
-}
-.tb-back:hover { background: rgba(255,255,255,.15); }
+    /* ───── Screens: phones with floating message-popup annotations ───── */
+    .screens-stack {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-24);
+      margin-top: var(--sp-12);
+    }
+    /* Dark / light image swap inside each frame */
+    .screen-phone .image-frame { position: relative; }
+    .screen-phone .screen-img {
+      width: 100%; height: auto; display: block;
+      transition: opacity 0.4s ease;
+    }
+    .screen-phone .screen-img.light {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+    }
+    [data-theme="light"] .screen-phone .screen-img.dark  { opacity: 0; }
+    [data-theme="light"] .screen-phone .screen-img.light { opacity: 1; }
 
-.tb-crumb {
-  color: rgba(255,255,255,.5); font-family: var(--font-m); font-size: 9px;
-  white-space: nowrap;
-}
+    /* ───── BookNest logo (theme-aware) ───── */
+    .brand-logo {
+      position: relative;
+      display: inline-block;
+      width: 96px; height: 96px;
+      border-radius: 22px;
+      overflow: hidden;
+    }
+    .brand-logo .logo-img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      display: block;
+      transition: opacity 0.35s ease;
+    }
+    .brand-logo .logo-img.light { opacity: 0; }
+    [data-theme="light"] .brand-logo .logo-img.dark  { opacity: 0; }
+    [data-theme="light"] .brand-logo .logo-img.light { opacity: 1; }
 
-.tb-title {
-  flex: 1; text-align: center; color: #fff;
-  font-family: var(--font-m); font-size: 10px; font-weight: 700;
-  letter-spacing: .02em; white-space: nowrap;
-}
+    /* ───── Light-mode popup contrast fixes ───── */
+    [data-theme="light"] .annot {
+      background: #ffffff;
+      border-color: rgba(0, 0, 0, 0.18);
+      color: #1a1a1a;
+      box-shadow: 0 6px 16px -8px rgba(0, 0, 0, 0.25),
+                  0 1px 0 rgba(0, 0, 0, 0.04);
+    }
+    [data-theme="light"] .annot strong {
+      color: var(--accent-ink); /* darker amber, readable on white */
+    }
+    .screen-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--sp-3);
+    }
+    .screen-phone {
+      position: relative;
+      width: 280px;
+    }
+    .screen-phone .image-frame {
+      cursor: zoom-in;
+      transform-origin: center;
+      transition:
+        transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 0.4s ease;
+      will-change: transform;
+    }
+    .screen-phone:hover .image-frame {
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 22px 52px -16px rgba(0, 0, 0, 0.55);
+    }
+    .screen-phone .image-frame img {
+      width: 100%; height: auto; display: block;
+      transition: transform 0.5s ease;
+    }
+    .screen-caption {
+      font-family: var(--font-mono);
+      font-size: var(--fs-meta);
+      letter-spacing: 0.04em;
+      color: var(--ink-faint);
+    }
 
-.tb-controls { display: flex; gap: 2px; }
-.win-btn {
-  width: 16px; height: 13px; background: var(--chrome); font-size: 8px;
-  font-family: var(--font-m); cursor: pointer; display: flex;
-  align-items: center; justify-content: center; color: #000;
-  border: 1px solid; border-color: var(--chrome-light) var(--chrome-darker) var(--chrome-darker) var(--chrome-light);
-}
-.win-btn:active { border-color: var(--chrome-darker) var(--chrome-light) var(--chrome-light) var(--chrome-darker); }
+    /* Message-popup bubbles around each phone */
+    .annot {
+      position: absolute;
+      width: 200px;
+      padding: 10px 14px;
+      background: var(--paper-2);
+      border: 1px solid var(--rule-strong);
+      font-size: 12.5px;
+      line-height: 1.4;
+      color: var(--ink);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 3;
+      box-shadow: 0 8px 20px -10px rgba(0, 0, 0, 0.5);
+      transition:
+        opacity 0.35s ease,
+        transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .annot strong { color: var(--accent); font-weight: 600; }
+    /* speech-bubble corners */
+    .annot.r { border-radius: 4px 14px 14px 14px;  left: calc(100% + 24px);  transform: translateX(-14px); }
+    .annot.l { border-radius: 14px 4px 14px 14px;  right: calc(100% + 24px); transform: translateX(14px);  text-align: right; }
 
-/* Body */
-.win-body { flex: 1; display: flex; overflow: hidden; }
+    .annot.top1 { top: 6%;  }
+    .annot.top2 { top: 30%; }
+    .annot.bot1 { top: 56%; }
+    .annot.bot2 { top: 80%; }
 
-/* ─── SIDEBAR ───────────────────────────────────── */
-.sidebar {
-  width: 188px; flex-shrink: 0;
-  background: var(--chrome);
-  border-right: 2px solid;
-  border-color: var(--chrome-dark) var(--chrome-light) var(--chrome-light) var(--chrome-dark);
-  display: flex; flex-direction: column;
-  overflow-y: auto; padding-top: 2px;
-}
+    .screen-phone:hover .annot {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+    .screen-phone:hover .annot.top1 { transition-delay: 0.05s; }
+    .screen-phone:hover .annot.top2 { transition-delay: 0.13s; }
+    .screen-phone:hover .annot.bot1 { transition-delay: 0.21s; }
+    .screen-phone:hover .annot.bot2 { transition-delay: 0.29s; }
 
-.sb-project {
-  padding: 12px 12px 10px;
-  border-bottom: 1px solid var(--chrome-dark);
-  margin-bottom: 6px;
-}
-.sb-icon {
-  width: 34px; height: 34px; border-radius: 3px;
-  background: var(--bn-darker); display: flex;
-  align-items: center; justify-content: center;
-  font-size: 18px; margin-bottom: 7px;
-}
-.sb-name {
-  font-family: var(--font-m); font-size: 10px;
-  font-weight: 700; color: #000; display: block; line-height: 1.3;
-}
-.sb-type {
-  font-family: var(--font-m); font-size: 8px;
-  color: var(--chrome-darker); display: block; margin-top: 1px;
-}
+    /* Mobile: stack annotations below the phone, always visible */
+    @media (max-width: 900px) {
+      .annot {
+        position: static;
+        width: 100%;
+        max-width: 360px;
+        opacity: 1;
+        transform: none;
+        text-align: left;
+        border-radius: 14px;
+        margin: var(--sp-2) auto 0;
+        pointer-events: auto;
+      }
+      .screen-phone { width: 100%; max-width: 280px; }
+      .screen-stage { gap: var(--sp-5); }
+    }
 
-.sb-section-label {
-  font-family: var(--font-m); font-size: 8px; color: var(--chrome-darker);
-  padding: 2px 12px 4px; text-transform: uppercase; letter-spacing: .1em;
-}
+    @media (prefers-reduced-motion: reduce) {
+      .screen-phone .image-frame,
+      .annot { transition: none; }
+      .annot { opacity: 1; transform: none; }
+    }
 
-.sb-item {
-  padding: 5px 12px; font-family: var(--font-m); font-size: 9px;
-  color: #222; cursor: pointer; display: flex; align-items: center;
-  gap: 5px; border: 1px solid transparent; transition: background .08s;
-}
-.sb-item::before { content: '–'; font-size: 7px; opacity: .4; }
-.sb-item:hover { background: rgba(0,0,128,.08); }
-.sb-item.active {
-  background: #000080; color: #fff;
-  border-color: #000060; border-radius: 0;
-}
-.sb-item.active::before { content: '▶'; opacity: 1; }
+    /* BookNest brand tokens (separate from portfolio palette) */
+    .brand-sub {
+      margin-top: var(--sp-16);
+      padding-top: var(--sp-8);
+      border-top: 1px solid var(--rule);
+    }
+    .brand-label {
+      font-family: var(--font-mono);
+      font-size: var(--fs-meta);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: var(--sp-4);
+    }
+    .brand-swatches { display: flex; gap: var(--sp-3); flex-wrap: wrap; }
+    .brand-sw { display: flex; flex-direction: column; gap: var(--sp-2); align-items: flex-start; }
+    .brand-sw .chip {
+      width: 56px; height: 56px;
+      border-radius: var(--r-2);
+      border: 1px solid var(--rule);
+    }
+    .brand-sw .lbl {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      letter-spacing: 0.04em;
+      color: var(--ink-soft);
+      line-height: 1.4;
+    }
+    .brand-sw .lbl .hex { display: block; color: var(--ink-faint); }
 
-.sb-spacer { flex: 1; }
+    .type-rows {
+      display: flex; flex-direction: column; gap: var(--sp-4);
+      margin-top: var(--sp-4);
+    }
+    .type-row {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: var(--sp-6);
+      padding: var(--sp-3) 0;
+      border-bottom: 1px dashed var(--rule);
+      align-items: baseline;
+    }
+    .type-row:last-child { border-bottom: 0; }
+    .type-row .meta {
+      font-family: var(--font-mono);
+      font-size: var(--fs-meta);
+      letter-spacing: 0.04em;
+      color: var(--ink-faint);
+      line-height: 1.5;
+    }
+    .ts-bn { font-family: 'General Sans', 'DM Sans', sans-serif; color: var(--ink); }
+    .ts-bn.display { font-weight: 600; font-size: 2.5rem; letter-spacing: -0.01em; line-height: 1.05; }
+    .ts-bn.heading { font-weight: 500; font-size: 1.5rem; }
+    .ts-bn.body    { font-weight: 400; font-size: 1rem; }
+    .ts-bn.label   { font-weight: 500; font-size: var(--fs-small); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
 
-.sb-meta {
-  padding: 8px 12px 6px;
-  border-top: 1px solid var(--chrome-dark);
-}
-.sb-meta span {
-  display: block; font-family: var(--font-m); font-size: 8px;
-  color: var(--chrome-darker); line-height: 1.9;
-}
+    /* Before/After refinement cards */
+    .ref-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-4);
+      margin-top: var(--sp-8);
+    }
+    @media (max-width: 720px) { .ref-row { grid-template-columns: 1fr; } }
+    .ref-card {
+      border: 1px solid var(--rule);
+      border-radius: var(--r-3);
+      overflow: hidden;
+      background: var(--paper-2);
+    }
+    .ref-card .head {
+      padding: var(--sp-3) var(--sp-4);
+      font-family: var(--font-mono);
+      font-size: var(--fs-meta);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--rule);
+    }
+    .ref-card.before .head { color: var(--ink-faint); }
+    .ref-card.after .head { color: var(--accent); }
+    .ref-card ul {
+      list-style: none; padding: var(--sp-4) var(--sp-5); margin: 0;
+      display: flex; flex-direction: column; gap: var(--sp-3);
+    }
+    .ref-card li {
+      font-size: var(--fs-small);
+      line-height: 1.6;
+      color: var(--ink-soft);
+      padding-left: var(--sp-4);
+      position: relative;
+    }
+    .ref-card.before li::before { content: '·'; position: absolute; left: 0; color: var(--ink-faint); font-weight: 700; }
+    .ref-card.after li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-size: 0.85em; top: 1px; }
 
-/* ─── CONTENT AREA ──────────────────────────────── */
-.content {
-  flex: 1; overflow-y: auto; background: #fff;
-  scroll-behavior: smooth;
-}
+    /* Future-scope cards */
+    .next-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-4);
+      margin-top: var(--sp-8);
+    }
+    @media (max-width: 720px) { .next-cards { grid-template-columns: 1fr; } }
+    .next-card {
+      padding: var(--sp-6);
+      background: var(--paper-2);
+      border: 1px solid var(--rule);
+      border-radius: var(--r-3);
+    }
+    .next-card .lbl {
+      font-family: var(--font-mono);
+      font-size: var(--fs-meta);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: block;
+      margin-bottom: var(--sp-3);
+    }
+    .next-card p {
+      font-size: var(--fs-small);
+      line-height: 1.6;
+      color: var(--ink);
+      margin: 0;
+    }
 
-.content::-webkit-scrollbar { width: 10px; }
-.content::-webkit-scrollbar-track { background: var(--chrome); }
-.content::-webkit-scrollbar-thumb {
-  background: #999; border: 2px solid var(--chrome);
-}
-
-/* Sections */
-.s { padding: 52px 56px; border-bottom: 1px solid var(--border); }
-.s:last-child { border-bottom: none; }
-
-.slabel {
-  font-family: var(--font-m); font-size: 9px; letter-spacing: .14em;
-  text-transform: uppercase; color: var(--bn-purple);
-  margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
-}
-.slabel::after {
-  content: ''; flex: 0 0 20px; height: 1px;
-  background: var(--bn-purple); opacity: .35;
-}
-
-h1 {
-  font-family: var(--font-d); font-size: 54px; font-weight: 400;
-  line-height: 1.0; color: var(--text); margin-bottom: 4px;
-}
-
-h2 {
-  font-family: var(--font-d); font-size: 30px; font-weight: 400;
-  color: var(--text); margin-bottom: 18px; line-height: 1.25;
-}
-
-p {
-  font-size: 14.5px; line-height: 1.8; color: var(--text-sec);
-  max-width: 620px;
-}
-
-strong { color: var(--text); font-weight: 600; }
-
-/* Tags */
-.tags { display: flex; gap: 7px; flex-wrap: wrap; margin: 18px 0 28px; }
-.tag {
-  font-family: var(--font-m); font-size: 9px; padding: 3px 9px;
-  border-radius: 2px; letter-spacing: .04em;
-}
-.tg-purple { background: #f0e7f9; color: var(--bn-purple); }
-.tg-amber  { background: #fef4de; color: #8a5f00; }
-.tg-dark   { background: var(--bn-darker); color: var(--bn-light); }
-.tg-green  { background: #e9f8f0; color: #1e6b3a; }
-.tg-muted  { background: #f2f2f2; color: #666; }
-
-/* HMW box */
-.hmw {
-  background: var(--bn-darker); padding: 26px 30px;
-  border-radius: 3px; margin-top: 28px; max-width: 660px;
-  border-left: 3px solid var(--bn-amber);
-}
-.hmw-l {
-  font-family: var(--font-m); font-size: 8px; letter-spacing: .15em;
-  text-transform: uppercase; color: var(--bn-amber);
-  margin-bottom: 10px; display: block;
-}
-.hmw-q {
-  font-family: var(--font-d); font-size: 16px; font-style: italic;
-  line-height: 1.65; color: var(--bn-light); font-weight: 300;
-}
-
-/* Barriers */
-.barrier-row {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 12px; margin-top: 26px; max-width: 660px;
-}
-.barrier {
-  padding: 18px; border: 1px solid var(--border);
-  border-radius: 3px; border-top: 2px solid var(--bn-purple);
-}
-.barrier-icon { font-size: 18px; margin-bottom: 9px; display: block; }
-.barrier-title { font-weight: 600; font-size: 12.5px; color: var(--text); margin-bottom: 4px; }
-.barrier-desc { font-size: 11.5px; color: var(--text-muted); line-height: 1.55; }
-
-/* Stats grid */
-.stats-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 1px; background: var(--border);
-  border: 1px solid var(--border); border-radius: 3px;
-  overflow: hidden; margin-top: 28px; max-width: 660px;
-}
-.stat {
-  background: #fff; padding: 22px 18px;
-}
-.stat-n {
-  font-family: var(--font-d); font-size: 42px; font-weight: 400;
-  color: var(--bn-purple); line-height: 1; display: block;
-}
-.stat-l {
-  font-size: 11.5px; color: var(--text-muted); margin-top: 5px; line-height: 1.4;
-}
-
-/* Qualitative callout */
-.q-callout {
-  margin-top: 24px; padding: 18px 22px;
-  background: #faf7ff; border: 1px solid #e4d4f4;
-  border-radius: 3px; max-width: 660px;
-}
-.q-callout-label {
-  font-family: var(--font-m); font-size: 8px;
-  text-transform: uppercase; letter-spacing: .12em;
-  color: var(--bn-muted); margin-bottom: 8px; display: block;
-}
-.q-callout-text {
-  font-family: var(--font-d); font-style: italic;
-  font-size: 15px; color: var(--bn-dark); line-height: 1.5;
-}
-.q-callout-sub {
-  font-size: 11.5px; color: var(--text-muted);
-  margin-top: 6px; line-height: 1.5;
-}
-
-/* Competitive table */
-.comp-table {
-  width: 100%; max-width: 660px; border-collapse: collapse;
-  margin-top: 22px; font-size: 12px;
-}
-.comp-table th {
-  font-family: var(--font-m); font-size: 8.5px;
-  letter-spacing: .1em; text-transform: uppercase;
-  padding: 7px 11px; text-align: left;
-  border-bottom: 1px solid var(--border);
-  color: var(--text-muted); background: #fafafa;
-}
-.comp-table td {
-  padding: 9px 11px; border-bottom: 1px solid var(--border);
-  color: var(--text-sec); vertical-align: top; line-height: 1.5;
-}
-.comp-table tr:last-child td { border-bottom: none; }
-.col-feature { font-weight: 600; color: var(--text); font-size: 11.5px; }
-.col-bn { background: #faf5ff; }
-.col-bn td { color: var(--bn-purple); font-weight: 500; }
-.comp-note {
-  font-size: 11px; color: var(--text-muted); margin-top: 12px;
-  max-width: 660px; line-height: 1.6;
-}
-
-/* Personas */
-.persona-row {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 14px; max-width: 660px; margin-top: 22px;
-}
-.persona { border: 1px solid var(--border); border-radius: 3px; overflow: hidden; }
-.persona-head {
-  background: var(--bn-darker); padding: 18px;
-  display: flex; align-items: center; gap: 12px;
-}
-.p-avatar {
-  width: 40px; height: 40px; border-radius: 50%;
-  background: var(--bn-purple); flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-d); font-size: 17px; color: #fff;
-}
-.p-name {
-  font-family: var(--font-d); font-size: 17px; color: #fff; display: block; line-height: 1;
-}
-.p-role {
-  font-family: var(--font-m); font-size: 8px;
-  color: var(--bn-muted); display: block; margin-top: 3px;
-}
-.persona-body { padding: 14px; }
-.p-quote {
-  font-family: var(--font-d); font-style: italic;
-  font-size: 12.5px; color: var(--bn-purple);
-  margin-bottom: 10px; padding-left: 9px;
-  border-left: 2px solid var(--bn-purple); line-height: 1.4;
-}
-.p-need {
-  font-size: 11px; color: var(--text-sec);
-  display: flex; align-items: start; gap: 5px;
-  padding: 3px 0; line-height: 1.45;
-}
-.p-need::before { content: '→'; color: var(--bn-purple); flex-shrink: 0; font-size: 10px; }
-
-/* Insight → Feature */
-.insight-card {
-  display: grid; grid-template-columns: 1fr 1fr;
-  border: 1px solid var(--border); border-radius: 3px;
-  overflow: hidden; margin-bottom: 14px; max-width: 660px;
-}
-.i-left { background: #faf9fc; padding: 22px; border-right: 1px solid var(--border); }
-.i-right { background: #fff; padding: 22px; }
-.i-side-label {
-  font-family: var(--font-m); font-size: 8px;
-  letter-spacing: .1em; text-transform: uppercase;
-  color: var(--text-muted); margin-bottom: 8px; display: block;
-}
-.i-finding { font-size: 12.5px; line-height: 1.65; color: var(--text-sec); }
-.i-feature-name {
-  font-family: var(--font-d); font-size: 17px;
-  color: var(--bn-purple); margin-bottom: 5px;
-}
-.i-feature-desc { font-size: 12px; line-height: 1.65; color: var(--text-sec); }
-
-/* Tag pills */
-.pill-row { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 10px; }
-.pill {
-  padding: 3px 9px; border-radius: 99px;
-  font-family: var(--font-b); font-size: 10px; font-weight: 500;
-  border: 1px solid transparent;
-}
-.pill-mood   { background: #f0e8fa; color: var(--bn-purple); border-color: #d4aef0; }
-.pill-trope  { background: #fdf3de; color: #8a5f00; border-color: #f0d490; }
-.pill-excl   { background: #fff0f0; color: #bb2222; border-color: #ffcccc; }
-
-/* Phone screens */
-.screens-row {
-  display: flex; gap: 18px; margin-top: 28px;
-  overflow-x: auto; padding-bottom: 6px;
-}
-.phone-wrap { flex-shrink: 0; }
-.phone {
-  width: 166px; border-radius: 22px;
-  background: #0e0a14; padding: 8px;
-  box-shadow: 0 8px 28px rgba(10,5,20,.4);
-  border: 1px solid rgba(255,255,255,.07);
-}
-.p-notch {
-  width: 44px; height: 9px; background: #060408;
-  border-radius: 0 0 7px 7px; margin: 0 auto 5px;
-}
-.p-screen {
-  background: var(--bn-darker); border-radius: 15px;
-  overflow: hidden; padding: 10px;
-  display: flex; flex-direction: column; gap: 6px;
-  min-height: 310px;
-}
-.p-header {
-  display: flex; justify-content: space-between; align-items: center;
-}
-.p-head-title { font-size: 10px; font-weight: 600; color: var(--bn-light); }
-.p-avatar-sm {
-  width: 20px; height: 20px; border-radius: 50%;
-  background: var(--bn-purple); display: flex;
-  align-items: center; justify-content: center;
-  font-size: 7px; color: #fff; flex-shrink: 0;
-}
-.p-search {
-  background: rgba(255,255,255,.06); border-radius: 7px;
-  padding: 5px 9px; font-size: 8px; color: var(--bn-muted);
-  display: flex; align-items: center; gap: 3px;
-}
-.p-sec-label {
-  font-size: 7.5px; font-weight: 600; color: var(--bn-muted);
-  text-transform: uppercase; letter-spacing: .07em;
-}
-.mood-card {
-  border-radius: 7px; padding: 9px;
-}
-.mood-card.amber { background: #4a2e06; border: 1px solid rgba(243,184,74,.25); }
-.mood-card.green { background: #0a3019; border: 1px solid rgba(74,206,112,.2); }
-.mood-card.purple { background: #301050; border: 1px solid rgba(139,44,187,.35); }
-.mc-title { font-size: 8px; font-weight: 600; color: rgba(255,255,255,.9); display: block; }
-.mc-sub { font-size: 7px; color: rgba(255,255,255,.45); display: block; margin-top: 1px; }
-.mood-row { display: flex; gap: 5px; }
-.mood-row .mood-card { flex: 1; }
-
-.streak-block { background: rgba(255,255,255,.04); border-radius: 7px; padding: 9px; }
-.streak-num { font-family: var(--font-d); font-size: 26px; color: var(--bn-amber); line-height: 1; }
-.streak-lbl { font-size: 7px; color: var(--bn-muted); display: block; margin-top: 1px; }
-.streak-dots { display: flex; gap: 2px; margin-top: 7px; }
-.sd { width: 10px; height: 10px; border-radius: 2px; background: rgba(243,184,74,.18); }
-.sd.on { background: var(--bn-amber); }
-
-.club-entry {
-  background: rgba(255,255,255,.04); border-radius: 7px;
-  padding: 7px 9px; display: flex; align-items: center; gap: 7px;
-}
-.club-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-.club-name { font-size: 8.5px; color: var(--bn-light); font-weight: 500; }
-.club-count { font-size: 7px; color: var(--bn-muted); }
-
-.p-tag {
-  padding: 2px 7px; border-radius: 99px;
-  font-size: 7.5px; font-weight: 500; display: inline-block;
-}
-
-.p-nav {
-  display: flex; justify-content: space-around;
-  background: rgba(0,0,0,.3); border-radius: 9px;
-  padding: 6px 3px; margin-top: auto;
-}
-.p-nav-i {
-  width: 18px; height: 18px; border-radius: 5px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 10px;
-}
-.p-nav-i.on { background: var(--bn-purple); }
-.screen-caption {
-  font-family: var(--font-m); font-size: 8.5px;
-  text-align: center; color: var(--text-muted);
-  margin-top: 7px; letter-spacing: .04em;
-}
-
-/* Design tokens */
-.token-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
-.swatch-wrap { display: flex; flex-direction: column; gap: 4px; align-items: center; }
-.swatch { width: 38px; height: 38px; border-radius: 3px; border: 1px solid rgba(0,0,0,.08); }
-.swatch-label { font-family: var(--font-m); font-size: 7.5px; color: var(--text-muted); text-align: center; line-height: 1.4; }
-
-.type-rows { margin-top: 22px; max-width: 480px; }
-.type-row {
-  display: grid; grid-template-columns: 90px 1fr;
-  gap: 10px; align-items: baseline;
-  padding-bottom: 10px; border-bottom: 1px solid var(--border);
-  margin-bottom: 10px;
-}
-.type-row:last-child { border-bottom: none; margin-bottom: 0; }
-.type-meta { font-family: var(--font-m); font-size: 8px; color: var(--text-muted); line-height: 1.5; }
-.ts-disp { font-family: var(--font-d); font-size: 22px; font-weight: 400; color: var(--text); }
-.ts-ital { font-family: var(--font-d); font-size: 16px; font-style: italic; font-weight: 300; color: var(--text); }
-.ts-body { font-family: var(--font-b); font-size: 13px; color: var(--text); }
-.ts-mono { font-family: var(--font-m); font-size: 10.5px; color: var(--text); }
-
-/* Refinements */
-.ref-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 660px; margin-top: 24px; }
-.ref-card { border: 1px solid var(--border); border-radius: 3px; overflow: hidden; }
-.ref-head { padding: 7px 14px; font-family: var(--font-m); font-size: 8.5px; text-transform: uppercase; letter-spacing: .08em; display: flex; align-items: center; gap: 5px; }
-.rh-b { background: #fff8f8; color: #aa3333; border-bottom: 1px solid #fce8e8; }
-.rh-a { background: #f6fff7; color: #237a33; border-bottom: 1px solid #e0f8e4; }
-.ref-body { padding: 14px; }
-.ref-item {
-  font-size: 11.5px; color: var(--text-sec); line-height: 1.5;
-  padding: 4px 0; border-bottom: 1px solid var(--border);
-  display: flex; align-items: start; gap: 7px;
-}
-.ref-item:last-child { border-bottom: none; }
-.ri { flex-shrink: 0; color: var(--text-muted); }
-
-/* Outcome */
-.next-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 660px; margin-top: 24px; }
-.next-card { padding: 18px; background: #faf5ff; border-radius: 3px; border: 1px solid #dfc8f4; }
-.next-label { font-family: var(--font-m); font-size: 8px; text-transform: uppercase; color: var(--bn-purple); letter-spacing: .1em; margin-bottom: 7px; display: block; }
-.next-text { font-size: 11.5px; color: var(--text-sec); line-height: 1.55; }
-
-.next-project {
-  margin-top: 44px; padding-top: 24px; border-top: 1px solid var(--border);
-}
-.next-project-label { font-family: var(--font-m); font-size: 8.5px; text-transform: uppercase; letter-spacing: .1em; color: var(--text-muted); margin-bottom: 12px; display: block; }
-.next-project-link {
-  font-family: var(--font-d); font-size: 21px;
-  color: var(--bn-purple); text-decoration: none;
-  display: flex; align-items: center; gap: 10px;
-  transition: gap .2s;
-}
-.next-project-link:hover { gap: 16px; }
-
-/* ─── TASKBAR ───────────────────────────────────── */
-.taskbar {
-  position: fixed; bottom: 0; left: 0; right: 0; height: 36px;
-  background: var(--chrome);
-  border-top: 2px solid;
-  border-color: var(--chrome-light) var(--chrome-dark) var(--chrome-dark) var(--chrome-light);
-  display: flex; align-items: center; padding: 0 6px; gap: 4px;
-  transform: translateY(100%); transition: transform .18s ease;
-  z-index: 100; box-shadow: 0 -2px 8px rgba(0,0,0,.22);
-}
-.taskbar.show { transform: translateY(0); }
-
-.tb-start {
-  padding: 2px 8px; font-family: var(--font-m); font-size: 9.5px;
-  font-weight: 700; cursor: pointer;
-  border: 1px solid;
-  border-color: var(--chrome-light) var(--chrome-darker) var(--chrome-darker) var(--chrome-light);
-  background: var(--chrome); display: flex; align-items: center; gap: 3px;
-}
-.tb-vsep { width: 1px; height: 18px; background: var(--chrome-dark); margin: 0 3px; }
-.tb-item {
-  padding: 2px 9px; font-family: var(--font-m); font-size: 9px;
-  cursor: pointer; background: var(--chrome); color: #000;
-  border: 1px solid;
-  border-color: var(--chrome-light) var(--chrome-darker) var(--chrome-darker) var(--chrome-light);
-  text-decoration: none; display: flex; align-items: center; gap: 4px;
-  white-space: nowrap;
-}
-.tb-item:hover { background: #d4d4d4; }
-.tb-clock {
-  margin-left: auto; font-family: var(--font-m); font-size: 9.5px;
-  padding: 2px 7px; border: 1px solid var(--chrome-dark);
-  background: var(--chrome); color: #000;
-}
-
-/* Scrollbar */
-.sidebar::-webkit-scrollbar { width: 8px; }
-.sidebar::-webkit-scrollbar-track { background: var(--chrome); }
-.sidebar::-webkit-scrollbar-thumb { background: #999; border: 1px solid var(--chrome); }
-</style>
+    /* Next case study */
+    .next-cs {
+      margin-top: var(--sp-24);
+      padding-top: var(--sp-12);
+      border-top: 1px solid var(--rule);
+      display: flex; justify-content: space-between; align-items: baseline;
+      gap: var(--sp-6); flex-wrap: wrap;
+    }
+    .next-cs .lbl {
+      font-family: var(--font-mono);
+      font-size: var(--fs-meta);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+    .next-cs a {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(1.5rem, 1.5vw + 1rem, 2.25rem);
+      line-height: 1.15;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .next-cs a:hover { color: var(--accent); }
+  </style>
 </head>
 <body>
 
-<div class="window">
-
-  <!-- ── Title Bar ── -->
-  <div class="titlebar">
-    <div class="tb-dots">
-      <div class="dot dot-r" title="Close" onclick="window.history.back()"></div>
-      <div class="dot dot-y" title="Minimise"></div>
-      <div class="dot dot-g" title="Maximise"></div>
-    </div>
-    <div class="tb-sep"></div>
-    <a href="index.html" class="tb-back">← Desktop</a>
-    <span class="tb-crumb">› Case Studies ›</span>
-    <div class="tb-title">BookNest.casestudy</div>
-    <div class="tb-controls">
-      <div class="win-btn">_</div>
-      <div class="win-btn">□</div>
-      <div class="win-btn" onclick="window.history.back()">✕</div>
-    </div>
-  </div>
-
-  <!-- ── Window Body ── -->
-  <div class="win-body">
-
-    <!-- ── Sidebar ── -->
-    <nav class="sidebar" id="sidebar">
-      <div class="sb-project">
-        <div class="sb-icon">📚</div>
-        <span class="sb-name">BOOKNEST</span>
-        <span class="sb-type">UX Case Study</span>
-      </div>
-      <div class="sb-section-label">Contents</div>
-      <div class="sb-item active"  data-target="overview">Overview</div>
-      <div class="sb-item"         data-target="problem">The Problem</div>
-      <div class="sb-item"         data-target="research">Research</div>
-      <div class="sb-item"         data-target="competitive">Market Gap</div>
-      <div class="sb-item"         data-target="personas">Personas</div>
-      <div class="sb-item"         data-target="insights">Insights → Design</div>
-      <div class="sb-item"         data-target="screens">The Screens</div>
-      <div class="sb-item"         data-target="refinements">Refinements</div>
-      <div class="sb-item"         data-target="outcome">Outcome</div>
-      <div class="sb-spacer"></div>
-      <div class="sb-meta">
-        <span>Role: UX Research + Design</span>
-        <span>Duration: 12 weeks</span>
-        <span>Year: Nov 2025</span>
-        <span>Tools: Figma</span>
-      </div>
+<!-- ───────── Title bar ───────── -->
+<header class="titlebar">
+  <div class="titlebar-inner">
+    <a class="tb-title" href="index.html">
+      <span class="dot"></span>
+      <span>saumya</span>
+      <span class="sep">—</span>
+      <span>booknest.case</span>
+    </a>
+    <nav class="tb-menu">
+      <a href="index.html" class="is-active">Work</a>
+      <a href="index.html">Play</a>
+      <a href="index.html">About</a>
+      <a href="index.html">Contact</a>
     </nav>
+    <button class="tb-theme" id="themeToggle" aria-label="Toggle light / dark">
+      <span class="glyph icon-moon">☾</span>
+      <span class="glyph icon-sun">☀</span>
+    </button>
+    <div class="tb-controls" aria-hidden="true">
+      <button title="Minimize"><span class="glyph">−</span></button>
+      <button title="Maximize"><span class="glyph">☐</span></button>
+      <button class="tb-close" title="Close"><span class="glyph">✕</span></button>
+    </div>
+  </div>
+</header>
 
-    <!-- ── Main Content ── -->
-    <main class="content" id="contentArea">
+<!-- ───────── Hero ───────── -->
+<header class="case-hero container">
+  <span class="eyebrow">Case Study · UX Research · 2025</span>
+  <h1 class="display" style="margin-top: var(--sp-4);">BookNest</h1>
+  <p class="subtitle">Where readers hatch new habits.</p>
+  <p class="lead">
+    A reading platform concept that started with one research question: why have digitally connected
+    generations stopped reading? The answer wasn't literacy — it was discovery, motivation, and the
+    absence of genuine community.
+  </p>
+  <div class="meta-row">
+    <div class="meta-item"><span class="label">Role</span><span class="value">UX Research · Product Design</span></div>
+    <div class="meta-item"><span class="label">Duration</span><span class="value">12 weeks · Nov 2025</span></div>
+    <div class="meta-item"><span class="label">Team</span><span class="value">Solo project</span></div>
+    <div class="meta-item"><span class="label">Research</span><span class="value">65 surveys · 24 interviews</span></div>
+    <div class="meta-item"><span class="label">Tools</span><span class="value">Figma · Notion · Dovetail</span></div>
+  </div>
+</header>
 
-      <!-- 01 Overview -->
-      <section class="s" id="overview">
-        <div class="slabel">01 — Overview</div>
-        <h1>Book<em>Nest</em></h1>
-        <div style="font-family:var(--font-d);font-size:17px;color:var(--text-muted);font-style:italic;font-weight:300;margin-bottom:4px">Where readers hatch new habits</div>
-        <div class="tags">
-          <span class="tag tg-purple">UX Research</span>
-          <span class="tag tg-purple">Product Design</span>
-          <span class="tag tg-amber">November 2025</span>
-          <span class="tag tg-dark">12 Weeks</span>
-          <span class="tag tg-muted">65 surveys · 24 interviews</span>
-        </div>
-        <p>BookNest is a reading platform concept that started with one research question: why have digitally connected generations stopped reading? The answer wasn't literacy — it was discovery, motivation, and the absence of genuine community.</p>
-        <div class="hmw">
-          <span class="hmw-l">How might we</span>
-          <div class="hmw-q">Design a digital experience that makes reading feel emotionally rewarding, socially supported, and easy to start and sustain — rather than overwhelming, isolating, or pressurised?</div>
-        </div>
-      </section>
+<!-- ───────── Hero image ───────── -->
+<figure class="container" style="padding-block: var(--sp-8) var(--sp-4);">
+  <div class="image-frame">
+    <img src="assets/booknest/hero.png" alt="Isometric composition of BookNest screens — home, discover, library, streaks, profile" />
+  </div>
+  <figcaption class="figure-caption" style="text-align: center; margin-top: var(--sp-3);">BookNest · Selected screens from the final design</figcaption>
+</figure>
 
-      <!-- 02 Problem -->
-      <section class="s" id="problem">
-        <div class="slabel">02 — The Problem</div>
-        <h2>Not a literacy crisis.<br>A <em>discovery</em> crisis.</h2>
-        <p>The average human attention span today sits at <strong>47 seconds</strong>. Dopamine-driven platforms have rewired how we engage with content — making focused reading feel effortful, slow, and solitary by comparison. The problem isn't that people can't read. It's that they can't start.</p>
+<!-- ───────── 01 Overview ───────── -->
+<section class="container">
+  <div class="section-marker"><span class="eyebrow">01 · Overview</span></div>
+  <div class="two-col">
+    <div class="case-prose">
+      <p>BookNest reframes reading engagement as a design problem, not a motivation one. Across twelve
+        weeks of mixed-methods research, the consistent theme wasn't that users had stopped wanting to
+        read — it was that the path back to reading had quietly disappeared, replaced by environments
+        designed to capture attention rather than restore it.</p>
+      <p>The product is a calm, dark-mode reading companion built around three research-validated
+        features — emotional discovery, gentle gamification, and micro-communities.</p>
+    </div>
+    <div class="hmw">
+      Design a digital experience that makes reading feel emotionally rewarding, socially supported,
+      and easy to start and sustain — rather than overwhelming, isolating, or pressurised?
+    </div>
+  </div>
+</section>
 
-        <div class="barrier-row">
-          <div class="barrier">
-            <span class="barrier-icon">📱</span>
-            <div class="barrier-title">Distraction</div>
-            <div class="barrier-desc">Short-form content (Reels, TikTok) has colonised the reading hour without users consciously choosing it.</div>
-          </div>
-          <div class="barrier">
-            <span class="barrier-icon">🧠</span>
-            <div class="barrier-title">Decision paralysis</div>
-            <div class="barrier-desc">"Top-10 lists stress me out." Too much choice, no emotional filter — leading to not choosing at all.</div>
-          </div>
-          <div class="barrier">
-            <span class="barrier-icon">😮‍💨</span>
-            <div class="barrier-title">Exhaustion</div>
-            <div class="barrier-desc">Mental fatigue from screen time and work makes starting a long book feel like another obligation, not an escape.</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 03 Research -->
-      <section class="s" id="research">
-        <div class="slabel">03 — Research</div>
-        <h2>What the data revealed</h2>
-        <p>Surveys with 65 respondents and in-depth interviews with 24 participants across college students, young professionals, and returning readers. The consistent theme: users don't lack desire — they lack a gentle, structured path back to reading.</p>
-
-        <div class="stats-grid">
-          <div class="stat">
-            <span class="stat-n">85%</span>
-            <div class="stat-l">chose books based on friends' recommendations — not algorithms or bestseller lists</div>
-          </div>
-          <div class="stat">
-            <span class="stat-n">80%</span>
-            <div class="stat-l">needed better taste-matched discovery — genre labels alone weren't doing the job</div>
-          </div>
-          <div class="stat">
-            <span class="stat-n">70%</span>
-            <div class="stat-l">believed community would help them sustain reading — they just didn't have the right kind</div>
-          </div>
-          <div class="stat">
-            <span class="stat-n">68%</span>
-            <div class="stat-l">cited lack of time as their barrier — but interviews revealed this was really a lack of system</div>
-          </div>
-          <div class="stat">
-            <span class="stat-n">60%</span>
-            <div class="stat-l">wanted gentle everyday reminders — not competitive pressure or gamified leaderboards</div>
-          </div>
-          <div class="stat">
-            <span class="stat-n">50%</span>
-            <div class="stat-l">were open to AI snippets to help commit — a quick preview before investing in a whole book</div>
-          </div>
-        </div>
-
-        <div class="q-callout">
-          <span class="q-callout-label">Recurring qualitative theme · 24 interviews</span>
-          <div class="q-callout-text">"Reading should feel relaxing — not like another task or competition."</div>
-          <div class="q-callout-sub">Users consistently rejected high-pressure gamification. They wanted gentle accountability, not leaderboards. This directly shaped the design of the streaks feature.</div>
-        </div>
-      </section>
-
-      <!-- 04 Competitive -->
-      <section class="s" id="competitive">
-        <div class="slabel">04 — Market Gap</div>
-        <h2>Where existing platforms fall short</h2>
-        <p>A cross-analysis of seven platforms (Goodreads, StoryGraph, TBR, Likewise, BookyCall, Bookfinity, WhatShouldIReadNext) revealed a consistent gap: apps focus on organising or tracking books, not on helping users find the emotional entry point that makes them actually open one.</p>
-
-        <table class="comp-table">
-          <thead>
-            <tr>
-              <th>Dimension</th>
-              <th>Goodreads</th>
-              <th>AO3 (reference)</th>
-              <th style="color:var(--bn-purple)">BookNest</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="col-feature">Discovery</td>
-              <td>Static lists, trend-driven, not context-aware</td>
-              <td>Deep trope + emotional tagging ("slow burn", "hurt/comfort")</td>
-              <td class="col-bn">Mood, trope &amp; time-aware — hybrid AI + human taxonomy</td>
-            </tr>
-            <tr>
-              <td class="col-feature">Motivation</td>
-              <td>None — metrics only, no nudges</td>
-              <td>Fandom culture drives participation</td>
-              <td class="col-bn">Gentle streaks, soft nudges — no competitive pressure</td>
-            </tr>
-            <tr>
-              <td class="col-feature">Community</td>
-              <td>Limited discussions, dated UI</td>
-              <td>Strong fandom but niche and siloed</td>
-              <td class="col-bn">Small interest-based clubs, shared progress loops</td>
-            </tr>
-            <tr>
-              <td class="col-feature">Reviews</td>
-              <td>Overwhelming, spoiler-heavy, unmoderated</td>
-              <td>Emotional commentary via tags</td>
-              <td class="col-bn">Spoiler-safe, layered, emotionally tagged feedback</td>
-            </tr>
-            <tr>
-              <td class="col-feature">UX design</td>
-              <td>Outdated — represents design stagnation</td>
-              <td>Functional, not designed for newcomers</td>
-              <td class="col-bn">Calm, minimal, dopamine-neutral environment</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <p class="comp-note">AO3 was the most instructive reference — not as a competitor but as proof that emotional, trope-based discovery systems work at scale and drive engagement. BookNest borrows the taxonomy model and applies it to long-form reading.</p>
-      </section>
-
-      <!-- 05 Personas -->
-      <section class="s" id="personas">
-        <div class="slabel">05 — Personas</div>
-        <h2>Who we're designing for</h2>
-        <p>Two core users distilled from the research — one at the beginning of a reading habit, one trying to rebuild one they've lost.</p>
-
-        <div class="persona-row">
-          <div class="persona">
-            <div class="persona-head">
-              <div class="p-avatar">R</div>
-              <div>
-                <span class="p-name">Riya, 22</span>
-                <span class="p-role">College student · casual reader</span>
-              </div>
-            </div>
-            <div class="persona-body">
-              <div class="p-quote">"I don't know what to read next, so I just scroll instead."</div>
-              <div class="p-need">Personalised discovery without overwhelming lists</div>
-              <div class="p-need">Motivational nudges that feel encouraging, not guilty</div>
-              <div class="p-need">A community that makes reading feel social, not solitary</div>
-            </div>
-          </div>
-          <div class="persona">
-            <div class="persona-head">
-              <div class="p-avatar">A</div>
-              <div>
-                <span class="p-name">Arjun, 29</span>
-                <span class="p-role">Working professional · lapsed reader</span>
-              </div>
-            </div>
-            <div class="persona-body">
-              <div class="p-quote">"I keep downloading reading apps but never open them again."</div>
-              <div class="p-need">Gentle habit-building — no big commitments upfront</div>
-              <div class="p-need">Soft streaks — some accountability, zero pressure</div>
-              <div class="p-need">A calm, lightweight UI — not another demanding app</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 06 Insights → Design -->
-      <section class="s" id="insights">
-        <div class="slabel">06 — Insights → Design</div>
-        <h2>How research shaped the product</h2>
-        <p style="margin-bottom:26px">Each of the three core features maps directly to a validated research finding. Nothing was assumed — everything was discovered.</p>
-
-        <div class="insight-card">
-          <div class="i-left">
-            <span class="i-side-label">Research finding</span>
-            <div class="i-finding"><strong>85% discover books through people they trust</strong>, not algorithms. Interviews confirmed users browse by emotional resonance and feeling — not by genre. AO3's trope taxonomy proved this model works at scale.</div>
-          </div>
-          <div class="i-right">
-            <span class="i-side-label">Design decision</span>
-            <div class="i-feature-name">Trope Finder</div>
-            <div class="i-feature-desc">Browse by mood, emotional theme, and trope ("Found Family", "Slow Burn") instead of genre dropdowns. Negative filters let users exclude what they don't want — equally important for reducing decision fatigue.</div>
-            <div class="pill-row">
-              <span class="pill pill-mood">cozy &amp; slow</span>
-              <span class="pill pill-trope">found family</span>
-              <span class="pill pill-excl">no horror</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="insight-card">
-          <div class="i-left">
-            <span class="i-side-label">Research finding</span>
-            <div class="i-finding"><strong>60% wanted reminders; interviews unanimously rejected leaderboards.</strong> Users wanted accountability without anxiety — gentle encouragement that rewards showing up, not competing with others.</div>
-          </div>
-          <div class="i-right">
-            <span class="i-side-label">Design decision</span>
-            <div class="i-feature-name">Reading Streaks</div>
-            <div class="i-feature-desc">A soft, visual accountability system — encouraging, not competitive. Daily reading check-ins tracked as personal streaks. Progress stays private. Missing one day doesn't feel catastrophic.</div>
-          </div>
-        </div>
-
-        <div class="insight-card">
-          <div class="i-left">
-            <span class="i-side-label">Research finding</span>
-            <div class="i-finding"><strong>70% said community would sustain their habits</strong> — but big forums and passive Goodreads shelves feel impersonal. Users wanted small, real conversations around shared reads, not a feed.</div>
-          </div>
-          <div class="i-right">
-            <span class="i-side-label">Design decision</span>
-            <div class="i-feature-name">Micro-Clubs</div>
-            <div class="i-feature-desc">Small, user-created book clubs around shared interests or ongoing reads. Focused discussion, shared progress bars, peer discovery — turning reading from a solitary act into a collaborative one.</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 07 Screens -->
-      <section class="s" id="screens">
-        <div class="slabel">07 — The Screens</div>
-        <h2>Key moments in the experience</h2>
-        <p>Built on a calm, dark visual system — deep purples, warm amber accents, soft greens. Designed to feel like a reading environment rather than another app demanding your attention.</p>
-
-        <div class="screens-row">
-          <!-- Home -->
-          <div class="phone-wrap">
-            <div class="phone">
-              <div class="p-notch"></div>
-              <div class="p-screen">
-                <div class="p-header">
-                  <div class="p-head-title">Good evening, Riya</div>
-                  <div class="p-avatar-sm">R</div>
-                </div>
-                <div class="p-search">🔍 &nbsp;search by mood, trope...</div>
-                <div class="p-sec-label">How are you feeling?</div>
-                <div class="mood-row">
-                  <div class="mood-card amber"><span class="mc-title">Cozy &amp; slow</span><span class="mc-sub">12 books</span></div>
-                  <div class="mood-card green"><span class="mc-title">Need escape</span><span class="mc-sub">8 books</span></div>
-                </div>
-                <div class="mood-card purple" style="min-height:38px"><span class="mc-title">Friends loved this week</span><span class="mc-sub">based on who you follow</span></div>
-                <div class="p-nav">
-                  <div class="p-nav-i on">🏠</div>
-                  <div class="p-nav-i">🔍</div>
-                  <div class="p-nav-i">📚</div>
-                  <div class="p-nav-i">👥</div>
-                  <div class="p-nav-i">👤</div>
-                </div>
-              </div>
-            </div>
-            <div class="screen-caption">Home · Discover</div>
-          </div>
-
-          <!-- Streaks -->
-          <div class="phone-wrap">
-            <div class="phone">
-              <div class="p-notch"></div>
-              <div class="p-screen">
-                <div class="p-header"><div class="p-head-title">Your streak</div></div>
-                <div class="streak-block">
-                  <div class="streak-num">7</div>
-                  <span class="streak-lbl">days in a row ✨</span>
-                  <div class="streak-dots">
-                    <div class="sd on"></div><div class="sd on"></div><div class="sd on"></div>
-                    <div class="sd on"></div><div class="sd on"></div><div class="sd on"></div>
-                    <div class="sd on"></div><div class="sd"></div><div class="sd"></div><div class="sd"></div>
-                  </div>
-                </div>
-                <div class="p-sec-label">Today's prompt</div>
-                <div style="background:rgba(139,44,187,.14);border-radius:7px;padding:9px;border:1px solid rgba(139,44,187,.3)">
-                  <div style="font-size:8.5px;color:var(--bn-light);line-height:1.5">Just 10 mins today — you're already on ch. 4 🌿</div>
-                </div>
-                <div class="p-sec-label">Friends</div>
-                <div style="background:rgba(255,255,255,.04);border-radius:7px;padding:7px;display:flex;gap:6px;align-items:center">
-                  <div style="width:18px;height:18px;border-radius:50%;background:var(--bn-green);font-size:7px;display:flex;align-items:center;justify-content:center;color:#fff">M</div>
-                  <div style="font-size:8px;color:var(--bn-muted)">Meera · 40 min today</div>
-                </div>
-                <div class="p-nav">
-                  <div class="p-nav-i">🏠</div><div class="p-nav-i">🔍</div>
-                  <div class="p-nav-i on">📚</div>
-                  <div class="p-nav-i">👥</div><div class="p-nav-i">👤</div>
-                </div>
-              </div>
-            </div>
-            <div class="screen-caption">Streaks · Habits</div>
-          </div>
-
-          <!-- Clubs -->
-          <div class="phone-wrap">
-            <div class="phone">
-              <div class="p-notch"></div>
-              <div class="p-screen">
-                <div class="p-header"><div class="p-head-title">Clubs</div></div>
-                <div class="p-sec-label">Your clubs</div>
-                <div class="club-entry">
-                  <div class="club-dot" style="background:var(--bn-green)"></div>
-                  <div><div class="club-name">Slow burn readers</div><div class="club-count">8 members · 3 active</div></div>
-                </div>
-                <div class="club-entry">
-                  <div class="club-dot" style="background:var(--bn-amber)"></div>
-                  <div><div class="club-name">Fantasy friends</div><div class="club-count">12 members · ch. 6</div></div>
-                </div>
-                <div class="p-sec-label">Discover</div>
-                <div style="background:rgba(74,206,112,.09);border-radius:7px;padding:8px;border:1px solid rgba(74,206,112,.18)">
-                  <div style="font-size:8.5px;font-weight:600;color:var(--bn-green)">Cozy mystery circle</div>
-                  <div style="font-size:7.5px;color:var(--bn-muted);margin-top:2px">22 members · reading together</div>
-                </div>
-                <div class="p-nav">
-                  <div class="p-nav-i">🏠</div><div class="p-nav-i">🔍</div><div class="p-nav-i">📚</div>
-                  <div class="p-nav-i on">👥</div><div class="p-nav-i">👤</div>
-                </div>
-              </div>
-            </div>
-            <div class="screen-caption">Clubs · Community</div>
-          </div>
-
-          <!-- Trope Search -->
-          <div class="phone-wrap">
-            <div class="phone">
-              <div class="p-notch"></div>
-              <div class="p-screen">
-                <div class="p-header"><div class="p-head-title">Discover</div></div>
-                <div class="p-search" style="background:rgba(255,255,255,.1)">🔍 &nbsp;slow burn, enemies to...</div>
-                <div class="p-sec-label">Mood</div>
-                <div style="display:flex;gap:3px;flex-wrap:wrap">
-                  <span class="p-tag" style="background:rgba(243,184,74,.15);color:var(--bn-amber);border:1px solid rgba(243,184,74,.3)">cozy</span>
-                  <span class="p-tag" style="background:rgba(139,44,187,.25);color:#c080e0;border:1px solid rgba(139,44,187,.4)">escapist</span>
-                  <span class="p-tag" style="background:rgba(255,255,255,.05);color:var(--bn-muted);border:1px solid rgba(255,255,255,.1)">dark</span>
-                </div>
-                <div class="p-sec-label">Tropes</div>
-                <div style="display:flex;flex-direction:column;gap:3px">
-                  <div style="background:rgba(255,255,255,.04);padding:5px 9px;border-radius:6px;font-size:8.5px;color:var(--bn-light)">Found Family</div>
-                  <div style="background:rgba(139,44,187,.22);padding:5px 9px;border-radius:6px;font-size:8.5px;color:#c080e0;border:1px solid rgba(139,44,187,.4)">Slow Burn ✓</div>
-                  <div style="background:rgba(255,255,255,.04);padding:5px 9px;border-radius:6px;font-size:8.5px;color:var(--bn-light)">Enemies to Lovers</div>
-                </div>
-                <div class="p-nav">
-                  <div class="p-nav-i">🏠</div>
-                  <div class="p-nav-i on">🔍</div>
-                  <div class="p-nav-i">📚</div><div class="p-nav-i">👥</div><div class="p-nav-i">👤</div>
-                </div>
-              </div>
-            </div>
-            <div class="screen-caption">Trope Search · Filter</div>
-          </div>
-        </div>
-
-        <!-- Tokens -->
-        <div style="margin-top:40px">
-          <div style="font-family:var(--font-m);font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--text-muted);margin-bottom:14px">Colour system</div>
-          <div class="token-row">
-            <div class="swatch-wrap"><div class="swatch" style="background:#1B1325"></div><div class="swatch-label">#1B1325<br>Darkest</div></div>
-            <div class="swatch-wrap"><div class="swatch" style="background:#2B1F3A"></div><div class="swatch-label">#2B1F3A<br>Dark</div></div>
-            <div class="swatch-wrap"><div class="swatch" style="background:#8B2CBB"></div><div class="swatch-label">#8B2CBB<br>Purple</div></div>
-            <div class="swatch-wrap"><div class="swatch" style="background:#F3B84A"></div><div class="swatch-label">#F3B84A<br>Amber</div></div>
-            <div class="swatch-wrap"><div class="swatch" style="background:#4CAE70"></div><div class="swatch-label">#4CAE70<br>Green</div></div>
-            <div class="swatch-wrap"><div class="swatch" style="background:#F7F5FA"></div><div class="swatch-label">#F7F5FA<br>Light</div></div>
-            <div class="swatch-wrap"><div class="swatch" style="background:#A89EB2"></div><div class="swatch-label">#A89EB2<br>Muted</div></div>
-          </div>
-          <div style="font-family:var(--font-m);font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--text-muted);margin:22px 0 14px">Typography</div>
-          <div class="type-rows">
-            <div class="type-row">
-              <div class="type-meta">Fraunces<br>Display 400</div>
-              <div class="ts-disp">BookNest</div>
-            </div>
-            <div class="type-row">
-              <div class="type-meta">Fraunces<br>Italic 300</div>
-              <div class="ts-ital">Where readers hatch new habits</div>
-            </div>
-            <div class="type-row">
-              <div class="type-meta">Outfit<br>Body 400</div>
-              <div class="ts-body">Discovery, motivation, community — designed for modern readers.</div>
-            </div>
-            <div class="type-row">
-              <div class="type-meta">Space Mono<br>Labels</div>
-              <div class="ts-mono">UX RESEARCH · NOV 2025</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 08 Refinements -->
-      <section class="s" id="refinements">
-        <div class="slabel">08 — Refinements</div>
-        <h2>What changed after testing</h2>
-        <p>Usability testing across the core navigation flow (Home → Discover → Book Detail) surfaced recurring friction points. The refined screens make motivation visible earlier and reduce the cognitive effort of choosing a book.</p>
-
-        <div class="ref-row">
-          <div class="ref-card">
-            <div class="ref-head rh-b">⚠ Before</div>
-            <div class="ref-body">
-              <div class="ref-item"><span class="ri">·</span>Streak and motivation elements were buried — users missed them entirely</div>
-              <div class="ref-item"><span class="ri">·</span>Category labels were genre-only — lacked the emotional nuance users actually browse by</div>
-              <div class="ref-item"><span class="ri">·</span>AI summary was hidden deep in the book detail screen</div>
-              <div class="ref-item"><span class="ri">·</span>Actions (shelf, AI, tags) weren't visually distinct — confused first-time users</div>
-            </div>
-          </div>
-          <div class="ref-card">
-            <div class="ref-head rh-a">✓ After</div>
-            <div class="ref-body">
-              <div class="ref-item"><span class="ri">→</span>Streak moved to the home screen — the first thing users see on open</div>
-              <div class="ref-item"><span class="ri">→</span>Mood-first discovery cards replace genre dropdowns throughout</div>
-              <div class="ref-item"><span class="ri">→</span>AI snippet surfaced earlier — appears on discovery cards, before committing</div>
-              <div class="ref-item"><span class="ri">→</span>Clearer labelling, stronger visual hierarchy and action affordances</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 09 Outcome -->
-      <section class="s" id="outcome">
-        <div class="slabel">09 — Outcome</div>
-        <h2>What BookNest proposes</h2>
-        <p style="margin-bottom:14px">BookNest treats reading engagement as a design problem, not a motivation problem. Research confirmed that users haven't lost the desire to read — their attention has adapted to environments that optimise for instant reward.</p>
-        <p>Effective UX design can rebuild long-form attention by creating restorative, emotionally intelligent spaces. Each of the three features — emotional discovery, gentle gamification, micro-communities — addresses a specific research-validated barrier rather than layering features for their own sake.</p>
-
-        <div class="next-cards">
-          <div class="next-card">
-            <span class="next-label">Future scope</span>
-            <div class="next-text">AI-driven mood recommendations trained on reading history and time-of-day context</div>
-          </div>
-          <div class="next-card">
-            <span class="next-label">Future scope</span>
-            <div class="next-text">Audiobook tracking integration to broaden habit-building beyond text reading</div>
-          </div>
-          <div class="next-card">
-            <span class="next-label">Future scope</span>
-            <div class="next-text">Author + creator ecosystem for Q&amp;As, events, and micro-content within clubs</div>
-          </div>
-        </div>
-
-        <div class="next-project">
-          <span class="next-project-label">Next case study</span>
-          <a href="ping.html" class="next-project-link">Ping — location sharing for real relationships →</a>
-        </div>
-      </section>
-
-    </main>
+<!-- ───────── 02 The Problem ───────── -->
+<section class="container" style="padding-top: var(--sp-24);">
+  <div class="section-marker"><span class="eyebrow">02 · The Problem</span></div>
+  <h2 class="h1" style="max-width: 18ch;">Not a literacy crisis.<br><em style="font-style: italic; font-weight: 400;">A discovery crisis.</em></h2>
+  <div class="case-prose" style="margin-top: var(--sp-8);">
+    <p>The average human attention span today sits at <strong>47 seconds</strong>. Dopamine-driven
+      platforms have rewired how we engage with content — making focused reading feel effortful, slow,
+      and solitary by comparison. The problem isn't that people can't read. It's that they can't
+      start.</p>
   </div>
 
-  <!-- ── Taskbar ── -->
-  <div class="taskbar" id="taskbar">
-    <div class="tb-start">⊞ Start</div>
-    <div class="tb-vsep"></div>
-    <a href="index.html" class="tb-item">🖥 Desktop</a>
-    <a href="index.html" class="tb-item">📁 Case Studies</a>
-    <a href="index.html" class="tb-item">🎮 Fun Projects</a>
-    <a href="index.html" class="tb-item">🧠 Psychology</a>
-    <a href="about.html" class="tb-item">👤 About</a>
-    <div class="tb-clock" id="clock">--:--</div>
+  <div class="barrier-grid">
+    <div class="barrier">
+      <span class="icon">📱</span>
+      <h4>Distraction</h4>
+      <p>Short-form content (Reels, TikTok) has colonised the reading hour without users consciously
+        choosing it.</p>
+    </div>
+    <div class="barrier">
+      <span class="icon">🧠</span>
+      <h4>Decision paralysis</h4>
+      <p>"Top-10 lists stress me out." Too much choice, no emotional filter — leading to not choosing
+        at all.</p>
+    </div>
+    <div class="barrier">
+      <span class="icon">😮‍💨</span>
+      <h4>Exhaustion</h4>
+      <p>Mental fatigue from screen time and work makes starting a long book feel like another
+        obligation, not an escape.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── 03 Research ───────── -->
+<section class="container" style="padding-top: var(--sp-24);">
+  <div class="section-marker"><span class="eyebrow">03 · Research</span></div>
+  <h2 class="h1">What the data revealed.</h2>
+  <div class="case-prose" style="margin-top: var(--sp-6);">
+    <p>Surveys with 65 respondents and in-depth interviews with 24 participants across college students,
+      young professionals, and returning readers. The consistent theme: users don't lack desire — they
+      lack a gentle, structured path back to reading.</p>
   </div>
 
-</div>
+  <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr);">
+    <div class="stat"><span class="n">85%</span><span class="l">picked books through recommendations from friends and family — not algorithms or bestseller lists</span></div>
+    <div class="stat"><span class="n">80%</span><span class="l">needed books better suited to their taste — genre labels alone weren't doing the job</span></div>
+    <div class="stat"><span class="n">70%</span><span class="l">said community would help them keep reading — they just didn't have the right kind</span></div>
+    <div class="stat"><span class="n">60%</span><span class="l">wanted gentle everyday reminders — not competitive pressure or leaderboards</span></div>
+  </div>
+
+  <div class="container-narrow" style="padding-inline: 0; margin-top: var(--sp-16);">
+    <blockquote class="pull-quote">
+      Reading should feel relaxing — not like another task or competition.
+      <span class="attribution">Recurring qualitative theme · 24 interviews</span>
+    </blockquote>
+    <p class="figure-caption" style="margin-top: calc(-1 * var(--sp-12)); max-width: 60ch;">
+      Users consistently rejected high-pressure gamification. They wanted gentle accountability,
+      not leaderboards. This directly shaped the design of the streaks feature.
+    </p>
+  </div>
+</section>
+
+<!-- ───────── 04 Personas ───────── -->
+<section class="container" style="padding-top: var(--sp-24);">
+  <div class="section-marker"><span class="eyebrow">04 · Personas</span></div>
+  <h2 class="h1">Who we're designing for.</h2>
+  <div class="case-prose" style="margin-top: var(--sp-6);">
+    <p>Two core users distilled from the research — one at the beginning of a reading habit, one
+      trying to rebuild one they've lost.</p>
+  </div>
+
+  <div class="personas">
+    <article class="persona">
+      <div class="persona-head">
+        <div class="avatar">R</div>
+        <div class="who">
+          <span class="name">Riya, 22</span>
+          <span class="role">College student · casual reader</span>
+        </div>
+      </div>
+      <p class="persona-quote">"I don't know what to read next, so I just scroll instead."</p>
+      <ul class="persona-needs">
+        <li>Personalised discovery without overwhelming lists</li>
+        <li>Motivational nudges that feel encouraging, not guilty</li>
+        <li>A community that makes reading feel social, not solitary</li>
+      </ul>
+    </article>
+    <article class="persona">
+      <div class="persona-head">
+        <div class="avatar">A</div>
+        <div class="who">
+          <span class="name">Arjun, 29</span>
+          <span class="role">Working professional · lapsed reader</span>
+        </div>
+      </div>
+      <p class="persona-quote">"I keep downloading reading apps but never open them again."</p>
+      <ul class="persona-needs">
+        <li>Gentle habit-building — no big commitments upfront</li>
+        <li>Soft streaks — some accountability, zero pressure</li>
+        <li>A calm, lightweight UI — not another demanding app</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<!-- ───────── 06 Insights → Design ───────── -->
+<section class="container" style="padding-top: var(--sp-24);">
+  <div class="section-marker"><span class="eyebrow">05 · Insights → Design</span></div>
+  <h2 class="h1">How research shaped the product.</h2>
+  <div class="case-prose" style="margin-top: var(--sp-6); margin-bottom: var(--sp-8);">
+    <p>Each of the three core features maps directly to a validated research finding. Nothing was
+      assumed — everything was discovered.</p>
+  </div>
+
+  <div class="insight">
+    <div>
+      <span class="label">Research finding</span>
+      <p class="finding"><strong>85% discover books through people they trust</strong>, not algorithms.
+        Interviews confirmed users browse by emotional resonance and feeling — not by genre. AO3's
+        trope taxonomy proved this model works at scale.</p>
+    </div>
+    <div>
+      <span class="label">Design decision</span>
+      <h3 class="feature-name">Trope Finder</h3>
+      <p class="feature-desc">Browse by mood, emotional theme, and trope ("Found Family", "Slow Burn")
+        instead of genre dropdowns. Negative filters let users exclude what they don't want — equally
+        important for reducing decision fatigue.</p>
+      <div class="pill-row">
+        <span class="pill">cozy &amp; slow</span>
+        <span class="pill">found family</span>
+        <span class="pill accent">no horror</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <div>
+      <span class="label">Research finding</span>
+      <p class="finding"><strong>60% wanted reminders; interviews unanimously rejected leaderboards.</strong>
+        Users wanted accountability without anxiety — gentle encouragement that rewards showing up,
+        not competing with others.</p>
+    </div>
+    <div>
+      <span class="label">Design decision</span>
+      <h3 class="feature-name">Reading Streaks</h3>
+      <p class="feature-desc">A soft, visual accountability system — encouraging, not competitive.
+        Daily reading check-ins tracked as personal streaks. Progress stays private. Missing one day
+        doesn't feel catastrophic.</p>
+    </div>
+  </div>
+
+  <div class="insight">
+    <div>
+      <span class="label">Research finding</span>
+      <p class="finding"><strong>70% said community would sustain their habits</strong> — but big
+        forums and passive Goodreads shelves feel impersonal. Users wanted small, real conversations
+        around shared reads, not a feed.</p>
+    </div>
+    <div>
+      <span class="label">Design decision</span>
+      <h3 class="feature-name">Micro-Clubs</h3>
+      <p class="feature-desc">Small, user-created book clubs around shared interests or ongoing reads.
+        Focused discussion, shared progress bars, peer discovery — turning reading from a solitary act
+        into a collaborative one.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── 07 The Screens ───────── -->
+<section class="container" style="padding-top: var(--sp-24);">
+  <div class="section-marker"><span class="eyebrow">06 · The Screens</span></div>
+  <h2 class="h1">Key moments in the experience.</h2>
+  <div class="case-prose" style="margin-top: var(--sp-6);">
+    <p>Built on a calm, dark visual system — deep purples, warm amber accents, soft greens. Designed
+      to feel like a reading environment rather than another app demanding your attention.</p>
+  </div>
+
+  <p class="figure-caption" style="margin-top: var(--sp-3); max-width: 60ch;">
+    Hover a phone to see the research finding behind each design choice.
+    The screens follow the site theme — toggle via the title bar to see them in light mode.
+  </p>
+
+  <div class="screens-stack">
+    <!-- Home · Discover -->
+    <figure class="screen-stage">
+      <div class="screen-phone">
+        <div class="image-frame">
+          <img class="screen-img dark"  src="assets/booknest/01-home-discover.png"       alt="BookNest home screen, dark — 15-day streak with mascot, mood cards for Rom/Com, Crime, Fantasy, For You row" />
+          <img class="screen-img light" src="assets/booknest/01-home-discover-light.png" alt="BookNest home screen, light theme" />
+        </div>
+        <span class="annot l top1"><strong>Streak on home.</strong> 60% wanted gentle reminders.</span>
+        <span class="annot l bot1"><strong>Tota</strong> — encouragement, not pressure.</span>
+        <span class="annot r top1"><strong>Mood cards.</strong> 80% needed taste-matched discovery.</span>
+        <span class="annot r bot1"><strong>Friends' picks above algorithms.</strong> 85%.</span>
+      </div>
+      <figcaption class="screen-caption">Home · Discover</figcaption>
+    </figure>
+
+    <!-- Streaks · Habits -->
+    <figure class="screen-stage">
+      <div class="screen-phone">
+        <div class="image-frame">
+          <img class="screen-img dark"  src="assets/booknest/02-streaks.png"       alt="BookNest streaks screen, dark — constellation moon art, 15 days in a row, 35 of 50 hours read, friends progress" />
+          <img class="screen-img light" src="assets/booknest/02-streaks-light.png" alt="BookNest streaks screen, light theme" />
+        </div>
+        <span class="annot l top1"><strong>Constellation</strong>, not a leaderboard.</span>
+        <span class="annot l bot1"><strong>Soft progress bar.</strong> Calm sage + amber.</span>
+        <span class="annot r top1"><strong>Reachable goal.</strong> 35 of 50 hours, monthly.</span>
+        <span class="annot r bot1"><strong>"Remind" only.</strong> No public shaming.</span>
+      </div>
+      <figcaption class="screen-caption">Streaks · Habits</figcaption>
+    </figure>
+
+    <!-- Clubs · Community -->
+    <figure class="screen-stage">
+      <div class="screen-phone">
+        <div class="image-frame">
+          <img class="screen-img dark"  src="assets/booknest/03-clubs.png"       alt="BookNest clubs feed, dark — Leigh Bardugo posts, follower comments, club community thread" />
+          <img class="screen-img light" src="assets/booknest/03-clubs-light.png" alt="BookNest clubs feed, light theme" />
+        </div>
+        <span class="annot l top1"><strong>Small clubs.</strong> 70% rejected big forums.</span>
+        <span class="annot l bot1"><strong>Create your own micro-club.</strong></span>
+        <span class="annot r top1"><strong>Authors + readers</strong> in the same thread.</span>
+        <span class="annot r bot1"><strong>You sort the feed.</strong> Not the algorithm.</span>
+      </div>
+      <figcaption class="screen-caption">Clubs · Community</figcaption>
+    </figure>
+
+    <!-- Discover · Trope Finder -->
+    <figure class="screen-stage">
+      <div class="screen-phone">
+        <div class="image-frame">
+          <img class="screen-img dark"  src="assets/booknest/04-trope-search.png"       alt="BookNest discover screen, dark — AI book pairing suggestion, Trope Finder cards (Enemies to Lovers, Found Family, Cozy & Comfy), curated lists" />
+          <img class="screen-img light" src="assets/booknest/04-trope-search-light.png" alt="BookNest discover screen, light theme" />
+        </div>
+        <span class="annot l top1"><strong>Trope Finder.</strong> AO3-style taxonomy.</span>
+        <span class="annot l bot1"><strong>Found Family · Cozy · Slow Burn.</strong></span>
+        <span class="annot r top1"><strong>AI pairs by feeling</strong> — not "because you read X".</span>
+        <span class="annot r bot1"><strong>Lists by trope.</strong> 85% trust peer taste.</span>
+      </div>
+      <figcaption class="screen-caption">Discover · Trope Finder</figcaption>
+    </figure>
+  </div>
+
+  <!-- BookNest brand identity -->
+  <div class="brand-sub">
+    <div class="brand-label">BookNest · Brand</div>
+    <div style="display: flex; align-items: center; gap: var(--sp-8); margin-top: var(--sp-4); flex-wrap: wrap;">
+      <span class="brand-logo" aria-label="BookNest app icon — purple sun over a golden nest">
+        <img class="logo-img dark"  src="assets/booknest/logo-dark.png"  alt="" />
+        <img class="logo-img light" src="assets/booknest/logo-light.png" alt="" />
+      </span>
+      <img src="assets/booknest/mascot.png" alt="Tota, the BookNest mascot — a purple bird giving a thumbs up" style="width: 110px; height: auto;" />
+      <div style="flex: 1; min-width: 240px; font-size: var(--fs-small); line-height: 1.7; color: var(--ink-soft); max-width: 50ch;">
+        The app icon abstracts the BookNest name — purple sun rising over a woven nest of pages. The
+        mascot, <em>Tota</em>, is a recurring character used on empty states and streak rewards. Both
+        are intentionally hand-drawn to keep the product feeling warm and lo-fi, not clinical.
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ───────── 07 Outcome ───────── -->
+<section class="container" style="padding-top: var(--sp-24);">
+  <div class="section-marker"><span class="eyebrow">07 · Outcome</span></div>
+  <h2 class="h1" style="max-width: 22ch;">Conclusion &amp; future scope.</h2>
+  <div class="case-prose" style="margin-top: var(--sp-6);">
+    <p>Audiences haven't lost the desire to read — their attention has simply adapted to seek
+      emotional connection and low-friction discovery. Effective UX, as demonstrated by the BookNest
+      concept, can create restorative digital spaces that nurture long-form attention.</p>
+  </div>
+
+  <div class="next-cards" style="grid-template-columns: 1fr 1fr;">
+    <div class="next-card">
+      <span class="lbl">Future scope</span>
+      <p>AI-driven mood and "vibe" recommendations could be further investigated — trained on reading
+        history, time-of-day, and emotional context.</p>
+    </div>
+    <div class="next-card">
+      <span class="lbl">Future scope</span>
+      <p>Audiobook tracking to broaden habit-building beyond text-only reading, integrated into the
+        same streak system.</p>
+    </div>
+  </div>
+
+  <div class="next-cs">
+    <span class="lbl">Next case study</span>
+    <a href="index.html">Ping — location sharing for real relationships →</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <span>© 2026 Saumya Dimri</span>
+    <span><a href="index.html" style="color: inherit;">← Back to portfolio</a></span>
+  </div>
+</footer>
 
 <script>
-  // Clock
-  function tick() {
-    const d = new Date();
-    document.getElementById('clock').textContent =
-      String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
-  }
-  tick(); setInterval(tick, 1000);
-
-  // Taskbar hover-reveal
-  const tb = document.getElementById('taskbar');
-  document.addEventListener('mousemove', e => {
-    if (e.clientY >= window.innerHeight - 60) tb.classList.add('show');
-    else if (!tb.matches(':hover')) tb.classList.remove('show');
-  });
-  tb.addEventListener('mouseleave', () => tb.classList.remove('show'));
-
-  // Scroll-spy
-  const content = document.getElementById('contentArea');
-  const sections = content.querySelectorAll('.s');
-  const navItems = document.querySelectorAll('.sb-item');
-  const idMap = ['overview','problem','research','competitive','personas','insights','screens','refinements','outcome'];
-
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        navItems.forEach(n => n.classList.remove('active'));
-        const idx = idMap.indexOf(entry.target.id);
-        if (idx > -1) navItems[idx]?.classList.add('active');
-      }
+  // Portfolio site theme toggle (title bar)
+  (function () {
+    const root = document.documentElement;
+    const KEY = 'theme';
+    const saved = localStorage.getItem(KEY) || 'dark';
+    root.dataset.theme = saved;
+    const btn = document.getElementById('themeToggle');
+    if (btn) btn.addEventListener('click', () => {
+      const next = root.dataset.theme === 'light' ? 'dark' : 'light';
+      root.dataset.theme = next;
+      localStorage.setItem(KEY, next);
     });
-  }, { root: content, threshold: 0.25 });
+  })();
 
-  sections.forEach(s => obs.observe(s));
-
-  // Sidebar click scroll
-  navItems.forEach(item => {
-    item.addEventListener('click', () => {
-      const target = document.getElementById(item.dataset.target);
-      if (target) target.scrollIntoView({ behavior: 'smooth' });
-    });
-  });
 </script>
+
 </body>
 </html>
