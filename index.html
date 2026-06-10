@@ -154,25 +154,21 @@
     /* Work row thumbnails */
     .work-row .work-thumb {
       grid-area: thumb;
-      width: 0;
+      width: 100%;
       height: 0;
       object-fit: cover;
       border-radius: 6px;
       border: 1px solid var(--rule);
-      background:
-        linear-gradient(135deg, rgba(245, 198, 74, 0.2), rgba(76, 174, 112, 0.12)),
-        var(--paper-2);
       flex-shrink: 0;
       display: block;
       opacity: 0;
       pointer-events: none;
-      transform: translateX(-8px) scale(0.96);
-      box-shadow: 0 18px 42px -18px rgba(0, 0, 0, 0.55);
+      transform: scale(0.93);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
       transition:
-        width 0.26s ease,
         height 0.26s ease,
         opacity 0.22s ease,
-        transform 0.26s ease;
+        transform 0.28s ease;
     }
     .featured .featured-art {
       border-radius: var(--r-3);
@@ -267,10 +263,9 @@
     .work-row:hover::before { transform: scaleY(1); }
     .work-row:hover .work-thumb,
     .work-row:focus-visible .work-thumb {
-      width: 132px;
       height: 82px;
       opacity: 1;
-      transform: translateX(0) scale(1);
+      transform: scale(1);
     }
     .work-row .idx {
       grid-area: idx;
@@ -928,11 +923,6 @@
       <span class="glyph icon-moon">☾</span>
       <span class="glyph icon-sun">☀</span>
     </button>
-    <div class="tb-controls" aria-hidden="true">
-      <button title="Minimize"><span class="glyph">−</span></button>
-      <button title="Maximize"><span class="glyph">☐</span></button>
-      <button class="tb-close" title="Close"><span class="glyph">✕</span></button>
-    </div>
   </div>
 </header>
 
@@ -1041,13 +1031,20 @@
       <span class="meta">Illustrations · experiments</span>
     </div>
     <div class="bento cols-4">
-      <article class="bento-tile lg pattern" style="--c: #8B2CBB;">
+      <a class="bento-tile pattern" href="illustrations.html" style="--c: #8B2CBB; grid-column: span 3;">
         <div class="stand-in">Illustration series</div>
         <div class="overlay">
           <h4>Illustration series</h4>
           <p>Procreate character studies and brush experiments.</p>
         </div>
-      </article>
+      </a>
+      <a class="bento-tile pattern" href="https://www.behance.net/gallery/200399389/Sunflowers-Dark-Bloom-Stop-Motion-Animation" target="_blank" rel="noopener" style="--c: #3a2a1a;">
+        <div class="stand-in">Sunflowers</div>
+        <div class="overlay">
+          <h4>Sunflowers: Dark Bloom</h4>
+          <p>Stop-motion animation.</p>
+        </div>
+      </a>
       <a class="bento-tile pattern" href="momscookbook.html" style="--c: #D96C4F;">
         <div class="stand-in">Mom's Cookbook</div>
         <div class="overlay">
@@ -1055,27 +1052,20 @@
           <p>A family recipe book in progress.</p>
         </div>
       </a>
-      <article class="bento-tile pattern" style="--c: #4CAE70;">
-        <div class="stand-in">Generative coastlines</div>
+      <a class="bento-tile pattern" href="https://www.behance.net/gallery/201876773/A-week-in-pages-Travel-Journal" target="_blank" rel="noopener" style="--c: #4CAE70;">
+        <div class="stand-in">A Week in Pages</div>
         <div class="overlay">
-          <h4>Generative coastlines</h4>
-          <p>p5.js experiments with coastline algorithms.</p>
+          <h4>A Week in Pages</h4>
+          <p>Travel journal — a week documented in spreads.</p>
         </div>
-      </article>
-      <article class="bento-tile pattern" style="--c: #c080e0;">
-        <div class="stand-in">Hand-bound notebook</div>
+      </a>
+      <a class="bento-tile pattern" href="https://www.behance.net/gallery/200520895/Evenings-in-Delhi" target="_blank" rel="noopener" style="--c: #c07040;">
+        <div class="stand-in">Evenings in Delhi</div>
         <div class="overlay">
-          <h4>Hand-bound notebook</h4>
-          <p>A weekend bookbinding experiment.</p>
+          <h4>Evenings in Delhi</h4>
+          <p>A visual study of light, dust, and stillness.</p>
         </div>
-      </article>
-      <article class="bento-tile pattern" style="--c: #2B1F3A;">
-        <div class="stand-in">More soon</div>
-        <div class="overlay">
-          <h4>More soon</h4>
-          <p>Drop new side projects in as you make them.</p>
-        </div>
-      </article>
+      </a>
     </div>
   </div>
 
