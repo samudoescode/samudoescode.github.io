@@ -151,14 +151,28 @@
     }
     .featured a { text-decoration: none; color: inherit; display: block; }
 
-    /* Work row with thumbnail */
-    .work-row .thumb {
-      width: 48px; height: 36px;
+    /* Work row thumbnails */
+    .work-row .work-thumb {
+      grid-area: thumb;
+      width: 0;
+      height: 0;
       object-fit: cover;
       border-radius: 6px;
       border: 1px solid var(--rule);
+      background:
+        linear-gradient(135deg, rgba(245, 198, 74, 0.2), rgba(76, 174, 112, 0.12)),
+        var(--paper-2);
       flex-shrink: 0;
       display: block;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(-8px) scale(0.96);
+      box-shadow: 0 18px 42px -18px rgba(0, 0, 0, 0.55);
+      transition:
+        width 0.26s ease,
+        height 0.26s ease,
+        opacity 0.22s ease,
+        transform 0.26s ease;
     }
     .featured .featured-art {
       border-radius: var(--r-3);
@@ -216,20 +230,23 @@
 
     /* ---- Editorial work list ---- */
     .work-list {
-      margin-top: var(--sp-16);
+      margin-top: var(--sp-6);
       border-top: 1px solid var(--rule);
     }
     .work-row {
       position: relative;
       display: grid;
-      grid-template-columns: 52px 1fr 180px 1.4fr 28px;
+      grid-template-columns: 52px 0 minmax(190px, 1fr) 170px minmax(220px, 1.15fr) 28px;
+      grid-template-areas: "idx thumb name cat blurb arrow";
       gap: var(--sp-6);
-      align-items: baseline;
-      padding: var(--sp-5) var(--sp-3) var(--sp-5) var(--sp-3);
+      align-items: center;
+      padding: calc(var(--sp-5) + 2px) var(--sp-3);
       border-bottom: 1px solid var(--rule);
       text-decoration: none;
       color: inherit;
-      transition: background 0.3s ease, padding-left 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition:
+        background 0.24s ease,
+        grid-template-columns 0.28s ease;
     }
     /* Stronger hover state: accent left bar + bg shift + color flip */
     .work-row::before {
@@ -240,11 +257,23 @@
       background: var(--accent);
       transform: scaleY(0);
       transform-origin: top;
-      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: transform 0.24s ease;
     }
-    .work-row:hover { background: var(--paper-2); padding-left: var(--sp-6); }
+    .work-row:hover,
+    .work-row:focus-visible {
+      background: var(--paper-2);
+      grid-template-columns: 52px 132px minmax(170px, 0.85fr) 150px minmax(180px, 0.95fr) 28px;
+    }
     .work-row:hover::before { transform: scaleY(1); }
+    .work-row:hover .work-thumb,
+    .work-row:focus-visible .work-thumb {
+      width: 132px;
+      height: 82px;
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
     .work-row .idx {
+      grid-area: idx;
       font-family: var(--font-mono);
       font-size: var(--fs-meta);
       color: var(--ink-faint);
@@ -253,6 +282,7 @@
     }
     .work-row:hover .idx { color: var(--accent); }
     .work-row .name {
+      grid-area: name;
       font-family: var(--font-display);
       font-weight: 500;
       font-size: clamp(1.375rem, 0.9vw + 1rem, 1.875rem);
@@ -264,6 +294,7 @@
     [data-theme="dark"] .work-row:hover .name,
     :root:not([data-theme="light"]) .work-row:hover .name { color: var(--accent); }
     .work-row .cat {
+      grid-area: cat;
       font-family: var(--font-mono);
       font-size: var(--fs-meta);
       letter-spacing: 0.1em;
@@ -271,17 +302,19 @@
       color: var(--ink-soft);
     }
     .work-row .blurb {
+      grid-area: blurb;
       font-size: var(--fs-small);
       line-height: 1.55;
       color: var(--ink-soft);
     }
     .work-row .arrow {
+      grid-area: arrow;
       font-family: var(--font-mono);
       color: var(--ink-faint);
-      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.3s;
+      transition: transform 0.24s ease, color 0.24s ease;
       text-align: right;
     }
-    .work-row:hover .arrow { color: var(--accent); transform: translateX(6px); }
+    .work-row:hover .arrow { color: var(--accent); transform: translateX(3px); }
     .work-row .ext-tag {
       display: inline-block;
       font-family: var(--font-mono);
@@ -309,6 +342,9 @@
         row-gap: var(--sp-2);
       }
       .work-row .idx   { grid-area: idx; }
+      .work-row .work-thumb {
+        display: none;
+      }
       .work-row .name  { grid-area: name; }
       .work-row .cat   { grid-area: cat; }
       .work-row .blurb { grid-area: blurb; }
@@ -922,93 +958,67 @@
 <section class="container home-section" id="work">
   <div class="section-marker"><span class="eyebrow">01 · Selected Work</span></div>
 
-  <!-- Featured: BookNest -->
-  <article class="featured">
-    <a href="booknest.html">
-      <figure class="featured-art image-frame">
-        <img src="assets/booknest/hero.png" alt="BookNest — isometric composition of selected screens" />
-      </figure>
-    </a>
-    <div class="featured-text">
-      <a href="booknest.html">
-        <span class="eyebrow">Case study · 2025</span>
-        <h3 class="case-title">BookNest</h3>
-        <p class="case-meta">UX research · Product design · 12 weeks</p>
-        <p class="case-desc">
-          A reading platform designed for behaviour, not engagement. Twelve weeks, sixty-five
-          surveys, twenty-four interviews — followed by a calm, emotion-led product built around
-          discovery, gentle streaks, and small clubs.
-        </p>
-        <span class="case-cta">Read the case study →</span>
-      </a>
-    </div>
-  </article>
-
-  <!-- Featured: Ping Browser (flipped — image right) -->
-  <article class="featured flip">
-    <a href="ping.html">
-      <figure class="featured-art image-frame">
-        <img src="assets/ping/mockup.png" alt="Ping Browser — website on laptop and tablet" />
-      </figure>
-    </a>
-    <div class="featured-text">
-      <a href="ping.html">
-        <span class="eyebrow">Internship case study · 2024</span>
-        <h3 class="case-title">Ping Browser</h3>
-        <p class="case-meta">UX/UI design intern · Website · Dashboard · Design system</p>
-        <p class="case-desc">
-          A Chromium-based enterprise browser for remote teams. I redesigned the website,
-          built a design system from scratch on top of shadcn, and designed the full
-          dashboard — from login to the most complex policy creation flow.
-        </p>
-        <span class="case-cta">Read the case study →</span>
-      </a>
-    </div>
-  </article>
-
-  <!-- Other projects -->
   <div class="work-list">
+    <a class="work-row" href="booknest.html">
+      <span class="idx">01</span>
+      <img class="work-thumb" src="assets/booknest/hero.png" alt="BookNest thumbnail" />
+      <span class="name">BookNest <span class="ext-tag featured">Case study</span></span>
+      <span class="cat">UX research · Product design</span>
+      <span class="blurb">A reading platform designed for behaviour, discovery, gentle streaks, and small clubs.</span>
+      <span class="arrow">→</span>
+    </a>
+    <a class="work-row" href="ping.html">
+      <span class="idx">02</span>
+      <img class="work-thumb" src="assets/ping/mockup.png" alt="Ping Browser thumbnail" />
+      <span class="name">Ping Browser <span class="ext-tag featured">Case study</span></span>
+      <span class="cat">UX/UI design · Website · Dashboard</span>
+      <span class="blurb">A Chromium-based enterprise browser website, dashboard, and design system.</span>
+      <span class="arrow">→</span>
+    </a>
     <a class="work-row" href="https://saumyadimri.framer.website/data-platform" target="_blank" rel="noopener">
       <span class="idx">03</span>
+      <img class="work-thumb" src="assets/financial data platform/thumbnail.png" alt="Financial Data Platform thumbnail" />
       <span class="name">Financial Data Platform <span class="ext-tag">Framer</span></span>
-      <span class="cat">Data platform · 3 days</span>
+      <span class="cat">Data platform</span>
       <span class="blurb">Interface for browsing, comparing, and acting on financial data streams.</span>
       <span class="arrow">↗</span>
     </a>
     <a class="work-row" href="https://www.behance.net/gallery/202496381/IRCTC-Website-Redesign-UIUX-Case-Study" target="_blank" rel="noopener">
       <span class="idx">04</span>
+      <img class="work-thumb" src="assets/IRCTC/Thumbnail.png" alt="IRCTC Redesign thumbnail" />
       <span class="name">IRCTC Redesign <span class="ext-tag">Behance</span></span>
-      <span class="cat">UI/UX case study · 12 days</span>
+      <span class="cat">UI/UX case study</span>
       <span class="blurb">Rethinking India's railway booking platform from a frequent-traveller's view.</span>
       <span class="arrow">↗</span>
     </a>
     <a class="work-row" href="https://saumyadimri.framer.website/lifelog" target="_blank" rel="noopener">
       <span class="idx">05</span>
+      <img class="work-thumb" src="assets/lifelog/Thumbnail.png" alt="Lifelog thumbnail" />
       <span class="name">Lifelog <span class="ext-tag">Framer</span></span>
-      <span class="cat">Adobe Designathon · 7 hours</span>
-      <span class="blurb">A photo-memory app built in seven hours for the Adobe Designathon.</span>
+      <span class="cat">Adobe Designathon</span>
+      <span class="blurb">A photo-memory app built for the Adobe Designathon.</span>
       <span class="arrow">↗</span>
     </a>
     <a class="work-row" href="https://www.behance.net/gallery/214995291/CHATURAAJ-Indian-Board-Game-design" target="_blank" rel="noopener">
       <span class="idx">06</span>
+      <img class="work-thumb" src="assets/chaturaaj/DSC01945.JPG" alt="Chaturaaj thumbnail" />
       <span class="name">Chaturaaj <span class="ext-tag">Behance</span></span>
-      <span class="cat">Board game design · 5 days</span>
+      <span class="cat">Board game design</span>
       <span class="blurb">A modern Indian board game — rules, board, pieces, and packaging.</span>
       <span class="arrow">↗</span>
     </a>
     <a class="work-row" href="https://saumyadimri.framer.website/piscivore" target="_blank" rel="noopener">
       <span class="idx">07</span>
+      <img class="work-thumb" src="assets/piscivore/Thumbnail.png" alt="Piscivore thumbnail" />
       <span class="name">Piscivore <span class="ext-tag">Framer</span></span>
-      <span class="cat">Branding · 2 days</span>
+      <span class="cat">Branding</span>
       <span class="blurb">Brand identity, packaging, and web for a fish-food company.</span>
       <span class="arrow">↗</span>
     </a>
     <a class="work-row" href="dataviz.html">
       <span class="idx">08</span>
-      <span class="name" style="display:flex;align-items:center;gap:10px;">
-        <img src="assets/fun/plant.jpg" alt="" class="thumb" onerror="this.style.display='none'" />
-        I Was Going to Study Plants <span class="ext-tag">Side project</span>
-      </span>
+      <img class="work-thumb" src="assets/I was going to study plants/plant.jpeg" alt="Plant thumbnail" />
+      <span class="name">I Was Going to Study Plants <span class="ext-tag">Side project</span></span>
       <span class="cat">Data viz · Somatic memory</span>
       <span class="blurb">Tracking conditioned emotional responses across place, sound, and experience.</span>
       <span class="arrow">→</span>
@@ -1038,13 +1048,13 @@
           <p>Procreate character studies and brush experiments.</p>
         </div>
       </article>
-      <article class="bento-tile pattern" style="--c: #F3B84A;">
-        <div class="stand-in">Pixel mascots</div>
+      <a class="bento-tile pattern" href="momscookbook.html" style="--c: #D96C4F;">
+        <div class="stand-in">Mom's Cookbook</div>
         <div class="overlay">
-          <h4>Pixel mascots</h4>
-          <p>Tiny characters for an old game idea.</p>
+          <h4>Mom's Cookbook</h4>
+          <p>A family recipe book in progress.</p>
         </div>
-      </article>
+      </a>
       <article class="bento-tile pattern" style="--c: #4CAE70;">
         <div class="stand-in">Generative coastlines</div>
         <div class="overlay">
@@ -1184,7 +1194,7 @@
   </div>
 
   <div class="contact-links" id="contact">
-    <a href="mailto:sdimri@adobe.com"><span class="platform">Email</span> sdimri@adobe.com</a>
+    <a href="mailto:saumyadimri28@gmail.com"><span class="platform">Email</span> saumyadimri28@gmail.com</a>
     <a href="https://www.linkedin.com/in/saumyadimri/" target="_blank" rel="noopener"><span class="platform">LinkedIn</span> /saumyadimri</a>
     <a href="https://drive.google.com/file/d/1gLmiocWv176E3KY-0CdGejZvzV-Gx7Ur/view?usp=sharing" target="_blank" rel="noopener"><span class="platform">Resume</span> View PDF ↗</a>
     <a href="https://saumyadimri.framer.website/" target="_blank" rel="noopener"><span class="platform">Framer (old)</span> saumyadimri</a>

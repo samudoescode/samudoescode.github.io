@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mom's Cookbook - Saumya Dimri</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Serif+Lao:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="design-system.css">
+  <style>
+    body {
+      min-height: 100vh;
+    }
+
+    .titlebar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: color-mix(in srgb, var(--paper) 92%, transparent);
+      border-bottom: 1px solid var(--rule);
+      backdrop-filter: blur(14px);
+    }
+
+    .titlebar-inner {
+      max-width: var(--container);
+      margin-inline: auto;
+      padding: 12px var(--gutter);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--sp-4);
+    }
+
+    .tb-title,
+    .tb-menu {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+    }
+
+    .tb-title,
+    .tb-menu a {
+      font-family: var(--font-mono);
+      font-size: var(--fs-meta);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--ink-soft);
+    }
+
+    .tb-title:hover,
+    .tb-menu a:hover,
+    .tb-menu a.is-active {
+      color: var(--accent);
+    }
+
+    .tb-title .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: inline-block;
+    }
+
+    .tb-title .sep {
+      color: var(--ink-faint);
+    }
+
+    .cookbook-page {
+      padding-block: var(--sp-20);
+    }
+
+    .back-link {
+      display: inline-flex;
+      margin-bottom: var(--sp-10);
+      font-family: var(--font-mono);
+      font-size: var(--fs-meta);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--ink-soft);
+    }
+
+    .back-link:hover {
+      color: var(--accent);
+    }
+
+    .cookbook-header {
+      margin-bottom: var(--sp-10);
+    }
+
+    .cookbook-header h1 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: var(--fs-hero);
+      line-height: 1;
+      color: var(--ink);
+    }
+
+    .cookbook-header p {
+      max-width: 58ch;
+      margin: var(--sp-5) 0 0;
+      font-size: var(--fs-lead);
+      color: var(--ink-soft);
+    }
+
+    .cookbook-embed {
+      overflow: hidden;
+      border: 1px solid var(--rule-strong);
+      border-radius: var(--r-3);
+      background: var(--paper-2);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .fp-iframe {
+      display: block;
+      width: 100%;
+      height: min(76vh, 720px);
+      min-height: 420px;
+      border: 0;
+      background: var(--paper-2);
+    }
+
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-6);
+      margin-top: var(--sp-16);
+      padding-top: var(--sp-6);
+      border-top: 1px solid var(--rule);
+    }
+
+    .contact-links a {
+      font-family: var(--font-mono);
+      font-size: var(--fs-small);
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 6px;
+      border-bottom: 1px solid transparent;
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .contact-links a:hover {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .contact-links a .platform {
+      font-size: 0.6875rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+
+    .footer {
+      border-top: 1px solid var(--rule);
+      padding-block: var(--sp-6);
+      color: var(--ink-faint);
+    }
+
+    .footer-inner {
+      max-width: var(--container);
+      margin-inline: auto;
+      padding-inline: var(--gutter);
+      display: flex;
+      justify-content: space-between;
+      gap: var(--sp-4);
+      flex-wrap: wrap;
+      font-family: var(--font-mono);
+      font-size: var(--fs-meta);
+      letter-spacing: 0.06em;
+    }
+
+    .footer-inner a {
+      color: var(--ink-soft);
+      text-decoration: none;
+    }
+
+    .footer-inner a:hover {
+      color: var(--accent);
+    }
+
+    @media (max-width: 720px) {
+      .titlebar-inner,
+      .tb-menu {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .cookbook-page {
+        padding-block: var(--sp-12);
+      }
+
+      .fp-iframe {
+        height: 520px;
+        min-height: 360px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="titlebar">
+    <div class="titlebar-inner">
+      <a class="tb-title" href="index.html">
+        <span class="dot"></span>
+        <span>saumya</span>
+        <span class="sep">-</span>
+        <span>portfolio</span>
+      </a>
+      <nav class="tb-menu" aria-label="Portfolio navigation">
+        <a href="index.html#work">Work</a>
+        <a href="index.html#fun" class="is-active">Fun</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container cookbook-page">
+    <a class="back-link" href="index.html#fun">Back to Fun Corner</a>
+
+    <header class="cookbook-header">
+      <h1>Mom's Cookbook</h1>
+      <p>A family recipe book in progress. More context, notes, and images can live here later.</p>
+    </header>
+
+    <section class="cookbook-embed" aria-label="Mom's Cookbook flip book">
+      <iframe allowfullscreen="allowfullscreen" allow="clipboard-write" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/d4ed04f156.html"></iframe>
+    </section>
+
+    <div class="contact-links" id="contact">
+      <a href="mailto:saumyadimri28@gmail.com"><span class="platform">Email</span> saumyadimri28@gmail.com</a>
+      <a href="https://www.linkedin.com/in/saumyadimri/" target="_blank" rel="noopener"><span class="platform">LinkedIn</span> /saumyadimri</a>
+      <a href="https://drive.google.com/file/d/1gLmiocWv176E3KY-0CdGejZvzV-Gx7Ur/view?usp=sharing" target="_blank" rel="noopener"><span class="platform">Resume</span> View PDF</a>
+      <a href="https://saumyadimri.framer.website/" target="_blank" rel="noopener"><span class="platform">Framer (old)</span> saumyadimri</a>
+      <a href="retro.html"><span class="platform">Easter egg</span> The retro desktop</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span>© 2026 Saumya Dimri</span>
+      <a href="retro.html">Open the retro desktop</a>
+    </div>
+  </footer>
+</body>
+</html>
