@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ping Browser — Saumya</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Serif+Lao:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@200,300,400,500,600,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="design-system.css">
+
+  <style>
+    /* -------------------------------------------------------
+       Ping case study — page-specific styles
+       ------------------------------------------------------- */
+
+    .case-prose { max-width: 65ch; }
+    .case-prose p { line-height: 1.7; margin: 0 0 var(--sp-4); }
+    .case-prose p:last-child { margin-bottom: 0; }
+    .case-prose strong { color: var(--ink); font-weight: 600; }
+
+    /* Hero */
+    .case-hero { padding-block: var(--sp-24) var(--sp-12); }
+    .case-hero .subtitle {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(1.125rem, 0.4vw + 1rem, 1.375rem);
+      color: var(--ink-soft);
+      margin-top: var(--sp-2);
+    }
+    .case-hero .lead { margin-top: var(--sp-8); max-width: 60ch; }
+    .case-hero .meta-row { margin-top: var(--sp-12); }
+
+    /* Project section heading */
+    .project-marker {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-4);
+      margin-bottom: var(--sp-8);
+    }
+    .project-num {
+      font-family: var(--font-mono);
+      font-size: clamp(2rem, 2vw + 1rem, 3rem);
+      font-weight: 400;
+      color: var(--accent);
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .project-divider { flex: 1; height: 1px; background: var(--rule); }
+
+    /* Two-column body blocks */
+    .two-col-body {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: var(--sp-16);
+      align-items: start;
+      margin-top: var(--sp-8);
+    }
+    @media (max-width: 860px) { .two-col-body { grid-template-columns: 1fr; gap: var(--sp-8); } }
+    .col-label {
+      font-family: var(--font-mono);
+      font-size: var(--fs-meta);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      display: block;
+      margin-bottom: var(--sp-4);
+    }
+
+    /* Challenge cards */
+    .challenge-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-4);
+      margin-top: var(--sp-8);
+    }
+    @media (max-width: 860px) { .challenge-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 500px)  { .challenge-grid { grid-template-columns: 1fr; } }
+    .challenge {
+      padding: var(--sp-6);
+      background: var(--paper-2);
+      border: 1px solid var(--rule);
+      border-radius: var(--r-3);
+    }
+    .challenge .icon { font-size: 20px; display: block; margin-bottom: var(--sp-3); }
+    .challenge h4 {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: var(--fs-small);
+      margin: 0 0 var(--sp-2);
+      color: var(--ink);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .challenge p { font-size: var(--fs-small); line-height: 1.6; color: var(--ink-soft); margin: 0; }
+
+    /* Images */
+    .img-full {
+      margin-top: var(--sp-10);
+      border-radius: var(--r-3);
+      overflow: hidden;
+      border: 1px solid var(--rule);
+    }
+    .img-full img { width: 100%; height: auto; display: block; }
+
+    .img-row {
+      display: grid;
+      gap: var(--sp-4);
+      margin-top: var(--sp-6);
+    }
+    .img-row.cols-2 { grid-template-columns: 1fr 1fr; }
+    .img-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+    @media (max-width: 720px) {
+      .img-row.cols-2,
+      .img-row.cols-3 { grid-template-columns: 1fr; }
+    }
+    .img-row figure { margin: 0; }
+    .img-row img {
+      width: 100%; height: auto; display: block;
+      border-radius: var(--r-3);
+      border: 1px solid var(--rule);
+      transition: transform 0.45s cubic-bezier(0.34, 1.4, 0.64, 1), box-shadow 0.35s ease;
+    }
+    .img-row img:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 20px 44px -14px rgba(0,0,0,0.55);
+    }
+
+    /* Design system component chips */
+    .component-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: var(--sp-3);
+      margin-top: var(--sp-6);
+    }
+    .component-item {
+      padding: var(--sp-4) var(--sp-5);
+      background: var(--paper-2);
+      border: 1px solid var(--rule);
+      border-radius: var(--r-3);
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+    }
+    .component-item .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+    .component-item span {
+      font-family: var(--font-mono);
+      font-size: var(--fs-small);
+      color: var(--ink-soft);
+      letter-spacing: 0.03em;
+    }
+
+    /* ── Dashboard carousel ─────────────────────────── */
+    /* .carousel-outer  → position:relative, holds arrows + viewport
+       .carousel-viewport → overflow:hidden — the actual clip boundary
+       .carousel-track    → display:flex, gets translateX applied
+       .carousel-slide    → 82% width so next slide peeks on the right      */
+    .carousel-outer {
+      position: relative;
+      margin-top: var(--sp-12);
+    }
+    .carousel-viewport {
+      overflow: hidden;
+      border-radius: var(--r-3);
+    }
+    .carousel-track {
+      display: flex;
+      gap: 16px;
+      will-change: transform;
+    }
+    .carousel-slide {
+      flex: 0 0 calc(82% - 8px);
+      min-width: 0;
+    }
+    @media (max-width: 860px) { .carousel-slide { flex: 0 0 calc(91% - 8px); } }
+    @media (max-width: 500px)  { .carousel-slide { flex: 0 0 100%; } }
+
+    /* Arrows — float on the left/right edges, vertically centered in the frame */
+    .carousel-arrow {
+      position: absolute;
+      top: 270px; /* half of 540px scroll-frame height */
+      transform: translateY(-50%);
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--paper-2);
+      border: 1px solid var(--rule-strong);
+      border-radius: 50%;
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      line-height: 1;
+      color: var(--ink);
+      cursor: pointer;
+      z-index: 10;
+      transition: background 0.2s, border-color 0.2s, color 0.2s,
+                  transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 4px 14px -6px rgba(0,0,0,0.5);
+    }
+    .carousel-arrow.prev { left: 12px; }
+    .carousel-arrow.next { right: 12px; }
+    .carousel-arrow:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #1a1a1a;
+      transform: translateY(-50%) scale(1.08);
+    }
+    .carousel-arrow:disabled {
+      opacity: 0.2;
+      cursor: default;
+      pointer-events: none;
+    }
+    .carousel-footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-top: var(--sp-3);
+    }
+    .carousel-counter {
+      font-family: var(--font-mono);
+      font-size: var(--fs-meta);
+      letter-spacing: 0.1em;
+      color: var(--ink-faint);
+    }
+
+    /* ── Scrollable image frame ──────────────────────── */
+    /* Fixed-height container. Cursor inside = frame scrolls.
+       Cursor outside = page scrolls. No JS needed. */
+    .scroll-frame-wrap {
+      position: relative;
+      border-radius: var(--r-3);
+      border: 1px solid var(--rule);
+      overflow: hidden;
+      margin-top: var(--sp-6);
+    }
+    .scroll-frame {
+      height: 540px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      overscroll-behavior: contain;
+      cursor: ns-resize;
+      scrollbar-width: thin;
+      scrollbar-color: var(--rule-strong) transparent;
+    }
+    .scroll-frame::-webkit-scrollbar { width: 6px; }
+    .scroll-frame::-webkit-scrollbar-thumb { background: var(--rule-strong); border-radius: 999px; }
+    .scroll-frame img { width: 100%; display: block; }
+
+    /* Gradient fade at bottom signals more to scroll */
+    .scroll-frame-wrap::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 64px;
+      background: linear-gradient(to top, var(--paper) 0%, transparent 100%);
+      pointer-events: none;
+      transition: opacity 0.4s;
+    }
+    /* Scroll hint label */
+    .scroll-hint {
+      position: absolute;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-mono);
+      font-size: var(--fs-meta);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .scroll-hint svg {
+      animation: scrollBounce 1.6s ease-in-out infinite;
+    }
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(3px); }
+    }
+    @media (prefers-reduced-motion: reduce) { .scroll-hint svg { animation: none; } }
+
+    /* Full-viewport hero mockup */
+    .hero-mockup {
+      border-radius: var(--r-3);
+      overflow: hidden;
+      background: #b8c8e8; /* matches the image bg color */
+      margin-top: var(--sp-4);
+    }
+    .hero-mockup img { width: 100%; height: auto; display: block; }
+
+    /* Policy type chips */
+    .policy-types {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-2);
+      margin-top: var(--sp-4);
+    }
+    .policy-chip {
+      font-family: var(--font-mono);
+      font-size: var(--fs-meta);
+      letter-spacing: 0.06em;
+      padding: 5px 12px;
+      background: var(--paper-2);
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+      color: var(--ink-soft);
+    }
+    .policy-chip.hi {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--ink);
+    }
+
+    /* Reflection cards */
+    .reflection-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-6);
+      margin-top: var(--sp-8);
+    }
+    @media (max-width: 720px) { .reflection-grid { grid-template-columns: 1fr; } }
+    .reflection-card {
+      padding: var(--sp-6);
+      background: var(--paper-2);
+      border: 1px solid var(--rule);
+      border-radius: var(--r-3);
+    }
+    .reflection-card .lbl {
+      font-family: var(--font-mono);
+      font-size: var(--fs-meta);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      display: block;
+      margin-bottom: var(--sp-3);
+    }
+    .reflection-card p {
+      font-size: var(--fs-small);
+      line-height: 1.65;
+      color: var(--ink-soft);
+      margin: 0;
+    }
+
+    /* "See more" contact strip */
+    .see-more {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--sp-8);
+      padding: var(--sp-8) var(--sp-8);
+      background: var(--paper-2);
+      border: 1px solid var(--rule);
+      border-radius: var(--r-3);
+      margin-top: var(--sp-12);
+      flex-wrap: wrap;
+    }
+    .see-more .copy p {
+      font-size: var(--fs-small);
+      line-height: 1.65;
+      color: var(--ink-soft);
+      margin: var(--sp-2) 0 0;
+      max-width: 50ch;
+    }
+    .see-more .copy strong {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 1.25rem;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+    .see-more a.btn-contact {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 26px;
+      background: linear-gradient(135deg, #ffd76b 0%, #f5c64a 50%, #f0a830 100%);
+      color: #1a1a1a;
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 1rem;
+      text-decoration: none;
+      border-radius: 999px;
+      white-space: nowrap;
+      box-shadow: 0 6px 20px -8px rgba(245, 168, 48, 0.5);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+      flex-shrink: 0;
+    }
+    .see-more a.btn-contact:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px -8px rgba(245, 168, 48, 0.65);
+      background: linear-gradient(135deg, #ffe084 0%, #f7cf55 50%, #f3b13c 100%);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ───────── Title bar ───────── -->
+<header class="titlebar">
+  <div class="titlebar-inner">
+    <a class="tb-title" href="index.html">
+      <span class="dot"></span>
+      <span>saumya</span>
+      <span class="sep">—</span>
+      <span>portfolio</span>
+    </a>
+    <nav class="tb-menu">
+      <a href="index.html#work" class="is-active">Work</a>
+      <a href="index.html#fun">Fun</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+    <button class="tb-theme" id="themeToggle" aria-label="Toggle light / dark">
+      <span class="glyph icon-moon">☾</span>
+      <span class="glyph icon-sun">☀</span>
+    </button>
+    <div class="tb-controls" aria-hidden="true">
+      <button title="Minimize"><span class="glyph">−</span></button>
+      <button title="Maximize"><span class="glyph">☐</span></button>
+      <button class="tb-close" title="Close" onclick="window.location.href='index.html'"><span class="glyph">✕</span></button>
+    </div>
+  </div>
+</header>
+
+<!-- ───────── Hero ───────── -->
+<header class="case-hero container">
+  <span class="eyebrow">Internship Case Study · 2024</span>
+  <h1 class="title display" style="margin-top: var(--sp-4); max-width: 16ch;">Ping Browser.</h1>
+  <p class="subtitle">Website redesign · enterprise dashboard · design system.</p>
+  <p class="lead">
+    Ping is a Chromium-based enterprise browser that replaces legacy VDI infrastructure and gives
+    IT admins centralised control over how employees access company SaaS. I joined as a design
+    intern when the core technology was solid but the design layer hadn't kept pace — no design
+    system, a site that didn't sell the product, and a dashboard engineers were building without specs.
+  </p>
+  <div class="meta-row">
+    <div class="meta-item"><span class="label">Role</span><span class="value">UX/UI Design Intern</span></div>
+    <div class="meta-item"><span class="label">Company</span><span class="value">Ping Browser · Futureflare Technologies</span></div>
+    <div class="meta-item"><span class="label">Scope</span><span class="value">Website · Dashboard · Design system</span></div>
+    <div class="meta-item"><span class="label">Live</span><span class="value"><a href="https://ping-browser.com" target="_blank" rel="noopener" style="color:var(--ink);text-decoration:underline;text-underline-offset:3px;">ping-browser.com ↗</a></span></div>
+  </div>
+</header>
+
+<!-- Hero mockup -->
+<div class="container" style="padding-bottom: var(--sp-8);">
+  <div class="hero-mockup">
+    <img src="assets/ping/mockup.png" alt="Ping Browser — website shown on laptop and tablet" />
+  </div>
+</div>
+
+<!-- KPIs -->
+<section class="container" style="padding-block: var(--sp-8) var(--sp-16);">
+  <div class="kpi-row">
+    <div class="kpi"><span class="value">2</span><span class="label">Products shipped</span></div>
+    <div class="kpi"><span class="value">10+</span><span class="label">Design system components</span></div>
+    <div class="kpi"><span class="value">5</span><span class="label">Website pages built</span></div>
+    <div class="kpi"><span class="value">↑</span><span class="label">Traffic post-launch</span></div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     01 · Website Redesign
+     ═══════════════════════════════════════ -->
+<section class="container" style="padding-block: var(--sp-16);">
+  <div class="section-marker"><span class="eyebrow">01 · Website Redesign</span></div>
+
+  <div class="project-marker">
+    <span class="project-num">01</span>
+    <div class="project-divider"></div>
+  </div>
+
+  <h2 class="h1" style="max-width: 26ch;">Getting the product's value across to the people who buy it.</h2>
+
+  <div class="challenge-grid">
+    <div class="challenge">
+      <span class="icon">🧭</span>
+      <h4>Buried IA</h4>
+      <p>Key features were buried. The existing structure didn't answer visitor questions in the right order.</p>
+    </div>
+    <div class="challenge">
+      <span class="icon">📱</span>
+      <h4>Mobile-absent</h4>
+      <p>No tablet or mobile version, despite prospects browsing across devices before any sales call.</p>
+    </div>
+    <div class="challenge">
+      <span class="icon">🔍</span>
+      <h4>Weak SEO</h4>
+      <p>Limiting organic reach for a startup at a stage where every inbound visit counts.</p>
+    </div>
+  </div>
+
+  <div class="two-col-body" style="margin-top: var(--sp-16);">
+    <div>
+      <span class="col-label">Approach</span>
+      <div class="case-prose">
+        <p>
+          No access to user research or session recordings. I grounded decisions in the product itself —
+          understanding the technology before figuring out how to explain it to someone who'd never heard of it.
+        </p>
+        <p>
+          I audited the existing site first, then restructured the content hierarchy around a single
+          principle: <strong>what is this → why it matters → how it works → how to get it.</strong>
+        </p>
+      </div>
+    </div>
+    <div>
+      <span class="col-label">What I built</span>
+      <div class="case-prose">
+        <p>
+          All pages from scratch: homepage across three breakpoints, Ping Overlay product page, About Us,
+          Book a Demo, and Privacy Policy. I also generated and edited the illustrations used across the
+          site, adapting them to the visual language rather than dropping in stock assets.
+        </p>
+        <p>
+          After launch I set up GA4, handled production bug fixes, and used traffic data to drive
+          ongoing SEO improvements. Traffic grew consistently over the tracking period.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scrollable website screens -->
+  <div class="img-row cols-2" style="margin-top: var(--sp-10);">
+    <figure>
+      <div class="scroll-frame-wrap">
+        <div class="scroll-frame">
+          <img src="assets/ping/website-mobile.png" alt="Ping website — mobile view" />
+        </div>
+        <span class="scroll-hint">
+          <svg width="10" height="12" viewBox="0 0 10 12" fill="none">
+            <path d="M5 1v10M1 7l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          scroll inside
+        </span>
+      </div>
+      <figcaption class="figure-caption">Mobile — responsive build</figcaption>
+    </figure>
+    <figure>
+      <div class="scroll-frame-wrap">
+        <div class="scroll-frame">
+          <img src="assets/ping/about.png" alt="Ping About Us page" />
+        </div>
+        <span class="scroll-hint">
+          <svg width="10" height="12" viewBox="0 0 10 12" fill="none">
+            <path d="M5 1v10M1 7l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          scroll inside
+        </span>
+      </div>
+      <figcaption class="figure-caption">About Us page</figcaption>
+    </figure>
+  </div>
+
+  <!-- Contact strip for website -->
+  <div class="see-more">
+    <div class="copy">
+      <strong>Want to see the full website?</strong>
+      <p>The live site has all five pages — homepage, Ping Overlay, About, Book a Demo, and Privacy Policy — across desktop, tablet, and mobile. Happy to walk through the decisions.</p>
+    </div>
+    <a href="mailto:sdimri@adobe.com?subject=Ping Browser — website walkthrough" class="btn-contact">Get in touch →</a>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     02 · Dashboard + Design System
+     ═══════════════════════════════════════ -->
+<section class="container" style="padding-block: var(--sp-16);">
+  <div class="section-marker"><span class="eyebrow">02 · Dashboard System Redesign</span></div>
+
+  <div class="project-marker">
+    <span class="project-num">02</span>
+    <div class="project-divider"></div>
+  </div>
+
+  <h2 class="h1" style="max-width: 28ch;">Building the design system the engineering team didn't have.</h2>
+
+  <div class="callout" style="margin-top: var(--sp-8); max-width: 68ch;">
+    <span class="callout-label">The problem</span>
+    <p>The enterprise console — the tool IT admins live in daily — had no design system behind it. UI was inconsistent across screens, component specs didn't exist, and engineering was making visual decisions by default. Design and engineering weren't in sync.</p>
+  </div>
+
+  <!-- Dashboard carousel -->
+  <div class="carousel-outer">
+    <div class="carousel-viewport">
+      <div class="carousel-track" id="dashCarousel">
+
+        <div class="carousel-slide">
+          <div class="scroll-frame-wrap" style="margin-top:0;">
+            <div class="scroll-frame">
+              <img src="assets/ping/dashboard.png" alt="Dashboard" />
+            </div>
+            <span class="scroll-hint">
+              <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M5 1v10M1 7l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              scroll inside
+            </span>
+          </div>
+          <p class="figure-caption">Dashboard</p>
+        </div>
+
+        <div class="carousel-slide">
+          <div class="scroll-frame-wrap" style="margin-top:0;">
+            <div class="scroll-frame">
+              <img src="assets/ping/users.png" alt="Users management" />
+            </div>
+            <span class="scroll-hint">
+              <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M5 1v10M1 7l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              scroll inside
+            </span>
+          </div>
+          <p class="figure-caption">Users management</p>
+        </div>
+
+        <div class="carousel-slide">
+          <div class="scroll-frame-wrap" style="margin-top:0;">
+            <div class="scroll-frame">
+              <img src="assets/ping/policies.png" alt="Policy list" />
+            </div>
+            <span class="scroll-hint">
+              <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M5 1v10M1 7l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              scroll inside
+            </span>
+          </div>
+          <p class="figure-caption">Policy list</p>
+        </div>
+
+        <div class="carousel-slide">
+          <div class="scroll-frame-wrap" style="margin-top:0;">
+            <div class="scroll-frame">
+              <img src="assets/ping/login.png" alt="Login" />
+            </div>
+            <span class="scroll-hint">
+              <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M5 1v10M1 7l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              scroll inside
+            </span>
+          </div>
+          <p class="figure-caption">Login</p>
+        </div>
+
+      </div>
+    </div>
+    <!-- Arrows float on the left/right edges of the carousel -->
+    <button class="carousel-arrow prev" id="dashPrev" aria-label="Previous">←</button>
+    <button class="carousel-arrow next" id="dashNext" aria-label="Next">→</button>
+    <div class="carousel-footer">
+      <span class="carousel-counter" id="dashCounter">1 / 4</span>
+    </div>
+  </div>
+
+  <!-- Design system -->
+  <div class="section-marker" style="margin-top: var(--sp-16);"><span class="eyebrow">Design system</span></div>
+  <div class="two-col-body" style="margin-top: 0;">
+    <div>
+      <span class="col-label">Foundation</span>
+      <div class="case-prose">
+        <p>
+          Built on top of <strong>shadcn as a base</strong>, significantly extended with custom
+          components for Ping's specific needs. The goal wasn't just visual consistency — it was
+          giving engineers a documented set of components they could build from without having to
+          interpret design intent themselves.
+        </p>
+      </div>
+    </div>
+    <div>
+      <span class="col-label">Components shipped</span>
+      <div class="component-list">
+        <div class="component-item"><div class="dot"></div><span>Buttons — 3 variants, all states</span></div>
+        <div class="component-item"><div class="dot"></div><span>Nav menu items</span></div>
+        <div class="component-item"><div class="dot"></div><span>Cards (standard + ghost)</span></div>
+        <div class="component-item"><div class="dot"></div><span>Textarea with validation</span></div>
+        <div class="component-item"><div class="dot"></div><span>Contextual tooltips</span></div>
+        <div class="component-item"><div class="dot"></div><span>Alerts (confirm / warn / error)</span></div>
+        <div class="component-item"><div class="dot"></div><span>Policy lifecycle badges</span></div>
+        <div class="component-item"><div class="dot"></div><span>Policy update notifications</span></div>
+        <div class="component-item"><div class="dot"></div><span>Radio buttons + checkboxes</span></div>
+        <div class="component-item"><div class="dot"></div><span>Policy rule lists</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Policy creation -->
+  <div class="section-marker" style="margin-top: var(--sp-16);"><span class="eyebrow">The policy creation flow</span></div>
+  <div class="two-col-body" style="margin-top: 0;">
+    <div>
+      <span class="col-label">Why it was complex</span>
+      <div class="case-prose">
+        <p>
+          IT admins can configure a range of rules governing how employees interact with SaaS apps
+          inside the browser. Getting that into a usable form required understanding the rules themselves
+          — their types, states, and edge cases — before any design decisions could be made.
+        </p>
+        <p>
+          Multiple rounds with my manager, each surfacing something I hadn't accounted for. The
+          back-and-forth was what made the final flow hold up.
+        </p>
+      </div>
+    </div>
+    <div>
+      <span class="col-label">Policy types covered</span>
+      <div class="case-prose">
+        <p>Each policy type has its own form behaviour. I designed all of them across their full state range — empty, filled, edge cases, and policy-type resets.</p>
+      </div>
+      <div class="policy-types">
+        <span class="policy-chip hi">Clipboard</span>
+        <span class="policy-chip">Contract Protection</span>
+        <span class="policy-chip">Ping Override</span>
+        <span class="policy-chip">Logging</span>
+        <span class="policy-chip">AI</span>
+        <span class="policy-chip">Access</span>
+        <span class="policy-chip">File</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2 policy screens — scrollable -->
+  <div class="img-row cols-2" style="margin-top: var(--sp-8);">
+    <figure>
+      <div class="scroll-frame-wrap">
+        <div class="scroll-frame">
+          <img src="assets/ping/create-policy-1.png" alt="Create policy — empty state" />
+        </div>
+        <span class="scroll-hint">
+          <svg width="10" height="12" viewBox="0 0 10 12" fill="none">
+            <path d="M5 1v10M1 7l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          scroll inside
+        </span>
+      </div>
+      <figcaption class="figure-caption">Policy creation — empty state</figcaption>
+    </figure>
+    <figure>
+      <div class="scroll-frame-wrap">
+        <div class="scroll-frame">
+          <img src="assets/ping/create-policy-form.png" alt="Create policy — filled form" />
+        </div>
+        <span class="scroll-hint">
+          <svg width="10" height="12" viewBox="0 0 10 12" fill="none">
+            <path d="M5 1v10M1 7l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          scroll inside
+        </span>
+      </div>
+      <figcaption class="figure-caption">Policy creation — happy path</figcaption>
+    </figure>
+  </div>
+
+  <!-- Contact strip for dashboard -->
+  <div class="see-more">
+    <div class="copy">
+      <strong>Full dashboard available on request.</strong>
+      <p>The complete set includes login, dashboard, users, all 7 policy types across empty + happy path + edge cases, approval modals, and the design system component library. Reach out and I'll share the Figma file.</p>
+    </div>
+    <a href="mailto:sdimri@adobe.com?subject=Ping Browser — dashboard Figma" class="btn-contact">Get in touch →</a>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     03 · Reflection
+     ═══════════════════════════════════════ -->
+<section class="container" style="padding-block: var(--sp-16);">
+  <div class="section-marker"><span class="eyebrow">03 · Reflection</span></div>
+  <h2 class="h1" style="max-width: 26ch;">Designing for real complexity, under real constraints.</h2>
+
+  <div class="reflection-grid">
+    <div class="reflection-card">
+      <span class="lbl">Domain first</span>
+      <p>This internship taught me how much of UX is about understanding the domain before touching design tools. The policy flow only held up because I understood policies — not just their UI, but their logic and edge cases.</p>
+    </div>
+    <div class="reflection-card">
+      <span class="lbl">No research, still rigorous</span>
+      <p>No user testing, no session data. I grounded decisions in the product itself: learning what Ping does technically before designing how to explain it. Constraints made the thinking sharper.</p>
+    </div>
+    <div class="reflection-card">
+      <span class="lbl">Design systems ship to engineers</span>
+      <p>The system wasn't for design reviews — it was for the engineers building from it. Clear states, documented variants, no ambiguity. That's what made the adoption stick.</p>
+    </div>
+    <div class="reflection-card">
+      <span class="lbl">Side exploration</span>
+      <p>Alongside the main work, I ran roughly 20 iterations on the Ping browser's home screen — exploring directions for what a premium enterprise new-tab page could feel like. This was exploratory only, not shipped.</p>
+    </div>
+  </div>
+
+  <div class="kpi-row" style="margin-top: var(--sp-12);">
+    <div class="kpi"><span class="value">Live</span><span class="label">Website shipped &amp; maintained</span></div>
+    <div class="kpi"><span class="value">Adopted</span><span class="label">Design system in production use</span></div>
+    <div class="kpi"><span class="value">↑ Traffic</span><span class="label">Post-launch growth via GA4</span></div>
+  </div>
+</section>
+
+<!-- ───────── Footer ───────── -->
+<footer class="footer">
+  <div class="footer-inner">
+    <a href="index.html" class="footer-nav">← Back to portfolio</a>
+    <a href="booknest.html" class="footer-nav">Next: BookNest →</a>
+  </div>
+</footer>
+
+<script>
+  // Theme toggle
+  (function () {
+    const root = document.documentElement;
+    const KEY = 'theme';
+    const saved = localStorage.getItem(KEY) || 'dark';
+    root.dataset.theme = saved;
+    const btn = document.getElementById('themeToggle');
+    if (btn) btn.addEventListener('click', () => {
+      const next = root.dataset.theme === 'light' ? 'dark' : 'light';
+      root.dataset.theme = next;
+      localStorage.setItem(KEY, next);
+    });
+  })();
+
+  // Dashboard carousel
+  (function () {
+    const track   = document.getElementById('dashCarousel');
+    const prev    = document.getElementById('dashPrev');
+    const next    = document.getElementById('dashNext');
+    const counter = document.getElementById('dashCounter');
+    if (!track || !prev || !next) return;
+
+    const slides = Array.from(track.querySelectorAll('.carousel-slide'));
+    const total  = slides.length;
+    let idx      = 0;
+
+    function stepWidth() {
+      // offsetWidth + gap between slides
+      return slides[0].offsetWidth + 16;
+    }
+
+    function go(n, animate) {
+      idx = Math.max(0, Math.min(n, total - 1));
+      track.style.transition = animate
+        ? 'transform 0.45s cubic-bezier(0.4, 0, 0.2, 1)'
+        : 'none';
+      track.style.transform  = `translateX(-${idx * stepWidth()}px)`;
+      counter.textContent    = `${idx + 1} / ${total}`;
+      prev.disabled          = idx === 0;
+      next.disabled          = idx === total - 1;
+    }
+
+    prev.addEventListener('click', () => go(idx - 1, true));
+    next.addEventListener('click', () => go(idx + 1, true));
+
+    // Init after layout
+    requestAnimationFrame(() => go(0, false));
+  })();
+</script>
+
+</body>
+</html>

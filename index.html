@@ -131,16 +131,35 @@
     .home-section { padding-block: var(--sp-16); }
     .home-section h2.h1 { margin-top: var(--sp-2); margin-bottom: var(--sp-8); }
 
-    /* ---- Featured case study card (BookNest) ---- */
+    /* ---- Featured case study cards ---- */
     .featured {
       display: grid;
       grid-template-columns: 1.1fr 1fr;
       gap: var(--sp-12);
       align-items: center;
       padding-block: var(--sp-6);
+      border-bottom: 1px solid var(--rule);
     }
-    @media (max-width: 860px) { .featured { grid-template-columns: 1fr; gap: var(--sp-6); } }
+    .featured:last-of-type { border-bottom: none; }
+    /* Alternate: flip image to right on even cards */
+    .featured.flip { grid-template-columns: 1fr 1.1fr; }
+    .featured.flip .featured-text { order: -1; }
+    @media (max-width: 860px) {
+      .featured,
+      .featured.flip { grid-template-columns: 1fr; gap: var(--sp-6); }
+      .featured.flip .featured-text { order: 0; }
+    }
     .featured a { text-decoration: none; color: inherit; display: block; }
+
+    /* Work row with thumbnail */
+    .work-row .thumb {
+      width: 48px; height: 36px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid var(--rule);
+      flex-shrink: 0;
+      display: block;
+    }
     .featured .featured-art {
       border-radius: var(--r-3);
       overflow: hidden;
@@ -912,7 +931,7 @@
     </a>
     <div class="featured-text">
       <a href="booknest.html">
-        <span class="eyebrow">Featured case study · 2025</span>
+        <span class="eyebrow">Case study · 2025</span>
         <h3 class="case-title">BookNest</h3>
         <p class="case-meta">UX research · Product design · 12 weeks</p>
         <p class="case-desc">
@@ -925,15 +944,30 @@
     </div>
   </article>
 
+  <!-- Featured: Ping Browser (flipped — image right) -->
+  <article class="featured flip">
+    <a href="ping.html">
+      <figure class="featured-art image-frame">
+        <img src="assets/ping/mockup.png" alt="Ping Browser — website on laptop and tablet" />
+      </figure>
+    </a>
+    <div class="featured-text">
+      <a href="ping.html">
+        <span class="eyebrow">Internship case study · 2024</span>
+        <h3 class="case-title">Ping Browser</h3>
+        <p class="case-meta">UX/UI design intern · Website · Dashboard · Design system</p>
+        <p class="case-desc">
+          A Chromium-based enterprise browser for remote teams. I redesigned the website,
+          built a design system from scratch on top of shadcn, and designed the full
+          dashboard — from login to the most complex policy creation flow.
+        </p>
+        <span class="case-cta">Read the case study →</span>
+      </a>
+    </div>
+  </article>
+
   <!-- Other projects -->
   <div class="work-list">
-    <a class="work-row" href="https://ping-browser.com/" target="_blank" rel="noopener">
-      <span class="idx">02</span>
-      <span class="name">Ping <span class="ext-tag">Live site</span></span>
-      <span class="cat">Browser tools · 3 months</span>
-      <span class="blurb">Browser extension and toolkit for context-aware notifications.</span>
-      <span class="arrow">↗</span>
-    </a>
     <a class="work-row" href="https://saumyadimri.framer.website/data-platform" target="_blank" rel="noopener">
       <span class="idx">03</span>
       <span class="name">Financial Data Platform <span class="ext-tag">Framer</span></span>
@@ -968,6 +1002,16 @@
       <span class="cat">Branding · 2 days</span>
       <span class="blurb">Brand identity, packaging, and web for a fish-food company.</span>
       <span class="arrow">↗</span>
+    </a>
+    <a class="work-row" href="dataviz.html">
+      <span class="idx">08</span>
+      <span class="name" style="display:flex;align-items:center;gap:10px;">
+        <img src="assets/fun/plant.jpg" alt="" class="thumb" onerror="this.style.display='none'" />
+        I Was Going to Study Plants <span class="ext-tag">Side project</span>
+      </span>
+      <span class="cat">Data viz · Somatic memory</span>
+      <span class="blurb">Tracking conditioned emotional responses across place, sound, and experience.</span>
+      <span class="arrow">→</span>
     </a>
   </div>
 </section>
