@@ -442,7 +442,7 @@
   </p>
   <div class="meta-row">
     <div class="meta-item"><span class="label">Role</span><span class="value">UX/UI Design Intern</span></div>
-    <div class="meta-item"><span class="label">Company</span><span class="value">Ping Browser · Futureflare Technologies</span></div>
+    <div class="meta-item"><span class="label">Company</span><span class="value">Ping Browser</span></div>
     <div class="meta-item"><span class="label">Scope</span><span class="value">Website · Dashboard · Design system</span></div>
     <div class="meta-item"><span class="label">Live</span><span class="value"><a href="https://ping-browser.com" target="_blank" rel="noopener" style="color:var(--ink);text-decoration:underline;text-underline-offset:3px;">ping-browser.com ↗</a></span></div>
   </div>
@@ -559,14 +559,6 @@
     </figure>
   </div>
 
-  <!-- Contact strip for website -->
-  <div class="see-more">
-    <div class="copy">
-      <strong>Want to see the full website?</strong>
-      <p>The live site has all five pages — homepage, Ping Overlay, About, Book a Demo, and Privacy Policy — across desktop, tablet, and mobile. Happy to walk through the decisions.</p>
-    </div>
-    <a href="mailto:sdimri@adobe.com?subject=Ping Browser — website walkthrough" class="btn-contact">Get in touch →</a>
-  </div>
 </section>
 
 <!-- ═══════════════════════════════════════
@@ -636,10 +628,6 @@
             <div class="scroll-frame">
               <img src="assets/ping/login.png" alt="Login" />
             </div>
-            <span class="scroll-hint">
-              <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M5 1v10M1 7l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              scroll inside
-            </span>
           </div>
           <p class="figure-caption">Login</p>
         </div>
@@ -754,10 +742,10 @@
   <!-- Contact strip for dashboard -->
   <div class="see-more">
     <div class="copy">
-      <strong>Full dashboard available on request.</strong>
-      <p>The complete set includes login, dashboard, users, all 7 policy types across empty + happy path + edge cases, approval modals, and the design system component library. Reach out and I'll share the Figma file.</p>
+      <strong>Want to see the full project?</strong>
+      <p>Login, dashboard, users, all 7 policy types across empty + happy path + edge cases, approval modals, and the full design system component library — I'm happy to share the Figma file.</p>
     </div>
-    <a href="mailto:sdimri@adobe.com?subject=Ping Browser — dashboard Figma" class="btn-contact">Get in touch →</a>
+    <button class="btn-contact" id="copyEmailBtn" type="button">Get in touch →</button>
   </div>
 </section>
 
@@ -787,11 +775,6 @@
     </div>
   </div>
 
-  <div class="kpi-row" style="margin-top: var(--sp-12);">
-    <div class="kpi"><span class="value">Live</span><span class="label">Website shipped &amp; maintained</span></div>
-    <div class="kpi"><span class="value">Adopted</span><span class="label">Design system in production use</span></div>
-    <div class="kpi"><span class="value">↑ Traffic</span><span class="label">Post-launch growth via GA4</span></div>
-  </div>
 </section>
 
 <!-- ───────── Footer ───────── -->
@@ -850,6 +833,23 @@
 
     // Init after layout
     requestAnimationFrame(() => go(0, false));
+  })();
+
+  // Copy email on "Get in touch" click
+  (function () {
+    const btn = document.getElementById('copyEmailBtn');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      navigator.clipboard.writeText('saumyadimri28@gmail.com').then(() => {
+        const orig = btn.textContent;
+        btn.textContent = 'Email copied ✓';
+        btn.style.background = 'linear-gradient(135deg, #6abf7b 0%, #4CAE70 100%)';
+        setTimeout(() => {
+          btn.textContent = orig;
+          btn.style.background = '';
+        }, 2000);
+      });
+    });
   })();
 </script>
 

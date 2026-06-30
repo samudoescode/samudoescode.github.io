@@ -699,13 +699,59 @@
   </div>
 </section>
 
-<!-- ───────── 04 Personas ───────── -->
+<!-- ───────── 04 Competitive Landscape ───────── -->
 <section class="container" style="padding-top: var(--sp-24);">
-  <div class="section-marker"><span class="eyebrow">04 · Personas</span></div>
+  <div class="section-marker"><span class="eyebrow">04 · Competitive Landscape</span></div>
+  <h2 class="h1" style="max-width: 20ch;">What already exists — and why it falls short.</h2>
+  <div class="case-prose" style="margin-top: var(--sp-6);">
+    <p>Three platforms already occupy this space — Goodreads, AO3, and TikTok (via BookTok). Each solves part of the problem but none solves all of it. BookNest is designed around the gaps.</p>
+  </div>
+
+  <div class="comp-grid" style="margin-top: var(--sp-8);">
+    <div class="comp-row head">
+      <div class="dim">Dimension</div>
+      <div>Goodreads</div>
+      <div>AO3</div>
+      <div>TikTok / BookTok</div>
+    </div>
+    <div class="comp-row">
+      <div class="dim">Discovery</div>
+      <div class="cell">Genre labels and bestseller lists — blunt filters that don't reflect how readers actually choose books.</div>
+      <div class="cell is-bn">Rich tag taxonomy — tropes, emotional themes, relationship types. Readers find exactly what they're in the mood for.</div>
+      <div class="cell">Algorithm-curated. High serendipity, zero control.</div>
+    </div>
+    <div class="comp-row">
+      <div class="dim">Community</div>
+      <div class="cell">Public reviews and shelves. Passive, performance-oriented, often anxiety-inducing.</div>
+      <div class="cell">Fic comment threads and kudos. Intimate, but limited to fan fiction.</div>
+      <div class="cell is-bn">Parasocial, creator-led discussions. Feels social but the reader is mostly a spectator.</div>
+    </div>
+    <div class="comp-row">
+      <div class="dim">Habit building</div>
+      <div class="cell">Reading challenges with public progress. Pressure-focused, not behaviour-focused.</div>
+      <div class="cell">No tracking — purely consumption-driven.</div>
+      <div class="cell">Infinite scroll replaces reading. Captures the time without building the habit.</div>
+    </div>
+    <div class="comp-row">
+      <div class="dim">Emotional fit</div>
+      <div class="cell">Cold and transactional. Stars and shelf labels carry most of the weight.</div>
+      <div class="cell is-bn">High emotional resonance through tags — readers filter by feeling, not just genre.</div>
+      <div class="cell">High emotional surface, low depth. Good for hype, not sustained engagement.</div>
+    </div>
+  </div>
+
+  <p class="figure-caption" style="margin-top: var(--sp-6); max-width: 64ch;">
+    ◆ Marks the dimension each platform handles best. AO3's tag-based discovery was the primary inspiration for BookNest's Trope Finder — applied to published books for the first time.
+  </p>
+</section>
+
+<!-- ───────── 05 Personas ───────── -->
+<section class="container" style="padding-top: var(--sp-24);">
+  <div class="section-marker"><span class="eyebrow">05 · Personas</span></div>
   <h2 class="h1">Who we're designing for.</h2>
   <div class="case-prose" style="margin-top: var(--sp-6);">
-    <p>Two core users distilled from the research — one at the beginning of a reading habit, one
-      trying to rebuild one they've lost.</p>
+    <p><strong>Target audience:</strong> digitally-native readers aged 18–32 who have either never built a consistent reading habit or have lost one to short-form content. They want to read — they open Goodreads, they follow BookTok — but they don't finish books. The barrier is always the same: too much friction at the start, too little support to continue.</p>
+    <p style="margin-top: var(--sp-4);">Two core users distilled from the research — one at the beginning of a reading habit, one trying to rebuild one they've lost.</p>
   </div>
 
   <div class="personas">
@@ -744,7 +790,7 @@
 
 <!-- ───────── 06 Insights → Design ───────── -->
 <section class="container" style="padding-top: var(--sp-24);">
-  <div class="section-marker"><span class="eyebrow">05 · Insights → Design</span></div>
+  <div class="section-marker"><span class="eyebrow">06 · Insights → Design</span></div>
   <h2 class="h1">How research shaped the product.</h2>
   <div class="case-prose" style="margin-top: var(--sp-6); margin-bottom: var(--sp-8);">
     <p>Each of the three core features maps directly to a validated research finding. Nothing was
@@ -807,7 +853,7 @@
 
 <!-- ───────── 07 The Screens ───────── -->
 <section class="container" style="padding-top: var(--sp-24);">
-  <div class="section-marker"><span class="eyebrow">06 · The Screens</span></div>
+  <div class="section-marker"><span class="eyebrow">07 · The Screens</span></div>
   <h2 class="h1">Key moments in the experience.</h2>
   <div class="case-prose" style="margin-top: var(--sp-6);">
     <p>Built on a calm, dark visual system — deep purples, warm amber accents, soft greens. Designed
@@ -865,7 +911,7 @@
       <figcaption class="screen-caption">Clubs · Community</figcaption>
     </figure>
 
-    <!-- Discover · Trope Finder -->
+    <!-- Discover · Trope Finder / Search -->
     <figure class="screen-stage">
       <div class="screen-phone">
         <div class="image-frame">
@@ -877,8 +923,13 @@
         <span class="annot r top1"><strong>AI pairs by feeling</strong> — not "because you read X".</span>
         <span class="annot r bot1"><strong>Lists by trope.</strong> 85% trust peer taste.</span>
       </div>
-      <figcaption class="screen-caption">Discover · Trope Finder</figcaption>
+      <figcaption class="screen-caption">Search · Trope Finder</figcaption>
     </figure>
+
+    <div class="callout" style="max-width: 62ch; margin-top: var(--sp-4);">
+      <span class="callout-label">AO3 as a design reference</span>
+      <p>AO3 (Archive of Our Own) proved at scale that readers navigate by emotional resonance — "Slow Burn", "Found Family", "Enemies to Lovers" — not genre buckets. 85% of survey respondents picked books by personal recommendation and feeling, not bestseller rank. The Trope Finder directly borrows AO3's taxonomy model and applies it to published fiction, with negative filters ("no horror", "no cliffhangers") equally important for reducing decision fatigue. This is one of the three core features of BookNest, and the one most directly validated by both the research and an existing system that already works.</p>
+    </div>
   </div>
 
   <!-- BookNest brand identity -->
@@ -902,7 +953,7 @@
 
 <!-- ───────── 07 Outcome ───────── -->
 <section class="container" style="padding-top: var(--sp-24);">
-  <div class="section-marker"><span class="eyebrow">07 · Outcome</span></div>
+  <div class="section-marker"><span class="eyebrow">08 · Outcome</span></div>
   <h2 class="h1" style="max-width: 22ch;">Conclusion &amp; future scope.</h2>
   <div class="case-prose" style="margin-top: var(--sp-6);">
     <p>Audiences haven't lost the desire to read — their attention has simply adapted to seek

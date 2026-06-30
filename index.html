@@ -896,6 +896,49 @@
       border: 1px solid var(--rule);
       border-radius: 6px;
     }
+
+    /* ---- Nav icon links (resume + email) ---- */
+    .tb-menu .tb-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 8px;
+      border-radius: var(--r-1);
+      color: var(--ink-soft);
+      text-decoration: none;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s, background 0.15s;
+    }
+    .tb-menu .tb-icon:hover { color: var(--accent); background: var(--sage); }
+    .tb-menu .tb-icon-right:hover { transform: rotate(20deg); }
+    .tb-menu .tb-icon-left:hover  { transform: rotate(-20deg); }
+
+    /* ---- Project filter chips ---- */
+    .work-filter {
+      display: flex;
+      gap: var(--sp-2);
+      flex-wrap: wrap;
+      padding-block: var(--sp-5);
+      border-bottom: 1px solid var(--rule);
+    }
+    .filter-btn {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 4px 13px;
+      border-radius: 999px;
+      border: 1px solid var(--rule-strong);
+      background: transparent;
+      color: var(--ink-soft);
+      cursor: pointer;
+      transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+    }
+    .filter-btn:hover { border-color: var(--ink-soft); color: var(--ink); }
+    .filter-btn.is-active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #1a1a1a;
+    }
   </style>
 </head>
 <body>
@@ -905,15 +948,17 @@
   <div class="titlebar-inner">
     <a class="tb-title" href="index.html">
       <span class="dot"></span>
-      <span>saumya</span>
-      <span class="sep">—</span>
-      <span>portfolio</span>
+      <span>SD</span>
     </a>
     <nav class="tb-menu">
       <a href="#work" class="is-active">Work</a>
-      <a href="#fun">Fun</a>
       <a href="#about">About</a>
-      <a href="#contact">Contact</a>
+      <a href="https://drive.google.com/file/d/1h-e1z07qhtZ4bjrmootaqIbPkzds6cQT/view?usp=sharing" target="_blank" rel="noopener" class="tb-icon tb-icon-right" aria-label="Resume" title="Resume">
+        <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0.65" y="0.65" width="10.7" height="12.7" rx="1.35" stroke="currentColor" stroke-width="1.3"/><line x1="2.8" y1="4.5" x2="9.2" y2="4.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><line x1="2.8" y1="7" x2="9.2" y2="7" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><line x1="2.8" y1="9.5" x2="6.5" y2="9.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+      </a>
+      <a href="mailto:saumyadimri28@gmail.com" class="tb-icon tb-icon-left" aria-label="Email" title="Email">
+        <svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0.65" y="0.65" width="12.7" height="9.7" rx="1.35" stroke="currentColor" stroke-width="1.3"/><path d="M1.2 1.8L7 6.4L12.8 1.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
     </nav>
     <button class="tb-view" id="viewToggle" aria-label="Toggle scroll / desktop view">
       <span class="glyph icon-scroll">☰</span>
@@ -948,8 +993,19 @@
 <section class="container home-section" id="work">
   <div class="section-marker"><span class="eyebrow">01 · Selected Work</span></div>
 
+  <div class="work-filter" role="group" aria-label="Filter projects">
+    <button class="filter-btn is-active" data-filter="case-studies">Case studies</button>
+    <button class="filter-btn" data-filter="emotions">Emotions</button>
+    <button class="filter-btn" data-filter="artistic">Artistic</button>
+    <button class="filter-btn" data-filter="plants">Plants</button>
+    <button class="filter-btn" data-filter="food">Food</button>
+    <button class="filter-btn" data-filter="games">Games</button>
+    <button class="filter-btn" data-filter="magazine">Magazine</button>
+    <button class="filter-btn" data-filter="all">All</button>
+  </div>
+
   <div class="work-list">
-    <a class="work-row" href="booknest.html">
+    <a class="work-row" href="booknest.html" data-tags="case-studies emotions">
       <span class="idx">01</span>
       <img class="work-thumb" src="assets/booknest/hero.png" alt="BookNest thumbnail" />
       <span class="name">BookNest <span class="ext-tag featured">Case study</span></span>
@@ -957,7 +1013,7 @@
       <span class="blurb">A reading platform designed for behaviour, discovery, gentle streaks, and small clubs.</span>
       <span class="arrow">→</span>
     </a>
-    <a class="work-row" href="ping.html">
+    <a class="work-row" href="ping.html" data-tags="case-studies">
       <span class="idx">02</span>
       <img class="work-thumb" src="assets/ping/mockup.png" alt="Ping Browser thumbnail" />
       <span class="name">Ping Browser <span class="ext-tag featured">Case study</span></span>
@@ -965,7 +1021,7 @@
       <span class="blurb">A Chromium-based enterprise browser website, dashboard, and design system.</span>
       <span class="arrow">→</span>
     </a>
-    <a class="work-row" href="https://saumyadimri.framer.website/data-platform" target="_blank" rel="noopener">
+    <a class="work-row" href="https://saumyadimri.framer.website/data-platform" target="_blank" rel="noopener" data-tags="case-studies">
       <span class="idx">03</span>
       <img class="work-thumb" src="assets/financial data platform/thumbnail.png" alt="Financial Data Platform thumbnail" />
       <span class="name">Financial Data Platform <span class="ext-tag">Framer</span></span>
@@ -973,7 +1029,7 @@
       <span class="blurb">Interface for browsing, comparing, and acting on financial data streams.</span>
       <span class="arrow">↗</span>
     </a>
-    <a class="work-row" href="https://www.behance.net/gallery/202496381/IRCTC-Website-Redesign-UIUX-Case-Study" target="_blank" rel="noopener">
+    <a class="work-row" href="https://www.behance.net/gallery/202496381/IRCTC-Website-Redesign-UIUX-Case-Study" target="_blank" rel="noopener" data-tags="case-studies">
       <span class="idx">04</span>
       <img class="work-thumb" src="assets/IRCTC/Thumbnail.png" alt="IRCTC Redesign thumbnail" />
       <span class="name">IRCTC Redesign <span class="ext-tag">Behance</span></span>
@@ -981,7 +1037,7 @@
       <span class="blurb">Rethinking India's railway booking platform from a frequent-traveller's view.</span>
       <span class="arrow">↗</span>
     </a>
-    <a class="work-row" href="https://saumyadimri.framer.website/lifelog" target="_blank" rel="noopener">
+    <a class="work-row" href="https://saumyadimri.framer.website/lifelog" target="_blank" rel="noopener" data-tags="emotions">
       <span class="idx">05</span>
       <img class="work-thumb" src="assets/lifelog/Thumbnail.png" alt="Lifelog thumbnail" />
       <span class="name">Lifelog <span class="ext-tag">Framer</span></span>
@@ -989,7 +1045,7 @@
       <span class="blurb">A photo-memory app built for the Adobe Designathon.</span>
       <span class="arrow">↗</span>
     </a>
-    <a class="work-row" href="https://www.behance.net/gallery/214995291/CHATURAAJ-Indian-Board-Game-design" target="_blank" rel="noopener">
+    <a class="work-row" href="https://www.behance.net/gallery/214995291/CHATURAAJ-Indian-Board-Game-design" target="_blank" rel="noopener" data-tags="games magazine">
       <span class="idx">06</span>
       <img class="work-thumb" src="assets/chaturaaj/DSC01945.JPG" alt="Chaturaaj thumbnail" />
       <span class="name">Chaturaaj <span class="ext-tag">Behance</span></span>
@@ -997,7 +1053,7 @@
       <span class="blurb">A modern Indian board game — rules, board, pieces, and packaging.</span>
       <span class="arrow">↗</span>
     </a>
-    <a class="work-row" href="https://saumyadimri.framer.website/piscivore" target="_blank" rel="noopener">
+    <a class="work-row" href="https://saumyadimri.framer.website/piscivore" target="_blank" rel="noopener" data-tags="artistic">
       <span class="idx">07</span>
       <img class="work-thumb" src="assets/piscivore/Thumbnail.png" alt="Piscivore thumbnail" />
       <span class="name">Piscivore <span class="ext-tag">Framer</span></span>
@@ -1005,13 +1061,64 @@
       <span class="blurb">Brand identity, packaging, and web for a fish-food company.</span>
       <span class="arrow">↗</span>
     </a>
-    <a class="work-row" href="dataviz.html">
+    <a class="work-row" href="dataviz.html" data-tags="emotions plants games">
       <span class="idx">08</span>
       <img class="work-thumb" src="assets/I was going to study plants/plant.jpeg" alt="Plant thumbnail" />
       <span class="name">I Was Going to Study Plants <span class="ext-tag">Side project</span></span>
       <span class="cat">Data viz · Somatic memory</span>
       <span class="blurb">Tracking conditioned emotional responses across place, sound, and experience.</span>
       <span class="arrow">→</span>
+    </a>
+
+    <!-- ── Extra rows revealed by filter only ── -->
+    <a class="work-row" href="illustrations.html" data-tags="artistic" hidden>
+      <span class="idx">—</span>
+      <span class="name">Illustration Series <span class="ext-tag">Side project</span></span>
+      <span class="cat">Procreate · Visual</span>
+      <span class="blurb">Character studies, brush experiments, and visual explorations.</span>
+      <span class="arrow">→</span>
+    </a>
+    <a class="work-row" href="momscookbook.html" data-tags="emotions artistic food" hidden>
+      <span class="idx">—</span>
+      <span class="name">Mom's Cookbook <span class="ext-tag">Side project</span></span>
+      <span class="cat">Editorial · Food</span>
+      <span class="blurb">A family recipe book in progress — designed and laid out as a flip book.</span>
+      <span class="arrow">→</span>
+    </a>
+    <a class="work-row" href="https://www.behance.net/gallery/201876773/A-week-in-pages-Travel-Journal" target="_blank" rel="noopener" data-tags="magazine" hidden>
+      <span class="idx">—</span>
+      <span class="name">A Week in Pages <span class="ext-tag">Behance</span></span>
+      <span class="cat">Travel journal · Editorial</span>
+      <span class="blurb">A week documented in hand-made spreads and travel notes.</span>
+      <span class="arrow">↗</span>
+    </a>
+    <a class="work-row" href="https://www.behance.net/gallery/200520895/Evenings-in-Delhi" target="_blank" rel="noopener" data-tags="artistic" hidden>
+      <span class="idx">—</span>
+      <span class="name">Evenings in Delhi <span class="ext-tag">Behance</span></span>
+      <span class="cat">Photography · Visual</span>
+      <span class="blurb">A visual study of light, dust, and stillness after sunset.</span>
+      <span class="arrow">↗</span>
+    </a>
+    <a class="work-row" href="https://www.behance.net/gallery/200399389/Sunflowers-Dark-Bloom-Stop-Motion-Animation" target="_blank" rel="noopener" data-tags="artistic" hidden>
+      <span class="idx">—</span>
+      <span class="name">Sunflowers: Dark Bloom <span class="ext-tag">Behance</span></span>
+      <span class="cat">Stop-motion animation</span>
+      <span class="blurb">A stop-motion short exploring sunflowers in low light.</span>
+      <span class="arrow">↗</span>
+    </a>
+    <a class="work-row" href="https://www.behance.net/gallery/201381311/Kashmiri-Papier-Mache-Magazine-Booklet" target="_blank" rel="noopener" data-tags="magazine" hidden>
+      <span class="idx">—</span>
+      <span class="name">Kashmiri Papier-Mâché <span class="ext-tag">Archive</span></span>
+      <span class="cat">Magazine · Editorial</span>
+      <span class="blurb">A booklet documenting the craft traditions of Kashmiri papier-mâché.</span>
+      <span class="arrow">↗</span>
+    </a>
+    <a class="work-row" href="https://www.behance.net/gallery/201015047/Elements-of-design-Editorial-Booklet" target="_blank" rel="noopener" data-tags="magazine" hidden>
+      <span class="idx">—</span>
+      <span class="name">Elements of Design <span class="ext-tag">Archive</span></span>
+      <span class="cat">Editorial booklet</span>
+      <span class="blurb">An editorial exploration of design fundamentals, composed as a print booklet.</span>
+      <span class="arrow">↗</span>
     </a>
   </div>
 </section>
@@ -1186,7 +1293,7 @@
   <div class="contact-links" id="contact">
     <a href="mailto:saumyadimri28@gmail.com"><span class="platform">Email</span> saumyadimri28@gmail.com</a>
     <a href="https://www.linkedin.com/in/saumyadimri/" target="_blank" rel="noopener"><span class="platform">LinkedIn</span> /saumyadimri</a>
-    <a href="https://drive.google.com/file/d/1gLmiocWv176E3KY-0CdGejZvzV-Gx7Ur/view?usp=sharing" target="_blank" rel="noopener"><span class="platform">Resume</span> View PDF ↗</a>
+    <a href="https://drive.google.com/file/d/1h-e1z07qhtZ4bjrmootaqIbPkzds6cQT/view?usp=sharing" target="_blank" rel="noopener"><span class="platform">Resume</span> View PDF ↗</a>
     <a href="https://saumyadimri.framer.website/" target="_blank" rel="noopener"><span class="platform">Framer (old)</span> saumyadimri</a>
     <a href="retro.html"><span class="platform">Easter egg</span> The retro desktop</a>
   </div>
@@ -1271,6 +1378,29 @@
 </div>
 
 <script>
+  // Project filter
+  (function () {
+    const btns = document.querySelectorAll('.filter-btn');
+    const rows = document.querySelectorAll('.work-row[data-tags]');
+
+    function applyFilter(filter) {
+      rows.forEach(row => {
+        const tags = row.dataset.tags ? row.dataset.tags.split(' ') : [];
+        if (filter === 'all') {
+          row.hidden = false;
+        } else {
+          row.hidden = !tags.includes(filter);
+        }
+      });
+      btns.forEach(b => b.classList.toggle('is-active', b.dataset.filter === filter));
+    }
+
+    btns.forEach(btn => btn.addEventListener('click', () => applyFilter(btn.dataset.filter)));
+
+    // Apply default on load
+    applyFilter('case-studies');
+  })();
+
   // Title bar theme toggle
   (function () {
     const root = document.documentElement;
