@@ -6,7 +6,7 @@
   <title>Saumya Dimri — Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Serif+Lao:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Serif+Lao:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Bangers&family=Doto:wght@100..900&family=Intel+One+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="design-system.css">
   <style>
     /* ─────────────────────────────────────────────
@@ -47,6 +47,7 @@
     /* Hide desktop layout in scroll mode (default) */
     .desktop-layout { display: none; }
     [data-view="desktop"] .desktop-layout { display: flex; }
+    [data-view="desktop"] .titlebar { display: none !important; }
 
     /* ---- Hero ---- */
     .home-hero { padding-block: var(--sp-32) var(--sp-16); }
@@ -609,337 +610,711 @@
     .easter-egg:hover::before { background: var(--accent); }
 
     /* ─────────────────────────────────────────────
-       Desktop Mode
+       Desktop Mode — Pixel-Exact Figma Spec
        ───────────────────────────────────────────── */
     .desktop-layout {
       position: fixed;
-      inset: 60px 0 56px 0; /* Below title bar, above taskbar */
-      background:
-        repeating-linear-gradient(0deg, transparent 0, transparent 39px, rgba(255,255,255,0.02) 39px, rgba(255,255,255,0.02) 40px),
-        repeating-linear-gradient(90deg, transparent 0, transparent 39px, rgba(255,255,255,0.02) 39px, rgba(255,255,255,0.02) 40px),
-        var(--paper);
-      padding: var(--sp-6);
-      overflow: hidden;
-    }
-    [data-theme="light"] .desktop-layout {
-      background:
-        repeating-linear-gradient(0deg, transparent 0, transparent 39px, rgba(0,0,0,0.02) 39px, rgba(0,0,0,0.02) 40px),
-        repeating-linear-gradient(90deg, transparent 0, transparent 39px, rgba(0,0,0,0.02) 39px, rgba(0,0,0,0.02) 40px),
-        var(--paper);
-    }
-
-    .desktop-folders {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, 120px);
-      grid-auto-rows: 110px;
-      gap: var(--sp-4);
-      align-content: start;
-      justify-content: start;
-      padding: var(--sp-4);
-    }
-    @media (max-width: 600px) {
-      .desktop-folders { grid-template-columns: repeat(auto-fill, 100px); grid-auto-rows: 100px; }
-    }
-
-    .folder {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: var(--sp-3);
-      cursor: pointer;
-      text-decoration: none;
-      color: inherit;
-      padding: var(--sp-4);
-      border-radius: var(--r-3);
-      transition: background 0.25s ease, transform 0.3s cubic-bezier(0.34, 1.4, 0.64, 1);
-    }
-    .folder:hover {
-      background: rgba(255,255,255,0.04);
-      transform: translateY(-4px);
-    }
-    [data-theme="light"] .folder:hover { background: rgba(0,0,0,0.03); }
-
-    .folder-icon {
-      width: 72px;
-      height: 72px;
-      background: var(--paper-2);
-      border: 1.5px solid var(--rule-strong);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      color: var(--accent);
-      position: relative;
-      transition: border-color 0.25s, transform 0.3s cubic-bezier(0.34, 1.4, 0.64, 1);
-    }
-    .folder:hover .folder-icon {
-      border-color: var(--accent);
-      transform: scale(1.08);
-    }
-    .folder-icon::before {
-      content: '';
-      position: absolute;
-      top: -6px;
-      left: 8px;
-      width: 24px;
-      height: 8px;
-      background: var(--paper-2);
-      border: 1.5px solid var(--rule-strong);
-      border-bottom: 0;
-      border-radius: 4px 4px 0 0;
-      transition: border-color 0.25s;
-    }
-    .folder:hover .folder-icon::before { border-color: var(--accent); }
-
-    .folder-label {
-      font-family: var(--font-body);
-      font-size: var(--fs-small);
-      font-weight: 500;
-      color: var(--ink);
-      text-align: center;
-      line-height: 1.3;
-    }
-
-    /* Modal windows */
-    .modal-backdrop {
-      position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.65);
-      backdrop-filter: blur(4px);
-      z-index: 100;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      animation: fadeIn 0.25s ease;
-    }
-    .modal-backdrop.is-open { display: flex; }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      background: url('assets/desktop/wallpaper.webp') center center / cover no-repeat;
+      overflow: hidden;
+      font-family: 'Doto', monospace;
+      z-index: 50;
     }
 
-    .modal-window {
-      background: var(--paper);
-      border: 1px solid var(--rule-strong);
-      border-radius: var(--r-3);
-      box-shadow: 0 24px 64px -16px rgba(0,0,0,0.7);
-      width: 90vw;
-      max-width: 900px;
-      max-height: 80vh;
+
+    /* ── Animated Bus across the road ── */
+    .desktop-road-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 10; /* Drives on the road, behind floating windows and panels */
+    }
+
+    .bus-vehicle {
+      position: absolute;
+      top: 60.1%;
+      left: 0;
+      height: 17.3vh;
+      width: auto;
+      will-change: transform;
+      animation: busCruise 22s linear infinite;
+    }
+
+    .bus-sprite {
+      height: 100%;
+      width: auto;
+      display: block;
+      animation: busSuspension 0.45s ease-in-out infinite alternate;
+    }
+
+    @keyframes busCruise {
+      0% {
+        transform: translateX(-400px);
+      }
+      100% {
+        transform: translateX(calc(100vw + 100px));
+      }
+    }
+
+    @keyframes busSuspension {
+      0% {
+        transform: translateY(0);
+      }
+      100% {
+        transform: translateY(-2.5px);
+      }
+    }
+
+    /* Decorative icons (top-right) */
+    .desktop-deco {
+      position: absolute;
+      top: 26px;
+      right: 32px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      z-index: 60;
+      pointer-events: none;
+    }
+    .deco-icon { width: 50px; height: 50px; object-fit: contain; }
+
+    /* Switch back to scroll mode button (subtle top-left pill) */
+    .desktop-scroll-mode-toggle {
+      position: absolute;
+      top: 26px;
+      left: 32px;
+      z-index: 60;
+      background: rgba(252, 248, 209, 0.45);
+      border: 1px solid rgba(77, 55, 26, 0.25);
+      border-radius: 999px;
+      color: #4D371A;
+      font-family: 'Doto', monospace;
+      font-size: 14px;
+      font-weight: 800;
+      padding: 6px 16px;
+      cursor: pointer;
+      transition: background 0.2s, opacity 0.2s;
+      opacity: 0.7;
+      outline: none;
+    }
+    .desktop-scroll-mode-toggle:hover {
+      opacity: 1;
+      background: rgba(252, 248, 209, 0.75);
+    }
+
+    /* ── START / Main Panel (Figma 409:2264 & 545:31) ── */
+    .start-panel {
+      position: fixed;
+      top: 132px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 802px;
+      min-width: 330px;
+      background: transparent; /* Parent is transparent so gap shows wallpaper! */
+      box-sizing: border-box;
+      overflow: visible;
+      cursor: default;
+      z-index: 70;
+      user-select: none;
       display: flex;
       flex-direction: column;
-      animation: slideUp 0.35s cubic-bezier(0.34, 1.4, 0.64, 1);
-      overflow: hidden;
-    }
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(24px) scale(0.96); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    .modal-titlebar {
+    /* Top bar of start panel: 48px height, 25px top rounded */
+    .start-panel-header {
+      height: 48px;
+      min-height: 48px;
+      width: 100%;
+      background: rgba(252, 248, 209, 0.45);
+      border-radius: 25px 25px 0 0;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      box-sizing: border-box;
+      cursor: grab;
+      border: none;
+    }
+    .start-panel-header:active { cursor: grabbing; }
+
+    /* 6px transparent gap of opacity zero! */
+    .start-panel-gap {
+      height: 6px;
+      min-height: 6px;
+      width: 100%;
+      background: transparent;
+      pointer-events: none;
+    }
+
+    /* Icons body: 5 items of width 150px with 5px gap in an 802px container */
+    .start-panel-icons {
+      background: rgba(252, 248, 209, 0.45);
+      border-radius: 0 0 25px 25px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      padding: 20px 16px 24px 16px;
+      align-items: flex-start;
+      justify-content: flex-start;
+      box-sizing: border-box;
+      flex: 1;
+      border: none;
+    }
+
+    /* Individual icon column */
+    .folder {
+      width: 150px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      cursor: pointer;
+      background: transparent !important;
+      border: none;
+      padding: 0;
+      margin: 0;
+      outline: none;
+      flex: 0 0 150px;
+      box-sizing: border-box;
+    }
+    /* NO dark hover background - purely clean */
+    .folder:hover, .folder:focus, .folder.is-selected {
+      background: transparent !important;
+    }
+
+    .folder-img {
+      width: 150px;
+      height: 150px;
+      object-fit: contain;
+      display: block;
+      pointer-events: none;
+    }
+    .folder-img-selected { display: none; }
+    .folder:hover .folder-img-default,
+    .folder.is-selected .folder-img-default { display: none; }
+    .folder:hover .folder-img-selected,
+    .folder.is-selected .folder-img-selected { display: block; }
+
+    /* Exact label from Figma: Intel One Mono, 400, 24px, line 33px, #000000 */
+    .folder-label {
+      font-family: 'Intel One Mono', monospace;
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 24px;
+      color: #000000;
+      text-align: center;
+      margin: 0;
+      padding-top: 0;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    /* ── Floating Windows (About Me, Works, etc.) ── */
+    .desktop-window {
+      position: fixed;
+      top: 132px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 727px;
+      max-width: 95vw;
+      min-width: 360px;
+      background: transparent; /* Transparent parent for gap */
+      display: none;
+      flex-direction: column;
+      z-index: 100;
+      overflow: visible;
+      cursor: default;
+      box-sizing: border-box;
+    }
+    .desktop-window.is-open { display: flex; }
+
+    /* Window Header Bar: height 48px, rounded top 25px */
+    .window-header {
+      height: 48px;
+      min-height: 48px;
+      width: 100%;
+      background: rgba(252, 248, 209, 0.45);
+      border-radius: 25px 25px 0 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: var(--sp-4) var(--sp-5);
-      background: var(--paper-2);
-      border-bottom: 1px solid var(--rule);
-      cursor: move;
+      padding: 0 16px;
+      box-sizing: border-box;
+      cursor: grab;
       user-select: none;
+      position: relative;
+      border: none;
     }
-    .modal-title {
-      font-family: var(--font-display);
-      font-weight: 500;
-      font-size: 1.125rem;
-      color: var(--ink);
-      margin: 0;
+    .window-header:active { cursor: grabbing; }
+
+    /* 6px transparent gap between header bar and body */
+    .window-gap {
+      height: 6px;
+      min-height: 6px;
+      width: 100%;
+      background: transparent;
+      pointer-events: none;
     }
-    .modal-close {
-      width: 28px;
-      height: 28px;
+
+    /* Pixel Close Button from Figma (dinkie black-cross-square) */
+    .window-close-btn {
+      width: 40px;
+      height: 40px;
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: transparent;
-      border: 1px solid var(--rule);
-      border-radius: 6px;
-      color: var(--ink-soft);
-      cursor: pointer;
-      transition: background 0.2s, color 0.2s, border-color 0.2s;
-      font-size: 16px;
-      line-height: 1;
+      outline: none;
+      flex-shrink: 0;
+      margin-left: auto;
     }
-    .modal-close:hover {
-      background: var(--accent);
-      color: #1a1a1a;
-      border-color: var(--accent);
+    .window-close-btn img {
+      width: 40px;
+      height: 40px;
+      display: block;
+    }
+    .window-close-btn:hover {
+      opacity: 0.75;
     }
 
-    .modal-body {
-      padding: var(--sp-8) var(--sp-6);
-      overflow-y: auto;
+    .window-body {
+      background: rgba(252, 248, 209, 0.45);
+      border-radius: 0 0 25px 25px;
       flex: 1;
+      overflow-y: auto;
+      padding: 30px 30px 36px 30px;
+      box-sizing: border-box;
+      border: none;
     }
-    .modal-body .container { max-width: 100%; padding: 0; }
-    .modal-body .home-section { padding-block: var(--sp-8); }
-    .modal-body .section-marker { margin-bottom: var(--sp-4); }
 
-    /* Bottom Taskbar (Windows-style) */
+    /* ── Works Window Layout (Figma 547:163, 557:2774, 557:1519) ── */
+    #windowWork {
+      width: 727px;
+    }
+
+    .works-nav-btn {
+      width: 26px;
+      height: 26px;
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      outline: none;
+      flex-shrink: 0;
+    }
+    .works-nav-btn img {
+      width: 26px;
+      height: 26px;
+      display: block;
+    }
+    .works-nav-btn:hover {
+      opacity: 0.65;
+    }
+    .works-nav-btn.is-hidden {
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .works-body-container {
+      background: rgba(252, 248, 209, 0.45);
+      border-radius: 0 0 25px 25px;
+      padding: 17px 24px 24px 24px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .works-cat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      width: 100%;
+    }
+    .works-cat-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .works-cat-title {
+      font-family: 'Doto', monospace;
+      font-weight: 900;
+      font-size: 40px;
+      line-height: 44px;
+      color: #E30000;
+      margin: 0;
+    }
+    .works-cat-subtitle {
+      font-family: 'Doto', monospace;
+      font-weight: 800;
+      font-size: 20px;
+      line-height: 24px;
+      color: #000000;
+      margin: 0;
+    }
+    .works-cat-count {
+      font-family: 'Doto', monospace;
+      font-weight: 900;
+      font-size: 40px;
+      line-height: 44px;
+      color: #E30000;
+      margin: 0;
+    }
+
+    .works-grid {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-top: 15px;
+      width: 100%;
+    }
+
+    .works-item {
+      width: 110px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      background: transparent !important;
+      border: none;
+      padding: 0;
+      margin: 0;
+      outline: none;
+      user-select: none;
+    }
+    .works-item:hover, .works-item:focus {
+      background: transparent !important;
+    }
+
+    .works-item-icon {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      display: block;
+      pointer-events: none;
+    }
+    .works-item-icon-selected {
+      display: none;
+    }
+    .works-item:hover .works-item-icon-default,
+    .works-item.is-selected .works-item-icon-default {
+      display: none;
+    }
+    .works-item:hover .works-item-icon-selected,
+    .works-item.is-selected .works-item-icon-selected {
+      display: block;
+    }
+
+    .works-item-name {
+      font-family: 'Doto', monospace;
+      font-weight: 900;
+      font-size: 15px;
+      line-height: 18px;
+      letter-spacing: -0.2px;
+      color: #000000;
+      text-align: center;
+      margin-top: 4px;
+      word-break: normal;
+      overflow-wrap: normal;
+      pointer-events: none;
+    }
+
+    /* Descriptive Preview Card (Figma Frame 16) */
+    .works-preview-card {
+      width: 726px;
+      min-height: 108px;
+      background: rgba(252, 248, 209, 0.45);
+      border-radius: 25px;
+      margin-top: 14px;
+      padding: 16px 32px;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      cursor: pointer;
+      user-select: none;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+      transition: background 0.15s ease;
+    }
+    .works-preview-card:hover {
+      background: rgba(252, 248, 209, 0.6);
+    }
+    .works-preview-icon {
+      width: 76px;
+      height: 76px;
+      object-fit: contain;
+      flex-shrink: 0;
+      pointer-events: none;
+    }
+    .works-preview-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 0;
+    }
+    .works-preview-row1 {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      width: 100%;
+    }
+    .works-preview-title {
+      font-family: 'Doto', monospace;
+      font-weight: 900;
+      font-size: 32px;
+      line-height: 38px;
+      color: #E30000;
+      margin: 0;
+      white-space: nowrap;
+    }
+    .works-preview-desc {
+      font-family: 'Doto', monospace;
+      font-weight: 800;
+      font-size: 16px;
+      line-height: 19px;
+      color: #000000;
+      margin: 0;
+      flex: 1;
+      text-align: right;
+    }
+    .works-preview-pills {
+      border: 0.5px solid #000000;
+      border-radius: 8px;
+      height: 28px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-sizing: border-box;
+      width: 100%;
+    }
+    .works-preview-pill {
+      font-family: 'Doto', monospace;
+      font-weight: 800;
+      font-size: 16px;
+      line-height: 19px;
+      color: #000000;
+    }
+
+    /* ── About Me Window Layout (Figma 545:99) ── */
+    .about-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 32px;
+      box-sizing: border-box;
+    }
+    .about-photo {
+      width: 138px;
+      height: 132px;
+      border-radius: 4px;
+      border: 5px solid #FCF8D1;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .about-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .about-hero-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      width: 100%;
+    }
+    .about-hero-left {
+      display: flex;
+      flex-direction: column;
+    }
+    .about-helo-title {
+      font-family: 'Doto', monospace;
+      font-weight: 900;
+      font-size: 40px;
+      line-height: 48px;
+      color: #E30000;
+      margin: 0;
+    }
+    .about-aka-text {
+      font-family: 'Doto', monospace;
+      font-weight: 800;
+      font-size: 20px;
+      line-height: 24px;
+      color: #000000;
+      margin: 0;
+    }
+    .about-hero-right {
+      display: flex;
+      flex-direction: column;
+      text-align: right;
+    }
+    .about-existing-text {
+      font-family: 'Doto', monospace;
+      font-weight: 800;
+      font-size: 20px;
+      line-height: 24px;
+      color: #000000;
+      margin: 0;
+    }
+    .about-delhi-title {
+      font-family: 'Doto', monospace;
+      font-weight: 900;
+      font-size: 40px;
+      line-height: 48px;
+      color: #E30000;
+      margin: 0;
+    }
+
+    /* Pill box container (Frame 14) */
+    .about-pill-container {
+      border: 1px solid #000000;
+      border-radius: 8px;
+      height: 42px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 24px;
+      margin-top: 24px;
+      box-sizing: border-box;
+    }
+    .about-pill-item {
+      font-family: 'Doto', monospace;
+      font-weight: 800;
+      font-size: 20px;
+      line-height: 24px;
+      color: #000000;
+      text-decoration: none;
+    }
+    a.about-pill-item:hover {
+      text-decoration: underline;
+    }
+
+    /* Bio text */
+    .about-bio-text {
+      font-family: 'Doto', monospace;
+      font-weight: 900;
+      font-size: 20px;
+      line-height: 26px;
+      color: #000000;
+      margin-top: 36px;
+      margin-bottom: 0;
+      white-space: pre-line;
+    }
+
+    /* ── Taskbar (Exact Figma Spec) ── */
     .taskbar {
       position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 56px;
-      background: var(--paper-2);
-      border-top: 1px solid var(--rule-strong);
+      bottom: 20px;
+      left: 17px;
+      right: 17px;
+      height: 54px;
+      max-width: 1406px;
+      margin: 0 auto;
+      z-index: 300;
       display: none;
-      align-items: center;
-      gap: var(--sp-2);
-      padding: 0 var(--sp-4);
-      z-index: 200;
-      box-shadow: 0 -4px 16px -8px rgba(0,0,0,0.4);
+      align-items: flex-start;
+      user-select: none;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      padding: 0 !important;
     }
     [data-view="desktop"] .taskbar { display: flex; }
 
-    .taskbar-start {
-      display: flex;
-      align-items: center;
-      gap: var(--sp-2);
+    .taskbar-bg-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 54px;
+      pointer-events: none;
+      z-index: 1;
     }
 
-    .taskbar-view-toggle {
+    .taskbar-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 54px;
       display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 12px;
-      background: var(--paper);
-      border: 1px solid var(--rule);
-      border-radius: 6px;
-      font-family: var(--font-mono);
-      font-size: var(--fs-meta);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--ink);
-      cursor: pointer;
-      transition: background 0.2s, border-color 0.2s, transform 0.15s;
-    }
-    .taskbar-view-toggle:hover {
-      background: var(--sage);
-      border-color: var(--rule-strong);
-      transform: translateY(-1px);
-    }
-    .taskbar-view-toggle .icon {
-      font-size: 14px;
-      color: var(--accent);
+      align-items: flex-start;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    .taskbar-windows {
+    /* Selected state: cutout with opacity zero & bottom two corners at 25px */
+    .taskbar-active-notch {
+      position: absolute;
+      top: 0;
+      left: 12px;
+      width: 166px;
+      height: 44px;
       display: flex;
-      align-items: center;
-      gap: var(--sp-2);
-      flex: 1;
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
-    .taskbar-windows::-webkit-scrollbar { display: none; }
-
-    .taskbar-window {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 14px;
-      background: var(--sage);
-      border: 1px solid var(--rule);
-      border-radius: 6px;
-      font-family: var(--font-body);
-      font-size: var(--fs-small);
-      font-weight: 500;
-      color: var(--ink-soft);
-      cursor: pointer;
-      transition: background 0.2s, border-color 0.2s, color 0.2s;
-      white-space: nowrap;
-      min-width: 140px;
-      max-width: 200px;
-    }
-    .taskbar-window:hover {
-      background: var(--sage-2);
-      border-color: var(--rule-strong);
-      color: var(--ink);
-    }
-    .taskbar-window.is-active {
-      background: var(--accent-soft);
-      border-color: var(--accent);
-      color: var(--ink);
-    }
-    .taskbar-window .icon {
-      font-size: 16px;
-      flex-shrink: 0;
-    }
-    .taskbar-window .label {
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .taskbar-end {
-      display: flex;
-      align-items: center;
-      gap: var(--sp-3);
-      margin-left: auto;
-    }
-    .taskbar-clock {
-      font-family: var(--font-mono);
-      font-size: var(--fs-small);
-      color: var(--ink-soft);
-      padding: 6px 10px;
-      background: var(--paper);
-      border: 1px solid var(--rule);
-      border-radius: 6px;
-    }
-
-    /* ---- Nav icon links (resume + email) ---- */
-    .tb-menu .tb-icon {
-      display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 4px 8px;
-      border-radius: var(--r-1);
-      color: var(--ink-soft);
-      text-decoration: none;
-      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s, background 0.15s;
-    }
-    .tb-menu .tb-icon:hover { color: var(--accent); background: var(--sage); }
-    .tb-menu .tb-icon-right:hover { transform: rotate(20deg); }
-    .tb-menu .tb-icon-left:hover  { transform: rotate(-20deg); }
-
-    /* ---- Project filter chips ---- */
-    .work-filter {
-      display: flex;
-      gap: var(--sp-2);
-      flex-wrap: wrap;
-      padding-block: var(--sp-5);
-      border-bottom: 1px solid var(--rule);
-    }
-    .filter-btn {
-      font-family: var(--font-mono);
-      font-size: 0.6875rem;
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      padding: 4px 13px;
-      border-radius: 999px;
-      border: 1px solid var(--rule-strong);
-      background: transparent;
-      color: var(--ink-soft);
+      box-sizing: border-box;
       cursor: pointer;
-      transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+      background: transparent;
     }
-    .filter-btn:hover { border-color: var(--ink-soft); color: var(--ink); }
-    .filter-btn.is-active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #1a1a1a;
+    .taskbar-active-notch.wide {
+      width: 205px;
     }
-  </style>
+    .taskbar-notch-text {
+      font-family: 'Doto', monospace;
+      font-weight: 800;
+      font-size: 32px;
+      line-height: 44px;
+      letter-spacing: 0px;
+      color: #FFFFFF;
+      text-align: center;
+      white-space: nowrap;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Inactive tabs (starts at x=243px in Figma) */
+    .taskbar-inactive-tabs {
+      position: absolute;
+      top: 0;
+      left: 243px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      height: 46px;
+    }
+
+    .taskbar-tab-btn {
+      height: 46px;
+      padding: 0 24px;
+      background: rgba(252, 248, 209, 0.6);
+      border-radius: 0 0 25px 25px;
+      border: none;
+      font-family: 'Doto', monospace;
+      font-weight: 800;
+      font-size: 32px;
+      line-height: 46px;
+      letter-spacing: 0px;
+      color: #585858;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, color 0.15s;
+      outline: none;
+      box-sizing: border-box;
+      margin: 0;
+    }
+    .taskbar-tab-btn:hover {
+      background: rgba(252, 248, 209, 0.9);
+      color: #000000;
+    }
+</style>
 </head>
 <body>
 
@@ -1313,67 +1688,190 @@
 <!-- ═══════════════════════════════════════════════
      DESKTOP LAYOUT
      ═══════════════════════════════════════════════ -->
-<div class="desktop-layout">
-  <div class="desktop-folders">
-    <button class="folder" data-modal="work" type="button">
-      <div class="folder-icon">📁</div>
-      <span class="folder-label">Case Studies</span>
-    </button>
-    <button class="folder" data-modal="fun" type="button">
-      <div class="folder-icon">🎨</div>
-      <span class="folder-label">Fun Corner</span>
-    </button>
-    <button class="folder" data-modal="about" type="button">
-      <div class="folder-icon">👤</div>
-      <span class="folder-label">About</span>
-    </button>
-  </div>
-</div>
+<div class="desktop-layout" id="desktopLayout">
 
-<!-- Modal windows -->
-<div class="modal-backdrop" id="modalWork">
-  <div class="modal-window">
-    <div class="modal-titlebar">
-      <h2 class="modal-title">Case Studies</h2>
-      <button class="modal-close" data-close="work" aria-label="Close">✕</button>
+  <!-- Animated Road Bus (HD 4K Asset) -->
+  <div class="desktop-road-layer">
+    <div class="bus-vehicle">
+      <img src="assets/desktop/bus.png" class="bus-sprite" alt="Yellow Bus" draggable="false">
     </div>
-    <div class="modal-body" id="modalWorkContent"></div>
   </div>
-</div>
 
-<div class="modal-backdrop" id="modalFun">
-  <div class="modal-window">
-    <div class="modal-titlebar">
-      <h2 class="modal-title">Fun Corner</h2>
-      <button class="modal-close" data-close="fun" aria-label="Close">✕</button>
+
+  <!-- Switch back to scroll mode button -->
+  <button class="desktop-scroll-mode-toggle" id="desktopBackBtn" type="button">☰ scroll mode</button>
+
+  <!-- Decorative icons top-right (Figma: life girl + musik) -->
+  <div class="desktop-deco">
+    <img src="assets/desktop/deco-lifegirl.png" alt="" class="deco-icon" draggable="false">
+    <img src="assets/desktop/deco-musik.png"    alt="" class="deco-icon" draggable="false">
+  </div>
+
+  <!-- START panel (draggable + resizable, 802px wide, FCF8D1 45% opacity with 7px zero-opacity gap) -->
+  <div class="start-panel" id="startPanel">
+    <div class="start-panel-header" id="startPanelHeader"></div>
+    <div class="start-panel-gap"></div>
+    <div class="start-panel-icons">
+
+      <button class="folder" data-window="work" type="button">
+        <img class="folder-img folder-img-default" src="assets/desktop/icon-work-unselected.png" alt="Works" draggable="false">
+        <img class="folder-img folder-img-selected" src="assets/desktop/icon-work-selected.png" alt="Works" draggable="false">
+        <span class="folder-label">Works</span>
+      </button>
+
+      <a class="folder" href="https://drive.google.com/file/d/1h-e1z07qhtZ4bjrmootaqIbPkzds6cQT/view?usp=sharing" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">
+        <img class="folder-img folder-img-default" src="assets/desktop/icon-resume-unselected.png" alt="Resume" draggable="false">
+        <img class="folder-img folder-img-selected" src="assets/desktop/icon-resume-selected.png" alt="Resume" draggable="false">
+        <span class="folder-label">Resume</span>
+      </a>
+
+      <button class="folder" data-window="me" type="button">
+        <img class="folder-img folder-img-default" src="assets/desktop/icon-me-unselected.png" alt="KnowMe" draggable="false">
+        <img class="folder-img folder-img-selected" src="assets/desktop/icon-me-selected.png" alt="KnowMe" draggable="false">
+        <span class="folder-label">KnowMe</span>
+      </button>
+
+      <button class="folder" data-window="fun" type="button">
+        <img class="folder-img folder-img-default" src="assets/desktop/icon-fun-unselected.png" alt="Fun" draggable="false">
+        <img class="folder-img folder-img-selected" src="assets/desktop/icon-fun-selected.png" alt="Fun" draggable="false">
+        <span class="folder-label">Fun</span>
+      </button>
+
+      <button class="folder" data-window="archive" type="button">
+        <img class="folder-img folder-img-default" src="assets/desktop/icon-archive-unselected.png" alt="Archive" draggable="false">
+        <img class="folder-img folder-img-selected" src="assets/desktop/icon-archive-selected.png" alt="Archive" draggable="false">
+        <span class="folder-label">Archive</span>
+      </button>
+
     </div>
-    <div class="modal-body" id="modalFunContent"></div>
   </div>
+
 </div>
 
-<div class="modal-backdrop" id="modalAbout">
-  <div class="modal-window">
-    <div class="modal-titlebar">
-      <h2 class="modal-title">About</h2>
-      <button class="modal-close" data-close="about" aria-label="Close">✕</button>
-    </div>
-    <div class="modal-body" id="modalAboutContent"></div>
-  </div>
-</div>
+<!-- ── Floating Desktop Windows ── -->
 
-<!-- Bottom Taskbar (Windows-style, shown only in desktop mode) -->
-<div class="taskbar">
-  <div class="taskbar-start">
-    <button class="taskbar-view-toggle" id="taskbarViewToggle" type="button">
-      <span class="icon">☰</span>
-      <span>Scroll Mode</span>
+<!-- About Me window (Figma 545:99) -->
+<div class="desktop-window" id="windowMe" data-window-id="me">
+  <div class="window-header">
+    <button class="window-close-btn" data-close-window="me" aria-label="Close">
+      <img src="assets/desktop/icon-close.svg" alt="Close" draggable="false">
     </button>
   </div>
-  <div class="taskbar-windows" id="taskbarWindows">
-    <!-- Window indicators appear here when folders are opened -->
+  <div class="window-gap"></div>
+  <div class="window-body">
+    <div class="about-top">
+      <img src="assets/desktop/photo-samu.png" alt="Saumya" class="about-photo">
+      <div class="about-info">
+        <div class="about-hero-row">
+          <div class="about-hero-left">
+            <h1 class="about-helo-title">Helo</h1>
+            <p class="about-aka-text">aka samu</p>
+          </div>
+          <div class="about-hero-right">
+            <p class="about-existing-text">currently existing in</p>
+            <h1 class="about-delhi-title">Delhi</h1>
+          </div>
+        </div>
+        <div class="about-pill-container">
+          <span class="about-pill-item">Lvl 22</span>
+          <span class="about-pill-item">UI/UX Designer</span>
+          <a href="mailto:saumyadimri28@gmail.com" class="about-pill-item">email me</a>
+        </div>
+      </div>
+    </div>
+    <p class="about-bio-text">I'm Saumya, an Interaction Design student focused on human-centered digital systems, with interests stretching across behavioural UX, Illustrations, and web.
+
+Currently trying to rekindle passion in life. When not buried 8 feet deep in thinking, you can find me either - running, reading, cooking or with a pencil in my hand.</p>
   </div>
-  <div class="taskbar-end">
-    <div class="taskbar-clock" id="taskbarClock">--:--</div>
+</div>
+
+<!-- Works window (Figma 547:163, 557:2774, 557:1519) -->
+<div class="desktop-window" id="windowWork" data-window-id="work">
+  <div class="window-header">
+    <button class="works-nav-btn works-nav-left is-hidden" id="worksNavLeft" aria-label="Previous category">
+      <img src="assets/desktop/arrow-left.svg" alt="Previous" draggable="false">
+    </button>
+    <div style="display:flex; align-items:center; gap: 12px; margin-left: auto;">
+      <button class="works-nav-btn works-nav-right" id="worksNavRight" aria-label="Next category">
+        <img src="assets/desktop/arrow-right.svg" alt="Next" draggable="false">
+      </button>
+      <button class="window-close-btn" data-close-window="work" aria-label="Close">
+        <img src="assets/desktop/icon-close.svg" alt="Close" draggable="false">
+      </button>
+    </div>
+  </div>
+  <div class="window-gap"></div>
+  <div class="works-body-container" id="worksBody">
+    <div class="works-cat-header">
+      <div class="works-cat-info">
+        <h2 class="works-cat-title" id="worksCatTitle">Case Studies</h2>
+        <p class="works-cat-subtitle" id="worksCatSub">worth your time</p>
+      </div>
+      <span class="works-cat-count" id="worksCatCount">5</span>
+    </div>
+    <div class="works-grid" id="worksGrid"></div>
+  </div>
+
+  <!-- Descriptive Card (Frame 16) - appears directly below window body on single click -->
+  <div class="works-preview-card" id="worksPreviewCard" style="display: none;">
+    <img class="works-preview-icon" src="assets/desktop/house-selected.svg" alt="Selected project" draggable="false">
+    <div class="works-preview-content">
+      <div class="works-preview-row1">
+        <span class="works-preview-title" id="worksPreviewTitle">BookNest</span>
+        <span class="works-preview-desc" id="worksPreviewDesc">Reading platform optimizing behaviour & discovery</span>
+      </div>
+      <div class="works-preview-pills" id="worksPreviewPills">
+        <span class="works-preview-pill">UX Research</span>
+        <span class="works-preview-pill">Solo Project</span>
+        <span class="works-preview-pill">4 Months</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Resume window -->
+<div class="desktop-window" id="windowResume" data-window-id="resume">
+  <div class="window-header">
+    <button class="window-close-btn" data-close-window="resume" aria-label="Close">
+      <img src="assets/desktop/icon-close.svg" alt="Close" draggable="false">
+    </button>
+  </div>
+  <div class="window-gap"></div>
+  <div class="window-body" id="windowResumeContent"></div>
+</div>
+
+<!-- Fun window -->
+<div class="desktop-window" id="windowFun" data-window-id="fun">
+  <div class="window-header">
+    <button class="window-close-btn" data-close-window="fun" aria-label="Close">
+      <img src="assets/desktop/icon-close.svg" alt="Close" draggable="false">
+    </button>
+  </div>
+  <div class="window-gap"></div>
+  <div class="window-body" id="windowFunContent"></div>
+</div>
+
+<!-- Archive window -->
+<div class="desktop-window" id="windowArchive" data-window-id="archive">
+  <div class="window-header">
+    <button class="window-close-btn" data-close-window="archive" aria-label="Close">
+      <img src="assets/desktop/icon-close.svg" alt="Close" draggable="false">
+    </button>
+  </div>
+  <div class="window-gap"></div>
+  <div class="window-body" id="windowArchiveContent"></div>
+</div>
+
+<!-- ── Taskbar with Cutout from Figma Subtract shape ── -->
+<div class="taskbar" id="desktopTaskbar">
+  <svg class="taskbar-bg-svg" id="taskbarBgSvg" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path id="taskbarPath" fill="#FCF8D1" fill-opacity="0.6"/>
+  </svg>
+  <div class="taskbar-content">
+    <div class="taskbar-active-notch" id="taskbarActiveNotch">
+      <span class="taskbar-notch-text" id="taskbarNotchLabel">Sdimri</span>
+    </div>
+    <div class="taskbar-inactive-tabs" id="taskbarInactiveTabs"></div>
   </div>
 </div>
 
@@ -1419,7 +1917,9 @@
   (function () {
     const root = document.documentElement;
     const VIEW_KEY = 'view';
-    const savedView = localStorage.getItem(VIEW_KEY) || 'scroll';
+    const urlParam = new URLSearchParams(window.location.search).get('view');
+    const hashView = window.location.hash === '#desktop' ? 'desktop' : null;
+    const savedView = urlParam || hashView || localStorage.getItem(VIEW_KEY) || 'scroll';
     root.dataset.view = savedView;
 
     function toggleView() {
@@ -1437,174 +1937,506 @@
     if (taskbarViewBtn) taskbarViewBtn.addEventListener('click', toggleView);
   })();
 
-  // Desktop mode: folder double-clicks, modal handling, taskbar integration
+  // ── Desktop mode: draggable panel, draggable windows, taskbar ──
   (function () {
-    const taskbarWindows = document.getElementById('taskbarWindows');
-    const openWindows = new Set();
-
-    // Window metadata
     const windowMeta = {
-      work: { title: 'Case Studies', icon: '📁' },
-      fun: { title: 'Fun Corner', icon: '🎨' },
-      about: { title: 'About', icon: '👤' }
+      work:    { title: 'Works',    el: null },
+      resume:  { title: 'Resume',   el: null },
+      me:      { title: 'About me', el: null },
+      fun:     { title: 'Fun',      el: null },
+      archive: { title: 'Archive',  el: null },
     };
+    document.querySelectorAll('.desktop-window').forEach(w => {
+      const id = w.dataset.windowId;
+      if (windowMeta[id]) windowMeta[id].el = w;
+    });
 
-    // Clone content from scroll layout into modals (only once on load)
-    function cloneContentToModals() {
-      const sections = [
-        { id: 'work', target: 'modalWorkContent' },
-        { id: 'fun', target: 'modalFunContent' },
-        { id: 'about', target: 'modalAboutContent' }
-      ];
-      sections.forEach(({ id, target }) => {
-        const section = document.getElementById(id);
-        const targetEl = document.getElementById(target);
-        if (section && targetEl && !targetEl.hasChildNodes()) {
-          targetEl.appendChild(section.cloneNode(true));
+    const taskbarEl          = document.getElementById('desktopTaskbar');
+    const taskbarBgSvg       = document.getElementById('taskbarBgSvg');
+    const taskbarPath        = document.getElementById('taskbarPath');
+    const taskbarActiveNotch = document.getElementById('taskbarActiveNotch');
+    const taskbarNotchLabel  = document.getElementById('taskbarNotchLabel');
+    const taskbarInactiveTabs= document.getElementById('taskbarInactiveTabs');
+    const startPanel         = document.getElementById('startPanel');
+    let   zTop               = 100;
+    let   activeId           = 'sdimri'; // 'sdimri' or window ID
+
+    // Exact Figma Subtract path using cubic beziers: bottom corners and cutout corners at 25px
+    function generateTaskbarPath(cutoutW, W, R) {
+      const r = R || 25;
+      const k = 0.5522847498;
+      const rk = r * k;
+      const cEnd = 12 + cutoutW;
+      return [
+        `M ${W} ${54 - r}`,
+        `C ${W} ${54 - r + rk} ${W - r + rk} 54 ${W - r} 54`,
+        `H ${r}`,
+        `C ${r - rk} 54 0 ${54 - r + rk} 0 ${54 - r}`,
+        `V 0`,
+        `H 12`,
+        `V ${44 - r}`,
+        `C 12 ${44 - r + rk} ${12 + r - rk} 44 ${12 + r} 44`,
+        `H ${cEnd - r}`,
+        `C ${cEnd - r + rk} 44 ${cEnd} ${44 - r + rk} ${cEnd} ${44 - r}`,
+        `V 0`,
+        `H ${W}`,
+        `V ${54 - r}`,
+        `Z`
+      ].join(' ');
+    }
+
+    // ── Works Data (Exact Figma Frames: 547:163, 557:2774, 557:1519) ──
+    const worksData = [
+      {
+        category: 'Case Studies',
+        subtitle: 'worth your time',
+        projects: [
+          {
+            id: 'booknest',
+            name: 'Booknest',
+            cardTitle: 'BookNest',
+            desc: 'Reading platform optimizing behaviour & discovery',
+            tags: ['UX Research', 'Solo Project', '4 Months'],
+            url: 'booknest.html'
+          },
+          {
+            id: 'ping',
+            name: 'Ping Browser',
+            cardTitle: 'Ping Browser',
+            desc: 'Enterprise browser website, dashboard & design system',
+            tags: ['Design Systems', 'B2B', '3 Months'],
+            url: 'ping.html'
+          },
+          {
+            id: 'ritual',
+            name: 'Ritual, Intention and growth',
+            cardTitle: 'Ritual & Growth',
+            desc: 'Mindful habit loops, personal rituals and emotional growth',
+            tags: ['UX Research', 'Self-Initiated', '2 Months'],
+            url: 'dataviz.html'
+          },
+          {
+            id: 'financial-data',
+            name: 'Financial Data Platform',
+            cardTitle: 'Financial Data Platform',
+            desc: 'Interface for browsing, comparing & acting on financial data',
+            tags: ['Fintech', 'Product Design', 'Framer'],
+            url: 'https://saumyadimri.framer.website/data-platform'
+          },
+          {
+            id: 'moms-cookbook',
+            name: "Mom's Cookbook",
+            cardTitle: "Mom's Cookbook",
+            desc: 'A family recipe book in progress, designed as a flip book',
+            tags: ['Editorial', 'Food', 'Side Project'],
+            url: 'momscookbook.html'
+          }
+        ]
+      },
+      {
+        category: 'Visual Design',
+        subtitle: 'worth your time',
+        projects: [
+          {
+            id: 'chaturaaj',
+            name: 'Chaturaaj',
+            cardTitle: 'Chaturaaj',
+            desc: 'A modern Indian board game — rules, board, pieces & packaging',
+            tags: ['Game Design', 'Packaging', 'Behance'],
+            url: 'https://www.behance.net/gallery/214995291/CHATURAAJ-Indian-Board-Game-design'
+          },
+          {
+            id: 'gods-agency',
+            name: "God's Agency",
+            cardTitle: "God's Agency",
+            desc: 'Visual storytelling and narrative brand exploration',
+            tags: ['Visual Design', 'Narrative', 'Branding'],
+            url: 'https://www.behance.net/saumyadimri'
+          },
+          {
+            id: 'illustrations',
+            name: 'Illustrations',
+            cardTitle: 'Illustrations',
+            desc: 'Character studies, brush experiments & visual explorations',
+            tags: ['Procreate', 'Visual', 'Side Project'],
+            url: 'illustrations.html'
+          },
+          {
+            id: 'week-in-pages',
+            name: 'A week in pages',
+            cardTitle: 'A Week In Pages',
+            desc: 'A week documented in hand-made spreads and travel notes',
+            tags: ['Travel Journal', 'Editorial', 'Behance'],
+            url: 'https://www.behance.net/gallery/201876773/A-week-in-pages-Travel-Journal'
+          },
+          {
+            id: 'art',
+            name: 'Art',
+            cardTitle: 'Art & Motion',
+            desc: 'Sunflowers: Dark Bloom — stop-motion animation short',
+            tags: ['Stop-motion', 'Photography', 'Visual'],
+            url: 'https://www.behance.net/gallery/200399389/Sunflowers-Dark-Bloom-Stop-Motion-Animation'
+          }
+        ]
+      },
+      {
+        category: 'Mini Projects',
+        subtitle: 'worth your time',
+        projects: [
+          {
+            id: 'money-app',
+            name: 'Money App',
+            cardTitle: 'Money App',
+            desc: 'Personal finance tracking and expense visualization UI',
+            tags: ['Fintech', 'Mobile App', 'UI Design'],
+            url: 'dataviz.html'
+          },
+          {
+            id: 'irctc',
+            name: 'IRCTC',
+            cardTitle: 'IRCTC Redesign',
+            desc: 'Rethinking India\'s railway booking platform for travellers',
+            tags: ['UI/UX', 'Redesign', 'Behance'],
+            url: 'https://www.behance.net/gallery/202496381/IRCTC-Website-Redesign-UIUX-Case-Study'
+          },
+          {
+            id: 'data-viz',
+            name: 'Data Visualization',
+            cardTitle: 'Data Visualization',
+            desc: 'Tracking conditioned emotional responses across place & sound',
+            tags: ['Data Viz', 'Somatic Memory', 'Side Project'],
+            url: 'dataviz.html'
+          },
+          {
+            id: 'lifelog',
+            name: 'Lifelog',
+            cardTitle: 'Lifelog',
+            desc: 'A photo-memory app built for the Adobe Designathon',
+            tags: ['Adobe Designathon', 'Mobile UX', 'Framer'],
+            url: 'https://saumyadimri.framer.website/lifelog'
+          },
+          {
+            id: 'piscivore',
+            name: 'Piscivore',
+            cardTitle: 'Piscivore',
+            desc: 'Brand identity, packaging, and web for a fish-food company',
+            tags: ['Branding', 'Identity', 'Framer'],
+            url: 'https://saumyadimri.framer.website/piscivore'
+          }
+        ]
+      }
+    ];
+
+    let currentCategoryIdx = 0;
+    let selectedProject = null;
+
+    const worksCatTitle   = document.getElementById('worksCatTitle');
+    const worksCatSub     = document.getElementById('worksCatSub');
+    const worksCatCount   = document.getElementById('worksCatCount');
+    const worksGrid       = document.getElementById('worksGrid');
+    const worksNavLeft    = document.getElementById('worksNavLeft');
+    const worksNavRight   = document.getElementById('worksNavRight');
+    const worksPreviewCard= document.getElementById('worksPreviewCard');
+    const worksPreviewTitle= document.getElementById('worksPreviewTitle');
+    const worksPreviewDesc= document.getElementById('worksPreviewDesc');
+    const worksPreviewPills= document.getElementById('worksPreviewPills');
+
+    function openProjectUrl(url) {
+      if (!url) return;
+      if (url.startsWith('http')) {
+        window.open(url, '_blank', 'noopener');
+      } else {
+        window.location.href = url;
+      }
+    }
+
+    function renderWorksCategory(catIdx) {
+      currentCategoryIdx = catIdx;
+      selectedProject = null;
+      if (worksPreviewCard) worksPreviewCard.style.display = 'none';
+
+      const cat = worksData[catIdx];
+      if (!cat) return;
+
+      if (worksCatTitle) worksCatTitle.textContent = cat.category;
+      if (worksCatSub) worksCatSub.textContent = cat.subtitle;
+      if (worksCatCount) worksCatCount.textContent = cat.projects.length;
+
+      // Arrows visibility:
+      // Category 0 (Case Studies): right arrow only
+      // Category 1 (Visual Design): both left and right arrows
+      // Category 2 (Mini Projects): left arrow only
+      if (worksNavLeft) {
+        if (catIdx === 0) worksNavLeft.classList.add('is-hidden');
+        else worksNavLeft.classList.remove('is-hidden');
+      }
+      if (worksNavRight) {
+        if (catIdx === worksData.length - 1) worksNavRight.classList.add('is-hidden');
+        else worksNavRight.classList.remove('is-hidden');
+      }
+
+      // Render 5 folders
+      if (!worksGrid) return;
+      worksGrid.innerHTML = '';
+      cat.projects.forEach(proj => {
+        const item = document.createElement('button');
+        item.type = 'button';
+        item.className = 'works-item';
+        item.setAttribute('data-proj-id', proj.id);
+
+        item.innerHTML = `
+          <img class="works-item-icon works-item-icon-default" src="assets/desktop/house-unselected.svg" alt="${proj.name}" draggable="false" />
+          <img class="works-item-icon works-item-icon-selected" src="assets/desktop/house-selected.svg" alt="${proj.name}" draggable="false" />
+          <span class="works-item-name">${proj.name}</span>
+        `;
+
+        // Single click: select folder and reveal preview card right below
+        item.addEventListener('click', () => {
+          selectProject(proj, item);
+        });
+
+        // Double click: open project link
+        item.addEventListener('dblclick', (e) => {
+          e.stopPropagation();
+          openProjectUrl(proj.url);
+        });
+
+        worksGrid.appendChild(item);
+      });
+    }
+
+    function selectProject(proj, itemEl) {
+      selectedProject = proj;
+      // Highlight selected folder
+      document.querySelectorAll('.works-item').forEach(el => {
+        if (el === itemEl) {
+          el.classList.add('is-selected');
+        } else {
+          el.classList.remove('is-selected');
+        }
+      });
+
+      // Update and reveal descriptive card (Frame 16)
+      if (worksPreviewCard && worksPreviewTitle && worksPreviewDesc && worksPreviewPills) {
+        worksPreviewTitle.textContent = proj.cardTitle || proj.name;
+        worksPreviewDesc.textContent = proj.desc || '';
+        worksPreviewPills.innerHTML = (proj.tags || []).map(t => `<span class="works-preview-pill">${t}</span>`).join('');
+        worksPreviewCard.style.display = 'flex';
+      }
+    }
+
+    if (worksNavLeft) {
+      worksNavLeft.addEventListener('click', () => {
+        if (currentCategoryIdx > 0) renderWorksCategory(currentCategoryIdx - 1);
+      });
+    }
+    if (worksNavRight) {
+      worksNavRight.addEventListener('click', () => {
+        if (currentCategoryIdx < worksData.length - 1) renderWorksCategory(currentCategoryIdx + 1);
+      });
+    }
+
+    if (worksPreviewCard) {
+      worksPreviewCard.addEventListener('click', () => {
+        if (selectedProject && selectedProject.url) {
+          openProjectUrl(selectedProject.url);
         }
       });
     }
 
-    // Update taskbar
+    function resetWindowPosition(el) {
+      el.style.left = '50%';
+      el.style.top = '132px';
+      el.style.transform = 'translateX(-50%)';
+      el.style.right = 'auto';
+      el.style.bottom = 'auto';
+    }
+
+    // Show the desktop home (main window with icons)
+    function showDesktopHome() {
+      // Close all sub-windows
+      document.querySelectorAll('.desktop-window').forEach(w => w.classList.remove('is-open'));
+      if (worksPreviewCard) worksPreviewCard.style.display = 'none';
+
+      // Show main window centered at top: 132px
+      if (startPanel) {
+        resetWindowPosition(startPanel);
+        startPanel.style.display = 'flex';
+        bringToFront(startPanel);
+      }
+      activeId = 'sdimri';
+      updateTaskbar();
+    }
+
+    // Open a specific sub-window (e.g. Works, About me)
+    function openWindow(id) {
+      const meta = windowMeta[id];
+      if (!meta || !meta.el) return;
+
+      // HIDE the main window with icons (it minimizes to taskbar as 'sdimri')
+      if (startPanel) {
+        startPanel.style.display = 'none';
+      }
+
+      // Close other open windows
+      document.querySelectorAll('.desktop-window').forEach(w => {
+        if (w !== meta.el) w.classList.remove('is-open');
+      });
+
+      resetWindowPosition(meta.el);
+      meta.el.classList.add('is-open');
+      bringToFront(meta.el);
+      activeId = id;
+
+      if (id === 'work') {
+        renderWorksCategory(0); // Always start with Case Studies as requested!
+      }
+
+      updateTaskbar();
+    }
+
+    function closeWindow(id) {
+      const meta = windowMeta[id];
+      if (meta && meta.el) {
+        meta.el.classList.remove('is-open');
+      }
+      if (id === 'work' && worksPreviewCard) {
+        worksPreviewCard.style.display = 'none';
+      }
+      // When window closes, return to main window
+      showDesktopHome();
+    }
+
+    function bringToFront(el) {
+      zTop++;
+      el.style.zIndex = zTop;
+    }
+
     function updateTaskbar() {
-      if (!taskbarWindows) return;
-      taskbarWindows.innerHTML = '';
-      openWindows.forEach(modalId => {
-        const meta = windowMeta[modalId];
-        if (!meta) return;
-        const btn = document.createElement('button');
-        btn.className = 'taskbar-window is-active';
-        btn.innerHTML = `<span class="icon">${meta.icon}</span><span class="label">${meta.title}</span>`;
-        btn.addEventListener('click', () => focusModal(modalId));
-        taskbarWindows.appendChild(btn);
-      });
-    }
+      if (!taskbarEl || !taskbarPath || !taskbarBgSvg) return;
 
-    // Open modal
-    function openModal(modalId) {
-      const modal = document.getElementById('modal' + modalId.charAt(0).toUpperCase() + modalId.slice(1));
-      if (modal) {
-        cloneContentToModals();
-        modal.classList.add('is-open');
-        document.body.style.overflow = 'hidden';
-        openWindows.add(modalId);
-        updateTaskbar();
+      const barWidth = taskbarEl.clientWidth || 1406;
+      const isHome = (activeId === 'sdimri');
+      const cutoutW = isHome ? 166 : 205;
+
+      taskbarBgSvg.setAttribute('viewBox', '0 0 ' + barWidth + ' 54');
+      taskbarPath.setAttribute('d', generateTaskbarPath(cutoutW, barWidth, 25));
+
+      if (isHome) {
+        // Main window active
+        taskbarActiveNotch.classList.remove('wide');
+        taskbarActiveNotch.style.width = '166px';
+        taskbarNotchLabel.textContent = 'Sdimri';
+        taskbarInactiveTabs.innerHTML = '';
+      } else {
+        // Sub-window active (e.g. Works or About me)
+        const meta = windowMeta[activeId];
+        taskbarActiveNotch.classList.add('wide');
+        taskbarActiveNotch.style.width = '205px';
+        taskbarNotchLabel.textContent = meta ? meta.title : 'Works';
+        taskbarInactiveTabs.style.left = (12 + 205 + 26) + 'px';
+        taskbarInactiveTabs.innerHTML = '';
+
+        // The main window appears as the inactive tab "sdimri"
+        const sdimriBtn = document.createElement('button');
+        sdimriBtn.className = 'taskbar-tab-btn';
+        sdimriBtn.textContent = 'sdimri';
+        sdimriBtn.title = 'Back to main window';
+        sdimriBtn.addEventListener('click', () => {
+          showDesktopHome();
+        });
+        taskbarInactiveTabs.appendChild(sdimriBtn);
       }
     }
 
-    // Close modal
-    function closeModal(modalId) {
-      const modal = document.getElementById('modal' + modalId.charAt(0).toUpperCase() + modalId.slice(1));
-      if (modal) {
-        modal.classList.remove('is-open');
-        document.body.style.overflow = '';
-        openWindows.delete(modalId);
-        updateTaskbar();
-      }
-    }
+    window.addEventListener('resize', updateTaskbar);
 
-    // Focus modal (from taskbar click)
-    function focusModal(modalId) {
-      const modal = document.getElementById('modal' + modalId.charAt(0).toUpperCase() + modalId.slice(1));
-      if (modal && modal.classList.contains('is-open')) {
-        // Already open, just bring to front (z-index handled by DOM order)
-        modal.style.zIndex = 101;
-        setTimeout(() => { modal.style.zIndex = ''; }, 10);
-      }
-    }
-
-    // Folder DOUBLE-CLICK handlers (not single click)
-    document.querySelectorAll('.folder[data-modal]').forEach(folder => {
-      folder.addEventListener('dblclick', () => {
-        const modalId = folder.dataset.modal;
-        openModal(modalId);
-      });
+    // Icon click handlers on main window
+    document.querySelectorAll('.folder[data-window]').forEach(btn => {
+      btn.addEventListener('click', () => openWindow(btn.dataset.window));
     });
 
     // Close button handlers
-    document.querySelectorAll('.modal-close[data-close]').forEach(btn => {
+    document.querySelectorAll('[data-close-window]').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const modalId = btn.dataset.close;
-        closeModal(modalId);
+        closeWindow(btn.dataset.closeWindow);
       });
     });
 
-    // Close on backdrop click
-    document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
-      backdrop.addEventListener('click', (e) => {
-        if (e.target === backdrop) {
-          const modalId = backdrop.id.replace('modal', '').toLowerCase();
-          closeModal(modalId);
+    // Focus window on click
+    document.querySelectorAll('.desktop-window').forEach(w => {
+      w.addEventListener('mousedown', () => {
+        const id = w.dataset.windowId;
+        if (id && activeId !== id) {
+          activeId = id;
+          updateTaskbar();
         }
+        bringToFront(w);
       });
     });
 
-    // ESC key to close
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        document.querySelectorAll('.modal-backdrop.is-open').forEach(modal => {
-          const modalId = modal.id.replace('modal', '').toLowerCase();
-          closeModal(modalId);
-        });
+    // Click on active notch brings active window to front
+    taskbarActiveNotch.addEventListener('click', () => {
+      if (activeId === 'sdimri') {
+        if (startPanel) bringToFront(startPanel);
+      } else if (windowMeta[activeId] && windowMeta[activeId].el) {
+        bringToFront(windowMeta[activeId].el);
       }
     });
-  })();
 
-  // Taskbar clock
-  (function () {
-    const clock = document.getElementById('taskbarClock');
-    if (!clock) return;
-    function updateClock() {
-      const now = new Date();
-      const hours = String(now.getHours()).padStart(2, '0');
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      clock.textContent = `${hours}:${minutes}`;
-    }
-    updateClock();
-    setInterval(updateClock, 1000);
-  })();
-
-  // Smooth scroll for in-page anchors
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', (e) => {
-      const id = a.getAttribute('href').slice(1);
-      if (!id) return;
-      const target = document.getElementById(id);
-      if (target) {
+    // Draggable helper: handles transform and coordinates smoothly
+    function makeDraggable(el, handleEl) {
+      handleEl.addEventListener('mousedown', e => {
+        if (e.target.closest('button, .window-close-btn, .works-nav-btn, a, .folder, .works-item')) return;
         e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    });
-  });
+        bringToFront(el);
+        const rect = el.getBoundingClientRect();
+        el.style.transform = 'none';
+        el.style.left   = rect.left + 'px';
+        el.style.top    = rect.top  + 'px';
+        el.style.right  = 'auto';
+        el.style.bottom = 'auto';
+        const sx = e.clientX, sy = e.clientY;
+        const ol = rect.left,  ot = rect.top;
 
-  // Random book recommendation
-  (function () {
-    const btn = document.getElementById('bookRecBtn');
-    const out = document.getElementById('bookRecResult');
-    if (!btn || !out) return;
-    const recs = [
-      { title: 'Atomic Habits', author: 'James Clear', why: 'if you keep making the same New Year resolution.' },
-      { title: 'The Design of Everyday Things', author: 'Don Norman', why: 'if you ever blamed yourself for a confusing door.' },
-      { title: 'Sapiens', author: 'Yuval Noah Harari', why: 'for a Sunday-long story of humanity.' },
-      { title: 'Tiny Beautiful Things', author: 'Cheryl Strayed', why: 'when you need warmth dressed as advice.' },
-      { title: 'A Little Life', author: 'Hanya Yanagihara', why: 'if you want a book to ruin you (kindly).' },
-      { title: 'Hooked', author: 'Nir Eyal', why: 'to understand the apps you keep opening.' },
-      { title: 'The Midnight Library', author: 'Matt Haig', why: 'when you keep wondering about the other version of you.' },
-      { title: 'Klara and the Sun', author: 'Kazuo Ishiguro', why: 'a quiet, devastating story about attention.' },
-      { title: 'Hooked on Reading?', author: 'Maria Konnikova', why: 'try this if BookNest got you thinking.' },
-      { title: 'The Creative Act', author: 'Rick Rubin', why: 'short chapters, slow ideas.' },
-      { title: 'Show Your Work', author: 'Austin Kleon', why: 'an antidote to perfectionism.' },
-      { title: 'Steal Like an Artist', author: 'Austin Kleon', why: 'permission to copy, remix, and ship.' },
-    ];
-    btn.addEventListener('click', () => {
-      const r = recs[Math.floor(Math.random() * recs.length)];
-      out.querySelector('strong').textContent = `${r.title} — ${r.author}`;
-      out.querySelector('.lbl').textContent = r.why;
-      out.classList.add('is-visible');
+        function onMove(e) {
+          el.style.left = (ol + e.clientX - sx) + 'px';
+          el.style.top  = (ot + e.clientY - sy) + 'px';
+        }
+        function onUp() {
+          document.removeEventListener('mousemove', onMove);
+          document.removeEventListener('mouseup', onUp);
+        }
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onUp);
+      });
+    }
+
+    // Draggable windows (via their header bar)
+    document.querySelectorAll('.desktop-window').forEach(w => {
+      const header = w.querySelector('.window-header');
+      if (header) makeDraggable(w, header);
     });
+
+    // Draggable START panel (via startPanelHeader or panel itself)
+    if (startPanel) {
+      const header = document.getElementById('startPanelHeader');
+      makeDraggable(startPanel, header || startPanel);
+    }
+
+    // Back to scroll mode button
+    const backBtn = document.getElementById('desktopBackBtn');
+    if (backBtn) {
+      backBtn.addEventListener('click', () => {
+        document.documentElement.dataset.view = 'scroll';
+        localStorage.setItem('view', 'scroll');
+      });
+    }
+
+    // Initial state: show desktop home
+    showDesktopHome();
   })();
-
 </script>
 
 </body>
