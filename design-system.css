@@ -20,7 +20,7 @@
   --accent-ink:   #9173D7;   /* accent text */
   --rule:         rgba(255, 255, 255, 0.08);
   --rule-strong:  rgba(255, 255, 255, 0.15);
-  --selection:    rgba(145, 115, 215, 0.35);
+  --selection:    #9173D7;
 
   /* Typography */
   --font-display: 'Doto', monospace;
@@ -83,7 +83,8 @@ body {
 }
 img, svg, video { max-width: 100%; display: block; }
 button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
-::selection { background: var(--selection); }
+::selection { background: #9173D7 !important; color: #ffffff !important; }
+::-moz-selection { background: #9173D7 !important; color: #ffffff !important; }
 
 /* ---- LINKS ---- */
 a {
@@ -445,25 +446,34 @@ hr.rule {
    Modern, sleek spacious header with cursive brand logo on the left,
    expanded menu items, and larger icons. Reads seamlessly on pure black. */
 .titlebar {
-  position: sticky; top: 0; z-index: 50;
-  background: var(--paper);
-  border-bottom: none;
-  box-shadow: none;
+  position: sticky; top: 0; z-index: 100;
+  background: #000000 !important;
+  background-color: #000000 !important;
+  border: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  padding-top: 14px;
+  padding-bottom: 10px;
 }
 .titlebar-inner {
   display: flex; align-items: center; justify-content: space-between;
-  height: 76px;
+  height: auto;
+  min-height: 60px;
   max-width: var(--container);
   margin-inline: auto;
   padding-inline: var(--gutter);
   gap: var(--sp-6);
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 .titlebar .tb-title {
   display: inline-flex; align-items: center; gap: var(--sp-2);
   text-decoration: none;
 }
 .titlebar .tb-brand-img {
-  height: 52px;
+  height: 58px;
+  max-height: 58px;
   width: auto;
   display: block;
   object-fit: contain;
@@ -570,33 +580,32 @@ hr.rule {
 }
 
 /* ============================================================
-   LIGHT THEME — same accent, mirrored surface hierarchy.
-   Apply by setting data-theme="light" on <html> or <body>.
+   LIGHT THEME FALLBACK — normalized to pure black and lilac accent.
    ============================================================ */
 [data-theme="light"] {
-  --paper:        #f4f3ee;   /* warm off-white page bg */
-  --paper-2:      #e8e6df;   /* lifted surface */
-  --sage:         #ddd9cf;   /* callout / contrast */
-  --sage-2:       #c8c4b8;   /* border on lifted */
-  --ink:          #16161a;
-  --ink-soft:     #5c5c54;
-  --ink-faint:    #97928a;
-  --accent:       #f5c64a;   /* same amber */
-  --accent-soft:  rgba(245, 198, 74, 0.28);
-  --accent-ink:   #8a6010;   /* deeper amber — readable as link text on light */
-  --rule:         rgba(0, 0, 0, 0.10);
-  --rule-strong:  rgba(0, 0, 0, 0.22);
-  --selection:    rgba(245, 198, 74, 0.40);
+  --paper:        #000000;
+  --paper-2:      #000000;
+  --sage:         #111116;
+  --sage-2:       #20202a;
+  --ink:          #ededea;
+  --ink-soft:     #a4a49d;
+  --ink-faint:    #6c6c66;
+  --accent:       #9173D7;
+  --accent-soft:  rgba(145, 115, 215, 0.16);
+  --accent-ink:   #9173D7;
+  --rule:         rgba(255, 255, 255, 0.08);
+  --rule-strong:  rgba(255, 255, 255, 0.15);
+  --selection:    #9173D7;
 
-  --shadow-soft:  0 1px 0 rgba(0,0,0,0.04), 0 8px 24px -8px rgba(0,0,0,0.12);
-  --shadow-frame: 2px 2px 0 rgba(0,0,0,0.5);
+  --shadow-soft:  0 1px 0 rgba(255,255,255,0.04), 0 12px 32px -10px rgba(0,0,0,0.7);
+  --shadow-frame: 2px 2px 0 rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04);
 }
 
-/* Component overrides — places where bevels / button surfaces
-   need to flip direction in light mode.                       */
 [data-theme="light"] .titlebar {
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.8),
-              inset 0 -1px 0 rgba(0,0,0,0.04);
+  background: #000000 !important;
+  border: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
 }
 [data-theme="light"] .titlebar .tb-controls button,
 [data-theme="light"] .titlebar .tb-theme {

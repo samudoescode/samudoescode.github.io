@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" data-view="desktop">
+<html lang="en" data-view="desktop" data-theme="dark">
 <head>
   <script>
     (function () {
+      try { localStorage.removeItem('theme'); } catch(e){}
+      document.documentElement.dataset.theme = 'dark';
       const urlParam = new URLSearchParams(window.location.search).get('view');
       if (urlParam === 'scroll') {
         document.documentElement.dataset.view = 'scroll';
@@ -17,12 +19,96 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Serif+Lao:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Bangers&family=Doto:wght@100..900&family=Intel+One+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="design-system.css">
+  <link rel="stylesheet" href="design-system.css?v=20261119e">
   <style>
     /* ─────────────────────────────────────────────
-       Homepage-specific styles
-       Built on design-system tokens. Editorial layout.
+       Global Token & Component Enforcement
+       Guarantees pure black #000000, #9173D7 accent & selection,
+       Doto Black headings, and zero navbar clipping/dividers.
        ───────────────────────────────────────────── */
+    :root, [data-theme="dark"], [data-theme="light"], html, body {
+      --paper: #000000 !important;
+      --paper-2: #000000 !important;
+      --accent: #9173D7 !important;
+      --accent-ink: #9173D7 !important;
+      --accent-soft: rgba(145, 115, 215, 0.18) !important;
+      --selection: #9173D7 !important;
+      --font-display: 'Doto', monospace !important;
+      --font-body: 'DM Sans', system-ui, -apple-system, sans-serif !important;
+      --font-mono: 'DM Sans', system-ui, -apple-system, sans-serif !important;
+      background-color: #000000 !important;
+      color: #ededea;
+    }
+
+    ::selection {
+      background: #9173D7 !important;
+      color: #ffffff !important;
+    }
+    ::-moz-selection {
+      background: #9173D7 !important;
+      color: #ffffff !important;
+    }
+
+    /* Modern spacious Navbar - pure black #000000, zero cutting, zero lines */
+    .titlebar {
+      position: sticky !important;
+      top: 0 !important;
+      z-index: 100 !important;
+      background: #000000 !important;
+      background-color: #000000 !important;
+      border: none !important;
+      border-bottom: none !important;
+      box-shadow: none !important;
+      outline: none !important;
+      padding-top: 14px !important;
+      padding-bottom: 12px !important;
+    }
+    .titlebar-inner {
+      height: auto !important;
+      min-height: 64px !important;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+    .titlebar .tb-brand-img {
+      height: 58px !important;
+      max-height: 58px !important;
+      width: auto !important;
+      object-fit: contain !important;
+      display: block !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none !important;
+      transition: transform 0.2s ease;
+    }
+
+    /* Hero "Saumya" Title - Explicit Doto Black */
+    .hero-saumya-title {
+      font-family: 'Doto', monospace !important;
+      font-weight: 900 !important;
+      font-variation-settings: 'ROND' 0 !important;
+      font-size: clamp(3.5rem, 7.5vw + 1rem, 6.75rem) !important;
+      line-height: 0.98 !important;
+      color: #ffffff !important;
+      margin: 0 !important;
+    }
+
+    /* Headings in Doto 900 */
+    .display, h1, .h1, h2, .h2 {
+      font-family: 'Doto', monospace !important;
+      font-weight: 900 !important;
+    }
+
+    /* Selected Work titles in DM Sans */
+    .work-row .name {
+      font-family: 'DM Sans', system-ui, sans-serif !important;
+      font-weight: 600 !important;
+    }
+    .work-row .ext-tag {
+      font-family: 'DM Sans', system-ui, sans-serif !important;
+      color: #9173D7 !important;
+      border-color: #9173D7 !important;
+    }
 
     /* ---- View mode toggle (Switch to Desktop Mode) ---- */
     .tb-view {
@@ -1273,15 +1359,15 @@
     /* Descriptive Preview Card (Figma Frame 16) */
     .works-preview-card {
       width: 726px;
-      min-height: 108px;
+      min-height: 120px;
       background: rgba(252, 248, 209, 0.45);
       border-radius: 25px;
       margin-top: 14px;
-      padding: 16px 32px;
+      padding: 18px 28px;
       box-sizing: border-box;
       display: flex;
       align-items: center;
-      gap: 32px;
+      gap: 24px;
       cursor: pointer;
       user-select: none;
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
@@ -1301,34 +1387,36 @@
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
       min-width: 0;
+      width: 100%;
     }
     .works-preview-row1 {
       display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 16px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
       width: 100%;
     }
     .works-preview-title {
       font-family: 'Doto', monospace;
       font-weight: 900;
-      font-size: 32px;
-      line-height: 38px;
+      font-size: 28px;
+      line-height: 32px;
       color: #E30000;
       margin: 0;
-      white-space: nowrap;
+      white-space: normal;
+      word-break: break-word;
     }
     .works-preview-desc {
       font-family: 'Doto', monospace;
       font-weight: 800;
-      font-size: 16px;
-      line-height: 19px;
+      font-size: 15px;
+      line-height: 20px;
       color: #000000;
       margin: 0;
-      flex: 1;
-      text-align: right;
+      width: 100%;
+      text-align: left;
     }
     .works-preview-pills {
       border: 0.5px solid #000000;
@@ -1340,12 +1428,13 @@
       justify-content: space-between;
       box-sizing: border-box;
       width: 100%;
+      margin-top: 4px;
     }
     .works-preview-pill {
       font-family: 'Doto', monospace;
       font-weight: 800;
-      font-size: 16px;
-      line-height: 19px;
+      font-size: 15px;
+      line-height: 18px;
       color: #000000;
     }
 
@@ -2095,8 +2184,9 @@
     </button>
   </div>
 
-  <!-- Hidden background YouTube music iframe -->
-  <iframe id="bgMusicPlayer" width="1" height="1" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" allow="autoplay" src=""></iframe>
+  <!-- Hidden background music player: preloaded so music starts immediately on toggle without 5s cold-load delay -->
+  <iframe id="bgMusicPlayer" width="1" height="1" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" allow="autoplay" src="https://www.youtube-nocookie.com/embed/TZAin-Af_Ws?enablejsapi=1&autoplay=0&loop=1&playlist=TZAin-Af_Ws"></iframe>
+  <audio id="localBgAudio" loop preload="auto" src="assets/audio/bg-music.mp3"></audio>
 
   <!-- START panel (draggable + resizable, 802px wide, FCF8D1 45% opacity with 7px zero-opacity gap) -->
   <div class="start-panel" id="startPanel">
@@ -2142,6 +2232,9 @@
 <!-- About Me window (Figma 545:99) -->
 <div class="desktop-window" id="windowMe" data-window-id="me">
   <div class="window-header">
+    <button class="window-back-btn" id="meBackBtn" type="button" aria-label="Back to desktop">
+      <img src="assets/desktop/pixel-arrow-left.svg" alt="Back" draggable="false">
+    </button>
     <button class="window-close-btn" data-close-window="me" aria-label="Close">
       <img src="assets/desktop/icon-close.svg" alt="Close" draggable="false">
     </button>
@@ -2341,18 +2434,11 @@ Currently trying to rekindle passion in life. When not buried 8 feet deep in thi
 <!-- End .desktop-layout -->
 
 <script>
-  // Title bar theme toggle
+  // Ensure dark mode (#000000) permanently
   (function () {
     const root = document.documentElement;
-    const KEY = 'theme';
-    const saved = localStorage.getItem(KEY) || 'dark';
-    root.dataset.theme = saved;
-    const btn = document.getElementById('themeToggle');
-    if (btn) btn.addEventListener('click', () => {
-      const next = root.dataset.theme === 'light' ? 'dark' : 'light';
-      root.dataset.theme = next;
-      localStorage.setItem(KEY, next);
-    });
+    try { localStorage.removeItem('theme'); } catch (e) {}
+    root.dataset.theme = 'dark';
   })();
 
   // View mode toggle (Scroll ↔ Desktop) - works from both title bar and taskbar
@@ -3194,12 +3280,22 @@ Currently trying to rekindle passion in life. When not buried 8 feet deep in thi
       });
     }
 
-    // Music toggle: plays/pauses background YouTube track
+    // Music toggle: plays/pauses background YouTube track with instant response (no 5s cold load)
     const musicBtn = document.getElementById('decoMusicBtn');
     const musicTooltip = document.getElementById('musicTooltip');
     const bgPlayer = document.getElementById('bgMusicPlayer');
+    const localBgAudio = document.getElementById('localBgAudio');
     let isMusicPlaying = false;
-    const YOUTUBE_STREAM = 'https://www.youtube-nocookie.com/embed/TZAin-Af_Ws?autoplay=1&loop=1&playlist=TZAin-Af_Ws&enablejsapi=1';
+
+    function sendYtCommand(funcName) {
+      if (bgPlayer && bgPlayer.contentWindow) {
+        bgPlayer.contentWindow.postMessage(JSON.stringify({
+          event: 'command',
+          func: funcName,
+          args: []
+        }), '*');
+      }
+    }
 
     if (musicBtn) {
       musicBtn.addEventListener('click', (e) => {
@@ -3210,16 +3306,56 @@ Currently trying to rekindle passion in life. When not buried 8 feet deep in thi
           if (musicTooltip) musicTooltip.textContent = 'disable music';
           musicBtn.setAttribute('aria-label', 'disable music');
           musicBtn.title = 'disable music';
-          if (bgPlayer) bgPlayer.src = YOUTUBE_STREAM;
+          // Check for local bg-music.mp3 first, or trigger preloaded YouTube immediately
+          if (localBgAudio && localBgAudio.src && !localBgAudio.error) {
+            const p = localBgAudio.play();
+            if (p) p.catch(() => sendYtCommand('playVideo'));
+          } else {
+            sendYtCommand('playVideo');
+          }
         } else {
           musicBtn.classList.add('is-muted');
           if (musicTooltip) musicTooltip.textContent = 'enable music';
           musicBtn.setAttribute('aria-label', 'enable music');
           musicBtn.title = 'enable music';
-          if (bgPlayer) bgPlayer.src = '';
+          if (localBgAudio) localBgAudio.pause();
+          sendYtCommand('pauseVideo');
         }
       });
     }
+
+    // ── Desktop Click Sound System ──
+    // Authentic tactile mouse clicking sound on any project, icon, tab, or button click
+    const clickAudio = new Audio('assets/audio/click.wav');
+    clickAudio.preload = 'auto';
+
+    // If user provides a custom assets/audio/click.mp3, automatically use it
+    const userClickAudio = new Audio('assets/audio/click.mp3');
+    userClickAudio.addEventListener('canplaythrough', () => {
+      clickAudio.src = 'assets/audio/click.mp3';
+    });
+
+    function playClickSound() {
+      try {
+        const snd = clickAudio.cloneNode();
+        snd.volume = 0.5;
+        snd.play().catch(() => {});
+      } catch(e) {}
+    }
+    window.playClickSound = playClickSound;
+
+    document.addEventListener('click', (e) => {
+      if (document.documentElement.dataset.view !== 'desktop') return;
+      const clickable = e.target.closest(
+        '.desktop-icon, .works-item, .fun-item, .archive-item, .taskbar-tab, ' +
+        '.taskbar-notch, .window-close-btn, .window-back-btn, .archive-filter-btn, ' +
+        '.fun-redo-btn, .deco-btn, .works-preview-card, .fun-preview-card, ' +
+        'button, a, .start-item'
+      );
+      if (clickable) {
+        playClickSound();
+      }
+    }, true);
 
     // Initial state: show desktop home
     showDesktopHome();

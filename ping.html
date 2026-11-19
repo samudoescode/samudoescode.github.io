@@ -8,9 +8,29 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Serif+Lao:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link href="https://api.fontshare.com/v2/css?f[]=general-sans@200,300,400,500,600,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="design-system.css">
+  <link rel="stylesheet" href="design-system.css?v=20261119e">
 
   <style>
+    /* ---------------------------------------------------------
+       Typography Enforcement: Case studies use clean, editorial DM Sans
+       --------------------------------------------------------- */
+    :root {
+      --font-display: 'DM Sans', system-ui, -apple-system, sans-serif !important;
+      --font-body:    'DM Sans', system-ui, -apple-system, sans-serif !important;
+      --font-mono:    'DM Sans', system-ui, -apple-system, sans-serif !important;
+    }
+    body, h1, .h1, h2, .h2, h3, .h3, h4, .display, .lead, .case-prose, p, span, a, button, input, .stat .n, .persona-quote {
+      font-family: 'DM Sans', system-ui, -apple-system, sans-serif !important;
+    }
+    h1, .h1, .display {
+      font-weight: 700 !important;
+      letter-spacing: -0.025em !important;
+    }
+    h2, .h2, h3, .h3, h4 {
+      font-weight: 600 !important;
+      letter-spacing: -0.015em !important;
+    }
+
     /* -------------------------------------------------------
        Ping case study — page-specific styles
        ------------------------------------------------------- */

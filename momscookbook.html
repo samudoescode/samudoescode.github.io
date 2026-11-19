@@ -1,223 +1,611 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mom's Cookbook - Saumya Dimri</title>
+  <title>Mom's Recipe & Cookbook — Saumya Dimri</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Serif+Lao:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="design-system.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Doto:wght@900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="design-system.css?v=20261119e">
   <style>
-    body {
-      min-height: 100vh;
+    /* ---------------------------------------------------------
+       Typography Enforcement: DM Sans strictly for all case studies
+       --------------------------------------------------------- */
+    :root, [data-theme="dark"], html, body {
+      --paper: #000000 !important;
+      --paper-2: #000000 !important;
+      --accent: #9173D7 !important;
+      --accent-ink: #9173D7 !important;
+      --accent-soft: rgba(145, 115, 215, 0.18) !important;
+      --selection: #9173D7 !important;
+      --font-display: 'DM Sans', system-ui, -apple-system, sans-serif !important;
+      --font-body:    'DM Sans', system-ui, -apple-system, sans-serif !important;
+      --font-mono:    'DM Sans', system-ui, -apple-system, sans-serif !important;
+      background-color: #000000 !important;
+      color: #ededea;
     }
 
-    .cookbook-page {
-      padding-block: var(--sp-20);
+    body, h1, .h1, h2, .h2, h3, .h3, h4, .display, .lead, .case-prose, p, span, a, button, input, .stat .n, .persona-quote {
+      font-family: 'DM Sans', system-ui, -apple-system, sans-serif !important;
+    }
+    h1, .h1, .display {
+      font-weight: 700 !important;
+      letter-spacing: -0.025em !important;
+    }
+    h2, .h2, h3, .h3, h4 {
+      font-weight: 600 !important;
+      letter-spacing: -0.015em !important;
     }
 
+    ::selection {
+      background: #9173D7 !important;
+      color: #ffffff !important;
+    }
+    ::-moz-selection {
+      background: #9173D7 !important;
+      color: #ffffff !important;
+    }
+
+    /* Modern spacious Navbar - pure black #000000, zero cutting, zero lines */
+    .titlebar {
+      position: sticky !important;
+      top: 0 !important;
+      z-index: 100 !important;
+      background: #000000 !important;
+      background-color: #000000 !important;
+      border: none !important;
+      border-bottom: none !important;
+      box-shadow: none !important;
+      padding-top: 20px !important;
+      padding-bottom: 16px !important;
+    }
+    .titlebar-inner {
+      height: auto !important;
+      min-height: 64px !important;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      max-width: var(--container) !important;
+      margin-inline: auto !important;
+      padding-inline: var(--gutter) !important;
+    }
+    .titlebar .tb-brand-img {
+      height: 58px !important;
+      max-height: 58px !important;
+      width: auto !important;
+      object-fit: contain !important;
+      display: block !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none !important;
+      transition: transform 0.2s ease;
+    }
+
+    /* Page-specific components */
+    .case-prose { max-width: 68ch; }
+    .case-prose p { line-height: 1.75; margin: 0 0 var(--sp-4); color: var(--ink-soft); font-size: 1.05rem; }
+    .case-prose p:last-child { margin-bottom: 0; }
+    .case-prose strong { color: var(--ink); font-weight: 600; }
+
+    .case-hero { padding-block: var(--sp-20) var(--sp-12); }
+    .case-hero .subtitle {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: clamp(1.15rem, 0.4vw + 1rem, 1.4rem);
+      color: var(--ink-soft);
+      margin-top: var(--sp-3);
+    }
+    .case-hero .lead {
+      margin-top: var(--sp-8);
+      font-size: clamp(1.2rem, 0.6vw + 1rem, 1.45rem);
+      line-height: 1.5;
+      color: var(--ink);
+      max-width: 62ch;
+    }
+    .case-hero .meta-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--sp-6);
+      margin-top: var(--sp-12);
+      padding-block: var(--sp-6);
+      border-block: 1px solid var(--rule);
+    }
+    .meta-item .label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-faint);
+      margin-bottom: var(--sp-1);
+      display: block;
+    }
+    .meta-item .val {
+      font-weight: 600;
+      color: var(--ink);
+      font-size: 0.95rem;
+    }
+
+    /* Stat Cards Grid */
+    .stat-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-4);
+      margin-block: var(--sp-8);
+    }
+    .stat-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--rule);
+      border-radius: var(--r-3);
+      padding: var(--sp-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-2);
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .stat-card:hover {
+      border-color: #9173D7;
+      transform: translateY(-2px);
+    }
+    .stat-card .stat-num {
+      font-size: clamp(2.5rem, 4vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1;
+      color: #9173D7;
+    }
+    .stat-card .stat-label {
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--ink);
+    }
+    .stat-card .stat-desc {
+      font-size: 0.88rem;
+      color: var(--ink-soft);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* Feature requests list */
+    .feature-needs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-4);
+      margin-top: var(--sp-6);
+    }
+    .feature-need-pill {
+      background: rgba(145, 115, 215, 0.08);
+      border: 1px solid rgba(145, 115, 215, 0.25);
+      border-radius: var(--r-2);
+      padding: var(--sp-4) var(--sp-5);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .feature-need-pill .pct {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #9173D7;
+    }
+    .feature-need-pill .title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--ink);
+    }
+    .feature-need-pill .detail {
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+      line-height: 1.4;
+      margin: 0;
+    }
+
+    /* Dual Output Cards */
+    .dual-solution-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-6);
+      margin-block: var(--sp-8);
+    }
+    .solution-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--rule);
+      border-radius: var(--r-3);
+      padding: var(--sp-8);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-4);
+      position: relative;
+    }
+    .solution-card .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-radius: 999px;
+      background: rgba(145, 115, 215, 0.15);
+      color: #9173D7;
+      border: 1px solid rgba(145, 115, 215, 0.3);
+      align-self: flex-start;
+    }
+    .solution-card h3 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin: 0;
+      color: var(--ink);
+    }
+    .solution-card p {
+      font-size: 0.95rem;
+      color: var(--ink-soft);
+      line-height: 1.6;
+      margin: 0;
+    }
+    .solution-card ul {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--ink-soft);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    .solution-card ul li { margin-bottom: 6px; }
+
+    /* Quotes Grid */
+    .quotes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-4);
+      margin-block: var(--sp-8);
+    }
+    .user-quote-card {
+      background: rgba(255, 255, 255, 0.03);
+      border-left: 3px solid #9173D7;
+      padding: var(--sp-6);
+      border-radius: 0 var(--r-2) var(--r-2) 0;
+    }
+    .user-quote-card blockquote {
+      margin: 0;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--ink);
+      line-height: 1.5;
+    }
+    .user-quote-card cite {
+      display: block;
+      margin-top: var(--sp-3);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ink-faint);
+      font-style: normal;
+    }
+
+    /* Final Screens Placeholder Frame */
+    .screens-gallery-section {
+      margin-block: var(--sp-12);
+    }
+    .screens-placeholder-container {
+      background: rgba(255, 255, 255, 0.02);
+      border: 2px dashed rgba(145, 115, 215, 0.4);
+      border-radius: var(--r-3);
+      padding: var(--sp-16) var(--sp-8);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--sp-4);
+      margin-top: var(--sp-6);
+      transition: all 0.2s ease;
+    }
+    .screens-placeholder-container:hover {
+      border-color: #9173D7;
+      background: rgba(145, 115, 215, 0.04);
+    }
+    .screens-placeholder-icon {
+      width: 56px;
+      height: 56px;
+      color: #9173D7;
+      opacity: 0.8;
+    }
+    .screens-placeholder-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin: 0;
+    }
+    .screens-placeholder-text {
+      font-size: 0.92rem;
+      color: var(--ink-soft);
+      max-width: 48ch;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* Embedded Flip Book */
+    .flipzine-section {
+      margin-block: var(--sp-16) var(--sp-20);
+    }
+    .cookbook-embed {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      max-width: 100%;
+      border-radius: var(--r-3);
+      border: 1px solid var(--rule);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+      margin-top: var(--sp-6);
+      background: #111111;
+    }
+    .fp-iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Back link */
     .back-link {
       display: inline-flex;
-      margin-bottom: var(--sp-10);
-      font-family: var(--font-mono);
-      font-size: var(--fs-meta);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      text-decoration: none;
-      color: var(--ink-soft);
-    }
-
-    .back-link:hover {
-      color: var(--accent);
-    }
-
-    .cookbook-header {
-      margin-bottom: var(--sp-10);
-    }
-
-    .cookbook-header h1 {
-      margin: 0;
-      font-family: var(--font-display);
-      font-weight: 500;
-      font-size: var(--fs-hero);
-      line-height: 1;
-      color: var(--ink);
-    }
-
-    .cookbook-header p {
-      max-width: 58ch;
-      margin: var(--sp-5) 0 0;
-      font-size: var(--fs-lead);
-      color: var(--ink-soft);
-    }
-
-    .cookbook-embed {
-      overflow: hidden;
-      border: 1px solid var(--rule-strong);
-      border-radius: var(--r-3);
-      background: var(--paper-2);
-      box-shadow: var(--shadow-soft);
-    }
-
-    .fp-iframe {
-      display: block;
-      width: 100%;
-      height: min(76vh, 720px);
-      min-height: 420px;
-      border: 0;
-      background: var(--paper-2);
-    }
-
-    .contact-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--sp-6);
-      margin-top: var(--sp-16);
-      padding-top: var(--sp-6);
-      border-top: 1px solid var(--rule);
-    }
-
-    .contact-links a {
-      font-family: var(--font-mono);
-      font-size: var(--fs-small);
-      color: var(--ink);
-      text-decoration: none;
-      letter-spacing: 0.04em;
-      display: inline-flex;
-      align-items: baseline;
+      align-items: center;
       gap: 6px;
-      border-bottom: 1px solid transparent;
-      padding-bottom: 2px;
-      transition: color 0.2s, border-color 0.2s;
-    }
-
-    .contact-links a:hover {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
-    }
-
-    .contact-links a .platform {
-      font-size: 0.6875rem;
-      letter-spacing: 0.12em;
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
       text-transform: uppercase;
-      color: var(--ink-faint);
-    }
-
-    .footer {
-      border-top: 1px solid var(--rule);
-      padding-block: var(--sp-6);
-      color: var(--ink-faint);
-    }
-
-    .footer-inner {
-      max-width: var(--container);
-      margin-inline: auto;
-      padding-inline: var(--gutter);
-      display: flex;
-      justify-content: space-between;
-      gap: var(--sp-4);
-      flex-wrap: wrap;
-      font-family: var(--font-mono);
-      font-size: var(--fs-meta);
-      letter-spacing: 0.06em;
-    }
-
-    .footer-inner a {
-      color: var(--ink-soft);
+      font-weight: 600;
       text-decoration: none;
+      color: var(--ink-soft);
+      margin-bottom: var(--sp-6);
+      transition: color 0.15s ease;
     }
+    .back-link:hover { color: #9173D7; }
 
-    .footer-inner a:hover {
-      color: var(--accent);
-    }
-
-    @media (max-width: 720px) {
-      .titlebar-inner,
-      .tb-menu {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      .cookbook-page {
-        padding-block: var(--sp-12);
-      }
-
-      .fp-iframe {
-        height: 520px;
-        min-height: 360px;
-      }
+    @media (max-width: 900px) {
+      .case-hero .meta-row { grid-template-columns: repeat(2, 1fr); }
+      .stat-cards-grid, .feature-needs-grid, .dual-solution-grid, .quotes-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
+  <!-- Header / Nav -->
   <header class="titlebar">
     <div class="titlebar-inner">
-      <a class="tb-title" href="index.html">
-        <span class="dot"></span>
-        <span>saumya</span>
-        <span class="sep">—</span>
-        <span>portfolio</span>
+      <a class="tb-title tb-logo-brand" href="index.html">
+        <img src="assets/logo-saumya-cropped.png" alt="Saumya" class="tb-brand-img">
       </a>
       <nav class="tb-menu" aria-label="Portfolio navigation">
         <a href="index.html#work">Work</a>
         <a href="index.html#fun" class="is-active">Fun</a>
         <a href="index.html#about">About</a>
-        <a href="index.html#contact">Contact</a>
+        <a href="https://drive.google.com/file/d/17c98mvWmZVNqtjBSgb9D-Epj7hKCwrb2/view?usp=sharing" target="_blank" rel="noopener" class="tb-icon-only" aria-label="Resume" title="Resume">
+          <svg width="20" height="22" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0.65" y="0.65" width="10.7" height="12.7" rx="1.35" stroke="currentColor" stroke-width="1.3"/><line x1="2.8" y1="4.5" x2="9.2" y2="4.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><line x1="2.8" y1="7" x2="9.2" y2="7" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><line x1="2.8" y1="9.5" x2="6.5" y2="9.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+        </a>
+        <a href="mailto:saumyadimri28@gmail.com" class="tb-icon-only" aria-label="Email" title="Email">
+          <svg width="22" height="18" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0.65" y="0.65" width="12.7" height="9.7" rx="1.35" stroke="currentColor" stroke-width="1.3"/><path d="M1.2 1.8L7 6.4L12.8 1.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
       </nav>
-      <button class="tb-theme" id="themeToggle" aria-label="Toggle light / dark">
-        <span class="glyph icon-moon">☾</span>
-        <span class="glyph icon-sun">☀</span>
-      </button>
-      <div class="tb-controls" aria-hidden="true">
-        <button title="Minimize"><span class="glyph">−</span></button>
-        <button title="Maximize"><span class="glyph">☐</span></button>
-        <button class="tb-close" title="Close" onclick="window.location.href='index.html'"><span class="glyph">✕</span></button>
-      </div>
     </div>
   </header>
 
-  <main class="container cookbook-page">
-    <a class="back-link" href="index.html#fun">Back to Fun Corner</a>
+  <main class="container">
+    <!-- Hero Section -->
+    <header class="case-hero">
+      <a class="back-link" href="index.html#work">← Back to Selected Work</a>
+      <div class="section-marker"><span class="eyebrow">03 · UX Research & Editorial Design</span></div>
+      <h1 class="display">Mom's Recipe</h1>
+      <p class="subtitle">A living archive of maternal culinary warmth — preserving not just dishes, but memories, stories, and love.</p>
+      
+      <p class="lead">
+        Born from a classroom observation of algorithmic food culture: 15-second fast-cooking reels and trend diets offer speed, but lack emotional grounding. For young Indians living away from home, true nourishment is the familiar comfort of maa ke haath ka khana.
+      </p>
 
-    <header class="cookbook-header">
-      <h1>Mom's Cookbook</h1>
-      <p>A family recipe book in progress. More context, notes, and images can live here later.</p>
+      <div class="meta-row">
+        <div class="meta-item">
+          <span class="label">Role</span>
+          <span class="val">Product Design & Research</span>
+        </div>
+        <div class="meta-item">
+          <span class="label">Timeline</span>
+          <span class="val">4 Weeks · Solo Project</span>
+        </div>
+        <div class="meta-item">
+          <span class="label">Core Audience</span>
+          <span class="val">Indian Youth (18–35)</span>
+        </div>
+        <div class="meta-item">
+          <span class="label">Output</span>
+          <span class="val">Memory Zine & Digital App</span>
+        </div>
+      </div>
     </header>
 
-    <section class="cookbook-embed" aria-label="Mom's Cookbook flip book">
-      <iframe allowfullscreen="allowfullscreen" allow="clipboard-write" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/d4ed04f156.html"></iframe>
+    <!-- Section 01: Context & The Core Problem -->
+    <section class="case-section">
+      <div class="section-marker"><span class="eyebrow">01 · Background & Problem</span></div>
+      <h2>Familiarity over novelty: What truly nourishes us?</h2>
+      <div class="case-prose">
+        <p>
+          In a world dominated by instant delivery apps and rapid-fire recipe reels, cooking has become hyper-transactional. We are inundated with high-protein hacks and exotic trends, yet youth away from home report feeling chronic culinary isolation.
+        </p>
+        <p>
+          Home food is rarely about rigid grams or temperatures — it is about intuition, muscle memory, and the emotional sanctuary that only a mother's kitchen provides. Yet when students and young professionals attempt to cook these dishes alone, recipes transmitted via patchy phone calls and chaotic WhatsApp chats end in frustration.
+        </p>
+      </div>
     </section>
 
+    <!-- Section 02: Research & Survey Insights -->
+    <section class="case-section">
+      <div class="section-marker"><span class="eyebrow">02 · User Research & Insights</span></div>
+      <h2>Listening to young diaspora & students</h2>
+      <div class="case-prose">
+        <p>
+          I conducted surveys and qualitative interviews with young Indians aged 18–35 living in hostels, shared flats, and abroad. The numbers revealed a stark gap between the desire for maternal cooking and the ability to replicate it:
+        </p>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stat-cards-grid">
+        <div class="stat-card">
+          <span class="stat-num">85%</span>
+          <span class="stat-label">Emotional Comfort</span>
+          <p class="stat-desc">Associate immediate psychological warmth and solace with home food over restaurant dining.</p>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">68.4%</span>
+          <span class="stat-label">Family Transmitted</span>
+          <p class="stat-desc">Rely solely on mothers or grandmothers for recipes rather than cookbooks or culinary blogs.</p>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">29%</span>
+          <span class="stat-label">Replication Gap</span>
+          <p class="stat-desc">Repeatedly fail to recreate the authentic taste due to vague intuitive measures like "swaad anusar" and "thoda sa".</p>
+        </div>
+      </div>
+
+      <div class="case-prose">
+        <p>
+          When asked what would bridge this generational and geographic disconnect, users highlighted three non-negotiable features:
+        </p>
+      </div>
+
+      <!-- Feature Needs Grid -->
+      <div class="feature-needs-grid">
+        <div class="feature-need-pill">
+          <span class="pct">82.4%</span>
+          <span class="title">Visual Hand Techniques</span>
+          <p class="detail">Short, focused clips showing the exact color of roasted tadka and dough consistency.</p>
+        </div>
+        <div class="feature-need-pill">
+          <span class="pct">70.6%</span>
+          <span class="title">"Feeling Homesick?" Filter</span>
+          <p class="detail">An intuitive emotion-first filter serving recipes tailored to sadness, exhaustion, or nostalgia.</p>
+        </div>
+        <div class="feature-need-pill">
+          <span class="pct">65.0%</span>
+          <span class="title">Maternal Audio Notes</span>
+          <p class="detail">Short voice snippets from mothers sharing affectionate reminders and step-by-step encouragement.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 03: The Solution (Dual Output) -->
+    <section class="case-section">
+      <div class="section-marker"><span class="eyebrow">03 · Solution Architecture</span></div>
+      <h2>Preserving heritage in two complementary mediums</h2>
+      <div class="case-prose">
+        <p>
+          Rather than building a standard utilitarian recipe database, the project bifurcated into two empathetic formats designed to capture both the tangible nostalgia and the daily utility of maternal recipes:
+        </p>
+      </div>
+
+      <div class="dual-solution-grid">
+        <div class="solution-card">
+          <span class="badge">Tactile Artifact</span>
+          <h3>The Printed Memory Zine</h3>
+          <p>A physical keepsake cookbook celebrating maternal culinary artifacts, hand-drawn illustrations, family photographs, and warm handwritten marginalia.</p>
+          <ul>
+            <li>Sensory, screen-free tactile interaction in the kitchen.</li>
+            <li>Archived personal stories and generational cooking wisdom.</li>
+            <li>Interactive digital flip book experience for remote readers.</li>
+          </ul>
+        </div>
+        <div class="solution-card">
+          <span class="badge">Digital Platform</span>
+          <h3>The Community Recipe Sanctuary</h3>
+          <p>A mobile platform connecting young home cooks with maternal wisdom, voice notes, and contextual tips that translate intuition into accessible steps.</p>
+          <ul>
+            <li>Mood-first navigation: "Feeling Homesick?", "Midnight Comfort".</li>
+            <li>Maa ki audio clips explaining sensory cues.</li>
+            <li>Crowdsourced family archives preserved for future generations.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 04: Validation & Feedback -->
+    <section class="case-section">
+      <div class="section-marker"><span class="eyebrow">04 · Community Feedback</span></div>
+      <h2>Validation through authentic resonance</h2>
+      <div class="case-prose">
+        <p>
+          Testing both the physical zine proofs and the digital prototype with college students produced deeply emotional reactions:
+        </p>
+      </div>
+
+      <div class="quotes-grid">
+        <div class="user-quote-card">
+          <blockquote>
+            "Masala eggs was life-changing. Please thank your mom for me — it felt like having someone care for me from 1,000 miles away."
+          </blockquote>
+          <cite>— Beta Tester, Engineering Student in Bangalore</cite>
+        </div>
+        <div class="user-quote-card">
+          <blockquote>
+            "It tastes good, yes. But more than that, it has the authentic nostalgic ghar wali vibe that recipe apps completely miss."
+          </blockquote>
+          <cite>— User Interviewee, Design Student living in PG</cite>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 05: Interface Design & Final Screens (Placeholder for PNGs) -->
+    <section class="case-section screens-gallery-section" id="screens">
+      <div class="section-marker"><span class="eyebrow">05 · Interface Design</span></div>
+      <h2>Final Screens & Visual System</h2>
+      <div class="case-prose">
+        <p>
+          Designed with warm editorial typography, sensory food photography, and intuitive step-by-step cooking cards:
+        </p>
+      </div>
+
+      <div class="screens-placeholder-container" id="cookbookScreens">
+        <svg class="screens-placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="3" width="18" height="18" rx="4" />
+          <circle cx="8.5" cy="8.5" r="1.5" />
+          <path d="M21 15l-5-5L5 21" />
+        </svg>
+        <h3 class="screens-placeholder-title">Final UI Screens Gallery</h3>
+        <p class="screens-placeholder-text">
+          High-fidelity mobile UI screens illustrating the Homesick mood filter, audio voice-note recipe cards, and community archive.
+        </p>
+      </div>
+    </section>
+
+    <!-- Section 06: Interactive Printed Artifact (The Flip Zine) -->
+    <section class="case-section flipzine-section">
+      <div class="section-marker"><span class="eyebrow">06 · The Printed Keepsake Zine</span></div>
+      <h2>Explore the interactive cookbook artifact</h2>
+      <div class="case-prose">
+        <p>
+          Flip through the tactile edition of Mom's Cookbook below — featuring original hand-drawn illustrations, family recipe scans, and culinary notes:
+        </p>
+      </div>
+
+      <div class="cookbook-embed" aria-label="Mom's Cookbook interactive flip book">
+        <iframe allowfullscreen="allowfullscreen" allow="clipboard-write" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/d4ed04f156.html"></iframe>
+      </div>
+    </section>
+
+    <!-- Contact & Footer -->
     <div class="contact-links" id="contact">
       <a href="mailto:saumyadimri28@gmail.com"><span class="platform">Email</span> saumyadimri28@gmail.com</a>
       <a href="https://www.linkedin.com/in/saumyadimri/" target="_blank" rel="noopener"><span class="platform">LinkedIn</span> /saumyadimri</a>
-      <a href="https://drive.google.com/file/d/1gLmiocWv176E3KY-0CdGejZvzV-Gx7Ur/view?usp=sharing" target="_blank" rel="noopener"><span class="platform">Resume</span> View PDF</a>
+      <a href="https://drive.google.com/file/d/17c98mvWmZVNqtjBSgb9D-Epj7hKCwrb2/view?usp=sharing" target="_blank" rel="noopener"><span class="platform">Resume</span> View PDF ↗</a>
       <a href="https://saumyadimri.framer.website/" target="_blank" rel="noopener"><span class="platform">Framer (old)</span> saumyadimri</a>
-      <a href="retro.html"><span class="platform">Easter egg</span> The retro desktop</a>
+      <a href="index.html?view=desktop"><span class="platform">Easter egg</span> Switch to desktop mode</a>
     </div>
   </main>
 
   <footer class="footer">
     <div class="footer-inner">
       <span>© 2026 Saumya Dimri</span>
-      <a href="retro.html">Open the retro desktop</a>
+      <a href="index.html?view=desktop">Switch to desktop mode ✦</a>
     </div>
   </footer>
-
-<script>
-  (function () {
-    const root = document.documentElement;
-    const KEY = 'theme';
-    const saved = localStorage.getItem(KEY) || 'dark';
-    root.dataset.theme = saved;
-    const btn = document.getElementById('themeToggle');
-    if (btn) btn.addEventListener('click', () => {
-      const next = root.dataset.theme === 'light' ? 'dark' : 'light';
-      root.dataset.theme = next;
-      localStorage.setItem(KEY, next);
-    });
-  })();
-</script>
 </body>
 </html>
