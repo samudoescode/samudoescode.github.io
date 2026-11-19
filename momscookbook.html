@@ -7,10 +7,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Doto:wght@900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="design-system.css?v=20261119e">
+  <link rel="stylesheet" href="design-system.css?v=20261120a">
   <style>
     /* ---------------------------------------------------------
-       Typography Enforcement: DM Sans strictly for all case studies
+       Typography Enforcement: DM Sans strictly for case studies
        --------------------------------------------------------- */
     :root, [data-theme="dark"], html, body {
       --paper: #000000 !important;
@@ -85,7 +85,16 @@
       transition: transform 0.2s ease;
     }
 
-    /* Page-specific components */
+    /* Clear, generous section spacing */
+    .case-section {
+      padding-top: clamp(48px, 8vw, 80px);
+      margin-bottom: clamp(32px, 6vw, 60px);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .case-section:first-of-type {
+      border-top: none;
+    }
+
     .case-prose { max-width: 68ch; }
     .case-prose p { line-height: 1.75; margin: 0 0 var(--sp-4); color: var(--ink-soft); font-size: 1.05rem; }
     .case-prose p:last-child { margin-bottom: 0; }
@@ -128,46 +137,53 @@
       font-size: 0.95rem;
     }
 
-    /* Stat Cards Grid */
+    /* Subsections within Research */
+    .research-subblock {
+      margin-top: var(--sp-10);
+    }
+    .research-subblock h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: var(--sp-4);
+    }
+
+    /* Static Data Tiles - Clean, non-hoverable */
     .stat-cards-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: var(--sp-4);
       margin-block: var(--sp-8);
     }
     .stat-card {
       background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--rule);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: var(--r-3);
       padding: var(--sp-6);
       display: flex;
       flex-direction: column;
       gap: var(--sp-2);
-      transition: border-color 0.2s ease, transform 0.2s ease;
-    }
-    .stat-card:hover {
-      border-color: #9173D7;
-      transform: translateY(-2px);
+      cursor: default;
     }
     .stat-card .stat-num {
-      font-size: clamp(2.5rem, 4vw, 3.5rem);
+      font-size: clamp(2.2rem, 3.5vw, 3rem);
       font-weight: 700;
       line-height: 1;
       color: #9173D7;
     }
     .stat-card .stat-label {
       font-weight: 600;
-      font-size: 1rem;
+      font-size: 0.98rem;
       color: var(--ink);
     }
     .stat-card .stat-desc {
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       color: var(--ink-soft);
       line-height: 1.5;
       margin: 0;
     }
 
-    /* Feature requests list */
+    /* Feature requests list - Static */
     .feature-needs-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -175,16 +191,17 @@
       margin-top: var(--sp-6);
     }
     .feature-need-pill {
-      background: rgba(145, 115, 215, 0.08);
-      border: 1px solid rgba(145, 115, 215, 0.25);
+      background: rgba(145, 115, 215, 0.06);
+      border: 1px solid rgba(145, 115, 215, 0.2);
       border-radius: var(--r-2);
-      padding: var(--sp-4) var(--sp-5);
+      padding: var(--sp-5);
       display: flex;
       flex-direction: column;
       gap: 6px;
+      cursor: default;
     }
     .feature-need-pill .pct {
-      font-size: 1.5rem;
+      font-size: 1.45rem;
       font-weight: 700;
       color: #9173D7;
     }
@@ -194,9 +211,96 @@
       color: var(--ink);
     }
     .feature-need-pill .detail {
-      font-size: 0.82rem;
+      font-size: 0.85rem;
       color: var(--ink-soft);
-      line-height: 1.4;
+      line-height: 1.45;
+      margin: 0;
+    }
+
+    /* User Personas Grid */
+    .personas-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-6);
+      margin-top: var(--sp-6);
+    }
+    .persona-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--r-3);
+      padding: var(--sp-8);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-4);
+    }
+    .persona-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding-bottom: var(--sp-3);
+    }
+    .persona-name {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .persona-meta {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #9173D7;
+      font-weight: 600;
+    }
+    .persona-quote {
+      font-style: italic;
+      color: var(--ink);
+      font-size: 1.05rem;
+      line-height: 1.45;
+      margin: 0;
+      padding-left: var(--sp-3);
+      border-left: 2px solid #9173D7;
+    }
+    .persona-points {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-2);
+      font-size: 0.88rem;
+      color: var(--ink-soft);
+      line-height: 1.5;
+    }
+    .persona-points li strong {
+      color: var(--ink);
+    }
+
+    /* Food Memories Stream */
+    .memories-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-4);
+      margin-top: var(--sp-6);
+    }
+    .memory-card {
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: var(--r-2);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: var(--sp-5);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-2);
+    }
+    .memory-dish {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #9173D7;
+    }
+    .memory-story {
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+      line-height: 1.5;
       margin: 0;
     }
 
@@ -255,7 +359,7 @@
     /* Quotes Grid */
     .quotes-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: var(--sp-4);
       margin-block: var(--sp-8);
     }
@@ -267,7 +371,7 @@
     }
     .user-quote-card blockquote {
       margin: 0;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-style: italic;
       color: var(--ink);
       line-height: 1.5;
@@ -275,16 +379,29 @@
     .user-quote-card cite {
       display: block;
       margin-top: var(--sp-3);
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       text-transform: uppercase;
       letter-spacing: 0.06em;
       color: var(--ink-faint);
       font-style: normal;
     }
 
-    /* Final Screens Placeholder Frame */
-    .screens-gallery-section {
-      margin-block: var(--sp-12);
+    /* Final Screens In Progress Frame */
+    .in-progress-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-radius: 999px;
+      background: rgba(145, 115, 215, 0.15);
+      color: #9173D7;
+      border: 1px solid rgba(145, 115, 215, 0.35);
+      vertical-align: middle;
+      margin-left: var(--sp-3);
     }
     .screens-placeholder-container {
       background: rgba(255, 255, 255, 0.02);
@@ -298,17 +415,24 @@
       justify-content: center;
       gap: var(--sp-4);
       margin-top: var(--sp-6);
-      transition: all 0.2s ease;
+      position: relative;
     }
-    .screens-placeholder-container:hover {
-      border-color: #9173D7;
-      background: rgba(145, 115, 215, 0.04);
+    .in-progress-pill {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #9173D7;
+      background: rgba(145, 115, 215, 0.12);
+      border: 1px solid rgba(145, 115, 215, 0.3);
+      padding: 4px 14px;
+      border-radius: 999px;
     }
     .screens-placeholder-icon {
-      width: 56px;
-      height: 56px;
+      width: 52px;
+      height: 52px;
       color: #9173D7;
-      opacity: 0.8;
+      opacity: 0.85;
     }
     .screens-placeholder-title {
       font-size: 1.25rem;
@@ -319,7 +443,7 @@
     .screens-placeholder-text {
       font-size: 0.92rem;
       color: var(--ink-soft);
-      max-width: 48ch;
+      max-width: 50ch;
       line-height: 1.5;
       margin: 0;
     }
@@ -365,9 +489,10 @@
     }
     .back-link:hover { color: #9173D7; }
 
-    @media (max-width: 900px) {
+    @media (max-width: 960px) {
+      .stat-cards-grid { grid-template-columns: repeat(2, 1fr); }
+      .feature-needs-grid, .dual-solution-grid, .quotes-grid, .personas-grid, .memories-grid { grid-template-columns: 1fr; }
       .case-hero .meta-row { grid-template-columns: repeat(2, 1fr); }
-      .stat-cards-grid, .feature-needs-grid, .dual-solution-grid, .quotes-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -396,7 +521,7 @@
     <!-- Hero Section -->
     <header class="case-hero">
       <a class="back-link" href="index.html#work">← Back to Selected Work</a>
-      <div class="section-marker"><span class="eyebrow">03 · UX Research & Editorial Design</span></div>
+      <div class="section-marker"><span class="eyebrow">06 · UX Research, Editorial &amp; Illustrations</span></div>
       <h1 class="display">Mom's Recipe</h1>
       <p class="subtitle">A living archive of maternal culinary warmth — preserving not just dishes, but memories, stories, and love.</p>
       
@@ -407,7 +532,7 @@
       <div class="meta-row">
         <div class="meta-item">
           <span class="label">Role</span>
-          <span class="val">Product Design & Research</span>
+          <span class="val">Product Design, Research &amp; Illustrations</span>
         </div>
         <div class="meta-item">
           <span class="label">Timeline</span>
@@ -419,76 +544,135 @@
         </div>
         <div class="meta-item">
           <span class="label">Output</span>
-          <span class="val">Memory Zine & Digital App</span>
+          <span class="val">Memory Zine &amp; Digital Website</span>
         </div>
       </div>
     </header>
 
     <!-- Section 01: Context & The Core Problem -->
     <section class="case-section">
-      <div class="section-marker"><span class="eyebrow">01 · Background & Problem</span></div>
+      <div class="section-marker"><span class="eyebrow">01 · Background &amp; Problem</span></div>
       <h2>Familiarity over novelty: What truly nourishes us?</h2>
       <div class="case-prose">
         <p>
-          In a world dominated by instant delivery apps and rapid-fire recipe reels, cooking has become hyper-transactional. We are inundated with high-protein hacks and exotic trends, yet youth away from home report feeling chronic culinary isolation.
+          This project originated from a classroom exercise analyzing Instagram algorithms and content trends. While studying the surge in self-care meal prep and 15-minute quick-meal reels, a glaring void emerged: these formats were practical, yet devoid of emotional resonance or cultural grounding — especially for youth living away from their hometowns.
         </p>
         <p>
-          Home food is rarely about rigid grams or temperatures — it is about intuition, muscle memory, and the emotional sanctuary that only a mother's kitchen provides. Yet when students and young professionals attempt to cook these dishes alone, recipes transmitted via patchy phone calls and chaotic WhatsApp chats end in frustration.
+          Home food is rarely about rigid grams or timers. It is an intuitive sensory language: muscle memory, aromatic cues, and the emotional safety that only a mother's kitchen embodies. Yet when students and young professionals attempt to cook these dishes alone, recipes transmitted via frantic phone calls and messy WhatsApp chats often end in frustration.
         </p>
       </div>
     </section>
 
-    <!-- Section 02: Research & Survey Insights -->
+    <!-- Section 02: Research & Survey Insights (Deep Dive) -->
     <section class="case-section">
-      <div class="section-marker"><span class="eyebrow">02 · User Research & Insights</span></div>
-      <h2>Listening to young diaspora & students</h2>
+      <div class="section-marker"><span class="eyebrow">02 · User Research &amp; Insights</span></div>
+      <h2>Listening to young diaspora &amp; students</h2>
       <div class="case-prose">
         <p>
-          I conducted surveys and qualitative interviews with young Indians aged 18–35 living in hostels, shared flats, and abroad. The numbers revealed a stark gap between the desire for maternal cooking and the ability to replicate it:
+          To understand the behavioural dynamics of cooking and memory, I conducted structured and unstructured interviews alongside a detailed quantitative survey with 20 young Indians aged 18–35 living in hostels, rented flats, and working in cities across Delhi, Bangalore, Mumbai, and abroad.
         </p>
       </div>
 
-      <!-- Stats Grid -->
+      <!-- Stats Grid (Clean Static Data Tiles) -->
       <div class="stat-cards-grid">
         <div class="stat-card">
-          <span class="stat-num">85%</span>
-          <span class="stat-label">Emotional Comfort</span>
-          <p class="stat-desc">Associate immediate psychological warmth and solace with home food over restaurant dining.</p>
+          <span class="stat-num">88%</span>
+          <span class="stat-label">Emotional Solace</span>
+          <p class="stat-desc">Directly associate home food with psychological comfort, warmth, and feeling safe.</p>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">65%</span>
+          <span class="stat-label">Delivery Reliance</span>
+          <p class="stat-desc">Rely on Swiggy or Zomato as their primary meal source, forced to prioritize convenience over health.</p>
         </div>
         <div class="stat-card">
           <span class="stat-num">68.4%</span>
-          <span class="stat-label">Family Transmitted</span>
-          <p class="stat-desc">Rely solely on mothers or grandmothers for recipes rather than cookbooks or culinary blogs.</p>
+          <span class="stat-label">Family Sources</span>
+          <p class="stat-desc">Get recipes directly from mothers or grandmothers, with 58% supplementing via YouTube.</p>
         </div>
         <div class="stat-card">
           <span class="stat-num">29%</span>
-          <span class="stat-label">Replication Gap</span>
-          <p class="stat-desc">Repeatedly fail to recreate the authentic taste due to vague intuitive measures like "swaad anusar" and "thoda sa".</p>
+          <span class="stat-label">The Intuition Barrier</span>
+          <p class="stat-desc">Repeatedly fail to replicate the taste because maternal cooking relies on intuition ("swaad anusar").</p>
         </div>
       </div>
 
-      <div class="case-prose">
-        <p>
-          When asked what would bridge this generational and geographic disconnect, users highlighted three non-negotiable features:
+      <!-- Feature Requests Grid (Static) -->
+      <div class="research-subblock">
+        <h3>What the Community Needed</h3>
+        <p class="case-prose" style="color: var(--ink-soft); font-size: 0.95rem;">
+          Participants articulated clear friction points in current digital culinary tools, expressing demand for tactile and sensory guidance:
         </p>
+        <div class="feature-needs-grid">
+          <div class="feature-need-pill">
+            <span class="pct">82.4%</span>
+            <span class="title">Visual Hand Techniques</span>
+            <p class="detail">Short, focused clips showing the exact sizzle of tadka and dough texture rather than generic studio shots.</p>
+          </div>
+          <div class="feature-need-pill">
+            <span class="pct">70.6%</span>
+            <span class="title">"Feeling Homesick?" Filter</span>
+            <p class="detail">Mood-first dish categorization tailored to exhaustion, nostalgia, and emotional recovery.</p>
+          </div>
+          <div class="feature-need-pill">
+            <span class="pct">65.0%</span>
+            <span class="title">Maternal Audio Notes</span>
+            <p class="detail">Voice notes from mothers explaining sensory benchmarks and offering warm reassurance.</p>
+          </div>
+        </div>
       </div>
 
-      <!-- Feature Needs Grid -->
-      <div class="feature-needs-grid">
-        <div class="feature-need-pill">
-          <span class="pct">82.4%</span>
-          <span class="title">Visual Hand Techniques</span>
-          <p class="detail">Short, focused clips showing the exact color of roasted tadka and dough consistency.</p>
+      <!-- User Personas -->
+      <div class="research-subblock">
+        <h3>User Personas</h3>
+        <div class="personas-grid">
+          <div class="persona-card">
+            <div class="persona-header">
+              <span class="persona-name">Ananya, 21</span>
+              <span class="persona-meta">College Student · Hostel Living</span>
+            </div>
+            <p class="persona-quote">“I go home just to eat maa ke haath ka khaana.”</p>
+            <ul class="persona-points">
+              <li><strong>Pain Points:</strong> Craves home food, cannot cook well, feels homesick. Overwhelmed by study routines; defaults to Maggi or food delivery apps.</li>
+              <li><strong>Habits:</strong> Watches food reels on Instagram and Pinterest; wishes cooking felt less clinical.</li>
+              <li><strong>Goals:</strong> Learn forgiving, basic comfort meals; feel more grounded in a small hostel room.</li>
+            </ul>
+          </div>
+
+          <div class="persona-card">
+            <div class="persona-header">
+              <span class="persona-name">Shriyansi, 28</span>
+              <span class="persona-meta">Working Professional · Metro City</span>
+            </div>
+            <p class="persona-quote">“The torai sabzi my mom makes is different and I like it that way only.”</p>
+            <ul class="persona-points">
+              <li><strong>Pain Points:</strong> Busy corporate week, less time to cook, convenience overtaking nutrition and mindful eating.</li>
+              <li><strong>Habits:</strong> Does weekly grocery runs, values wellness, but struggles to translate mom's oral phone advice into reality.</li>
+              <li><strong>Goals:</strong> Weekend home cooking; trying heirloom family recipes without feeling unsure of herself.</li>
+            </ul>
+          </div>
         </div>
-        <div class="feature-need-pill">
-          <span class="pct">70.6%</span>
-          <span class="title">"Feeling Homesick?" Filter</span>
-          <p class="detail">An intuitive emotion-first filter serving recipes tailored to sadness, exhaustion, or nostalgia.</p>
-        </div>
-        <div class="feature-need-pill">
-          <span class="pct">65.0%</span>
-          <span class="title">Maternal Audio Notes</span>
-          <p class="detail">Short voice snippets from mothers sharing affectionate reminders and step-by-step encouragement.</p>
+      </div>
+
+      <!-- Qualitative Field Research & Memories -->
+      <div class="research-subblock">
+        <h3>Food as an Emotional Memory Artifact</h3>
+        <p class="case-prose" style="color: var(--ink-soft); font-size: 0.95rem;">
+          Across participant conversations, food emerged as an anchor for family history and childhood safety:
+        </p>
+        <div class="memories-grid">
+          <div class="memory-card">
+            <span class="memory-dish">Palyor (Pahadi Dish)</span>
+            <p class="memory-story">“My father declared he would cook for the first time. Watching him take over the kitchen with joy made that simple dish an indelible memory.”</p>
+          </div>
+          <div class="memory-card">
+            <span class="memory-dish">Sunday Rajma Chawal</span>
+            <p class="memory-story">“It was our ritual every Sunday after a grueling week. I wish I had written down her exact rajma recipe before moving away.”</p>
+          </div>
+          <div class="memory-card">
+            <span class="memory-dish">Toasted Aloo Sandwich</span>
+            <p class="memory-story">“When I told mom I liked it after coming home from school, she made it for me every single week with love.”</p>
+          </div>
         </div>
       </div>
     </section>
@@ -499,29 +683,29 @@
       <h2>Preserving heritage in two complementary mediums</h2>
       <div class="case-prose">
         <p>
-          Rather than building a standard utilitarian recipe database, the project bifurcated into two empathetic formats designed to capture both the tangible nostalgia and the daily utility of maternal recipes:
+          To balance tangible physical intimacy with accessible digital reach, the project bifurcated into two complementary formats:
         </p>
       </div>
 
       <div class="dual-solution-grid">
         <div class="solution-card">
           <span class="badge">Tactile Artifact</span>
-          <h3>The Printed Memory Zine</h3>
-          <p>A physical keepsake cookbook celebrating maternal culinary artifacts, hand-drawn illustrations, family photographs, and warm handwritten marginalia.</p>
+          <h3>The Printed Keepsake Zine</h3>
+          <p>A physical cookbook celebrating maternal culinary artifacts, original hand-drawn ingredient illustrations, family photographs, and warm handwritten instructions.</p>
           <ul>
             <li>Sensory, screen-free tactile interaction in the kitchen.</li>
-            <li>Archived personal stories and generational cooking wisdom.</li>
+            <li>Archived personal stories and generational cooking quirks.</li>
             <li>Interactive digital flip book experience for remote readers.</li>
           </ul>
         </div>
         <div class="solution-card">
           <span class="badge">Digital Platform</span>
-          <h3>The Community Recipe Sanctuary</h3>
-          <p>A mobile platform connecting young home cooks with maternal wisdom, voice notes, and contextual tips that translate intuition into accessible steps.</p>
+          <h3>The Community Recipe Website</h3>
+          <p>A digital recipe sanctuary connecting young cooks with maternal wisdom, voice notes, and emotional categories that translate oral intuition into accessible steps.</p>
           <ul>
             <li>Mood-first navigation: "Feeling Homesick?", "Midnight Comfort".</li>
-            <li>Maa ki audio clips explaining sensory cues.</li>
-            <li>Crowdsourced family archives preserved for future generations.</li>
+            <li>Maa ki audio clips explaining sensory aromas and cooking cues.</li>
+            <li>Shared community kitchen where families preserve heirloom dishes.</li>
           </ul>
         </div>
       </div>
@@ -529,11 +713,11 @@
 
     <!-- Section 04: Validation & Feedback -->
     <section class="case-section">
-      <div class="section-marker"><span class="eyebrow">04 · Community Feedback</span></div>
-      <h2>Validation through authentic resonance</h2>
+      <div class="section-marker"><span class="eyebrow">04 · User Validation &amp; Resonance</span></div>
+      <h2>Testing with early home cooks</h2>
       <div class="case-prose">
         <p>
-          Testing both the physical zine proofs and the digital prototype with college students produced deeply emotional reactions:
+          Testing recipe guides with students and young professionals generated overwhelmingly heartfelt reactions:
         </p>
       </div>
 
@@ -542,36 +726,43 @@
           <blockquote>
             "Masala eggs was life-changing. Please thank your mom for me — it felt like having someone care for me from 1,000 miles away."
           </blockquote>
-          <cite>— Beta Tester, Engineering Student in Bangalore</cite>
+          <cite>— Beta Tester, Engineering Student</cite>
         </div>
         <div class="user-quote-card">
           <blockquote>
-            "It tastes good, yes. But more than that, it has the authentic nostalgic ghar wali vibe that recipe apps completely miss."
+            "It tastes good, yes. Has the authentic nostalgic ghar wali vibe if you think about it."
           </blockquote>
-          <cite>— User Interviewee, Design Student living in PG</cite>
+          <cite>— User Interviewee, Design Student</cite>
+        </div>
+        <div class="user-quote-card">
+          <blockquote>
+            "I customized the pasta by putting cheese, tasted even better. The steps didn't make me feel anxious."
+          </blockquote>
+          <cite>— User Tester, Young Professional</cite>
         </div>
       </div>
     </section>
 
-    <!-- Section 05: Interface Design & Final Screens (Placeholder for PNGs) -->
+    <!-- Section 05: Interface Design & Final Screens (In Progress) -->
     <section class="case-section screens-gallery-section" id="screens">
       <div class="section-marker"><span class="eyebrow">05 · Interface Design</span></div>
-      <h2>Final Screens & Visual System</h2>
+      <h2>Final Screens &amp; Visual System <span class="in-progress-badge">In Progress</span></h2>
       <div class="case-prose">
         <p>
-          Designed with warm editorial typography, sensory food photography, and intuitive step-by-step cooking cards:
+          The digital website interface is currently in progress, translating intuitive home-cooking nuances into visual step-by-step guides, voice notes, and emotional categories:
         </p>
       </div>
 
       <div class="screens-placeholder-container" id="cookbookScreens">
+        <span class="in-progress-pill">✦ IN PROGRESS</span>
         <svg class="screens-placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
           <rect x="3" y="3" width="18" height="18" rx="4" />
           <circle cx="8.5" cy="8.5" r="1.5" />
           <path d="M21 15l-5-5L5 21" />
         </svg>
-        <h3 class="screens-placeholder-title">Final UI Screens Gallery</h3>
+        <h3 class="screens-placeholder-title">Final UI Screens &amp; Prototype (In Progress)</h3>
         <p class="screens-placeholder-text">
-          High-fidelity mobile UI screens illustrating the Homesick mood filter, audio voice-note recipe cards, and community archive.
+          High-fidelity responsive web screens currently in development illustrating the "Feeling Homesick?" mood filter, maternal audio voice notes, and crowdsourced family recipe archive.
         </p>
       </div>
     </section>
