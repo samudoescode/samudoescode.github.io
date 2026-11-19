@@ -1,6 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-view="desktop">
 <head>
+  <script>
+    (function () {
+      const urlParam = new URLSearchParams(window.location.search).get('view');
+      if (urlParam === 'scroll') {
+        document.documentElement.dataset.view = 'scroll';
+      } else {
+        document.documentElement.dataset.view = 'desktop';
+      }
+    })();
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Saumya Dimri — Portfolio</title>
@@ -14,33 +24,34 @@
        Built on design-system tokens. Editorial layout.
        ───────────────────────────────────────────── */
 
-    /* ---- View mode toggle & switching ---- */
+    /* ---- View mode toggle (Switch to Desktop Mode) ---- */
     .tb-view {
-      display: flex;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 28px;
-      height: 28px;
+      width: 44px;
+      height: 44px;
       padding: 0;
-      background: transparent;
-      border: 0;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
       cursor: pointer;
-      color: var(--ink-soft);
-      transition: color 0.2s;
+      color: var(--ink);
+      transition: all 0.2s ease;
       position: relative;
     }
-    .tb-view:hover { color: var(--ink); }
-    .tb-view .glyph {
-      position: absolute;
-      font-size: 15px;
-      transition: opacity 0.3s, transform 0.3s;
+    .tb-view:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: rgba(145, 115, 215, 0.15);
+      transform: scale(1.08);
     }
-    /* Default: scroll mode, show desktop icon */
-    .tb-view .icon-scroll { opacity: 0; transform: scale(0.8); }
-    .tb-view .icon-desktop { opacity: 1; transform: scale(1); }
-    /* Desktop mode active: show scroll icon */
-    [data-view="desktop"] .tb-view .icon-scroll { opacity: 1; transform: scale(1); }
-    [data-view="desktop"] .tb-view .icon-desktop { opacity: 0; transform: scale(0.8); }
+    .tb-view svg {
+      width: 22px;
+      height: 22px;
+      display: block;
+      transition: transform 0.2s ease;
+    }
 
     /* Hide scroll layout in desktop mode */
     [data-view="desktop"] .scroll-layout { display: none; }
@@ -50,24 +61,70 @@
     [data-view="desktop"] .titlebar { display: none !important; }
 
     /* ---- Hero ---- */
-    .home-hero { padding-block: var(--sp-32) var(--sp-16); }
-    .home-hero .display { line-height: 1.02; font-size: clamp(3.25rem, 7vw + 1rem, 6.5rem); }
-    .home-hero .subtitle {
-      font-family: var(--font-display);
-      font-style: italic;
-      font-weight: 300;
-      font-size: clamp(1.25rem, 0.6vw + 1rem, 1.625rem);
+    .home-hero { padding-block: var(--sp-24) var(--sp-16); }
+    .hero-reached-eyebrow {
+      font-family: var(--font-mono);
+      font-size: clamp(0.75rem, 0.4vw + 0.65rem, 0.95rem);
+      font-weight: 500;
       color: var(--ink-soft);
-      margin-top: var(--sp-3);
+      margin-bottom: 2px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
-    .home-hero .lead { margin-top: var(--sp-10); max-width: 52ch; }
+    .hero-saumya-title {
+      line-height: 0.98;
+      font-size: clamp(3.5rem, 7.5vw + 1rem, 6.75rem);
+      font-family: var(--font-display);
+      font-weight: 900;
+      color: var(--ink);
+      margin: 0;
+    }
+    .hero-lead-copy {
+      margin-top: var(--sp-6);
+      max-width: 52ch;
+      font-size: clamp(1.15rem, 0.4vw + 1rem, 1.35rem);
+      line-height: 1.55;
+      color: var(--ink-soft);
+    }
+
+    /* Hero Two-Column Layout with Physics Dot Grid */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      align-items: center;
+      gap: var(--sp-12);
+    }
+    @media (max-width: 900px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: var(--sp-8);
+      }
+    }
+    .hero-interactive {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      width: 100%;
+      max-width: 440px;
+      margin-left: auto;
+    }
+    .hero-dot-canvas {
+      width: 100%;
+      height: 320px;
+      cursor: crosshair;
+      background: transparent;
+      border: none;
+      touch-action: none;
+      display: block;
+    }
 
     /* Hero CTAs */
     .hero-ctas {
       display: flex;
       gap: var(--sp-3);
       flex-wrap: wrap;
-      margin-top: var(--sp-12);
+      margin-top: var(--sp-8);
     }
     .cta {
       display: inline-flex;
@@ -83,17 +140,17 @@
       will-change: transform;
     }
 
-    /* Primary — subtle amber gradient, always dark text for readability */
+    /* Primary — custom purple gradient */
     .cta-primary {
-      background: linear-gradient(135deg, #ffd76b 0%, #f5c64a 45%, #f0a830 100%);
-      color: #1a1a1a;
-      box-shadow: 0 6px 20px -8px rgba(245, 168, 48, 0.55);
+      background: linear-gradient(135deg, #a78cf0 0%, #9173D7 45%, #7b58c7 100%);
+      color: #ffffff;
+      box-shadow: 0 6px 20px -8px rgba(145, 115, 215, 0.65);
     }
     .cta-primary:hover {
       transform: translateY(-2px);
-      background: linear-gradient(135deg, #ffe084 0%, #f7cf55 45%, #f3b13c 100%);
-      box-shadow: 0 14px 32px -10px rgba(245, 168, 48, 0.65);
-      color: #1a1a1a;
+      background: linear-gradient(135deg, #b9a0fa 0%, #9f83e2 45%, #8865d4 100%);
+      box-shadow: 0 14px 32px -10px rgba(145, 115, 215, 0.75);
+      color: #ffffff;
     }
     .cta-primary:active { transform: translateY(0); }
 
@@ -183,8 +240,8 @@
     }
     .featured img { width: 100%; height: auto; display: block; }
     .featured-text .case-title {
-      font-family: var(--font-display);
-      font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
       font-size: clamp(2rem, 2.6vw + 1rem, 3rem);
       line-height: 1.05;
       color: var(--ink);
@@ -279,11 +336,12 @@
     .work-row:hover .idx { color: var(--accent); }
     .work-row .name {
       grid-area: name;
-      font-family: var(--font-display);
-      font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
       font-size: clamp(1.375rem, 0.9vw + 1rem, 1.875rem);
       color: var(--ink);
       line-height: 1.15;
+      letter-spacing: -0.015em;
       transition: color 0.3s;
     }
     .work-row:hover .name { color: var(--accent-ink); }
@@ -316,9 +374,9 @@
       font-family: var(--font-mono);
       font-size: 0.625rem;
       padding: 2px 8px;
-      border: 1px solid var(--rule-strong);
+      border: 1px solid var(--accent);
       border-radius: 999px;
-      color: var(--ink-faint);
+      color: var(--accent);
       letter-spacing: 0.08em;
       text-transform: uppercase;
       margin-left: 8px;
@@ -360,7 +418,7 @@
     }
     .fun-cat-head h3 {
       font-family: var(--font-display);
-      font-weight: 500;
+      font-weight: 900;
       font-size: clamp(1.25rem, 0.8vw + 1rem, 1.625rem);
       line-height: 1.15;
       margin: 0;
@@ -389,6 +447,46 @@
         grid-column: span 2; grid-row: span 1;
       }
       .bento-tile.tall { grid-row: span 2; grid-column: span 1; }
+    }
+
+    /* Unified irregular mosaic bento for Fun Corner */
+    .bento-mosaic {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 160px;
+      gap: 16px;
+      margin-top: var(--sp-6);
+    }
+    @media (max-width: 900px) {
+      .bento-mosaic {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 165px;
+      }
+    }
+    @media (max-width: 600px) {
+      .bento-mosaic {
+        grid-template-columns: 1fr;
+        grid-auto-rows: auto;
+      }
+      .bento-mosaic .bento-tile {
+        min-height: 150px;
+        grid-column: span 1 !important;
+        grid-row: span 1 !important;
+      }
+    }
+    .bento-mosaic .tile-w2 { grid-column: span 2; }
+    .bento-mosaic .tile-h2 { grid-row: span 2; }
+    .bento-mosaic .bento-tile .tile-tag {
+      position: absolute;
+      top: 14px;
+      left: 16px;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.65);
+      z-index: 2;
+      pointer-events: none;
     }
 
     .bento-tile {
@@ -432,11 +530,11 @@
       gap: var(--sp-1);
       padding: var(--sp-4);
       text-align: center;
-      font-family: var(--font-display);
-      font-weight: 500;
-      font-style: italic;
-      font-size: clamp(0.875rem, 0.6vw + 0.5rem, 1.25rem);
-      color: rgba(255,255,255,0.92);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-style: normal;
+      font-size: clamp(0.95rem, 0.6vw + 0.6rem, 1.25rem);
+      color: rgba(255,255,255,0.95);
       line-height: 1.3;
       z-index: 0;
     }
@@ -481,14 +579,15 @@
     }
     .bento-tile:hover .overlay { opacity: 1; transform: translateY(0); }
     .bento-tile .overlay h4 {
-      font-family: var(--font-display);
-      font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
       font-size: 1.125rem;
       line-height: 1.2;
       margin: 0 0 4px;
       color: #fff;
     }
     .bento-tile .overlay p {
+      font-family: 'DM Sans', sans-serif;
       font-size: 0.8125rem;
       line-height: 1.45;
       margin: 0;
@@ -612,6 +711,37 @@
     /* ─────────────────────────────────────────────
        Desktop Mode — Pixel-Exact Figma Spec
        ───────────────────────────────────────────── */
+    /* Custom Cursor (Figma 576:60 & 576:70) */
+    [data-view="desktop"],
+    [data-view="desktop"] body,
+    [data-view="desktop"] .desktop-layout,
+    [data-view="desktop"] .desktop-window,
+    [data-view="desktop"] .start-panel {
+      cursor: url('assets/desktop/cursor-default.png') 0 0, auto !important;
+    }
+    [data-view="desktop"] button,
+    [data-view="desktop"] a,
+    [data-view="desktop"] .folder,
+    [data-view="desktop"] .works-item,
+    [data-view="desktop"] .fun-item,
+    [data-view="desktop"] .archive-item,
+    [data-view="desktop"] .window-close-btn,
+    [data-view="desktop"] .window-back-btn,
+    [data-view="desktop"] .desktop-scroll-mode-toggle,
+    [data-view="desktop"] .fun-redo-btn,
+    [data-view="desktop"] .works-preview-card,
+    [data-view="desktop"] .fun-preview-card,
+    [data-view="desktop"] .archive-preview-card,
+    [data-view="desktop"] .archive-filter-btn,
+    [data-view="desktop"] .taskbar-active-notch,
+    [data-view="desktop"] .taskbar-tab-btn,
+    [data-view="desktop"] .taskbar-icon,
+    [data-view="desktop"] .deco-icon,
+    [data-view="desktop"] .deco-btn,
+    [data-view="desktop"] .about-pill-item {
+      cursor: url('assets/desktop/cursor-pointer.png') 6 1, pointer !important;
+    }
+
     .desktop-layout {
       position: fixed;
       inset: 0;
@@ -666,47 +796,97 @@
       }
     }
 
-    /* Decorative icons (top-right) */
+    /* Decorative & control icons (top-right: Music toggle + Girl back to scroll) */
     .desktop-deco {
       position: absolute;
-      top: 26px;
+      top: 24px;
       right: 32px;
       display: flex;
       align-items: center;
-      gap: 14px;
-      z-index: 60;
+      gap: 16px;
+      z-index: 90;
+    }
+    .deco-btn {
+      position: relative;
+      background: transparent;
+      border: none;
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      outline: none;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    .deco-btn:hover {
+      transform: scale(1.1);
+      opacity: 0.9;
+    }
+    .deco-icon {
+      width: 52px;
+      height: 52px;
+      object-fit: contain;
+      display: block;
       pointer-events: none;
     }
-    .deco-icon { width: 50px; height: 50px; object-fit: contain; }
-
-    /* Switch back to scroll mode button (subtle top-left pill) */
-    .desktop-scroll-mode-toggle {
-      position: absolute;
-      top: 26px;
-      left: 32px;
-      z-index: 60;
-      background: rgba(252, 248, 209, 0.45);
-      border: 1px solid rgba(77, 55, 26, 0.25);
-      border-radius: 999px;
-      color: #4D371A;
-      font-family: 'Doto', monospace;
-      font-size: 14px;
-      font-weight: 800;
-      padding: 6px 16px;
-      cursor: pointer;
-      transition: background 0.2s, opacity 0.2s;
-      opacity: 0.7;
-      outline: none;
+    .deco-music-wrapper {
+      position: relative;
+      width: 52px;
+      height: 52px;
     }
-    .desktop-scroll-mode-toggle:hover {
+    .deco-music-slash {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 44px;
+      height: 44px;
+      pointer-events: none;
+      display: none;
+    }
+    .deco-music-btn.is-muted .deco-music-slash {
+      display: block;
+    }
+    .deco-music-slash::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 3.5px;
+      background: #E30000;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+      transform: translateY(-50%) rotate(-45deg);
+      border-radius: 2px;
+    }
+    .deco-tooltip {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.85);
+      color: #FCF8D1;
+      font-family: 'Doto', monospace;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 6px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 100;
+    }
+    .deco-btn:hover .deco-tooltip {
       opacity: 1;
-      background: rgba(252, 248, 209, 0.75);
+      transform: translateX(-50%) translateY(2px);
     }
 
     /* ── START / Main Panel (Figma 409:2264 & 545:31) ── */
     .start-panel {
       position: fixed;
-      top: 132px;
+      top: clamp(60px, 28vh, 160px);
       left: 50%;
       transform: translateX(-50%);
       width: 802px;
@@ -809,24 +989,43 @@
       pointer-events: none;
     }
 
+    /* ── Double-click tooltip ── */
+    .dblclick-tooltip {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      background: rgba(0, 0, 0, 0.75);
+      color: #FCF8D1;
+      font-family: 'Doto', monospace;
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      padding: 4px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.15s;
+      transform: translate(14px, -50%);
+    }
+    .dblclick-tooltip.visible { opacity: 1; }
+
     /* ── Floating Windows (About Me, Works, etc.) ── */
     .desktop-window {
       position: fixed;
-      top: 132px;
+      top: clamp(60px, 28vh, 160px);
       left: 50%;
       transform: translateX(-50%);
       width: 727px;
       max-width: 95vw;
       min-width: 360px;
       background: transparent; /* Transparent parent for gap */
-      display: none;
+      display: none !important;
       flex-direction: column;
       z-index: 100;
       overflow: visible;
       cursor: default;
       box-sizing: border-box;
     }
-    .desktop-window.is-open { display: flex; }
+    [data-view="desktop"] .desktop-window.is-open { display: flex !important; }
 
     /* Window Header Bar: height 48px, rounded top 25px */
     .window-header {
@@ -880,6 +1079,29 @@
       opacity: 0.75;
     }
 
+    /* Pixel Back Arrow Button (pinhead:pixel-arrow-left) */
+    .window-back-btn {
+      width: 40px;
+      height: 40px;
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      outline: none;
+      flex-shrink: 0;
+    }
+    .window-back-btn img {
+      width: 24px;
+      height: 24px;
+      display: block;
+    }
+    .window-back-btn:hover {
+      opacity: 0.7;
+    }
+
     .window-body {
       background: rgba(252, 248, 209, 0.45);
       border-radius: 0 0 25px 25px;
@@ -890,8 +1112,10 @@
       border: none;
     }
 
-    /* ── Works Window Layout (Figma 547:163, 557:2774, 557:1519) ── */
-    #windowWork {
+    /* ── Works, Fun, Archive Window Layout ── */
+    #windowWork,
+    #windowFun,
+    #windowArchive {
       width: 727px;
     }
 
@@ -924,10 +1148,31 @@
     .works-body-container {
       background: rgba(252, 248, 209, 0.45);
       border-radius: 0 0 25px 25px;
-      padding: 17px 24px 24px 24px;
+      padding: 17px 24px 20px 24px;
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
+      height: 242px;
+      max-height: 242px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: thin;
+      scrollbar-color: #E30000 transparent;
+    }
+    .works-body-container::-webkit-scrollbar {
+      width: 6px;
+    }
+    .works-body-container::-webkit-scrollbar-track {
+      background: rgba(252, 248, 209, 0.2);
+      border-radius: 3px;
+      margin: 8px 0;
+    }
+    .works-body-container::-webkit-scrollbar-thumb {
+      background: #E30000;
+      border-radius: 3px;
+    }
+    .works-body-container::-webkit-scrollbar-thumb:hover {
+      background: #b50000;
     }
 
     .works-cat-header {
@@ -967,8 +1212,10 @@
 
     .works-grid {
       display: flex;
-      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px 24px;
       align-items: flex-start;
+      justify-content: flex-start;
       margin-top: 15px;
       width: 100%;
     }
@@ -1102,6 +1349,259 @@
       color: #000000;
     }
 
+    /* ── Fun Window Layout (Figma 572:2, 576:87, 576:1192) ── */
+    .fun-grid {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 36px;
+      margin-top: 15px;
+      width: 100%;
+    }
+    .fun-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      background: transparent !important;
+      border: none;
+      padding: 0;
+      margin: 0;
+      outline: none;
+      user-select: none;
+      width: 120px;
+    }
+    .fun-item:hover, .fun-item:focus {
+      background: transparent !important;
+    }
+    .fun-item-horizontal {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 16px;
+      width: auto;
+      max-width: 320px;
+    }
+    .fun-item-icon {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      display: block;
+      pointer-events: none;
+    }
+    .fun-item-icon-selected {
+      display: none;
+    }
+    .fun-item:hover .fun-item-icon-default,
+    .fun-item.is-selected .fun-item-icon-default {
+      display: none;
+    }
+    .fun-item:hover .fun-item-icon-selected,
+    .fun-item.is-selected .fun-item-icon-selected {
+      display: block;
+    }
+    .fun-item-label {
+      font-family: 'Doto', monospace;
+      font-weight: 900;
+      font-size: 15px;
+      line-height: 18px;
+      color: #000000;
+      text-align: center;
+      margin-top: 6px;
+      pointer-events: none;
+    }
+    .fun-item-label-left {
+      text-align: left;
+      margin-top: 0;
+      max-width: 140px;
+    }
+
+    /* Fun Preview Card (Figma Frame 16: 576:87 & 576:1192) */
+    .fun-preview-card {
+      width: 727px;
+      min-height: 110px;
+      background: rgba(252, 248, 209, 0.50);
+      border-radius: 25px;
+      margin-top: 14px;
+      padding: 16px 28px;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      cursor: pointer;
+      user-select: none;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+      transition: background 0.15s ease;
+    }
+    .fun-preview-card:hover {
+      background: rgba(252, 248, 209, 0.65);
+    }
+    .fun-preview-icon {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      flex-shrink: 0;
+      pointer-events: none;
+    }
+    .fun-preview-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+    .fun-preview-title {
+      font-family: 'Doto', monospace;
+      font-weight: 900;
+      font-size: 30px;
+      line-height: 36px;
+      color: #E30000;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .fun-preview-subtitle {
+      font-family: 'Doto', monospace;
+      font-weight: 800;
+      font-size: 16px;
+      line-height: 20px;
+      color: #000000;
+      margin: 0;
+    }
+    .fun-redo-btn {
+      width: 44px;
+      height: 44px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      outline: none;
+      flex-shrink: 0;
+      transition: transform 0.25s ease, opacity 0.2s ease;
+    }
+    .fun-redo-btn:hover {
+      transform: rotate(90deg) scale(1.1);
+      opacity: 0.8;
+    }
+    .fun-redo-btn img {
+      width: 36px;
+      height: 36px;
+      display: block;
+    }
+
+    #funBody {
+      height: auto !important;
+      max-height: none !important;
+      overflow: visible !important;
+      overflow-y: hidden !important;
+    }
+
+    /* ── Archive Window Layout ── */
+    #archiveBody {
+      height: 280px;
+      max-height: 280px;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    .archive-filters {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      margin-bottom: 6px;
+      width: 100%;
+    }
+    .archive-filter-btn {
+      font-family: 'Doto', monospace;
+      font-weight: 800;
+      font-size: 13px;
+      line-height: 1;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 0, 0, 0.35);
+      background: rgba(255, 255, 255, 0.45);
+      color: #000000;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+    .archive-filter-btn:hover {
+      background: rgba(255, 255, 255, 0.85);
+      border-color: #000000;
+    }
+    .archive-filter-btn.is-active {
+      background: #000000;
+      color: #FFFFFF;
+      border-color: #000000;
+    }
+    .archive-filter-btn.archive-filter-clear {
+      color: #E30000;
+      border-color: rgba(227, 0, 0, 0.4);
+      background: rgba(255, 255, 255, 0.6);
+    }
+    .archive-filter-btn.archive-filter-clear:hover {
+      background: #E30000;
+      color: #FFFFFF;
+      border-color: #E30000;
+    }
+    .archive-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px 20px;
+      align-items: flex-start;
+      margin-top: 15px;
+      width: 100%;
+    }
+    .archive-item {
+      width: 110px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      background: transparent !important;
+      border: none;
+      padding: 0;
+      margin: 0;
+      outline: none;
+      user-select: none;
+    }
+    .archive-item:hover, .archive-item:focus {
+      background: transparent !important;
+    }
+    .archive-item-icon {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      display: block;
+      pointer-events: none;
+    }
+    .archive-item-icon-selected {
+      display: none;
+    }
+    .archive-item:hover .archive-item-icon-default,
+    .archive-item.is-selected .archive-item-icon-default {
+      display: none;
+    }
+    .archive-item:hover .archive-item-icon-selected,
+    .archive-item.is-selected .archive-item-icon-selected {
+      display: block;
+    }
+    .archive-item-name {
+      font-family: 'Doto', monospace;
+      font-weight: 900;
+      font-size: 13px;
+      line-height: 16px;
+      color: #000000;
+      text-align: center;
+      margin-top: 4px;
+      pointer-events: none;
+    }
+
     /* ── About Me Window Layout (Figma 545:99) ── */
     .about-top {
       display: flex;
@@ -1217,7 +1717,7 @@
       max-width: 1406px;
       margin: 0 auto;
       z-index: 300;
-      display: none;
+      display: none !important;
       align-items: flex-start;
       user-select: none;
       background: transparent !important;
@@ -1225,7 +1725,7 @@
       box-shadow: none !important;
       padding: 0 !important;
     }
-    [data-view="desktop"] .taskbar { display: flex; }
+    [data-view="desktop"] .taskbar { display: flex !important; }
 
     .taskbar-bg-svg {
       position: absolute;
@@ -1321,63 +1821,57 @@
 <!-- ───────── Title bar ───────── -->
 <header class="titlebar">
   <div class="titlebar-inner">
-    <a class="tb-title" href="index.html">
-      <span class="dot"></span>
-      <span>SD</span>
+    <a class="tb-title tb-logo-brand" href="index.html">
+      <img src="assets/logo-saumya-cropped.png" alt="Saumya" class="tb-brand-img">
     </a>
     <nav class="tb-menu">
       <a href="#work" class="is-active">Work</a>
       <a href="#about">About</a>
-      <a href="https://drive.google.com/file/d/1h-e1z07qhtZ4bjrmootaqIbPkzds6cQT/view?usp=sharing" target="_blank" rel="noopener" class="tb-icon tb-icon-right" aria-label="Resume" title="Resume">
-        <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0.65" y="0.65" width="10.7" height="12.7" rx="1.35" stroke="currentColor" stroke-width="1.3"/><line x1="2.8" y1="4.5" x2="9.2" y2="4.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><line x1="2.8" y1="7" x2="9.2" y2="7" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><line x1="2.8" y1="9.5" x2="6.5" y2="9.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+      <a href="https://drive.google.com/file/d/17c98mvWmZVNqtjBSgb9D-Epj7hKCwrb2/view?usp=sharing" target="_blank" rel="noopener" class="tb-icon-only" aria-label="Resume" title="Resume">
+        <svg width="20" height="22" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0.65" y="0.65" width="10.7" height="12.7" rx="1.35" stroke="currentColor" stroke-width="1.3"/><line x1="2.8" y1="4.5" x2="9.2" y2="4.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><line x1="2.8" y1="7" x2="9.2" y2="7" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><line x1="2.8" y1="9.5" x2="6.5" y2="9.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
       </a>
-      <a href="mailto:saumyadimri28@gmail.com" class="tb-icon tb-icon-left" aria-label="Email" title="Email">
-        <svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0.65" y="0.65" width="12.7" height="9.7" rx="1.35" stroke="currentColor" stroke-width="1.3"/><path d="M1.2 1.8L7 6.4L12.8 1.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <a href="mailto:saumyadimri28@gmail.com" class="tb-icon-only" aria-label="Email" title="Email">
+        <svg width="22" height="18" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0.65" y="0.65" width="12.7" height="9.7" rx="1.35" stroke="currentColor" stroke-width="1.3"/><path d="M1.2 1.8L7 6.4L12.8 1.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </nav>
-    <button class="tb-view" id="viewToggle" aria-label="Toggle scroll / desktop view">
-      <span class="glyph icon-scroll">☰</span>
-      <span class="glyph icon-desktop">▦</span>
-    </button>
-    <button class="tb-theme" id="themeToggle" aria-label="Toggle light / dark">
-      <span class="glyph icon-moon">☾</span>
-      <span class="glyph icon-sun">☀</span>
+    <button class="tb-view" id="viewToggle" aria-label="Switch to desktop mode" title="Switch to desktop mode">
+      <svg width="22" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+        <line x1="8" y1="21" x2="16" y2="21"></line>
+        <line x1="12" y1="17" x2="12" y2="21"></line>
+      </svg>
     </button>
   </div>
 </header>
 
 <!-- ═══════════════════════════════════════════════
-     SCROLL LAYOUT (default)
+     SCROLL LAYOUT
      ═══════════════════════════════════════════════ -->
 <div class="scroll-layout">
 
 <!-- ───────── Hero ───────── -->
 <header class="home-hero container">
-  <h1 class="display">Hi, I'm Saumya.</h1>
-  <p class="lead">
-    I'm a UX designer who researches how people actually use software, then designs what they
-    would actually choose. Calm interfaces over engagement metrics. Behaviour over features.
-  </p>
-  <div class="hero-ctas">
-    <a href="#work"    class="cta cta-primary">Look at my work</a>
-    <a href="#contact" class="cta cta-ghost">Contact me</a>
+  <div class="hero-grid">
+    <div class="hero-left">
+      <div class="hero-reached-eyebrow">you have reached</div>
+      <h1 class="display hero-saumya-title">Saumya</h1>
+      <p class="lead hero-lead-copy">
+        Interaction designer @ DTU. Currently exploring why people do what they do, and designing so it’s easier to do it well.
+      </p>
+      <div class="hero-ctas">
+        <a href="#work"    class="cta cta-primary">Look at my work</a>
+        <a href="mailto:saumyadimri28@gmail.com" class="cta cta-ghost">Contact me</a>
+      </div>
+    </div>
+    <div class="hero-interactive">
+      <canvas id="dotGridCanvas" class="hero-dot-canvas"></canvas>
+    </div>
   </div>
 </header>
 
 <!-- ───────── Selected Work ───────── -->
 <section class="container home-section" id="work">
   <div class="section-marker"><span class="eyebrow">01 · Selected Work</span></div>
-
-  <div class="work-filter" role="group" aria-label="Filter projects">
-    <button class="filter-btn is-active" data-filter="case-studies">Case studies</button>
-    <button class="filter-btn" data-filter="emotions">Emotions</button>
-    <button class="filter-btn" data-filter="artistic">Artistic</button>
-    <button class="filter-btn" data-filter="plants">Plants</button>
-    <button class="filter-btn" data-filter="food">Food</button>
-    <button class="filter-btn" data-filter="games">Games</button>
-    <button class="filter-btn" data-filter="magazine">Magazine</button>
-    <button class="filter-btn" data-filter="all">All</button>
-  </div>
 
   <div class="work-list">
     <a class="work-row" href="booknest.html" data-tags="case-studies emotions">
@@ -1399,7 +1893,7 @@
     <a class="work-row" href="https://saumyadimri.framer.website/data-platform" target="_blank" rel="noopener" data-tags="case-studies">
       <span class="idx">03</span>
       <img class="work-thumb" src="assets/financial data platform/thumbnail.png" alt="Financial Data Platform thumbnail" />
-      <span class="name">Financial Data Platform <span class="ext-tag">Framer</span></span>
+      <span class="name">Financial Data Platform <span class="ext-tag featured">Case study</span></span>
       <span class="cat">Data platform</span>
       <span class="blurb">Interface for browsing, comparing, and acting on financial data streams.</span>
       <span class="arrow">↗</span>
@@ -1407,93 +1901,18 @@
     <a class="work-row" href="https://www.behance.net/gallery/202496381/IRCTC-Website-Redesign-UIUX-Case-Study" target="_blank" rel="noopener" data-tags="case-studies">
       <span class="idx">04</span>
       <img class="work-thumb" src="assets/IRCTC/Thumbnail.png" alt="IRCTC Redesign thumbnail" />
-      <span class="name">IRCTC Redesign <span class="ext-tag">Behance</span></span>
+      <span class="name">IRCTC Redesign <span class="ext-tag featured">Case study</span></span>
       <span class="cat">UI/UX case study</span>
       <span class="blurb">Rethinking India's railway booking platform from a frequent-traveller's view.</span>
       <span class="arrow">↗</span>
     </a>
-    <a class="work-row" href="https://saumyadimri.framer.website/lifelog" target="_blank" rel="noopener" data-tags="emotions">
+    <a class="work-row" href="dataviz.html" data-tags="case-studies emotions plants">
       <span class="idx">05</span>
-      <img class="work-thumb" src="assets/lifelog/Thumbnail.png" alt="Lifelog thumbnail" />
-      <span class="name">Lifelog <span class="ext-tag">Framer</span></span>
-      <span class="cat">Adobe Designathon</span>
-      <span class="blurb">A photo-memory app built for the Adobe Designathon.</span>
-      <span class="arrow">↗</span>
-    </a>
-    <a class="work-row" href="https://www.behance.net/gallery/214995291/CHATURAAJ-Indian-Board-Game-design" target="_blank" rel="noopener" data-tags="games magazine">
-      <span class="idx">06</span>
-      <img class="work-thumb" src="assets/chaturaaj/DSC01945.JPG" alt="Chaturaaj thumbnail" />
-      <span class="name">Chaturaaj <span class="ext-tag">Behance</span></span>
-      <span class="cat">Board game design</span>
-      <span class="blurb">A modern Indian board game — rules, board, pieces, and packaging.</span>
-      <span class="arrow">↗</span>
-    </a>
-    <a class="work-row" href="https://saumyadimri.framer.website/piscivore" target="_blank" rel="noopener" data-tags="artistic">
-      <span class="idx">07</span>
-      <img class="work-thumb" src="assets/piscivore/Thumbnail.png" alt="Piscivore thumbnail" />
-      <span class="name">Piscivore <span class="ext-tag">Framer</span></span>
-      <span class="cat">Branding</span>
-      <span class="blurb">Brand identity, packaging, and web for a fish-food company.</span>
-      <span class="arrow">↗</span>
-    </a>
-    <a class="work-row" href="dataviz.html" data-tags="emotions plants games">
-      <span class="idx">08</span>
       <img class="work-thumb" src="assets/I was going to study plants/plant.jpeg" alt="Plant thumbnail" />
-      <span class="name">I Was Going to Study Plants <span class="ext-tag">Side project</span></span>
-      <span class="cat">Data viz · Somatic memory</span>
+      <span class="name">I Was Going to Study Plants <span class="ext-tag featured">Research paper</span></span>
+      <span class="cat">Research paper · Somatic memory</span>
       <span class="blurb">Tracking conditioned emotional responses across place, sound, and experience.</span>
       <span class="arrow">→</span>
-    </a>
-
-    <!-- ── Extra rows revealed by filter only ── -->
-    <a class="work-row" href="illustrations.html" data-tags="artistic" hidden>
-      <span class="idx">—</span>
-      <span class="name">Illustration Series <span class="ext-tag">Side project</span></span>
-      <span class="cat">Procreate · Visual</span>
-      <span class="blurb">Character studies, brush experiments, and visual explorations.</span>
-      <span class="arrow">→</span>
-    </a>
-    <a class="work-row" href="momscookbook.html" data-tags="emotions artistic food" hidden>
-      <span class="idx">—</span>
-      <span class="name">Mom's Cookbook <span class="ext-tag">Side project</span></span>
-      <span class="cat">Editorial · Food</span>
-      <span class="blurb">A family recipe book in progress — designed and laid out as a flip book.</span>
-      <span class="arrow">→</span>
-    </a>
-    <a class="work-row" href="https://www.behance.net/gallery/201876773/A-week-in-pages-Travel-Journal" target="_blank" rel="noopener" data-tags="magazine" hidden>
-      <span class="idx">—</span>
-      <span class="name">A Week in Pages <span class="ext-tag">Behance</span></span>
-      <span class="cat">Travel journal · Editorial</span>
-      <span class="blurb">A week documented in hand-made spreads and travel notes.</span>
-      <span class="arrow">↗</span>
-    </a>
-    <a class="work-row" href="https://www.behance.net/gallery/200520895/Evenings-in-Delhi" target="_blank" rel="noopener" data-tags="artistic" hidden>
-      <span class="idx">—</span>
-      <span class="name">Evenings in Delhi <span class="ext-tag">Behance</span></span>
-      <span class="cat">Photography · Visual</span>
-      <span class="blurb">A visual study of light, dust, and stillness after sunset.</span>
-      <span class="arrow">↗</span>
-    </a>
-    <a class="work-row" href="https://www.behance.net/gallery/200399389/Sunflowers-Dark-Bloom-Stop-Motion-Animation" target="_blank" rel="noopener" data-tags="artistic" hidden>
-      <span class="idx">—</span>
-      <span class="name">Sunflowers: Dark Bloom <span class="ext-tag">Behance</span></span>
-      <span class="cat">Stop-motion animation</span>
-      <span class="blurb">A stop-motion short exploring sunflowers in low light.</span>
-      <span class="arrow">↗</span>
-    </a>
-    <a class="work-row" href="https://www.behance.net/gallery/201381311/Kashmiri-Papier-Mache-Magazine-Booklet" target="_blank" rel="noopener" data-tags="magazine" hidden>
-      <span class="idx">—</span>
-      <span class="name">Kashmiri Papier-Mâché <span class="ext-tag">Archive</span></span>
-      <span class="cat">Magazine · Editorial</span>
-      <span class="blurb">A booklet documenting the craft traditions of Kashmiri papier-mâché.</span>
-      <span class="arrow">↗</span>
-    </a>
-    <a class="work-row" href="https://www.behance.net/gallery/201015047/Elements-of-design-Editorial-Booklet" target="_blank" rel="noopener" data-tags="magazine" hidden>
-      <span class="idx">—</span>
-      <span class="name">Elements of Design <span class="ext-tag">Archive</span></span>
-      <span class="cat">Editorial booklet</span>
-      <span class="blurb">An editorial exploration of design fundamentals, composed as a print booklet.</span>
-      <span class="arrow">↗</span>
     </a>
   </div>
 </section>
@@ -1503,158 +1922,118 @@
   <div class="section-marker"><span class="eyebrow">02 · Fun Corner</span></div>
   <h2 class="h1" style="max-width: 22ch;">The stuff that isn't on a brief.</h2>
   <p class="lead" style="margin-top: var(--sp-4); margin-bottom: var(--sp-6);">
-    Side projects, books I'm reading, music I'm circling. Hover any tile.
+    Side projects, books I'm reading, music I'm circling.
   </p>
 
-  <!-- ── Side projects ── -->
-  <div class="fun-sub">
-    <div class="fun-cat-head">
-      <h3>Side projects</h3>
-      <span class="meta">Illustrations · experiments</span>
-    </div>
-    <div class="bento cols-4">
-      <a class="bento-tile pattern" href="illustrations.html" style="--c: #8B2CBB; grid-column: span 3;">
-        <div class="stand-in">Illustration series</div>
-        <div class="overlay">
-          <h4>Illustration series</h4>
-          <p>Procreate character studies and brush experiments.</p>
-        </div>
-      </a>
-      <a class="bento-tile pattern" href="https://www.behance.net/gallery/200399389/Sunflowers-Dark-Bloom-Stop-Motion-Animation" target="_blank" rel="noopener" style="--c: #3a2a1a;">
-        <div class="stand-in">Sunflowers</div>
-        <div class="overlay">
-          <h4>Sunflowers: Dark Bloom</h4>
-          <p>Stop-motion animation.</p>
-        </div>
-      </a>
-      <a class="bento-tile pattern" href="momscookbook.html" style="--c: #D96C4F;">
-        <div class="stand-in">Mom's Cookbook</div>
-        <div class="overlay">
-          <h4>Mom's Cookbook</h4>
-          <p>A family recipe book in progress.</p>
-        </div>
-      </a>
-      <a class="bento-tile pattern" href="https://www.behance.net/gallery/201876773/A-week-in-pages-Travel-Journal" target="_blank" rel="noopener" style="--c: #4CAE70;">
-        <div class="stand-in">A Week in Pages</div>
-        <div class="overlay">
-          <h4>A Week in Pages</h4>
-          <p>Travel journal — a week documented in spreads.</p>
-        </div>
-      </a>
-      <a class="bento-tile pattern" href="https://www.behance.net/gallery/200520895/Evenings-in-Delhi" target="_blank" rel="noopener" style="--c: #c07040;">
-        <div class="stand-in">Evenings in Delhi</div>
-        <div class="overlay">
-          <h4>Evenings in Delhi</h4>
-          <p>A visual study of light, dust, and stillness.</p>
-        </div>
-      </a>
-    </div>
+  <div class="bento-mosaic">
+    <!-- Row 1: Illustration series (w2, h1) -->
+    <a class="bento-tile pattern tile-w2" href="illustrations.html" style="--c: #8B2CBB;">
+      <span class="tile-tag">Visual Study</span>
+      <div class="stand-in">Illustration Series</div>
+      <div class="overlay">
+        <h4>Illustration Series</h4>
+        <p>Procreate character studies and brush experiments.</p>
+      </div>
+    </a>
+
+    <!-- Row 1-2: Becoming Supernatural (w1, h2) -->
+    <article class="bento-tile tile-h2" style="--c: #2B1F3A;">
+      <span class="tile-tag">Reading</span>
+      <div class="stand-in">Becoming Supernatural<span class="author">Joe Dispenza</span></div>
+      <div class="overlay">
+        <h4>Becoming Supernatural</h4>
+        <p>Joe Dispenza · rewiring habitual thinking & meditative states.</p>
+      </div>
+    </article>
+
+    <!-- Row 1: Retro Desktop Easter egg (w1, h1) -->
+    <a class="bento-tile" href="retro.html" target="_blank" rel="noopener" style="--c: #1c3b4a;">
+      <span class="tile-tag">Easter Egg ✦</span>
+      <div class="stand-in">The Retro Desktop</div>
+      <div class="overlay">
+        <h4>The Retro Desktop</h4>
+        <p>Windows 95-style nostalgic desktop environment.</p>
+      </div>
+    </a>
+
+    <!-- Row 2: Sunflowers (w1, h1) -->
+    <a class="bento-tile pattern" href="https://www.behance.net/gallery/200399389/Sunflowers-Dark-Bloom-Stop-Motion-Animation" target="_blank" rel="noopener" style="--c: #3a2a1a;">
+      <span class="tile-tag">Animation</span>
+      <div class="stand-in">Sunflowers</div>
+      <div class="overlay">
+        <h4>Sunflowers: Dark Bloom</h4>
+        <p>Stop-motion short in low light.</p>
+      </div>
+    </a>
+
+    <!-- Row 2: A Week in Pages (w1, h1) -->
+    <a class="bento-tile pattern" href="https://www.behance.net/gallery/201876773/A-week-in-pages-Travel-Journal" target="_blank" rel="noopener" style="--c: #4CAE70;">
+      <span class="tile-tag">Editorial</span>
+      <div class="stand-in">A Week in Pages</div>
+      <div class="overlay">
+        <h4>A Week in Pages</h4>
+        <p>Travel journal documented in hand-made spreads.</p>
+      </div>
+    </a>
+
+    <!-- Row 2: Why Thinking is Ruining Your Life (w1, h1) -->
+    <article class="bento-tile" style="--c: #5c3b75;">
+      <span class="tile-tag">Reading</span>
+      <div class="stand-in">Why Thinking...<span class="author">In Progress</span></div>
+      <div class="overlay">
+        <h4>Why Thinking is Ruining Your Life</h4>
+        <p>Currently mid-chapter. Reserving judgment.</p>
+      </div>
+    </article>
+
+    <!-- Row 3: Evenings in Delhi (w1, h1) -->
+    <a class="bento-tile pattern" href="https://www.behance.net/gallery/200520895/Evenings-in-Delhi" target="_blank" rel="noopener" style="--c: #c07040;">
+      <span class="tile-tag">Photography</span>
+      <div class="stand-in">Evenings in Delhi</div>
+      <div class="overlay">
+        <h4>Evenings in Delhi</h4>
+        <p>A visual study of light, dust, and stillness after sunset.</p>
+      </div>
+    </a>
+
+    <!-- Row 3: Roll the dice / Random book pick (w1, h1) -->
+    <button class="bento-tile is-button" id="bookRecBtn" type="button">
+      <span class="tile-tag">Book Pick ↻</span>
+      <div class="stand-in">Random Pick<span class="arrow">↻</span></div>
+      <div class="overlay">
+        <h4>Roll the dice</h4>
+        <p>Tap for a book recommendation from the rotation.</p>
+      </div>
+    </button>
+
+    <!-- Row 3: Spotify Playlists (w2, h1) -->
+    <a class="bento-tile tile-w2" href="https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M" target="_blank" rel="noopener" style="--c: #1DB954;">
+      <span class="tile-tag">Spotify 🎧</span>
+      <div class="stand-in">Slow mornings & ambient focus</div>
+      <div class="overlay">
+        <h4>Slow mornings & focus</h4>
+        <p>Acoustic, indie folk, and peaceful instrumentals.</p>
+      </div>
+    </a>
   </div>
 
-  <!-- ── Books ── -->
-  <div class="fun-sub">
-    <div class="fun-cat-head">
-      <h3>Books I'm reading</h3>
-      <span class="meta">2 active · click the third for a random pick</span>
-    </div>
-    <div class="bento cols-3">
-      <article class="bento-tile tall" style="--c: #2B1F3A;">
-        <img class="bg-img" src="assets/fun/becoming-supernatural.png" alt="" onerror="this.style.display='none'" />
-        <div class="stand-in">Becoming Supernatural<span class="author">Joe Dispenza</span></div>
-        <div class="overlay">
-          <h4>Becoming Supernatural</h4>
-          <p>Joe Dispenza · about the body remembering the future.</p>
-        </div>
-      </article>
-      <article class="bento-tile tall" style="--c: #8B2CBB;">
-        <img class="bg-img" src="assets/fun/why-thinking.png" alt="" onerror="this.style.display='none'" />
-        <div class="stand-in">Why Thinking is Ruining Your Life<span class="author">—</span></div>
-        <div class="overlay">
-          <h4>Why Thinking is Ruining Your Life</h4>
-          <p>Currently mid-chapter. Reserving judgment.</p>
-        </div>
-      </article>
-      <button class="bento-tile tall is-button" id="bookRecBtn" type="button">
-        <div class="stand-in">Want a random pick?<span class="arrow">↻</span></div>
-        <div class="overlay">
-          <h4>Roll the dice</h4>
-          <p>Tap for a book recommendation from the rotation.</p>
-        </div>
-      </button>
-    </div>
-    <div class="book-rec-result" id="bookRecResult" aria-live="polite">
-      <span class="lbl">Pick</span>
-      <strong>—</strong>
-    </div>
-  </div>
-
-  <!-- ── Spotify playlists ── -->
-  <div class="fun-sub">
-    <div class="fun-cat-head">
-      <h3>Spotify playlists</h3>
-      <span class="meta">Click a tile to open Spotify</span>
-    </div>
-    <div class="bento cols-2">
-      <a class="bento-tile" href="https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M" target="_blank" rel="noopener" style="--c: #1DB954;">
-        <img class="bg-img" src="assets/fun/playlist-1.png" alt="" onerror="this.style.display='none'" />
-        <div class="stand-in">Slow mornings</div>
-        <div class="overlay">
-          <h4>Slow mornings</h4>
-          <p>Acoustic, indie folk · 38 tracks</p>
-        </div>
-      </a>
-      <a class="bento-tile" href="https://open.spotify.com/playlist/37i9dQZF1DX3rxVfibe1L0" target="_blank" rel="noopener" style="--c: #F3B84A;">
-        <img class="bg-img" src="assets/fun/playlist-2.png" alt="" onerror="this.style.display='none'" />
-        <div class="stand-in">For working evenings</div>
-        <div class="overlay">
-          <h4>For working evenings</h4>
-          <p>Prateek Kuhad, lo-fi · 42 tracks</p>
-        </div>
-      </a>
-      <a class="bento-tile" href="https://open.spotify.com/playlist/37i9dQZF1DWWQRwui0ExPn" target="_blank" rel="noopener" style="--c: #8B2CBB;">
-        <img class="bg-img" src="assets/fun/playlist-3.png" alt="" onerror="this.style.display='none'" />
-        <div class="stand-in">Heavy rotation</div>
-        <div class="overlay">
-          <h4>Heavy rotation</h4>
-          <p>Wallows, Phoebe, Hozier · 51 tracks</p>
-        </div>
-      </a>
-      <a class="bento-tile" href="https://open.spotify.com/playlist/37i9dQZF1DX4sWSpwq3LiO" target="_blank" rel="noopener" style="--c: #4CAE70;">
-        <img class="bg-img" src="assets/fun/playlist-4.png" alt="" onerror="this.style.display='none'" />
-        <div class="stand-in">Long walks, no podcast</div>
-        <div class="overlay">
-          <h4>Long walks, no podcast</h4>
-          <p>Ambient, peaceful piano · 28 tracks</p>
-        </div>
-      </a>
-    </div>
-    <p class="figure-caption" style="margin-top: var(--sp-3); max-width: 60ch;">
-      Drop playlist cover PNGs at <code style="font-family: var(--font-mono); font-size: 0.75rem; padding: 2px 6px; background: var(--paper-2); border-radius: 4px;">assets/fun/playlist-1.png</code> etc. and update the
-      <code style="font-family: var(--font-mono); font-size: 0.75rem; padding: 2px 6px; background: var(--paper-2); border-radius: 4px;">href</code> to the real Spotify URL.
-    </p>
+  <div class="book-rec-result" id="bookRecResult" aria-live="polite" style="margin-top: var(--sp-4);">
+    <span class="lbl">Pick</span>
+    <strong>—</strong>
   </div>
 </section>
 
 <!-- ───────── About ───────── -->
 <section class="container home-section about" id="about">
   <div class="section-marker"><span class="eyebrow">03 · About</span></div>
+  <h2 class="h1" style="max-width: 22ch; margin-top: var(--sp-2); margin-bottom: var(--sp-8);">helo, welcome :)</h2>
   <div class="two-col">
     <div class="prose">
       <p>
-        Hi, I'm Saumya — a 22-year-old in her prime, currently floating between passionately
-        chasing life and simply observing it unfold.
+        I'm Saumya, an Interaction Design student focused on human-centered digital systems, with interests stretching across behavioural UX, Illustrations, and web.
       </p>
       <p>
-        From figuring out how to cross a road diagonally to navigating the elements that make
-        up the self, I've always been obsessed with making life a little more efficient,
-        thoughtful, and intentional. I believe the tiniest choices carry weight, and I carry
-        that mindset into every project I take on.
-      </p>
-      <p>
-        I'm an Interaction Design student focused on human-centred digital systems, with
-        interests stretching across behavioural UX, branding, and web. I try to blur the lines
-        between daily living and purposeful creating — whether I'm designing apps or just
-        reflecting on a conversation.
+        Currently trying to rekindle passion in life. When not buried 8 feet deep in thinking, you can find me either — running, reading, cooking or with a pencil in my hand.
       </p>
     </div>
     <div>
@@ -1668,9 +2047,9 @@
   <div class="contact-links" id="contact">
     <a href="mailto:saumyadimri28@gmail.com"><span class="platform">Email</span> saumyadimri28@gmail.com</a>
     <a href="https://www.linkedin.com/in/saumyadimri/" target="_blank" rel="noopener"><span class="platform">LinkedIn</span> /saumyadimri</a>
-    <a href="https://drive.google.com/file/d/1h-e1z07qhtZ4bjrmootaqIbPkzds6cQT/view?usp=sharing" target="_blank" rel="noopener"><span class="platform">Resume</span> View PDF ↗</a>
+    <a href="https://drive.google.com/file/d/17c98mvWmZVNqtjBSgb9D-Epj7hKCwrb2/view?usp=sharing" target="_blank" rel="noopener"><span class="platform">Resume</span> View PDF ↗</a>
     <a href="https://saumyadimri.framer.website/" target="_blank" rel="noopener"><span class="platform">Framer (old)</span> saumyadimri</a>
-    <a href="retro.html"><span class="platform">Easter egg</span> The retro desktop</a>
+    <a href="#" onclick="document.documentElement.dataset.view='desktop';localStorage.setItem('view','desktop');return false;" style="cursor:pointer;"><span class="platform">Easter egg</span> Switch to desktop mode</a>
   </div>
 </section>
 
@@ -1678,7 +2057,7 @@
 <footer class="footer">
   <div class="footer-inner">
     <span>© 2026 Saumya Dimri</span>
-    <a href="retro.html" class="easter-egg">Open the retro desktop</a>
+    <a href="#" class="easter-egg" onclick="document.documentElement.dataset.view='desktop';localStorage.setItem('view','desktop');return false;" style="cursor:pointer;">Switch to desktop mode ✦</a>
   </div>
 </footer>
 
@@ -1698,14 +2077,26 @@
   </div>
 
 
-  <!-- Switch back to scroll mode button -->
-  <button class="desktop-scroll-mode-toggle" id="desktopBackBtn" type="button">☰ scroll mode</button>
-
-  <!-- Decorative icons top-right (Figma: life girl + musik) -->
+  <!-- Top-right desktop control icons (Girl back to scroll + Music toggle) -->
   <div class="desktop-deco">
-    <img src="assets/desktop/deco-lifegirl.png" alt="" class="deco-icon" draggable="false">
-    <img src="assets/desktop/deco-musik.png"    alt="" class="deco-icon" draggable="false">
+    <!-- Girl icon: click to transition back to scroll mode -->
+    <button class="deco-btn deco-girl-btn" id="decoGirlBtn" type="button" aria-label="go to scroll" title="go to scroll">
+      <img src="assets/desktop/deco-lifegirl.png" alt="Girl walking" class="deco-icon" draggable="false">
+      <span class="deco-tooltip">go to scroll</span>
+    </button>
+
+    <!-- Music icon: click to enable or disable background music -->
+    <button class="deco-btn deco-music-btn is-muted" id="decoMusicBtn" type="button" aria-label="enable music" title="enable music">
+      <div class="deco-music-wrapper">
+        <img src="assets/desktop/deco-musik.png" alt="Music" class="deco-icon" draggable="false">
+        <div class="deco-music-slash" id="musicSlash"></div>
+      </div>
+      <span class="deco-tooltip" id="musicTooltip">enable music</span>
+    </button>
   </div>
+
+  <!-- Hidden background YouTube music iframe -->
+  <iframe id="bgMusicPlayer" width="1" height="1" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" allow="autoplay" src=""></iframe>
 
   <!-- START panel (draggable + resizable, 802px wide, FCF8D1 45% opacity with 7px zero-opacity gap) -->
   <div class="start-panel" id="startPanel">
@@ -1719,7 +2110,7 @@
         <span class="folder-label">Works</span>
       </button>
 
-      <a class="folder" href="https://drive.google.com/file/d/1h-e1z07qhtZ4bjrmootaqIbPkzds6cQT/view?usp=sharing" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">
+      <a class="folder" href="https://drive.google.com/file/d/17c98mvWmZVNqtjBSgb9D-Epj7hKCwrb2/view?usp=sharing" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">
         <img class="folder-img folder-img-default" src="assets/desktop/icon-resume-unselected.png" alt="Resume" draggable="false">
         <img class="folder-img folder-img-selected" src="assets/desktop/icon-resume-selected.png" alt="Resume" draggable="false">
         <span class="folder-label">Resume</span>
@@ -1746,9 +2137,7 @@
     </div>
   </div>
 
-</div>
-
-<!-- ── Floating Desktop Windows ── -->
+  <!-- ── Floating Desktop Windows ── -->
 
 <!-- About Me window (Figma 545:99) -->
 <div class="desktop-window" id="windowMe" data-window-id="me">
@@ -1785,20 +2174,15 @@ Currently trying to rekindle passion in life. When not buried 8 feet deep in thi
   </div>
 </div>
 
-<!-- Works window (Figma 547:163, 557:2774, 557:1519) -->
+<!-- Works window (Figma 547:163) -->
 <div class="desktop-window" id="windowWork" data-window-id="work">
   <div class="window-header">
-    <button class="works-nav-btn works-nav-left is-hidden" id="worksNavLeft" aria-label="Previous category">
-      <img src="assets/desktop/arrow-left.svg" alt="Previous" draggable="false">
+    <button class="window-back-btn" id="workBackBtn" type="button" aria-label="Back to desktop">
+      <img src="assets/desktop/pixel-arrow-left.svg" alt="Back" draggable="false">
     </button>
-    <div style="display:flex; align-items:center; gap: 12px; margin-left: auto;">
-      <button class="works-nav-btn works-nav-right" id="worksNavRight" aria-label="Next category">
-        <img src="assets/desktop/arrow-right.svg" alt="Next" draggable="false">
-      </button>
-      <button class="window-close-btn" data-close-window="work" aria-label="Close">
-        <img src="assets/desktop/icon-close.svg" alt="Close" draggable="false">
-      </button>
-    </div>
+    <button class="window-close-btn" data-close-window="work" aria-label="Close">
+      <img src="assets/desktop/icon-close.svg" alt="Close" draggable="false">
+    </button>
   </div>
   <div class="window-gap"></div>
   <div class="works-body-container" id="worksBody">
@@ -1832,6 +2216,9 @@ Currently trying to rekindle passion in life. When not buried 8 feet deep in thi
 <!-- Resume window -->
 <div class="desktop-window" id="windowResume" data-window-id="resume">
   <div class="window-header">
+    <button class="window-back-btn" id="resumeBackBtn" type="button" aria-label="Back to desktop">
+      <img src="assets/desktop/pixel-arrow-left.svg" alt="Back" draggable="false">
+    </button>
     <button class="window-close-btn" data-close-window="resume" aria-label="Close">
       <img src="assets/desktop/icon-close.svg" alt="Close" draggable="false">
     </button>
@@ -1840,26 +2227,103 @@ Currently trying to rekindle passion in life. When not buried 8 feet deep in thi
   <div class="window-body" id="windowResumeContent"></div>
 </div>
 
-<!-- Fun window -->
+<!-- Fun window (Figma 572:2, 576:87, 576:1192) -->
 <div class="desktop-window" id="windowFun" data-window-id="fun">
   <div class="window-header">
+    <button class="window-back-btn" id="funBackBtn" type="button" aria-label="Back to desktop">
+      <img src="assets/desktop/pixel-arrow-left.svg" alt="Back" draggable="false">
+    </button>
     <button class="window-close-btn" data-close-window="fun" aria-label="Close">
       <img src="assets/desktop/icon-close.svg" alt="Close" draggable="false">
     </button>
   </div>
   <div class="window-gap"></div>
-  <div class="window-body" id="windowFunContent"></div>
+  <div class="works-body-container" id="funBody">
+    <div class="works-cat-header">
+      <div class="works-cat-info">
+        <h2 class="works-cat-title">Have some Fun </h2>
+        <p class="works-cat-subtitle">worth your time</p>
+      </div>
+      <span class="works-cat-count" id="funCatCount">5</span>
+    </div>
+    <div class="fun-grid" id="funGrid">
+      <!-- Song item (Frame 1) -->
+      <button class="fun-item" id="funItemSong" type="button" data-fun-id="song">
+        <img class="fun-item-icon fun-item-icon-default" src="assets/desktop/fun-song.png" alt="Here’s a song for you" draggable="false">
+        <img class="fun-item-icon fun-item-icon-selected" src="assets/desktop/fun-song-selected.png" alt="Here’s a song for you" draggable="false">
+        <span class="fun-item-label">Here’s a song for you</span>
+      </button>
+
+      <!-- Book item (Frame 25) -->
+      <button class="fun-item" id="funItemBook" type="button" data-fun-id="book">
+        <img class="fun-item-icon fun-item-icon-default" src="assets/desktop/fun-book.png" alt="What I am currently reading" draggable="false">
+        <img class="fun-item-icon fun-item-icon-selected" src="assets/desktop/fun-book-selected.png" alt="What I am currently reading" draggable="false">
+        <span class="fun-item-label">What I am currently reading</span>
+      </button>
+
+      <!-- Smokercat item (Frame 26) -->
+      <button class="fun-item fun-item-horizontal" id="funItemCat" type="button" data-fun-id="cat">
+        <img class="fun-item-icon" src="assets/desktop/fun-smokercat.png" alt="More coming, standby please" draggable="false">
+        <span class="fun-item-label fun-item-label-left">More coming, standby please</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Descriptive Card (Frame 16) - appears directly below window on single click -->
+  <div class="fun-preview-card" id="funPreviewCard" style="display: none;">
+    <img class="fun-preview-icon" id="funPreviewIcon" src="assets/desktop/fun-song.png" alt="Preview icon" draggable="false">
+    <div class="fun-preview-content">
+      <h3 class="fun-preview-title" id="funPreviewTitle">Don’t Look Back In Anger</h3>
+      <p class="fun-preview-subtitle" id="funPreviewSubtitle">Oasis</p>
+    </div>
+    <button class="fun-redo-btn" id="funRedoBtn" type="button" aria-label="Shuffle recommendation" title="Shuffle recommendation">
+      <img src="assets/desktop/fun-redo.svg" alt="Shuffle" draggable="false">
+    </button>
+  </div>
 </div>
 
 <!-- Archive window -->
 <div class="desktop-window" id="windowArchive" data-window-id="archive">
   <div class="window-header">
+    <button class="window-back-btn" id="archiveBackBtn" type="button" aria-label="Back to desktop">
+      <img src="assets/desktop/pixel-arrow-left.svg" alt="Back" draggable="false">
+    </button>
     <button class="window-close-btn" data-close-window="archive" aria-label="Close">
       <img src="assets/desktop/icon-close.svg" alt="Close" draggable="false">
     </button>
   </div>
   <div class="window-gap"></div>
-  <div class="window-body" id="windowArchiveContent"></div>
+  <div class="works-body-container" id="archiveBody">
+    <div class="works-cat-header">
+      <div class="works-cat-info">
+        <h2 class="works-cat-title">Archive</h2>
+        <p class="works-cat-subtitle">everything ever made</p>
+      </div>
+      <span class="works-cat-count" id="archiveCatCount">14</span>
+    </div>
+    <!-- Filter bar -->
+    <div class="archive-filters" id="archiveFilters">
+      <button type="button" class="archive-filter-btn is-active" data-filter="all">All</button>
+      <button type="button" class="archive-filter-btn" data-filter="case study">Case Study</button>
+      <button type="button" class="archive-filter-btn" data-filter="illustrations">Illustrations</button>
+      <button type="button" class="archive-filter-btn" data-filter="graphic design">Graphic Design</button>
+      <button type="button" class="archive-filter-btn" data-filter="ui design">UI Design</button>
+      <button type="button" class="archive-filter-btn archive-filter-clear" id="archiveFilterClear" style="display:none;">✕ Clear</button>
+    </div>
+    <div class="archive-grid" id="archiveGrid"></div>
+  </div>
+
+  <!-- Descriptive Card (Frame 16) - appears directly below window on single click -->
+  <div class="works-preview-card" id="archivePreviewCard" style="display: none;">
+    <img class="works-preview-icon" id="archivePreviewIcon" src="assets/desktop/folder-selected.png" alt="Selected project" draggable="false">
+    <div class="works-preview-content">
+      <div class="works-preview-row1">
+        <span class="works-preview-title" id="archivePreviewTitle">Project Title</span>
+        <span class="works-preview-desc" id="archivePreviewDesc">Project description</span>
+      </div>
+      <div class="works-preview-pills" id="archivePreviewPills"></div>
+    </div>
+  </div>
 </div>
 
 <!-- ── Taskbar with Cutout from Figma Subtract shape ── -->
@@ -1874,31 +2338,9 @@ Currently trying to rekindle passion in life. When not buried 8 feet deep in thi
     <div class="taskbar-inactive-tabs" id="taskbarInactiveTabs"></div>
   </div>
 </div>
+<!-- End .desktop-layout -->
 
 <script>
-  // Project filter
-  (function () {
-    const btns = document.querySelectorAll('.filter-btn');
-    const rows = document.querySelectorAll('.work-row[data-tags]');
-
-    function applyFilter(filter) {
-      rows.forEach(row => {
-        const tags = row.dataset.tags ? row.dataset.tags.split(' ') : [];
-        if (filter === 'all') {
-          row.hidden = false;
-        } else {
-          row.hidden = !tags.includes(filter);
-        }
-      });
-      btns.forEach(b => b.classList.toggle('is-active', b.dataset.filter === filter));
-    }
-
-    btns.forEach(btn => btn.addEventListener('click', () => applyFilter(btn.dataset.filter)));
-
-    // Apply default on load
-    applyFilter('case-studies');
-  })();
-
   // Title bar theme toggle
   (function () {
     const root = document.documentElement;
@@ -1919,13 +2361,18 @@ Currently trying to rekindle passion in life. When not buried 8 feet deep in thi
     const VIEW_KEY = 'view';
     const urlParam = new URLSearchParams(window.location.search).get('view');
     const hashView = window.location.hash === '#desktop' ? 'desktop' : null;
-    const savedView = urlParam || hashView || localStorage.getItem(VIEW_KEY) || 'scroll';
+    const savedView = urlParam || hashView || 'desktop';
     root.dataset.view = savedView;
 
     function toggleView() {
       const nextView = root.dataset.view === 'scroll' ? 'desktop' : 'scroll';
       root.dataset.view = nextView;
       localStorage.setItem(VIEW_KEY, nextView);
+      if (nextView === 'scroll') {
+        document.querySelectorAll('.desktop-window').forEach(w => w.classList.remove('is-open'));
+        const pCard = document.getElementById('worksPreviewCard');
+        if (pCard) pCard.style.display = 'none';
+      }
     }
 
     // Title bar toggle
@@ -1985,157 +2432,64 @@ Currently trying to rekindle passion in life. When not buried 8 feet deep in thi
       ].join(' ');
     }
 
-    // ── Works Data (Exact Figma Frames: 547:163, 557:2774, 557:1519) ──
-    const worksData = [
+    // ── Works Data — Case Studies only (hiring-manager relevant) ──
+    const worksProjects = [
       {
-        category: 'Case Studies',
-        subtitle: 'worth your time',
-        projects: [
-          {
-            id: 'booknest',
-            name: 'Booknest',
-            cardTitle: 'BookNest',
-            desc: 'Reading platform optimizing behaviour & discovery',
-            tags: ['UX Research', 'Solo Project', '4 Months'],
-            url: 'booknest.html'
-          },
-          {
-            id: 'ping',
-            name: 'Ping Browser',
-            cardTitle: 'Ping Browser',
-            desc: 'Enterprise browser website, dashboard & design system',
-            tags: ['Design Systems', 'B2B', '3 Months'],
-            url: 'ping.html'
-          },
-          {
-            id: 'ritual',
-            name: 'Ritual, Intention and growth',
-            cardTitle: 'Ritual & Growth',
-            desc: 'Mindful habit loops, personal rituals and emotional growth',
-            tags: ['UX Research', 'Self-Initiated', '2 Months'],
-            url: 'dataviz.html'
-          },
-          {
-            id: 'financial-data',
-            name: 'Financial Data Platform',
-            cardTitle: 'Financial Data Platform',
-            desc: 'Interface for browsing, comparing & acting on financial data',
-            tags: ['Fintech', 'Product Design', 'Framer'],
-            url: 'https://saumyadimri.framer.website/data-platform'
-          },
-          {
-            id: 'moms-cookbook',
-            name: "Mom's Cookbook",
-            cardTitle: "Mom's Cookbook",
-            desc: 'A family recipe book in progress, designed as a flip book',
-            tags: ['Editorial', 'Food', 'Side Project'],
-            url: 'momscookbook.html'
-          }
-        ]
+        id: 'booknest',
+        name: 'Booknest',
+        cardTitle: 'BookNest',
+        desc: 'Reading platform optimizing behaviour & discovery',
+        tags: ['UX Research', 'Solo Project', '4 Months'],
+        url: 'booknest.html'
       },
       {
-        category: 'Visual Design',
-        subtitle: 'worth your time',
-        projects: [
-          {
-            id: 'chaturaaj',
-            name: 'Chaturaaj',
-            cardTitle: 'Chaturaaj',
-            desc: 'A modern Indian board game — rules, board, pieces & packaging',
-            tags: ['Game Design', 'Packaging', 'Behance'],
-            url: 'https://www.behance.net/gallery/214995291/CHATURAAJ-Indian-Board-Game-design'
-          },
-          {
-            id: 'gods-agency',
-            name: "God's Agency",
-            cardTitle: "God's Agency",
-            desc: 'Visual storytelling and narrative brand exploration',
-            tags: ['Visual Design', 'Narrative', 'Branding'],
-            url: 'https://www.behance.net/saumyadimri'
-          },
-          {
-            id: 'illustrations',
-            name: 'Illustrations',
-            cardTitle: 'Illustrations',
-            desc: 'Character studies, brush experiments & visual explorations',
-            tags: ['Procreate', 'Visual', 'Side Project'],
-            url: 'illustrations.html'
-          },
-          {
-            id: 'week-in-pages',
-            name: 'A week in pages',
-            cardTitle: 'A Week In Pages',
-            desc: 'A week documented in hand-made spreads and travel notes',
-            tags: ['Travel Journal', 'Editorial', 'Behance'],
-            url: 'https://www.behance.net/gallery/201876773/A-week-in-pages-Travel-Journal'
-          },
-          {
-            id: 'art',
-            name: 'Art',
-            cardTitle: 'Art & Motion',
-            desc: 'Sunflowers: Dark Bloom — stop-motion animation short',
-            tags: ['Stop-motion', 'Photography', 'Visual'],
-            url: 'https://www.behance.net/gallery/200399389/Sunflowers-Dark-Bloom-Stop-Motion-Animation'
-          }
-        ]
+        id: 'ping',
+        name: 'Ping Browser',
+        cardTitle: 'Ping Browser',
+        desc: 'Enterprise browser website, dashboard & design system',
+        tags: ['Design Systems', 'B2B', '3 Months'],
+        url: 'ping.html'
       },
       {
-        category: 'Mini Projects',
-        subtitle: 'worth your time',
-        projects: [
-          {
-            id: 'money-app',
-            name: 'Money App',
-            cardTitle: 'Money App',
-            desc: 'Personal finance tracking and expense visualization UI',
-            tags: ['Fintech', 'Mobile App', 'UI Design'],
-            url: 'dataviz.html'
-          },
-          {
-            id: 'irctc',
-            name: 'IRCTC',
-            cardTitle: 'IRCTC Redesign',
-            desc: 'Rethinking India\'s railway booking platform for travellers',
-            tags: ['UI/UX', 'Redesign', 'Behance'],
-            url: 'https://www.behance.net/gallery/202496381/IRCTC-Website-Redesign-UIUX-Case-Study'
-          },
-          {
-            id: 'data-viz',
-            name: 'Data Visualization',
-            cardTitle: 'Data Visualization',
-            desc: 'Tracking conditioned emotional responses across place & sound',
-            tags: ['Data Viz', 'Somatic Memory', 'Side Project'],
-            url: 'dataviz.html'
-          },
-          {
-            id: 'lifelog',
-            name: 'Lifelog',
-            cardTitle: 'Lifelog',
-            desc: 'A photo-memory app built for the Adobe Designathon',
-            tags: ['Adobe Designathon', 'Mobile UX', 'Framer'],
-            url: 'https://saumyadimri.framer.website/lifelog'
-          },
-          {
-            id: 'piscivore',
-            name: 'Piscivore',
-            cardTitle: 'Piscivore',
-            desc: 'Brand identity, packaging, and web for a fish-food company',
-            tags: ['Branding', 'Identity', 'Framer'],
-            url: 'https://saumyadimri.framer.website/piscivore'
-          }
-        ]
+        id: 'financial-data',
+        name: 'Financial Data Platform',
+        cardTitle: 'Financial Data Platform',
+        desc: 'Interface for browsing, comparing & acting on financial data',
+        tags: ['Fintech', 'Product Design', 'Framer'],
+        url: 'https://saumyadimri.framer.website/data-platform'
+      },
+      {
+        id: 'irctc',
+        name: 'IRCTC Redesign',
+        cardTitle: 'IRCTC Redesign',
+        desc: 'Rethinking India\'s railway booking platform for travellers',
+        tags: ['UI/UX', 'Redesign', 'Behance'],
+        url: 'https://www.behance.net/gallery/202496381/IRCTC-Website-Redesign-UIUX-Case-Study'
+      },
+      {
+        id: 'moms-cookbook',
+        name: "Mom's Cookbook",
+        cardTitle: "Mom's Cookbook",
+        desc: 'A family recipe book in progress, designed as a flip book',
+        tags: ['Editorial', 'Food', 'Side Project'],
+        url: 'momscookbook.html'
+      },
+      {
+        id: 'study-plants',
+        name: 'I Was Going to Study Plants',
+        cardTitle: 'I Was Going to Study Plants',
+        desc: 'Tracking conditioned emotional responses across place, sound, and experience',
+        tags: ['Research Paper', 'Data Viz', 'Somatic Memory'],
+        url: 'dataviz.html'
       }
     ];
 
-    let currentCategoryIdx = 0;
     let selectedProject = null;
 
     const worksCatTitle   = document.getElementById('worksCatTitle');
     const worksCatSub     = document.getElementById('worksCatSub');
     const worksCatCount   = document.getElementById('worksCatCount');
     const worksGrid       = document.getElementById('worksGrid');
-    const worksNavLeft    = document.getElementById('worksNavLeft');
-    const worksNavRight   = document.getElementById('worksNavRight');
     const worksPreviewCard= document.getElementById('worksPreviewCard');
     const worksPreviewTitle= document.getElementById('worksPreviewTitle');
     const worksPreviewDesc= document.getElementById('worksPreviewDesc');
@@ -2150,35 +2504,33 @@ Currently trying to rekindle passion in life. When not buried 8 feet deep in thi
       }
     }
 
-    function renderWorksCategory(catIdx) {
-      currentCategoryIdx = catIdx;
+    // Double-click cursor tooltip
+    const dblTooltip = document.createElement('div');
+    dblTooltip.className = 'dblclick-tooltip';
+    dblTooltip.textContent = 'double-click to open ↗';
+    document.body.appendChild(dblTooltip);
+
+    document.addEventListener('mousemove', (e) => {
+      dblTooltip.style.left = e.clientX + 'px';
+      dblTooltip.style.top = e.clientY + 'px';
+    });
+
+    function attachTooltip(itemEl) {
+      itemEl.addEventListener('mouseenter', () => dblTooltip.classList.add('visible'));
+      itemEl.addEventListener('mouseleave', () => dblTooltip.classList.remove('visible'));
+    }
+
+    function renderWorksProjects() {
       selectedProject = null;
       if (worksPreviewCard) worksPreviewCard.style.display = 'none';
 
-      const cat = worksData[catIdx];
-      if (!cat) return;
+      if (worksCatTitle) worksCatTitle.textContent = 'Case Studies';
+      if (worksCatSub) worksCatSub.textContent = 'worth your time';
+      if (worksCatCount) worksCatCount.textContent = worksProjects.length;
 
-      if (worksCatTitle) worksCatTitle.textContent = cat.category;
-      if (worksCatSub) worksCatSub.textContent = cat.subtitle;
-      if (worksCatCount) worksCatCount.textContent = cat.projects.length;
-
-      // Arrows visibility:
-      // Category 0 (Case Studies): right arrow only
-      // Category 1 (Visual Design): both left and right arrows
-      // Category 2 (Mini Projects): left arrow only
-      if (worksNavLeft) {
-        if (catIdx === 0) worksNavLeft.classList.add('is-hidden');
-        else worksNavLeft.classList.remove('is-hidden');
-      }
-      if (worksNavRight) {
-        if (catIdx === worksData.length - 1) worksNavRight.classList.add('is-hidden');
-        else worksNavRight.classList.remove('is-hidden');
-      }
-
-      // Render 5 folders
       if (!worksGrid) return;
       worksGrid.innerHTML = '';
-      cat.projects.forEach(proj => {
+      worksProjects.forEach(proj => {
         const item = document.createElement('button');
         item.type = 'button';
         item.className = 'works-item';
@@ -2201,6 +2553,7 @@ Currently trying to rekindle passion in life. When not buried 8 feet deep in thi
           openProjectUrl(proj.url);
         });
 
+        attachTooltip(item);
         worksGrid.appendChild(item);
       });
     }
@@ -2225,17 +2578,6 @@ Currently trying to rekindle passion in life. When not buried 8 feet deep in thi
       }
     }
 
-    if (worksNavLeft) {
-      worksNavLeft.addEventListener('click', () => {
-        if (currentCategoryIdx > 0) renderWorksCategory(currentCategoryIdx - 1);
-      });
-    }
-    if (worksNavRight) {
-      worksNavRight.addEventListener('click', () => {
-        if (currentCategoryIdx < worksData.length - 1) renderWorksCategory(currentCategoryIdx + 1);
-      });
-    }
-
     if (worksPreviewCard) {
       worksPreviewCard.addEventListener('click', () => {
         if (selectedProject && selectedProject.url) {
@@ -2246,19 +2588,417 @@ Currently trying to rekindle passion in life. When not buried 8 feet deep in thi
 
     function resetWindowPosition(el) {
       el.style.left = '50%';
-      el.style.top = '132px';
+      el.style.top = `${Math.max(60, Math.min(window.innerHeight * 0.28, 160))}px`;
       el.style.transform = 'translateX(-50%)';
       el.style.right = 'auto';
       el.style.bottom = 'auto';
     }
 
+    // ── Fun Data & Logic (Figma 572:2, 576:87, 576:1192) ──
+    const funSongs = [
+      {
+        title: "Don’t Look Back In Anger",
+        artist: "Oasis",
+        url: "https://open.spotify.com/track/02MWAaffLxlfxAUY7c5dvx",
+        icon: "assets/desktop/fun-song.png"
+      },
+      {
+        title: "Yellow",
+        artist: "Coldplay",
+        url: "https://open.spotify.com/track/3AJwUDP919kvQ9QcozQPxg",
+        icon: "assets/desktop/fun-song.png"
+      },
+      {
+        title: "There Is a Light That Never Goes Out",
+        artist: "The Smiths",
+        url: "https://open.spotify.com/track/0WQiDwKJclirSYG9v5tayI",
+        icon: "assets/desktop/fun-song.png"
+      },
+      {
+        title: "Space Song",
+        artist: "Beach House",
+        url: "https://open.spotify.com/track/7H0ya8339vCinqwsLbpbsu",
+        icon: "assets/desktop/fun-song.png"
+      },
+      {
+        title: "Dreams",
+        artist: "Fleetwood Mac",
+        url: "https://open.spotify.com/track/0ofHAoxe9vBkTCp2UQIavz",
+        icon: "assets/desktop/fun-song.png"
+      }
+    ];
+
+    const funBooks = [
+      {
+        title: "Becoming Supernatural",
+        author: "Joe Dispenza",
+        url: "https://www.google.com/search?q=Becoming+Supernatural+Joe+Dispenza",
+        icon: "assets/desktop/fun-book-selected.png"
+      },
+      {
+        title: "The Design of Everyday Things",
+        author: "Don Norman",
+        url: "https://www.google.com/search?q=The+Design+of+Everyday+Things+Don+Norman",
+        icon: "assets/desktop/fun-book-selected.png"
+      },
+      {
+        title: "Steal Like an Artist",
+        author: "Austin Kleon",
+        url: "https://www.google.com/search?q=Steal+Like+an+Artist+Austin+Kleon",
+        icon: "assets/desktop/fun-book-selected.png"
+      },
+      {
+        title: "Atomic Habits",
+        author: "James Clear",
+        url: "https://www.google.com/search?q=Atomic+Habits+James+Clear",
+        icon: "assets/desktop/fun-book-selected.png"
+      },
+      {
+        title: "Show Your Work!",
+        author: "Austin Kleon",
+        url: "https://www.google.com/search?q=Show+Your+Work+Austin+Kleon",
+        icon: "assets/desktop/fun-book-selected.png"
+      }
+    ];
+
+    let currentFunType = null;
+    let songIndex = 0;
+    let bookIndex = 0;
+
+    const funPreviewCard = document.getElementById('funPreviewCard');
+    const funPreviewIcon = document.getElementById('funPreviewIcon');
+    const funPreviewTitle = document.getElementById('funPreviewTitle');
+    const funPreviewSubtitle = document.getElementById('funPreviewSubtitle');
+    const funRedoBtn = document.getElementById('funRedoBtn');
+
+    function selectFunItem(type) {
+      currentFunType = type;
+      document.querySelectorAll('.fun-item').forEach(el => {
+        if (el.dataset.funId === type) {
+          el.classList.add('is-selected');
+        } else {
+          el.classList.remove('is-selected');
+        }
+      });
+
+      if (!funPreviewCard) return;
+
+      if (type === 'song') {
+        const item = funSongs[songIndex];
+        funPreviewIcon.src = 'assets/desktop/fun-song.png';
+        funPreviewTitle.textContent = item.title;
+        funPreviewSubtitle.textContent = item.artist;
+        funPreviewCard.style.display = 'flex';
+      } else if (type === 'book') {
+        const item = funBooks[bookIndex];
+        funPreviewIcon.src = 'assets/desktop/fun-book-selected.png';
+        funPreviewTitle.textContent = item.title;
+        funPreviewSubtitle.textContent = item.author;
+        funPreviewCard.style.display = 'flex';
+      } else if (type === 'cat') {
+        funPreviewIcon.src = 'assets/desktop/fun-smokercat.png';
+        funPreviewTitle.textContent = 'Illustrative Mini Game';
+        funPreviewSubtitle.textContent = 'Standby please — exciting hand-drawn mini-game coming soon!';
+        funPreviewCard.style.display = 'flex';
+      }
+    }
+
+    function initFun() {
+      // Attach click listeners to fun items
+      const songBtn = document.getElementById('funItemSong');
+      const bookBtn = document.getElementById('funItemBook');
+      const catBtn = document.getElementById('funItemCat');
+
+      if (songBtn) {
+        songBtn.onclick = () => selectFunItem('song');
+        songBtn.ondblclick = (e) => { e.stopPropagation(); openProjectUrl(funSongs[songIndex].url); };
+        attachTooltip(songBtn);
+      }
+      if (bookBtn) {
+        bookBtn.onclick = () => selectFunItem('book');
+        bookBtn.ondblclick = (e) => { e.stopPropagation(); openProjectUrl(funBooks[bookIndex].url); };
+        attachTooltip(bookBtn);
+      }
+      if (catBtn) {
+        catBtn.onclick = () => selectFunItem('cat');
+        attachTooltip(catBtn);
+      }
+
+      // Default: unselected state, preview card hidden until user clicks an option
+      currentFunType = null;
+      document.querySelectorAll('.fun-item').forEach(el => el.classList.remove('is-selected'));
+      if (funPreviewCard) funPreviewCard.style.display = 'none';
+    }
+
+    if (funRedoBtn) {
+      funRedoBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (currentFunType === 'song') {
+          songIndex = (songIndex + 1) % funSongs.length;
+          selectFunItem('song');
+        } else if (currentFunType === 'book') {
+          bookIndex = (bookIndex + 1) % funBooks.length;
+          selectFunItem('book');
+        } else if (currentFunType === 'cat') {
+          selectFunItem('cat');
+        }
+      });
+    }
+
+    if (funPreviewCard) {
+      funPreviewCard.addEventListener('click', (e) => {
+        if (e.target.closest('#funRedoBtn')) return;
+        if (currentFunType === 'song') {
+          openProjectUrl(funSongs[songIndex].url);
+        } else if (currentFunType === 'book') {
+          openProjectUrl(funBooks[bookIndex].url);
+        }
+      });
+    }
+
+    // ── Archive Data & Logic (All Projects with Categories) ──
+    const archiveProjects = [
+      {
+        id: 'booknest',
+        name: 'Booknest',
+        cardTitle: 'BookNest',
+        desc: 'Reading platform optimizing behaviour & discovery',
+        tags: ['UX Research', 'Solo Project', '4 Months'],
+        categories: ['case study', 'ui design'],
+        url: 'booknest.html'
+      },
+      {
+        id: 'ping',
+        name: 'Ping Browser',
+        cardTitle: 'Ping Browser',
+        desc: 'Enterprise browser website, dashboard & design system',
+        tags: ['Design Systems', 'B2B', '3 Months'],
+        categories: ['case study', 'ui design'],
+        url: 'ping.html'
+      },
+      {
+        id: 'financial-data',
+        name: 'Financial Data Platform',
+        cardTitle: 'Financial Data Platform',
+        desc: 'Interface for browsing, comparing & acting on financial data',
+        tags: ['Fintech', 'Product Design', 'Framer'],
+        categories: ['case study', 'ui design'],
+        url: 'https://saumyadimri.framer.website/data-platform'
+      },
+      {
+        id: 'irctc',
+        name: 'IRCTC Redesign',
+        cardTitle: 'IRCTC Redesign',
+        desc: 'Rethinking India\'s railway booking platform for travellers',
+        tags: ['UI/UX', 'Redesign', 'Behance'],
+        categories: ['case study', 'ui design'],
+        url: 'https://www.behance.net/gallery/202496381/IRCTC-Website-Redesign-UIUX-Case-Study'
+      },
+      {
+        id: 'retro-desktop',
+        name: 'Retro 95',
+        cardTitle: 'Retro Desktop 95',
+        desc: 'Nostalgic 90s OS interactive playground built with vanilla JS and CSS',
+        tags: ['Creative Dev', 'Easter Egg', 'Vanilla JS'],
+        categories: ['ui design'],
+        url: 'retro.html'
+      },
+      {
+        id: 'study-plants',
+        name: 'Study Plants',
+        cardTitle: 'I Was Going to Study Plants',
+        desc: 'Tracking conditioned emotional responses across place, sound, ritual, and experience',
+        tags: ['Research Paper', 'Data Viz', 'Somatic Memory'],
+        categories: ['case study', 'graphic design'],
+        url: 'dataviz.html'
+      },
+      {
+        id: 'moms-cookbook',
+        name: "Mom's Cookbook",
+        cardTitle: "Mom's Cookbook",
+        desc: 'A family recipe book in progress, designed as a flip book',
+        tags: ['Editorial', 'Food', 'Side Project'],
+        categories: ['graphic design', 'illustrations'],
+        url: 'momscookbook.html'
+      },
+      {
+        id: 'lifelog',
+        name: 'Lifelog',
+        cardTitle: 'Lifelog App',
+        desc: 'Adobe Designathon finalist — mindful habit and memory tracking mobile app',
+        tags: ['Mobile UX', 'Designathon', 'Framer'],
+        categories: ['case study', 'ui design'],
+        url: 'https://saumyadimri.framer.website/lifelog'
+      },
+      {
+        id: 'chaturaaj',
+        name: 'Chaturaaj',
+        cardTitle: 'Chaturaaj Board Game',
+        desc: 'Ancient Indian 4-player chess revived with tactile packaging & branding',
+        tags: ['Board Game', 'Packaging', 'Visual Design'],
+        categories: ['graphic design', 'illustrations'],
+        url: 'https://www.behance.net/gallery/214995291/CHATURAAJ-Indian-Board-Game-design'
+      },
+      {
+        id: 'piscivore',
+        name: 'Piscivore',
+        cardTitle: 'Piscivore Brand',
+        desc: 'Sustainable ocean-to-table brand identity and design language',
+        tags: ['Branding', 'Visual Identity', 'Typography'],
+        categories: ['graphic design'],
+        url: 'https://saumyadimri.framer.website/piscivore'
+      },
+      {
+        id: 'illustrations',
+        name: 'Illustrations',
+        cardTitle: 'Illustration Series',
+        desc: 'Procreate character studies, botanical sketches and textured digital art',
+        tags: ['Digital Art', 'Procreate', 'Visual Study'],
+        categories: ['illustrations'],
+        url: 'illustrations.html'
+      },
+      {
+        id: 'sunflowers',
+        name: 'Sunflowers',
+        cardTitle: 'Sunflowers: Dark Bloom',
+        desc: 'Low-light stop-motion animated experimental short exploring nocturnal bloom',
+        tags: ['Animation', 'Stop-Motion', 'Behance'],
+        categories: ['illustrations', 'graphic design'],
+        url: 'https://www.behance.net/gallery/200399389/Sunflowers-Dark-Bloom-Stop-Motion-Animation'
+      },
+      {
+        id: 'week-in-pages',
+        name: 'Week in Pages',
+        cardTitle: 'A Week in Pages',
+        desc: 'Tangible travel journal, editorial layout & Risograph-printed zine',
+        tags: ['Editorial', 'Print', 'Zine'],
+        categories: ['graphic design'],
+        url: 'https://www.behance.net/gallery/201876773/A-week-in-pages-Travel-Journal'
+      },
+      {
+        id: 'evenings-delhi',
+        name: 'Evenings in Delhi',
+        cardTitle: 'Evenings in Delhi',
+        desc: 'Atmospheric twilight photography and visual narrative documenting Delhi streets',
+        tags: ['Photography', 'Visual Essay', 'Behance'],
+        categories: ['graphic design'],
+        url: 'https://www.behance.net/gallery/200520895/Evenings-in-Delhi'
+      }
+    ];
+
+    let currentArchiveFilter = 'all';
+    let selectedArchiveProject = null;
+    let archiveFiltersInitialized = false;
+    const archiveGrid = document.getElementById('archiveGrid');
+    const archiveCatCount = document.getElementById('archiveCatCount');
+    const archivePreviewCard = document.getElementById('archivePreviewCard');
+    const archivePreviewTitle = document.getElementById('archivePreviewTitle');
+    const archivePreviewDesc = document.getElementById('archivePreviewDesc');
+    const archivePreviewPills = document.getElementById('archivePreviewPills');
+    const archiveFilterClear = document.getElementById('archiveFilterClear');
+
+    function renderArchiveProjects() {
+      selectedArchiveProject = null;
+      if (archivePreviewCard) archivePreviewCard.style.display = 'none';
+      if (!archiveGrid) return;
+      archiveGrid.innerHTML = '';
+
+      const filtered = (currentArchiveFilter === 'all')
+        ? archiveProjects
+        : archiveProjects.filter(p => p.categories && p.categories.includes(currentArchiveFilter));
+
+      if (archiveCatCount) {
+        archiveCatCount.textContent = filtered.length;
+      }
+
+      if (archiveFilterClear) {
+        archiveFilterClear.style.display = (currentArchiveFilter === 'all') ? 'none' : 'inline-block';
+      }
+
+      filtered.forEach(proj => {
+        const item = document.createElement('button');
+        item.type = 'button';
+        item.className = 'archive-item';
+        item.setAttribute('data-archive-id', proj.id);
+
+        item.innerHTML = `
+          <img class="archive-item-icon archive-item-icon-default" src="assets/desktop/folder-unselected.png" alt="${proj.name}" draggable="false" />
+          <img class="archive-item-icon archive-item-icon-selected" src="assets/desktop/folder-selected.png" alt="${proj.name}" draggable="false" />
+          <span class="archive-item-name">${proj.name}</span>
+        `;
+
+        // Single click: select folder and reveal preview card
+        item.addEventListener('click', () => {
+          selectArchiveProject(proj, item);
+        });
+
+        // Double click: open project link
+        item.addEventListener('dblclick', (e) => {
+          e.stopPropagation();
+          openProjectUrl(proj.url);
+        });
+
+        attachTooltip(item);
+        archiveGrid.appendChild(item);
+      });
+    }
+
+    function initArchiveFilters() {
+      if (archiveFiltersInitialized) return;
+      archiveFiltersInitialized = true;
+      const filterBtns = document.querySelectorAll('.archive-filter-btn[data-filter]');
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentArchiveFilter = btn.dataset.filter;
+          filterBtns.forEach(b => b.classList.toggle('is-active', b === btn));
+          renderArchiveProjects();
+        });
+      });
+
+      if (archiveFilterClear) {
+        archiveFilterClear.addEventListener('click', () => {
+          currentArchiveFilter = 'all';
+          filterBtns.forEach(b => b.classList.toggle('is-active', b.dataset.filter === 'all'));
+          renderArchiveProjects();
+        });
+      }
+    }
+
+    function selectArchiveProject(proj, itemEl) {
+      selectedArchiveProject = proj;
+      document.querySelectorAll('.archive-item').forEach(el => {
+        if (el === itemEl) {
+          el.classList.add('is-selected');
+        } else {
+          el.classList.remove('is-selected');
+        }
+      });
+
+      if (archivePreviewCard && archivePreviewTitle && archivePreviewDesc && archivePreviewPills) {
+        archivePreviewTitle.textContent = proj.cardTitle || proj.name;
+        archivePreviewDesc.textContent = proj.desc || '';
+        archivePreviewPills.innerHTML = (proj.tags || []).map(t => `<span class="works-preview-pill">${t}</span>`).join('');
+        archivePreviewCard.style.display = 'flex';
+      }
+    }
+
+    if (archivePreviewCard) {
+      archivePreviewCard.addEventListener('click', () => {
+        if (selectedArchiveProject && selectedArchiveProject.url) {
+          openProjectUrl(selectedArchiveProject.url);
+        }
+      });
+    }
+
     // Show the desktop home (main window with icons)
     function showDesktopHome() {
-      // Close all sub-windows
+      // Close all sub-windows and preview cards
       document.querySelectorAll('.desktop-window').forEach(w => w.classList.remove('is-open'));
       if (worksPreviewCard) worksPreviewCard.style.display = 'none';
+      if (funPreviewCard) funPreviewCard.style.display = 'none';
+      if (archivePreviewCard) archivePreviewCard.style.display = 'none';
 
-      // Show main window centered at top: 132px
+      // Show main window centered slightly above middle
       if (startPanel) {
         resetWindowPosition(startPanel);
         startPanel.style.display = 'flex';
@@ -2289,7 +3029,12 @@ Currently trying to rekindle passion in life. When not buried 8 feet deep in thi
       activeId = id;
 
       if (id === 'work') {
-        renderWorksCategory(0); // Always start with Case Studies as requested!
+        renderWorksProjects();
+      } else if (id === 'fun') {
+        initFun();
+      } else if (id === 'archive') {
+        initArchiveFilters();
+        renderArchiveProjects();
       }
 
       updateTaskbar();
@@ -2302,6 +3047,12 @@ Currently trying to rekindle passion in life. When not buried 8 feet deep in thi
       }
       if (id === 'work' && worksPreviewCard) {
         worksPreviewCard.style.display = 'none';
+      }
+      if (id === 'fun' && funPreviewCard) {
+        funPreviewCard.style.display = 'none';
+      }
+      if (id === 'archive' && archivePreviewCard) {
+        archivePreviewCard.style.display = 'none';
       }
       // When window closes, return to main window
       showDesktopHome();
@@ -2425,17 +3176,218 @@ Currently trying to rekindle passion in life. When not buried 8 feet deep in thi
       makeDraggable(startPanel, header || startPanel);
     }
 
-    // Back to scroll mode button
-    const backBtn = document.getElementById('desktopBackBtn');
-    if (backBtn) {
-      backBtn.addEventListener('click', () => {
+    // Back buttons inside all sub-windows
+    document.querySelectorAll('.window-back-btn').forEach(btn => {
+      btn.addEventListener('click', showDesktopHome);
+    });
+
+    // Girl icon transitions back to scroll mode
+    const girlBtn = document.getElementById('decoGirlBtn');
+    if (girlBtn) {
+      girlBtn.addEventListener('click', () => {
         document.documentElement.dataset.view = 'scroll';
         localStorage.setItem('view', 'scroll');
+        document.querySelectorAll('.desktop-window').forEach(w => w.classList.remove('is-open'));
+        if (worksPreviewCard) worksPreviewCard.style.display = 'none';
+        if (funPreviewCard) funPreviewCard.style.display = 'none';
+        if (archivePreviewCard) archivePreviewCard.style.display = 'none';
+      });
+    }
+
+    // Music toggle: plays/pauses background YouTube track
+    const musicBtn = document.getElementById('decoMusicBtn');
+    const musicTooltip = document.getElementById('musicTooltip');
+    const bgPlayer = document.getElementById('bgMusicPlayer');
+    let isMusicPlaying = false;
+    const YOUTUBE_STREAM = 'https://www.youtube-nocookie.com/embed/TZAin-Af_Ws?autoplay=1&loop=1&playlist=TZAin-Af_Ws&enablejsapi=1';
+
+    if (musicBtn) {
+      musicBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        isMusicPlaying = !isMusicPlaying;
+        if (isMusicPlaying) {
+          musicBtn.classList.remove('is-muted');
+          if (musicTooltip) musicTooltip.textContent = 'disable music';
+          musicBtn.setAttribute('aria-label', 'disable music');
+          musicBtn.title = 'disable music';
+          if (bgPlayer) bgPlayer.src = YOUTUBE_STREAM;
+        } else {
+          musicBtn.classList.add('is-muted');
+          if (musicTooltip) musicTooltip.textContent = 'enable music';
+          musicBtn.setAttribute('aria-label', 'enable music');
+          musicBtn.title = 'enable music';
+          if (bgPlayer) bgPlayer.src = '';
+        }
       });
     }
 
     // Initial state: show desktop home
     showDesktopHome();
+  })();
+
+  // ── Interactive Physics-Based Dot Grid (Top-Right Hero) ──
+  (function initDotGrid() {
+    const canvas = document.getElementById('dotGridCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const colors = ['#4AA7DD', '#F770FC', '#67E896', '#5FF6EF'];
+    let dots = [];
+    let width = 0;
+    let height = 0;
+    let dpr = window.devicePixelRatio || 1;
+    let mouse = { x: -9999, y: -9999, isHover: false };
+    const SPACING = 24;
+    const DOT_RADIUS = 4.8;
+
+    function resize() {
+      const rect = canvas.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      width = rect.width;
+      height = rect.height;
+      dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      dots = [];
+      const cols = Math.floor(width / SPACING);
+      const rows = Math.floor(height / SPACING);
+      const startX = (width - (cols - 1) * SPACING) / 2;
+      const startY = (height - (rows - 1) * SPACING) / 2;
+
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const bx = startX + c * SPACING;
+          const by = startY + r * SPACING;
+          const color = colors[(r + c) % colors.length];
+          dots.push({
+            baseX: bx,
+            baseY: by,
+            x: bx,
+            y: by,
+            vx: 0,
+            vy: 0,
+            radius: DOT_RADIUS,
+            color: color
+          });
+        }
+      }
+    }
+
+    function onPointerMove(e) {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+      mouse.isHover = true;
+    }
+
+    function onPointerLeave() {
+      mouse.x = -9999;
+      mouse.y = -9999;
+      mouse.isHover = false;
+    }
+
+    function explode(cx, cy, strength = 32, blastRadius = 160) {
+      for (let i = 0; i < dots.length; i++) {
+        const d = dots[i];
+        const dx = d.x - cx;
+        const dy = d.y - cy;
+        const dist = Math.hypot(dx, dy) || 1;
+        if (dist < blastRadius) {
+          const force = (1 - dist / blastRadius) * strength;
+          d.vx += (dx / dist) * force;
+          d.vy += (dy / dist) * force;
+        }
+      }
+    }
+
+    canvas.addEventListener('mousemove', onPointerMove);
+    canvas.addEventListener('mouseleave', onPointerLeave);
+    canvas.addEventListener('touchmove', (e) => {
+      if (e.touches.length > 0) {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = e.touches[0].clientX - rect.left;
+        mouse.y = e.touches[0].clientY - rect.top;
+        mouse.isHover = true;
+      }
+    }, { passive: true });
+    canvas.addEventListener('touchend', onPointerLeave);
+
+    canvas.addEventListener('click', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const cx = e.clientX - rect.left;
+      const cy = e.clientY - rect.top;
+      explode(cx, cy, 34, 180);
+    });
+
+    function loop() {
+      ctx.clearRect(0, 0, width, height);
+
+      const pullRadius = 90;
+      const pullStrength = 6.5;
+      const spring = 0.08;
+      const damping = 0.82;
+
+      for (let i = 0; i < dots.length; i++) {
+        const d = dots[i];
+
+        // Elastic magnetic pull towards cursor
+        if (mouse.isHover) {
+          const dx = mouse.x - d.x;
+          const dy = mouse.y - d.y;
+          const dist = Math.hypot(dx, dy) || 1;
+          if (dist < pullRadius) {
+            const force = (1 - dist / pullRadius) * pullStrength;
+            d.vx += (dx / dist) * force * 0.45;
+            d.vy += (dy / dist) * force * 0.45;
+          }
+        }
+
+        // Spring return to original grid anchor
+        d.vx += (d.baseX - d.x) * spring;
+        d.vy += (d.baseY - d.y) * spring;
+
+        // Friction / damping
+        d.vx *= damping;
+        d.vy *= damping;
+
+        d.x += d.vx;
+        d.y += d.vy;
+
+        // Draw dot
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.radius, 0, Math.PI * 2);
+        ctx.fillStyle = d.color;
+        ctx.fill();
+      }
+
+      requestAnimationFrame(loop);
+    }
+
+    window.addEventListener('resize', resize);
+    window.addEventListener('orientationchange', resize);
+
+    // Initialize when view becomes visible
+    setTimeout(() => {
+      resize();
+      requestAnimationFrame(loop);
+    }, 150);
+
+    // Re-check on view changes
+    const viewToggle = document.getElementById('viewToggle');
+    if (viewToggle) {
+      viewToggle.addEventListener('click', () => {
+        setTimeout(resize, 200);
+      });
+    }
+    const girlBtn = document.getElementById('decoGirlBtn');
+    if (girlBtn) {
+      girlBtn.addEventListener('click', () => {
+        setTimeout(resize, 200);
+      });
+    }
   })();
 </script>
 

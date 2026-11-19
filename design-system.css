@@ -7,25 +7,25 @@
 
 /* ---- TOKENS ---- */
 :root {
-  /* Palette — dark editorial. Surfaces stack from page (darkest) → callout (lightest). */
-  --paper:        #14141a;   /* page background */
-  --paper-2:      #1d1d25;   /* lifted surface — titlebar, nested cards */
-  --sage:         #28282f;   /* callout / contrast surface (kept name for compatibility) */
-  --sage-2:       #3a3a44;   /* border on lifted surfaces */
+  /* Palette — dark editorial. Pure black background with #9173D7 accent. */
+  --paper:        #000000;   /* pure black background */
+  --paper-2:      #000000;   /* lifted surface / titlebar */
+  --sage:         #111116;   /* callout / contrast surface */
+  --sage-2:       #20202a;   /* border on lifted surfaces */
   --ink:          #ededea;   /* primary text */
   --ink-soft:     #a4a49d;   /* secondary text */
   --ink-faint:    #6c6c66;   /* tertiary text, captions */
-  --accent:       #f5c64a;   /* warm amber */
-  --accent-soft:  rgba(245, 198, 74, 0.14);  /* accent surface — tag bg */
-  --accent-ink:   #f5c64a;   /* accent text — same on dark */
+  --accent:       #9173D7;   /* custom lilac purple */
+  --accent-soft:  rgba(145, 115, 215, 0.16);  /* accent surface — tag bg */
+  --accent-ink:   #9173D7;   /* accent text */
   --rule:         rgba(255, 255, 255, 0.08);
-  --rule-strong:  rgba(255, 255, 255, 0.20);
-  --selection:    rgba(245, 198, 74, 0.32);
+  --rule-strong:  rgba(255, 255, 255, 0.15);
+  --selection:    rgba(145, 115, 215, 0.35);
 
   /* Typography */
-  --font-display: 'Noto Serif Lao', Georgia, serif;
+  --font-display: 'Doto', monospace;
   --font-body:    'DM Sans', system-ui, -apple-system, sans-serif;
-  --font-mono:    'JetBrains Mono', 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+  --font-mono:    'DM Sans', system-ui, -apple-system, sans-serif;
 
   /* Fluid type scale (clamp: min, preferred, max) */
   --fs-hero:  clamp(2.75rem, 4.5vw + 1rem, 5.25rem);
@@ -116,7 +116,7 @@ a:hover {
 /* ---- TYPOGRAPHY ---- */
 .display {
   font-family: var(--font-display);
-  font-weight: 500;
+  font-weight: 900;
   font-size: var(--fs-hero);
   line-height: 1.05;
   letter-spacing: -0.015em;
@@ -124,7 +124,7 @@ a:hover {
 }
 h1, .h1 {
   font-family: var(--font-display);
-  font-weight: 500;
+  font-weight: 900;
   font-size: var(--fs-h1);
   line-height: 1.1;
   letter-spacing: -0.01em;
@@ -132,7 +132,7 @@ h1, .h1 {
 }
 h2, .h2 {
   font-family: var(--font-display);
-  font-weight: 500;
+  font-weight: 900;
   font-size: var(--fs-h2);
   line-height: 1.18;
   letter-spacing: -0.005em;
@@ -442,103 +442,107 @@ hr.rule {
 .btn--ghost:hover { background: var(--ink); color: var(--paper); }
 
 /* ---- TITLE BAR ----
-   Slim window-chrome at the top of every page. Wordmark left,
-   menu items inline, decorative window controls (— □ ×) right.
-   Reads as a window header without going full retro.            */
+   Modern, sleek spacious header with cursive brand logo on the left,
+   expanded menu items, and larger icons. Reads seamlessly on pure black. */
 .titlebar {
   position: sticky; top: 0; z-index: 50;
-  background: var(--paper-2);
-  border-bottom: 1px solid var(--rule-strong);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06),
-              inset 0 -1px 0 rgba(0,0,0,0.3);
+  background: var(--paper);
+  border-bottom: none;
+  box-shadow: none;
 }
 .titlebar-inner {
   display: flex; align-items: center; justify-content: space-between;
-  height: 36px;
+  height: 76px;
   max-width: var(--container);
   margin-inline: auto;
   padding-inline: var(--gutter);
-  gap: var(--sp-4);
+  gap: var(--sp-6);
 }
 .titlebar .tb-title {
   display: inline-flex; align-items: center; gap: var(--sp-2);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.02em;
-  color: var(--ink);
   text-decoration: none;
-  white-space: nowrap;
+}
+.titlebar .tb-brand-img {
+  height: 52px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+  transition: transform 0.2s ease;
+}
+.titlebar .tb-title:hover .tb-brand-img {
+  transform: scale(1.04);
 }
 .titlebar .tb-title .dot {
-  width: 8px; height: 8px;
-  background: var(--accent);
-  border-radius: 50%;
-  display: inline-block;
+  display: none;
 }
-.titlebar .tb-title .sep { color: var(--ink-faint); margin-inline: 2px; }
 .titlebar .tb-menu {
-  display: flex; gap: 0;
-  font-family: var(--font-mono);
-  font-size: var(--fs-meta);
-  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  letter-spacing: 0.01em;
   margin-left: auto;
   margin-right: var(--sp-4);
 }
 .titlebar .tb-menu a {
-  padding: 4px 10px;
+  padding: 8px 16px;
   color: var(--ink);
   text-decoration: none;
-  border-radius: var(--r-1);
+  border-radius: var(--r-2);
+  font-size: 1rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.15s ease, background 0.15s ease;
 }
 .titlebar .tb-menu a:hover {
-  background: var(--sage);
-  color: var(--ink);
+  color: var(--accent);
+  background: rgba(145, 115, 215, 0.08);
 }
-.titlebar .tb-menu a.is-active { color: var(--accent-ink); }
+.titlebar .tb-menu a.is-active {
+  color: var(--accent);
+  font-weight: 600;
+}
+.titlebar .tb-menu a.tb-icon-only {
+  padding: 8px 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.titlebar .tb-menu a.tb-icon-only svg {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.2s ease, color 0.15s ease;
+}
+.titlebar .tb-menu a.tb-icon-only:hover svg {
+  transform: scale(1.15);
+  color: var(--accent);
+}
 .titlebar .tb-controls {
-  display: inline-flex; gap: 4px;
+  display: inline-flex; gap: 8px;
   align-self: center;
-  margin-right: calc(var(--gutter) * -1 + 6px);
 }
-.titlebar .tb-controls button {
-  width: 22px; height: 18px;
-  border: 1px solid var(--rule-strong);
-  background: var(--sage);
-  border-radius: var(--r-1);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  line-height: 1;
-  color: var(--ink-soft);
-  display: inline-flex; align-items: center; justify-content: center;
-  cursor: default;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05),
-              inset 0 -1px 0 rgba(0,0,0,0.25);
-}
-.titlebar .tb-controls button .glyph { display: inline-block; transform: translateY(-0.5px); }
-.titlebar .tb-controls button:hover { background: var(--sage-2); color: var(--ink); }
-.titlebar .tb-controls button.tb-close:hover {
-  background: #e74c3c;
-  color: #fff;
-  border-color: #c0392b;
-}
-
 .titlebar .tb-theme {
-  width: 28px; height: 18px;
+  width: 36px; height: 36px;
   border: 1px solid var(--rule-strong);
   background: var(--sage);
-  border-radius: var(--r-1);
+  border-radius: 8px;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 15px;
   line-height: 1;
   color: var(--ink-soft);
   display: inline-flex; align-items: center; justify-content: center;
   cursor: pointer;
   margin-right: 6px;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05),
-              inset 0 -1px 0 rgba(0,0,0,0.25);
-  transition: background 0.15s ease, color 0.15s ease;
+  transition: all 0.15s ease;
 }
-.titlebar .tb-theme:hover { background: var(--sage-2); color: var(--ink); }
+.titlebar .tb-theme:hover {
+  background: rgba(145, 115, 215, 0.15);
+  border-color: var(--accent);
+  color: var(--accent);
+}
 .titlebar .tb-theme .icon-sun { display: none; }
 .titlebar .tb-theme .icon-moon { display: inline; }
 [data-theme="light"] .titlebar .tb-theme .icon-moon { display: none; }
