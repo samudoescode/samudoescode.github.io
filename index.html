@@ -110,6 +110,29 @@
       border-color: #9173D7 !important;
     }
 
+    /* About Section Photo */
+    .about-photo-col {
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-start;
+      width: 100%;
+    }
+    .about-photo-img {
+      width: 100%;
+      max-width: 520px;
+      height: auto;
+      border-radius: 16px;
+      object-fit: cover;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+    .about-photo-img:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 48px rgba(145, 115, 215, 0.2);
+      border-color: rgba(145, 115, 215, 0.4);
+    }
+
     /* ---- View mode toggle (Switch to Desktop Mode) ---- */
     .tb-view {
       display: inline-flex;
@@ -2125,11 +2148,8 @@
         Currently trying to rekindle passion in life. When not buried 8 feet deep in thinking, you can find me either — running, reading, cooking or with a pencil in my hand.
       </p>
     </div>
-    <div>
-      <p class="figure-caption">
-        Always up for a conversation about UX research, behavioural design, reading habits,
-        board games, or anything that resists the engagement-loop default.
-      </p>
+    <div class="about-photo-col">
+      <img src="assets/about-samu.jpg" alt="Saumya by the waterfall" class="about-photo-img" loading="lazy">
     </div>
   </div>
 
